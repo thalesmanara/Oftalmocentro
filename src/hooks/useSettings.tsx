@@ -16,7 +16,7 @@ interface SettingsContextValue {
   loading: boolean
   refreshSettings: () => Promise<void>
   applySettings: (s: SystemSettings) => void
-  updateSettings: (data: Partial<SystemSettings>) => Promise<SystemSettings>
+  updateSettings: (data: SystemSettings) => Promise<SystemSettings>
 }
 
 const SettingsContext = createContext<SettingsContextValue | null>(null)
@@ -35,7 +35,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
-  const updateSettings = useCallback(async (data: Partial<SystemSettings>) => {
+  const updateSettings = useCallback(async (data: SystemSettings) => {
     const updated = await updateSettingsService(data)
     setSettings(updated)
     return updated

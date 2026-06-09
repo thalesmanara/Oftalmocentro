@@ -8,12 +8,14 @@ import { Card } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 
+type Feedback = { type: 'success' | 'error'; message: string }
+
 export function SettingsPage() {
   const { user } = useAuth()
   const { settings, loading, updateSettings } = useSettings()
   const [form, setForm] = useState<SystemSettings | null>(null)
-  const [saved, setSaved] = useState(false)
   const [saving, setSaving] = useState(false)
+  const [feedback, setFeedback] = useState<Feedback | null>(null)
 
   useEffect(() => {
     if (!loading) {
@@ -23,12 +25,16 @@ export function SettingsPage() {
 
   const handleSave = async () => {
     if (!form || !user) return
+
     setSaving(true)
+    setFeedback(null)
     try {
       await updateSettings(form)
       logAction(user.name, 'Alteração de configurações', 'Sistema', 'Configurações do sistema atualizadas')
-      setSaved(true)
-      setTimeout(() => setSaved(false), 3000)
+      setFeedback({ type: 'success', message: 'Configurações salvas com sucesso.' })
+      setTimeout(() => setFeedback(null), 4000)
+    } catch {
+      setFeedback({ type: 'error', message: 'Erro ao salvar configurações.' })
     } finally {
       setSaving(false)
     }
@@ -42,6 +48,17 @@ export function SettingsPage() {
         title="Configurações"
         description="Personalização visual e identidade do sistema"
       />
+
+      {feedback && (
+        <p
+          className={`mb-4 text-sm ${
+            feedback.type === 'success' ? 'text-emerald-600' : 'text-red-600'
+          }`}
+        >
+          {feedback.message}
+        </p>
+      )}
+
       <Card>
         <div className="max-w-lg space-y-4">
           <Input
@@ -60,6 +77,19 @@ export function SettingsPage() {
             onChange={(e) => setForm({ ...form, logoUrl: e.target.value || null })}
             placeholder="https://..."
           />
+          {form.logoUrl && (
+            <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+              <p className="mb-2 text-xs font-medium text-slate-500">Prévia do logo</p>
+              <img
+                src={form.logoUrl}
+                alt={form.systemName}
+                className="mx-auto h-12 max-w-full object-contain"
+                onError={(e) => {
+                  e.currentTarget.style.display = 'none'
+                }}
+              />
+            </div>
+          )}
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="text-sm font-medium text-slate-700">Cor principal</label>
@@ -84,7 +114,6 @@ export function SettingsPage() {
             <Button onClick={handleSave} disabled={saving}>
               {saving ? 'Salvando...' : 'Salvar'}
             </Button>
-            {saved && <span className="text-sm text-emerald-600">Configurações salvas!</span>}
           </div>
         </div>
       </Card>
