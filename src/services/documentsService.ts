@@ -20,6 +20,67 @@ function normalizeDocument(doc: Document): Document {
   }
 }
 
+function parseDocument(data: unknown): Document | null {
+  if (!data) return null
+
+  if (Array.isArray(data) && data.length > 0) {
+    return parseDocument(data[0])
+  }
+
+  if (typeof data !== 'object') return null
+
+  const record = data as Record<string, unknown>
+
+  if (record.id && record.title) {
+    return normalizeDocument(record as unknown as Document)
+  }
+
+  if (record.document) {
+    return parseDocument(record.document)
+  }
+
+  if (record.data) {
+    return parseDocument(record.data)
+  }
+
+  return null
+}
+
+async function parseJsonResponse(response: Response): Promise<unknown> {
+  const text = await response.text()
+  if (!text) return null
+  try {
+    return JSON.parse(text)
+  } catch {
+    return null
+  }
+}
+
+async function resolveDocumentAfterCreate(
+  result: unknown,
+  match: { title: string; sectorId: string; categoryId: string }
+): Promise<Document> {
+  const parsed = parseDocument(result)
+  if (parsed) return parsed
+
+  const record = result && typeof result === 'object' ? (result as Record<string, unknown>) : null
+  if (record?.success === true) {
+    const documents = await getDocuments()
+    const found = documents
+      .filter(
+        (doc) =>
+          doc.title === match.title &&
+          doc.sectorId === match.sectorId &&
+          doc.categoryId === match.categoryId
+      )
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0]
+
+    if (found) return found
+  }
+
+  throw new Error('Resposta inválida ao criar documento')
+}
+
 async function resolveDocumentNames(
   data: DocumentFormData
 ): Promise<Pick<Document, 'sectorName' | 'categoryName' | 'tags'>> {
@@ -69,43 +130,47 @@ export async function getDocumentById(id: string): Promise<Document | null> {
   return documents.find((d) => d.id === id) ?? null
 }
 
-// Futuro: POST `${API_BASE_URL}/webhook/documents/create`
 export async function createDocument(
   data: DocumentFormData,
   userId: string,
-  userName: string
+  _userName: string
 ): Promise<Document> {
-  const id = `doc-${Date.now()}`
-  const now = new Date().toISOString()
-  const file = data.file
-  const names = await resolveDocumentNames(data)
-
-  const doc: Document = {
-    id,
-    title: data.title,
-    sectorId: data.sectorId,
-    categoryId: data.categoryId,
-    semanticDescription: data.semanticDescription,
-    tagIds: data.tagIds,
-    expirationDate: data.expirationDate,
-    fileName: file?.name ?? 'sem-arquivo.txt',
-    fileType: file?.type ?? 'text/plain',
-    fileSize: file?.size ?? 0,
-    filePath: `/uploads/${file?.name ?? 'sem-arquivo.txt'}`,
-    extractedText: `[Mock] Texto extraído do documento "${data.title}" para indexação futura.`,
-    responsibleUserId: userId,
-    responsibleUserName: userName,
-    createdAt: now,
-    updatedAt: now,
-    createdBy: userId,
-    createdByName: userName,
-    updatedBy: userId,
-    updatedByName: userName,
-    ...names,
+  if (!data.expirationDate) {
+    throw new Error('Data de validade é obrigatória')
   }
 
-  mockDocuments.unshift(doc)
-  return mockDelay(doc)
+  const response = await fetch(`${API_BASE_URL}/webhook/documents/create`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      title: data.title.trim(),
+      sectorId: data.sectorId,
+      categoryId: data.categoryId,
+      semanticDescription: data.semanticDescription.trim(),
+      expirationDate: data.expirationDate,
+      tagIds: data.tagIds,
+      fileName: null,
+      fileType: null,
+      fileSize: null,
+      filePath: null,
+      extractedText: null,
+      responsibleUserId: userId,
+      createdBy: userId,
+      updatedBy: userId,
+    }),
+  })
+
+  const result = await parseJsonResponse(response)
+
+  if (!response.ok) {
+    throw new Error('Erro ao criar documento')
+  }
+
+  return resolveDocumentAfterCreate(result, {
+    title: data.title.trim(),
+    sectorId: data.sectorId,
+    categoryId: data.categoryId,
+  })
 }
 
 // Futuro: PUT `${API_BASE_URL}/webhook/documents/update`

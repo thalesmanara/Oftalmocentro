@@ -11,9 +11,10 @@ import { ACCEPTED_FILE_TYPES } from '@/utils/document'
 
 interface DocumentFormProps {
   initial?: Partial<DocumentFormData>
-  onSubmit: (data: DocumentFormData) => void
+  onSubmit: (data: DocumentFormData) => void | Promise<void>
   onCancel: () => void
   submitLabel?: string
+  submitting?: boolean
 }
 
 export function DocumentForm({
@@ -21,6 +22,7 @@ export function DocumentForm({
   onSubmit,
   onCancel,
   submitLabel = 'Salvar',
+  submitting = false,
 }: DocumentFormProps) {
   const [title, setTitle] = useState(initial?.title ?? '')
   const [sectorId, setSectorId] = useState(initial?.sectorId ?? '')
@@ -28,7 +30,6 @@ export function DocumentForm({
   const [semanticDescription, setSemanticDescription] = useState(initial?.semanticDescription ?? '')
   const [tagIds, setTagIds] = useState<string[]>(initial?.tagIds ?? [])
   const [expirationDate, setExpirationDate] = useState(initial?.expirationDate ?? '')
-  const [file, setFile] = useState<File | null>(null)
   const [sectors, setSectors] = useState<{ value: string; label: string }[]>([])
   const [categories, setCategories] = useState<{ value: string; label: string }[]>([])
   const [availableTags, setAvailableTags] = useState<Tag[]>([])
@@ -53,16 +54,24 @@ export function DocumentForm({
     )
   }
 
+  const isValid =
+    title.trim() &&
+    sectorId &&
+    categoryId &&
+    semanticDescription.trim() &&
+    expirationDate
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    onSubmit({
-      title,
+    if (!isValid) return
+    void onSubmit({
+      title: title.trim(),
       sectorId,
       categoryId,
-      semanticDescription,
+      semanticDescription: semanticDescription.trim(),
       tagIds,
-      expirationDate: expirationDate || null,
-      file,
+      expirationDate,
+      file: null,
     })
   }
 
@@ -126,22 +135,25 @@ export function DocumentForm({
         type="date"
         value={expirationDate}
         onChange={(e) => setExpirationDate(e.target.value)}
+        required
       />
       <div>
         <label className="text-sm font-medium text-slate-700">Upload de arquivo</label>
         <input
           type="file"
           accept={ACCEPTED_FILE_TYPES}
-          onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-          className="mt-1 block w-full text-sm text-slate-600 file:mr-4 file:rounded-lg file:border-0 file:bg-slate-100 file:px-4 file:py-2 file:text-sm file:font-medium hover:file:bg-slate-200"
+          disabled
+          className="mt-1 block w-full cursor-not-allowed text-sm text-slate-400 file:mr-4 file:rounded-lg file:border-0 file:bg-slate-100 file:px-4 file:py-2 file:text-sm file:font-medium"
         />
         <p className="mt-1 text-xs text-slate-400">
-          PDF, DOC, DOCX, XLS, XLSX, CSV, TXT — upload mockado (futuro: FormData → n8n)
+          Upload de arquivo será habilitado em etapa futura. O cadastro salva apenas os metadados do documento.
         </p>
       </div>
       <div className="flex gap-2 pt-4">
-        <Button type="submit">{submitLabel}</Button>
-        <Button type="button" variant="outline" onClick={onCancel}>
+        <Button type="submit" disabled={submitting || !isValid}>
+          {submitLabel}
+        </Button>
+        <Button type="button" variant="outline" onClick={onCancel} disabled={submitting}>
           Cancelar
         </Button>
       </div>
