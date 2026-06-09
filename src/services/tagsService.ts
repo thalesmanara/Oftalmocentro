@@ -1,6 +1,38 @@
-import { API_BASE_URL, mockDelay } from './api'
+import { API_BASE_URL } from './api'
 import { mockTags } from '@/data/mocks'
 import type { Tag } from '@/types'
+
+function parseTag(data: unknown): Tag | null {
+  if (!data) return null
+
+  if (Array.isArray(data) && data.length > 0) {
+    return parseTag(data[0])
+  }
+
+  if (typeof data !== 'object') return null
+
+  const record = data as Record<string, unknown>
+
+  if (record.id && record.name) {
+    return record as unknown as Tag
+  }
+
+  if (record.data) {
+    return parseTag(record.data)
+  }
+
+  return null
+}
+
+async function parseJsonResponse(response: Response): Promise<unknown> {
+  const text = await response.text()
+  if (!text) return null
+  try {
+    return JSON.parse(text)
+  } catch {
+    return null
+  }
+}
 
 export async function getTags(): Promise<Tag[]> {
   try {
@@ -27,26 +59,70 @@ export async function getTags(): Promise<Tag[]> {
   }
 }
 
-// Futuro: POST `${API_BASE_URL}/webhook/tags/create`
-export async function createTag(data: Omit<Tag, 'id' | 'createdAt' | 'updatedAt'>): Promise<Tag> {
-  const now = new Date().toISOString()
-  const tag: Tag = { ...data, id: `tag-${Date.now()}`, createdAt: now, updatedAt: now }
-  mockTags.push(tag)
-  return mockDelay(tag)
+export async function createTag(
+  data: Omit<Tag, 'id' | 'createdAt' | 'updatedAt'>
+): Promise<Tag> {
+  const response = await fetch(`${API_BASE_URL}/webhook/tags/create`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: data.name,
+      color: data.color,
+      active: data.active,
+    }),
+  })
+
+  const result = await parseJsonResponse(response)
+
+  if (!response.ok) {
+    throw new Error('Erro ao criar tag')
+  }
+
+  const tag = parseTag(result)
+  if (!tag) {
+    throw new Error('Resposta inválida ao criar tag')
+  }
+
+  return tag
 }
 
-// Futuro: PUT `${API_BASE_URL}/webhook/tags/update`
-export async function updateTag(id: string, data: Partial<Tag>): Promise<Tag | null> {
-  const index = mockTags.findIndex((t) => t.id === id)
-  if (index === -1) return mockDelay(null)
-  mockTags[index] = { ...mockTags[index], ...data, updatedAt: new Date().toISOString() }
-  return mockDelay(mockTags[index])
+export async function updateTag(
+  id: string,
+  data: Pick<Tag, 'name' | 'color' | 'active'>
+): Promise<Tag> {
+  const response = await fetch(`${API_BASE_URL}/webhook/tags/update`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      id,
+      name: data.name,
+      color: data.color,
+      active: data.active,
+    }),
+  })
+
+  const result = await parseJsonResponse(response)
+
+  if (!response.ok) {
+    throw new Error('Erro ao atualizar tag')
+  }
+
+  const tag = parseTag(result)
+  if (!tag) {
+    throw new Error('Resposta inválida ao atualizar tag')
+  }
+
+  return tag
 }
 
-// Futuro: DELETE `${API_BASE_URL}/webhook/tags/delete`
-export async function deleteTag(id: string): Promise<boolean> {
-  const index = mockTags.findIndex((t) => t.id === id)
-  if (index === -1) return mockDelay(false)
-  mockTags.splice(index, 1)
-  return mockDelay(true)
+export async function deleteTag(id: string): Promise<void> {
+  const response = await fetch(`${API_BASE_URL}/webhook/tags/delete`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id }),
+  })
+
+  if (!response.ok) {
+    throw new Error('Erro ao inativar tag')
+  }
 }
