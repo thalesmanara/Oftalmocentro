@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Plus, Pencil, Trash2 } from 'lucide-react'
+import { Plus, Pencil, Trash2, FileText } from 'lucide-react'
 import {
   getSectors,
   createSector,
@@ -7,6 +7,7 @@ import {
   deleteSector,
 } from '@/services/sectorsService'
 import type { Sector } from '@/types'
+import { useAuth } from '@/hooks/useAuth'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
@@ -15,11 +16,18 @@ import { Modal } from '@/components/ui/Modal'
 import { ModalConfirm } from '@/components/ui/Modal'
 import { Badge } from '@/components/ui/Badge'
 import { EmptyState } from '@/components/ui/EmptyState'
-import { FileText } from 'lucide-react'
+
+type Feedback = { type: 'success' | 'error'; message: string }
 
 export function SectorsPage() {
+  const { hasPermission } = useAuth()
+  const canManage = hasPermission('gerenciar_setores')
+
   const [sectors, setSectors] = useState<Sector[]>([])
   const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [deleting, setDeleting] = useState(false)
+  const [feedback, setFeedback] = useState<Feedback | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
   const [editing, setEditing] = useState<Sector | null>(null)
   const [formName, setFormName] = useState('')
@@ -27,11 +35,18 @@ export function SectorsPage() {
   const [formActive, setFormActive] = useState(true)
   const [deleteId, setDeleteId] = useState<string | null>(null)
 
+  const showFeedback = (next: Feedback) => {
+    setFeedback(next)
+    setTimeout(() => setFeedback(null), 4000)
+  }
+
   const loadSectors = useCallback(async () => {
     setLoading(true)
     try {
       const data = await getSectors()
       setSectors(data)
+    } catch {
+      showFeedback({ type: 'error', message: 'Erro ao carregar setores.' })
     } finally {
       setLoading(false)
     }
@@ -58,42 +73,77 @@ export function SectorsPage() {
   }
 
   const handleSave = async () => {
-    if (editing) {
-      await updateSector(editing.id, {
-        name: formName,
-        description: formDescription || null,
-        active: formActive,
+    if (!formName.trim()) return
+
+    setSaving(true)
+    try {
+      if (editing) {
+        await updateSector(editing.id, {
+          name: formName.trim(),
+          description: formDescription.trim() || null,
+          active: formActive,
+        })
+        showFeedback({ type: 'success', message: 'Setor atualizado com sucesso.' })
+      } else {
+        await createSector({
+          name: formName.trim(),
+          description: formDescription.trim() || null,
+          active: formActive,
+        })
+        showFeedback({ type: 'success', message: 'Setor criado com sucesso.' })
+      }
+      setModalOpen(false)
+      await loadSectors()
+    } catch {
+      showFeedback({
+        type: 'error',
+        message: editing ? 'Erro ao atualizar setor.' : 'Erro ao criar setor.',
       })
-    } else {
-      await createSector({
-        name: formName,
-        description: formDescription || null,
-        active: formActive,
-      })
+    } finally {
+      setSaving(false)
     }
-    setModalOpen(false)
-    void loadSectors()
   }
 
   const handleDelete = async () => {
     if (!deleteId) return
-    await deleteSector(deleteId)
-    setDeleteId(null)
-    void loadSectors()
+
+    setDeleting(true)
+    try {
+      await deleteSector(deleteId)
+      setDeleteId(null)
+      showFeedback({ type: 'success', message: 'Setor inativado com sucesso.' })
+      await loadSectors()
+    } catch {
+      showFeedback({ type: 'error', message: 'Erro ao inativar setor.' })
+    } finally {
+      setDeleting(false)
+    }
   }
 
   return (
     <div>
       <PageHeader
         title="Setores"
-        description="Setores da clínica — listagem via n8n com fallback mockado"
+        description="Gestão de setores da clínica via n8n"
         actions={
-          <Button onClick={openCreate}>
-            <Plus size={16} />
-            Novo setor
-          </Button>
+          canManage ? (
+            <Button onClick={openCreate}>
+              <Plus size={16} />
+              Novo setor
+            </Button>
+          ) : undefined
         }
       />
+
+      {feedback && (
+        <p
+          className={`mb-4 text-sm ${
+            feedback.type === 'success' ? 'text-emerald-600' : 'text-red-600'
+          }`}
+        >
+          {feedback.message}
+        </p>
+      )}
 
       <Card className="overflow-x-auto !p-0">
         {loading ? (
@@ -107,7 +157,7 @@ export function SectorsPage() {
                 <th className="px-4 py-3 font-medium">Nome</th>
                 <th className="px-4 py-3 font-medium">Descrição</th>
                 <th className="px-4 py-3 font-medium">Status</th>
-                <th className="px-4 py-3 font-medium">Ações</th>
+                {canManage && <th className="px-4 py-3 font-medium">Ações</th>}
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -120,16 +170,18 @@ export function SectorsPage() {
                       {sector.active ? 'Ativo' : 'Inativo'}
                     </Badge>
                   </td>
-                  <td className="px-4 py-3">
-                    <div className="flex gap-1">
-                      <Button variant="ghost" size="sm" onClick={() => openEdit(sector)}>
-                        <Pencil size={14} />
-                      </Button>
-                      <Button variant="ghost" size="sm" onClick={() => setDeleteId(sector.id)}>
-                        <Trash2 size={14} className="text-red-600" />
-                      </Button>
-                    </div>
-                  </td>
+                  {canManage && (
+                    <td className="px-4 py-3">
+                      <div className="flex gap-1">
+                        <Button variant="ghost" size="sm" onClick={() => openEdit(sector)}>
+                          <Pencil size={14} />
+                        </Button>
+                        <Button variant="ghost" size="sm" onClick={() => setDeleteId(sector.id)}>
+                          <Trash2 size={14} className="text-red-600" />
+                        </Button>
+                      </div>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
@@ -139,12 +191,16 @@ export function SectorsPage() {
 
       <Modal
         open={modalOpen}
-        onClose={() => setModalOpen(false)}
+        onClose={() => !saving && setModalOpen(false)}
         title={editing ? 'Editar setor' : 'Novo setor'}
         footer={
           <>
-            <Button variant="outline" onClick={() => setModalOpen(false)}>Cancelar</Button>
-            <Button onClick={handleSave}>Salvar</Button>
+            <Button variant="outline" onClick={() => setModalOpen(false)} disabled={saving}>
+              Cancelar
+            </Button>
+            <Button onClick={handleSave} disabled={saving || !formName.trim()}>
+              {saving ? 'Salvando...' : 'Salvar'}
+            </Button>
           </>
         }
       >
@@ -164,19 +220,16 @@ export function SectorsPage() {
             />
             Ativo
           </label>
-          <p className="text-xs text-slate-400">
-            Cadastro/edição mockado localmente. Integração real em breve via n8n.
-          </p>
         </div>
       </Modal>
 
       <ModalConfirm
         open={!!deleteId}
-        onClose={() => setDeleteId(null)}
+        onClose={() => !deleting && setDeleteId(null)}
         onConfirm={handleDelete}
-        title="Excluir setor"
-        message="Deseja excluir este setor? (mock local)"
-        confirmLabel="Excluir"
+        title="Inativar setor"
+        message="Deseja inativar este setor? Ele permanecerá no sistema com status inativo."
+        confirmLabel={deleting ? 'Inativando...' : 'Inativar'}
         danger
       />
     </div>

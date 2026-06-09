@@ -1,6 +1,38 @@
-import { API_BASE_URL, mockDelay } from './api'
+import { API_BASE_URL } from './api'
 import { mockSectors } from '@/data/mocks'
 import type { Sector } from '@/types'
+
+function parseSector(data: unknown): Sector | null {
+  if (!data) return null
+
+  if (Array.isArray(data) && data.length > 0) {
+    return parseSector(data[0])
+  }
+
+  if (typeof data !== 'object') return null
+
+  const record = data as Record<string, unknown>
+
+  if (record.id && record.name) {
+    return record as unknown as Sector
+  }
+
+  if (record.data) {
+    return parseSector(record.data)
+  }
+
+  return null
+}
+
+async function parseJsonResponse(response: Response): Promise<unknown> {
+  const text = await response.text()
+  if (!text) return null
+  try {
+    return JSON.parse(text)
+  } catch {
+    return null
+  }
+}
 
 export async function getSectors(): Promise<Sector[]> {
   try {
@@ -27,32 +59,70 @@ export async function getSectors(): Promise<Sector[]> {
   }
 }
 
-// Futuro: POST `${API_BASE_URL}/webhook/sectors/create`
 export async function createSector(
   data: Omit<Sector, 'id' | 'createdAt' | 'updatedAt'>
 ): Promise<Sector> {
-  const now = new Date().toISOString()
-  const sector: Sector = { ...data, id: `sector-${Date.now()}`, createdAt: now, updatedAt: now }
-  mockSectors.push(sector)
-  return mockDelay(sector)
-}
+  const response = await fetch(`${API_BASE_URL}/webhook/sectors/create`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      name: data.name,
+      description: data.description,
+      active: data.active,
+    }),
+  })
 
-// Futuro: PUT `${API_BASE_URL}/webhook/sectors/update`
-export async function updateSector(id: string, data: Partial<Sector>): Promise<Sector | null> {
-  const index = mockSectors.findIndex((s) => s.id === id)
-  if (index === -1) return mockDelay(null)
-  mockSectors[index] = {
-    ...mockSectors[index],
-    ...data,
-    updatedAt: new Date().toISOString(),
+  const result = await parseJsonResponse(response)
+
+  if (!response.ok) {
+    throw new Error('Erro ao criar setor')
   }
-  return mockDelay(mockSectors[index])
+
+  const sector = parseSector(result)
+  if (!sector) {
+    throw new Error('Resposta inválida ao criar setor')
+  }
+
+  return sector
 }
 
-// Futuro: DELETE `${API_BASE_URL}/webhook/sectors/delete`
-export async function deleteSector(id: string): Promise<boolean> {
-  const index = mockSectors.findIndex((s) => s.id === id)
-  if (index === -1) return mockDelay(false)
-  mockSectors.splice(index, 1)
-  return mockDelay(true)
+export async function updateSector(
+  id: string,
+  data: Pick<Sector, 'name' | 'description' | 'active'>
+): Promise<Sector> {
+  const response = await fetch(`${API_BASE_URL}/webhook/sectors/update`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      id,
+      name: data.name,
+      description: data.description,
+      active: data.active,
+    }),
+  })
+
+  const result = await parseJsonResponse(response)
+
+  if (!response.ok) {
+    throw new Error('Erro ao atualizar setor')
+  }
+
+  const sector = parseSector(result)
+  if (!sector) {
+    throw new Error('Resposta inválida ao atualizar setor')
+  }
+
+  return sector
+}
+
+export async function deleteSector(id: string): Promise<void> {
+  const response = await fetch(`${API_BASE_URL}/webhook/sectors/delete`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id }),
+  })
+
+  if (!response.ok) {
+    throw new Error('Erro ao inativar setor')
+  }
 }
