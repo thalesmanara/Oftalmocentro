@@ -7,6 +7,7 @@ import {
   deleteCategory,
 } from '@/services/categoriesService'
 import type { Category } from '@/types'
+import { useAuth } from '@/hooks/useAuth'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
@@ -16,9 +17,17 @@ import { ModalConfirm } from '@/components/ui/Modal'
 import { Badge } from '@/components/ui/Badge'
 import { EmptyState } from '@/components/ui/EmptyState'
 
+type Feedback = { type: 'success' | 'error'; message: string }
+
 export function CategoriesPage() {
+  const { hasPermission } = useAuth()
+  const canManage = hasPermission('gerenciar_categorias')
+
   const [categories, setCategories] = useState<Category[]>([])
   const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [deleting, setDeleting] = useState(false)
+  const [feedback, setFeedback] = useState<Feedback | null>(null)
   const [modalOpen, setModalOpen] = useState(false)
   const [editing, setEditing] = useState<Category | null>(null)
   const [formName, setFormName] = useState('')
@@ -26,11 +35,18 @@ export function CategoriesPage() {
   const [formActive, setFormActive] = useState(true)
   const [deleteId, setDeleteId] = useState<string | null>(null)
 
+  const showFeedback = (next: Feedback) => {
+    setFeedback(next)
+    setTimeout(() => setFeedback(null), 4000)
+  }
+
   const loadCategories = useCallback(async () => {
     setLoading(true)
     try {
       const data = await getCategories()
       setCategories(data)
+    } catch {
+      showFeedback({ type: 'error', message: 'Erro ao carregar categorias.' })
     } finally {
       setLoading(false)
     }
@@ -57,42 +73,77 @@ export function CategoriesPage() {
   }
 
   const handleSave = async () => {
-    if (editing) {
-      await updateCategory(editing.id, {
-        name: formName,
-        description: formDescription || null,
-        active: formActive,
+    if (!formName.trim()) return
+
+    setSaving(true)
+    try {
+      if (editing) {
+        await updateCategory(editing.id, {
+          name: formName.trim(),
+          description: formDescription.trim() || null,
+          active: formActive,
+        })
+        showFeedback({ type: 'success', message: 'Categoria atualizada com sucesso.' })
+      } else {
+        await createCategory({
+          name: formName.trim(),
+          description: formDescription.trim() || null,
+          active: formActive,
+        })
+        showFeedback({ type: 'success', message: 'Categoria criada com sucesso.' })
+      }
+      setModalOpen(false)
+      await loadCategories()
+    } catch {
+      showFeedback({
+        type: 'error',
+        message: editing ? 'Erro ao atualizar categoria.' : 'Erro ao criar categoria.',
       })
-    } else {
-      await createCategory({
-        name: formName,
-        description: formDescription || null,
-        active: formActive,
-      })
+    } finally {
+      setSaving(false)
     }
-    setModalOpen(false)
-    void loadCategories()
   }
 
   const handleDelete = async () => {
     if (!deleteId) return
-    await deleteCategory(deleteId)
-    setDeleteId(null)
-    void loadCategories()
+
+    setDeleting(true)
+    try {
+      await deleteCategory(deleteId)
+      setDeleteId(null)
+      showFeedback({ type: 'success', message: 'Categoria inativada com sucesso.' })
+      await loadCategories()
+    } catch {
+      showFeedback({ type: 'error', message: 'Erro ao inativar categoria.' })
+    } finally {
+      setDeleting(false)
+    }
   }
 
   return (
     <div>
       <PageHeader
         title="Categorias"
-        description="Categorias de documentos — listagem via n8n com fallback mockado"
+        description="Gestão de categorias de documentos via n8n"
         actions={
-          <Button onClick={openCreate}>
-            <Plus size={16} />
-            Nova categoria
-          </Button>
+          canManage ? (
+            <Button onClick={openCreate}>
+              <Plus size={16} />
+              Nova categoria
+            </Button>
+          ) : undefined
         }
       />
+
+      {feedback && (
+        <p
+          className={`mb-4 text-sm ${
+            feedback.type === 'success' ? 'text-emerald-600' : 'text-red-600'
+          }`}
+        >
+          {feedback.message}
+        </p>
+      )}
 
       <Card className="overflow-x-auto !p-0">
         {loading ? (
@@ -106,7 +157,7 @@ export function CategoriesPage() {
                 <th className="px-4 py-3 font-medium">Nome</th>
                 <th className="px-4 py-3 font-medium">Descrição</th>
                 <th className="px-4 py-3 font-medium">Status</th>
-                <th className="px-4 py-3 font-medium">Ações</th>
+                {canManage && <th className="px-4 py-3 font-medium">Ações</th>}
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
@@ -119,16 +170,18 @@ export function CategoriesPage() {
                       {category.active ? 'Ativo' : 'Inativo'}
                     </Badge>
                   </td>
-                  <td className="px-4 py-3">
-                    <div className="flex gap-1">
-                      <Button variant="ghost" size="sm" onClick={() => openEdit(category)}>
-                        <Pencil size={14} />
-                      </Button>
-                      <Button variant="ghost" size="sm" onClick={() => setDeleteId(category.id)}>
-                        <Trash2 size={14} className="text-red-600" />
-                      </Button>
-                    </div>
-                  </td>
+                  {canManage && (
+                    <td className="px-4 py-3">
+                      <div className="flex gap-1">
+                        <Button variant="ghost" size="sm" onClick={() => openEdit(category)}>
+                          <Pencil size={14} />
+                        </Button>
+                        <Button variant="ghost" size="sm" onClick={() => setDeleteId(category.id)}>
+                          <Trash2 size={14} className="text-red-600" />
+                        </Button>
+                      </div>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
@@ -138,12 +191,16 @@ export function CategoriesPage() {
 
       <Modal
         open={modalOpen}
-        onClose={() => setModalOpen(false)}
+        onClose={() => !saving && setModalOpen(false)}
         title={editing ? 'Editar categoria' : 'Nova categoria'}
         footer={
           <>
-            <Button variant="outline" onClick={() => setModalOpen(false)}>Cancelar</Button>
-            <Button onClick={handleSave}>Salvar</Button>
+            <Button variant="outline" onClick={() => setModalOpen(false)} disabled={saving}>
+              Cancelar
+            </Button>
+            <Button onClick={handleSave} disabled={saving || !formName.trim()}>
+              {saving ? 'Salvando...' : 'Salvar'}
+            </Button>
           </>
         }
       >
@@ -163,19 +220,16 @@ export function CategoriesPage() {
             />
             Ativo
           </label>
-          <p className="text-xs text-slate-400">
-            Cadastro/edição mockado localmente. Integração real em breve via n8n.
-          </p>
         </div>
       </Modal>
 
       <ModalConfirm
         open={!!deleteId}
-        onClose={() => setDeleteId(null)}
+        onClose={() => !deleting && setDeleteId(null)}
         onConfirm={handleDelete}
-        title="Excluir categoria"
-        message="Deseja excluir esta categoria? (mock local)"
-        confirmLabel="Excluir"
+        title="Inativar categoria"
+        message="Deseja inativar esta categoria? Ela permanecerá no sistema com status inativo."
+        confirmLabel={deleting ? 'Inativando...' : 'Inativar'}
         danger
       />
     </div>
