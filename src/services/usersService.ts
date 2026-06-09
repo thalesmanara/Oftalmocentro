@@ -1,6 +1,58 @@
-import { API_BASE_URL, mockDelay } from './api'
-import { mockUsers, mockUserPasswords } from '@/data/mocks'
+import { API_BASE_URL } from './api'
+import { mockUsers } from '@/data/mocks'
 import type { User, UserFormData } from '@/types'
+
+function parseUser(data: unknown): User | null {
+  if (!data) return null
+
+  if (Array.isArray(data) && data.length > 0) {
+    return parseUser(data[0])
+  }
+
+  if (typeof data !== 'object') return null
+
+  const record = data as Record<string, unknown>
+
+  if (record.id && record.email) {
+    return record as unknown as User
+  }
+
+  if (record.user) {
+    return parseUser(record.user)
+  }
+
+  if (record.data) {
+    return parseUser(record.data)
+  }
+
+  return null
+}
+
+async function resolveUserAfterCreate(result: unknown, email: string): Promise<User> {
+  const parsed = parseUser(result)
+  if (parsed) return parsed
+
+  const record = result && typeof result === 'object' ? (result as Record<string, unknown>) : null
+  if (record?.success === true) {
+    const users = await getUsers()
+    const found = users.find(
+      (u) => u.email.trim().toLowerCase() === email.trim().toLowerCase()
+    )
+    if (found) return found
+  }
+
+  throw new Error('Resposta inválida ao criar usuário')
+}
+
+async function parseJsonResponse(response: Response): Promise<unknown> {
+  const text = await response.text()
+  if (!text) return null
+  try {
+    return JSON.parse(text)
+  } catch {
+    return null
+  }
+}
 
 export async function getUsers(): Promise<User[]> {
   try {
@@ -29,60 +81,78 @@ export async function getUsers(): Promise<User[]> {
 
 export async function getUserById(id: string): Promise<User | null> {
   const users = await getUsers()
-  const user = users.find((u) => u.id === id) ?? mockUsers.find((u) => u.id === id)
-  return mockDelay(user ?? null)
+  return users.find((u) => u.id === id) ?? null
 }
 
-// Futuro: POST `${API_BASE_URL}/webhook/users/create`
 export async function createUser(data: UserFormData): Promise<User> {
-  const id = `user-${Date.now()}`
-  const now = new Date().toISOString()
-  const user: User = {
-    id,
+  const payload: Record<string, unknown> = {
     name: data.name,
     email: data.email,
     sectorId: data.sectorId,
     active: data.active,
     isMaster: data.isMaster,
     permissions: data.permissions,
-    createdAt: now,
-    updatedAt: now,
   }
-  if (data.password) {
-    mockUserPasswords[id] = data.password
+
+  if (data.password.trim()) {
+    payload.passwordHash = data.password
   }
-  mockUsers.push(user)
-  return mockDelay(user)
+
+  const response = await fetch(`${API_BASE_URL}/webhook/users/create`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+
+  const result = await parseJsonResponse(response)
+
+  if (!response.ok) {
+    throw new Error('Erro ao criar usuário')
+  }
+
+  return resolveUserAfterCreate(result, data.email)
 }
 
-// Futuro: PUT `${API_BASE_URL}/webhook/users/update`
-export async function updateUser(id: string, data: Partial<UserFormData>): Promise<User | null> {
-  const index = mockUsers.findIndex((u) => u.id === id)
-  if (index === -1) return mockDelay(null)
+export async function updateUser(
+  id: string,
+  data: Pick<UserFormData, 'name' | 'email' | 'sectorId' | 'active' | 'isMaster' | 'permissions'>
+): Promise<User> {
+  const response = await fetch(`${API_BASE_URL}/webhook/users/update`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      id,
+      name: data.name,
+      email: data.email,
+      sectorId: data.sectorId,
+      active: data.active,
+      isMaster: data.isMaster,
+      permissions: data.permissions,
+    }),
+  })
 
-  const existing = mockUsers[index]
-  if (data.password && data.password.length > 0) {
-    mockUserPasswords[id] = data.password
+  const result = await parseJsonResponse(response)
+
+  if (!response.ok) {
+    throw new Error('Erro ao atualizar usuário')
   }
-  const updated: User = {
-    ...existing,
-    name: data.name ?? existing.name,
-    email: data.email ?? existing.email,
-    sectorId: data.sectorId !== undefined ? data.sectorId : existing.sectorId,
-    active: data.active ?? existing.active,
-    isMaster: data.isMaster ?? existing.isMaster,
-    permissions: data.permissions ?? existing.permissions,
-    updatedAt: new Date().toISOString(),
+
+  const user = parseUser(result)
+  if (!user) {
+    throw new Error('Resposta inválida ao atualizar usuário')
   }
-  mockUsers[index] = updated
-  return mockDelay(updated)
+
+  return user
 }
 
-// Futuro: DELETE `${API_BASE_URL}/webhook/users/delete`
-export async function deleteUser(id: string): Promise<boolean> {
-  const index = mockUsers.findIndex((u) => u.id === id)
-  if (index === -1) return mockDelay(false)
-  mockUsers.splice(index, 1)
-  delete mockUserPasswords[id]
-  return mockDelay(true)
+export async function deleteUser(id: string): Promise<void> {
+  const response = await fetch(`${API_BASE_URL}/webhook/users/delete`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id }),
+  })
+
+  if (!response.ok) {
+    throw new Error('Erro ao inativar usuário')
+  }
 }

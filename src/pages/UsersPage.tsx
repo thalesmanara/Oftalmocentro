@@ -16,6 +16,8 @@ import { Modal } from '@/components/ui/Modal'
 import { ModalConfirm } from '@/components/ui/Modal'
 import { Badge } from '@/components/ui/Badge'
 
+type Feedback = { type: 'success' | 'error'; message: string }
+
 const emptyForm: UserFormData = {
   name: '',
   email: '',
@@ -28,8 +30,13 @@ const emptyForm: UserFormData = {
 
 export function UsersPage() {
   const { user: currentUser, hasPermission } = useAuth()
+  const canManage = hasPermission('gerenciar_usuarios')
+
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
+  const [deleting, setDeleting] = useState(false)
+  const [feedback, setFeedback] = useState<Feedback | null>(null)
   const [sectors, setSectors] = useState<Sector[]>([])
   const [permissions, setPermissions] = useState<Permission[]>([])
   const [permissionsLoading, setPermissionsLoading] = useState(false)
@@ -38,11 +45,18 @@ export function UsersPage() {
   const [form, setForm] = useState<UserFormData>(emptyForm)
   const [deleteId, setDeleteId] = useState<string | null>(null)
 
+  const showFeedback = (next: Feedback) => {
+    setFeedback(next)
+    setTimeout(() => setFeedback(null), 4000)
+  }
+
   const loadUsers = useCallback(async () => {
     setLoading(true)
     try {
       const data = await getUsers()
       setUsers(data)
+    } catch {
+      showFeedback({ type: 'error', message: 'Erro ao carregar usuários.' })
     } finally {
       setLoading(false)
     }
@@ -59,8 +73,6 @@ export function UsersPage() {
 
   const sectorLabel = (user: User) =>
     user.sectorName ?? getSectorNameById(user.sectorId, sectors)
-
-  const canManage = hasPermission('gerenciar_usuarios')
 
   const openCreate = () => {
     setEditing(null)
@@ -92,31 +104,66 @@ export function UsersPage() {
   }
 
   const handleSave = async () => {
-    if (editing) {
-      await updateUser(editing.id, form)
-      if (currentUser) {
-        logAction(currentUser.name, 'Alteração de usuário', 'Usuário', `Usuário "${form.name}" atualizado`)
-        if (form.permissions.length !== editing.permissions.length) {
-          logAction(currentUser.name, 'Alteração de permissões', 'Usuário', `Permissões de ${form.name} alteradas`)
+    if (!form.name.trim() || !form.email.trim()) return
+    if (!editing && !form.password.trim()) return
+
+    setSaving(true)
+    try {
+      if (editing) {
+        await updateUser(editing.id, {
+          name: form.name.trim(),
+          email: form.email.trim(),
+          sectorId: form.sectorId,
+          active: form.active,
+          isMaster: form.isMaster,
+          permissions: form.permissions,
+        })
+        if (currentUser) {
+          logAction(currentUser.name, 'Alteração de usuário', 'Usuário', `Usuário "${form.name}" atualizado`)
+          if (form.permissions.length !== editing.permissions.length) {
+            logAction(currentUser.name, 'Alteração de permissões', 'Usuário', `Permissões de ${form.name} alteradas`)
+          }
         }
+        showFeedback({ type: 'success', message: 'Usuário atualizado com sucesso.' })
+      } else {
+        await createUser({
+          ...form,
+          name: form.name.trim(),
+          email: form.email.trim(),
+        })
+        if (currentUser) {
+          logAction(currentUser.name, 'Cadastro', 'Usuário', `Usuário "${form.name}" cadastrado`)
+        }
+        showFeedback({ type: 'success', message: 'Usuário criado com sucesso.' })
       }
-    } else {
-      await createUser(form)
-      if (currentUser) {
-        logAction(currentUser.name, 'Cadastro', 'Usuário', `Usuário "${form.name}" cadastrado`)
-      }
+      setModalOpen(false)
+      await loadUsers()
+    } catch {
+      showFeedback({
+        type: 'error',
+        message: editing ? 'Erro ao atualizar usuário.' : 'Erro ao criar usuário.',
+      })
+    } finally {
+      setSaving(false)
     }
-    setModalOpen(false)
-    void loadUsers()
   }
 
   const handleDelete = async () => {
     if (!deleteId || !currentUser) return
-    const u = users.find((x) => x.id === deleteId)
-    await deleteUser(deleteId)
-    if (u) logAction(currentUser.name, 'Exclusão', 'Usuário', `Usuário "${u.name}" excluído`)
-    setDeleteId(null)
-    void loadUsers()
+
+    setDeleting(true)
+    try {
+      const u = users.find((x) => x.id === deleteId)
+      await deleteUser(deleteId)
+      if (u) logAction(currentUser.name, 'Exclusão', 'Usuário', `Usuário "${u.name}" inativado`)
+      setDeleteId(null)
+      showFeedback({ type: 'success', message: 'Usuário inativado com sucesso.' })
+      await loadUsers()
+    } catch {
+      showFeedback({ type: 'error', message: 'Erro ao inativar usuário.' })
+    } finally {
+      setDeleting(false)
+    }
   }
 
   if (loading) {
@@ -127,7 +174,7 @@ export function UsersPage() {
     <div>
       <PageHeader
         title="Usuários"
-        description="Gestão de usuários e permissões individuais"
+        description="Gestão de usuários e permissões individuais via n8n"
         actions={
           canManage ? (
             <Button onClick={openCreate}>
@@ -136,6 +183,16 @@ export function UsersPage() {
           ) : undefined
         }
       />
+
+      {feedback && (
+        <p
+          className={`mb-4 text-sm ${
+            feedback.type === 'success' ? 'text-emerald-600' : 'text-red-600'
+          }`}
+        >
+          {feedback.message}
+        </p>
+      )}
 
       <Card className="overflow-x-auto !p-0">
         <table className="w-full text-left text-sm">
@@ -187,25 +244,39 @@ export function UsersPage() {
 
       <Modal
         open={modalOpen}
-        onClose={() => setModalOpen(false)}
+        onClose={() => !saving && setModalOpen(false)}
         title={editing ? 'Editar usuário' : 'Novo usuário'}
         footer={
           <>
-            <Button variant="outline" onClick={() => setModalOpen(false)}>Cancelar</Button>
-            <Button onClick={handleSave}>Salvar</Button>
+            <Button variant="outline" onClick={() => setModalOpen(false)} disabled={saving}>
+              Cancelar
+            </Button>
+            <Button
+              onClick={handleSave}
+              disabled={
+                saving ||
+                !form.name.trim() ||
+                !form.email.trim() ||
+                (!editing && !form.password.trim())
+              }
+            >
+              {saving ? 'Salvando...' : 'Salvar'}
+            </Button>
           </>
         }
       >
         <div className="space-y-4">
           <Input label="Nome" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
           <Input label="E-mail" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
-          <Input
-            label={editing ? 'Senha (deixe em branco para manter)' : 'Senha'}
-            type="password"
-            value={form.password}
-            onChange={(e) => setForm({ ...form, password: e.target.value })}
-            required={!editing}
-          />
+          {!editing && (
+            <Input
+              label="Senha provisória"
+              type="password"
+              value={form.password}
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
+              required
+            />
+          )}
           <Select
             label="Setor"
             value={form.sectorId ?? ''}
@@ -255,11 +326,11 @@ export function UsersPage() {
 
       <ModalConfirm
         open={!!deleteId}
-        onClose={() => setDeleteId(null)}
+        onClose={() => !deleting && setDeleteId(null)}
         onConfirm={handleDelete}
-        title="Excluir usuário"
-        message="Deseja excluir este usuário?"
-        confirmLabel="Excluir"
+        title="Inativar usuário"
+        message="Deseja inativar este usuário? Ele permanecerá no sistema com status inativo."
+        confirmLabel={deleting ? 'Inativando...' : 'Inativar'}
         danger
       />
     </div>
