@@ -4,7 +4,9 @@ import { FileText, AlertTriangle, Users, FolderOpen, TrendingUp } from 'lucide-r
 import { getDocuments } from '@/services/documentsService'
 import { getUsers } from '@/services/usersService'
 import { getCategories } from '@/services/categoriesService'
-import type { Document } from '@/types'
+import { getSectors } from '@/services/sectorsService'
+import type { Document, Sector } from '@/types'
+import { getSectorNameById } from '@/utils/entities'
 import { isDocumentExpired, formatDateTime } from '@/utils/document'
 import { Card } from '@/components/ui/Card'
 import { PageHeader } from '@/components/ui/PageHeader'
@@ -12,6 +14,7 @@ import { Badge } from '@/components/ui/Badge'
 
 export function DashboardPage() {
   const [documents, setDocuments] = useState<Document[]>([])
+  const [sectors, setSectors] = useState<Sector[]>([])
   const [stats, setStats] = useState({
     totalDocs: 0,
     expired: 0,
@@ -20,13 +23,14 @@ export function DashboardPage() {
   })
 
   useEffect(() => {
-    void Promise.all([getDocuments(), getUsers(), getCategories()]).then(
-      ([docs, users, categories]) => {
+    void Promise.all([getDocuments(), getUsers(), getCategories(), getSectors()]).then(
+      ([docs, users, categories, sectors]) => {
         setDocuments(docs.slice(0, 5))
+        setSectors(sectors)
         setStats({
           totalDocs: docs.length,
           expired: docs.filter(isDocumentExpired).length,
-          activeUsers: users.filter((u) => u.ativo).length,
+          activeUsers: users.filter((u) => u.active).length,
           categories: categories.length,
         })
       }
@@ -44,10 +48,7 @@ export function DashboardPage() {
 
   return (
     <div>
-      <PageHeader
-        title="Dashboard"
-        description="Visão geral do sistema de gestão documental"
-      />
+      <PageHeader title="Dashboard" description="Visão geral do sistema de gestão documental" />
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {cards.map((card) => (
@@ -71,14 +72,11 @@ export function DashboardPage() {
             {documents.map((doc) => (
               <li key={doc.id} className="flex items-center justify-between py-3 first:pt-0 last:pb-0">
                 <div>
-                  <Link
-                    to={`/documentos/${doc.id}`}
-                    className="font-medium text-[var(--color-primary,#0d4f8b)] hover:underline"
-                  >
-                    {doc.titulo}
+                  <Link to={`/documentos/${doc.id}`} className="font-medium text-[var(--color-primary,#0d4f8b)] hover:underline">
+                    {doc.title}
                   </Link>
                   <p className="text-xs text-slate-500">
-                    {doc.setor} · {formatDateTime(doc.createdAt)}
+                    {doc.sectorName ?? getSectorNameById(doc.sectorId, sectors)} · {formatDateTime(doc.createdAt)}
                   </p>
                 </div>
                 {isDocumentExpired(doc) && <Badge variant="danger">Vencido</Badge>}

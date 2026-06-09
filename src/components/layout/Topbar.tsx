@@ -4,15 +4,15 @@ import { useAuth } from '@/hooks/useAuth'
 import { Button } from '@/components/ui/Button'
 
 export function Topbar() {
-  const { user, sectorName, logout } = useAuth()
+  const { user, logout } = useAuth()
 
   return (
     <header className="fixed left-64 right-0 top-0 z-20 flex h-16 items-center justify-between border-b border-slate-200 bg-white px-6 shadow-sm">
       <div />
       <div className="flex items-center gap-6">
         <div className="text-right">
-          <p className="text-sm font-semibold text-slate-800">{user?.nome}</p>
-          <p className="text-xs text-slate-500">{sectorName}</p>
+          <p className="text-sm font-semibold text-slate-800">{user?.name}</p>
+          <p className="text-xs text-slate-500">{user?.sectorName}</p>
         </div>
         <Link
           to="/minha-conta"

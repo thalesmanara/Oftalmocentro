@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '@/hooks/useAuth'
-import { updateUser } from '@/services/usersService'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { Card } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
@@ -9,28 +8,23 @@ import { PERMISSION_LABELS } from '@/types'
 import { Badge } from '@/components/ui/Badge'
 
 export function MyAccountPage() {
-  const { user, updateCurrentUser, sectorName } = useAuth()
-  const [nome, setNome] = useState('')
+  const { user, updateCurrentUser } = useAuth()
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
-  const [senha, setSenha] = useState('')
   const [saved, setSaved] = useState(false)
 
   useEffect(() => {
     if (user) {
-      setNome(user.nome)
+      setName(user.name)
       setEmail(user.email)
     }
   }, [user])
 
-  const handleSave = async () => {
+  const handleSave = () => {
     if (!user) return
-    const updated = await updateUser(user.id, { nome, email, senha: senha || undefined })
-    if (updated) {
-      updateCurrentUser(updated)
-      setSenha('')
-      setSaved(true)
-      setTimeout(() => setSaved(false), 3000)
-    }
+    updateCurrentUser({ ...user, name, email })
+    setSaved(true)
+    setTimeout(() => setSaved(false), 3000)
   }
 
   if (!user) return null
@@ -41,18 +35,14 @@ export function MyAccountPage() {
       <div className="grid gap-6 lg:grid-cols-2">
         <Card title="Informações pessoais">
           <div className="space-y-4">
-            <Input label="Nome" value={nome} onChange={(e) => setNome(e.target.value)} />
+            <Input label="Nome" value={name} onChange={(e) => setName(e.target.value)} />
             <Input label="E-mail" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <Input
-              label="Nova senha"
-              type="password"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
-              placeholder="Deixe em branco para não alterar"
-            />
             <p className="text-sm text-slate-500">
-              Setor atual: <strong>{sectorName}</strong>
+              Setor atual: <strong>{user.sectorName}</strong>
             </p>
+            {user.isMaster && (
+              <Badge variant="info">Usuário master</Badge>
+            )}
             <div className="flex items-center gap-3">
               <Button onClick={handleSave}>Salvar alterações</Button>
               {saved && <span className="text-sm text-emerald-600">Salvo!</span>}
@@ -64,7 +54,7 @@ export function MyAccountPage() {
             Permissões individuais atribuídas à sua conta (somente leitura).
           </p>
           <ul className="space-y-2">
-            {user.permissoes.map((p) => (
+            {user.permissions.map((p) => (
               <li key={p}>
                 <Badge variant="info">{PERMISSION_LABELS[p]}</Badge>
               </li>

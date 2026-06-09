@@ -6,8 +6,9 @@ export async function getTags(): Promise<Tag[]> {
   return mockDelay([...mockTags])
 }
 
-export async function createTag(data: Omit<Tag, 'id'>): Promise<Tag> {
-  const tag: Tag = { ...data, id: `tag-${Date.now()}` }
+export async function createTag(data: Omit<Tag, 'id' | 'createdAt' | 'updatedAt'>): Promise<Tag> {
+  const now = new Date().toISOString()
+  const tag: Tag = { ...data, id: `tag-${Date.now()}`, createdAt: now, updatedAt: now }
   mockTags.push(tag)
   return mockDelay(tag)
 }
@@ -15,7 +16,7 @@ export async function createTag(data: Omit<Tag, 'id'>): Promise<Tag> {
 export async function updateTag(id: string, data: Partial<Tag>): Promise<Tag | null> {
   const index = mockTags.findIndex((t) => t.id === id)
   if (index === -1) return mockDelay(null)
-  mockTags[index] = { ...mockTags[index], ...data }
+  mockTags[index] = { ...mockTags[index], ...data, updatedAt: new Date().toISOString() }
   return mockDelay(mockTags[index])
 }
 

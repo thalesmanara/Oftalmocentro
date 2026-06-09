@@ -23,7 +23,7 @@ export function SettingsPage() {
     if (!form || !user) return
     const updated = await updateSettings(form)
     applySettings(updated)
-    logAction(user.nome, 'Alteração de configurações', 'Sistema', 'Configurações do sistema atualizadas')
+    logAction(user.name, 'Alteração de configurações', 'Sistema', 'Configurações do sistema atualizadas')
     setSaved(true)
     setTimeout(() => setSaved(false), 3000)
   }
@@ -50,7 +50,7 @@ export function SettingsPage() {
           />
           <Input
             label="URL do logo"
-            value={form.logoUrl}
+            value={form.logoUrl ?? ''}
             onChange={(e) => setForm({ ...form, logoUrl: e.target.value })}
             placeholder="https://..."
           />
@@ -68,7 +68,7 @@ export function SettingsPage() {
               <label className="text-sm font-medium text-slate-700">Cor secundária</label>
               <input
                 type="color"
-                value={form.secondaryColor}
+                value={form.secondaryColor ?? '#1a8fbf'}
                 onChange={(e) => setForm({ ...form, secondaryColor: e.target.value })}
                 className="mt-1 h-10 w-full cursor-pointer rounded-lg border border-slate-300"
               />

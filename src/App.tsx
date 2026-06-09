@@ -1,11 +1,12 @@
 import { BrowserRouter } from 'react-router-dom'
-import { AuthProvider } from '@/hooks/useAuth'
+import { AuthProvider } from '@/contexts/AuthContext'
 import { SettingsProvider } from '@/hooks/useSettings'
 import { AppRoutes } from '@/routes/AppRoutes'
+import { getRouterBasename } from '@/config/app'
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={getRouterBasename()}>
       <SettingsProvider>
         <AuthProvider>
           <AppRoutes />

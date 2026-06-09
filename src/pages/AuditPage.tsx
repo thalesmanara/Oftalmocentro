@@ -15,10 +15,7 @@ export function AuditPage() {
 
   return (
     <div>
-      <PageHeader
-        title="Auditoria"
-        description="Registro de ações realizadas no sistema"
-      />
+      <PageHeader title="Auditoria" description="Registro de ações realizadas no sistema" />
       <Card className="overflow-x-auto !p-0">
         <table className="w-full text-left text-sm">
           <thead className="border-b border-slate-100 bg-slate-50 text-slate-600">
@@ -34,14 +31,12 @@ export function AuditPage() {
           <tbody className="divide-y divide-slate-100">
             {logs.map((log) => (
               <tr key={log.id} className="hover:bg-slate-50">
-                <td className="whitespace-nowrap px-4 py-3">{formatDateTime(log.dataHora)}</td>
-                <td className="px-4 py-3">{log.usuario}</td>
-                <td className="px-4 py-3">
-                  <Badge variant="info">{log.acao}</Badge>
-                </td>
-                <td className="px-4 py-3">{log.entidade}</td>
-                <td className="max-w-xs truncate px-4 py-3 text-slate-600">{log.detalhes}</td>
-                <td className="px-4 py-3 font-mono text-xs">{log.ip}</td>
+                <td className="whitespace-nowrap px-4 py-3">{formatDateTime(log.createdAt)}</td>
+                <td className="px-4 py-3">{log.userName ?? '—'}</td>
+                <td className="px-4 py-3"><Badge variant="info">{log.action}</Badge></td>
+                <td className="px-4 py-3">{log.entity}</td>
+                <td className="max-w-xs truncate px-4 py-3 text-slate-600">{log.details ?? '—'}</td>
+                <td className="px-4 py-3 font-mono text-xs">{log.ipAddress ?? '—'}</td>
               </tr>
             ))}
           </tbody>

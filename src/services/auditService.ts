@@ -1,35 +1,33 @@
 import { mockDelay } from './api'
 import { mockAuditLogs } from '@/data/mocks'
-import type { AuditLog, AuditAction } from '@/types'
-
-// Futuro: GET ${API_BASE_URL}/audit
+import type { AuditLog } from '@/types'
 
 export async function getAuditLogs(): Promise<AuditLog[]> {
   return mockDelay(
     [...mockAuditLogs].sort(
-      (a, b) => new Date(b.dataHora).getTime() - new Date(a.dataHora).getTime()
+      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     )
   )
 }
 
 export async function addAuditLog(
-  entry: Omit<AuditLog, 'id' | 'dataHora'>
+  entry: Omit<AuditLog, 'id' | 'createdAt'>
 ): Promise<AuditLog> {
   const log: AuditLog = {
     ...entry,
     id: `audit-${Date.now()}`,
-    dataHora: new Date().toISOString(),
+    createdAt: new Date().toISOString(),
   }
   mockAuditLogs.unshift(log)
   return mockDelay(log)
 }
 
 export function logAction(
-  usuario: string,
-  acao: AuditAction,
-  entidade: string,
-  detalhes: string,
-  ip = '127.0.0.1'
+  userName: string,
+  action: string,
+  entity: string,
+  details: string,
+  ipAddress = '127.0.0.1'
 ): void {
-  void addAuditLog({ usuario, acao, entidade, detalhes, ip })
+  void addAuditLog({ userName, action, entity, details, ipAddress })
 }

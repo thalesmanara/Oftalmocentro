@@ -13,8 +13,8 @@ export function DocumentUploadPage() {
 
   const handleSubmit = async (data: DocumentFormData) => {
     if (!user) return
-    const doc = await createDocument(data, user.id, user.nome)
-    logAction(user.nome, 'Upload', 'Documento', `Documento "${doc.titulo}" enviado`)
+    const doc = await createDocument(data, user.id, user.name)
+    logAction(user.name, 'Upload', 'Documento', `Documento "${doc.title}" enviado`)
     navigate(`/documentos/${doc.id}`)
   }
 

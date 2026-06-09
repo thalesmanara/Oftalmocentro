@@ -10,8 +10,8 @@ export function LoginPage() {
   const { user, login, loading } = useAuth()
   const { settings } = useSettings()
   const navigate = useNavigate()
-  const [email, setEmail] = useState('master@oftalmocentro.com.br')
-  const [senha, setSenha] = useState('master123')
+  const [email, setEmail] = useState('admin@oftalmocentro.cloud')
+  const [senha, setSenha] = useState('admin123')
   const [error, setError] = useState('')
 
   if (user) return <Navigate to="/dashboard" replace />
@@ -70,7 +70,7 @@ export function LoginPage() {
             </Button>
           </form>
           <p className="mt-6 text-center text-xs text-slate-400">
-            MVP — autenticação mockada. Usuário MASTER com todas as permissões.
+            MVP — autenticação mockada. Integração futura com n8n.
           </p>
         </div>
       </div>

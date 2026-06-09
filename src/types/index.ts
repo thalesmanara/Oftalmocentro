@@ -25,6 +25,16 @@ export const ALL_PERMISSIONS: Permission[] = [
   'usar_consulta_ia',
 ]
 
+/** Usuário autenticado na sessão (AuthContext / authService) */
+export interface AuthUser {
+  id: string
+  name: string
+  email: string
+  sectorName: string
+  isMaster: boolean
+  permissions: Permission[]
+}
+
 export const PERMISSION_LABELS: Record<Permission, string> = {
   visualizar_documentos: 'Visualizar documentos',
   cadastrar_documentos: 'Cadastrar documentos',
@@ -41,102 +51,106 @@ export const PERMISSION_LABELS: Record<Permission, string> = {
 
 export interface Sector {
   id: string
-  nome: string
-  descricao?: string
-  ativo: boolean
+  name: string
+  description: string | null
+  active: boolean
+  createdAt: string
+  updatedAt: string
 }
 
 export interface Category {
   id: string
-  nome: string
-  descricao?: string
-  ativo: boolean
+  name: string
+  description: string | null
+  active: boolean
+  createdAt: string
+  updatedAt: string
 }
 
 export interface Tag {
   id: string
-  nome: string
-  cor?: string
-  ativo: boolean
+  name: string
+  color: string | null
+  active: boolean
+  createdAt: string
+  updatedAt: string
 }
 
 export interface User {
   id: string
-  nome: string
+  name: string
   email: string
-  senha?: string
-  setorId: string
-  ativo: boolean
-  permissoes: Permission[]
+  sectorId: string | null
+  sectorName?: string
+  active: boolean
+  isMaster: boolean
+  permissions: Permission[]
   createdAt: string
   updatedAt: string
 }
 
 export interface Document {
   id: string
-  titulo: string
-  setor: string
-  categoria: string
-  descricaoSemantica: string
-  tags: string[]
-  dataValidade: string | null
-  nomeArquivo: string
-  tipoArquivo: string
-  tamanhoArquivo: number
-  caminhoArquivo: string
-  textoExtraido: string
-  usuarioResponsavel: string
+  title: string
+  sectorId: string
+  sectorName?: string
+  categoryId: string
+  categoryName?: string
+  semanticDescription: string
+  tagIds: string[]
+  tags?: Tag[]
+  expirationDate: string | null
+  fileName?: string
+  fileType?: string
+  fileSize?: number
+  filePath?: string
+  extractedText?: string
+  responsibleUserId?: string
+  responsibleUserName?: string
+  createdBy?: string
+  updatedBy?: string
   createdAt: string
   updatedAt: string
-  createdBy: string
-  updatedBy: string
 }
 
 export interface SystemSettings {
+  id: string
   systemName: string
   clinicName: string
-  logoUrl: string
+  logoUrl?: string | null
   primaryColor: string
-  secondaryColor: string
+  secondaryColor?: string | null
+  createdAt: string
+  updatedAt: string
 }
-
-export type AuditAction =
-  | 'Login'
-  | 'Logout'
-  | 'Cadastro'
-  | 'Edição'
-  | 'Exclusão'
-  | 'Upload'
-  | 'Download'
-  | 'Alteração de usuário'
-  | 'Alteração de permissões'
-  | 'Alteração de configurações'
 
 export interface AuditLog {
   id: string
-  dataHora: string
-  usuario: string
-  acao: AuditAction
-  entidade: string
-  detalhes: string
-  ip: string
+  userId?: string
+  userName?: string
+  action: string
+  entity: string
+  entityId?: string
+  details?: string
+  ipAddress?: string
+  createdAt: string
 }
 
 export interface DocumentFormData {
-  titulo: string
-  setor: string
-  categoria: string
-  descricaoSemantica: string
-  tags: string[]
-  dataValidade: string | null
-  arquivo?: File | null
+  title: string
+  sectorId: string
+  categoryId: string
+  semanticDescription: string
+  tagIds: string[]
+  expirationDate: string | null
+  file?: File | null
 }
 
 export interface UserFormData {
-  nome: string
+  name: string
   email: string
-  senha: string
-  setorId: string
-  ativo: boolean
-  permissoes: Permission[]
+  password: string
+  sectorId: string | null
+  active: boolean
+  permissions: Permission[]
 }

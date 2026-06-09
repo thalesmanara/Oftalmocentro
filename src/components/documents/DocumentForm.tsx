@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import type { DocumentFormData } from '@/types'
+import type { DocumentFormData, Tag } from '@/types'
 import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
 import { Textarea } from '@/components/ui/Textarea'
@@ -22,55 +22,73 @@ export function DocumentForm({
   onCancel,
   submitLabel = 'Salvar',
 }: DocumentFormProps) {
-  const [titulo, setTitulo] = useState(initial?.titulo ?? '')
-  const [setor, setSetor] = useState(initial?.setor ?? '')
-  const [categoria, setCategoria] = useState(initial?.categoria ?? '')
-  const [descricaoSemantica, setDescricaoSemantica] = useState(initial?.descricaoSemantica ?? '')
-  const [tags, setTags] = useState<string[]>(initial?.tags ?? [])
-  const [dataValidade, setDataValidade] = useState(initial?.dataValidade ?? '')
-  const [arquivo, setArquivo] = useState<File | null>(null)
+  const [title, setTitle] = useState(initial?.title ?? '')
+  const [sectorId, setSectorId] = useState(initial?.sectorId ?? '')
+  const [categoryId, setCategoryId] = useState(initial?.categoryId ?? '')
+  const [semanticDescription, setSemanticDescription] = useState(initial?.semanticDescription ?? '')
+  const [tagIds, setTagIds] = useState<string[]>(initial?.tagIds ?? [])
+  const [expirationDate, setExpirationDate] = useState(initial?.expirationDate ?? '')
+  const [file, setFile] = useState<File | null>(null)
   const [sectors, setSectors] = useState<{ value: string; label: string }[]>([])
   const [categories, setCategories] = useState<{ value: string; label: string }[]>([])
-  const [availableTags, setAvailableTags] = useState<string[]>([])
+  const [availableTags, setAvailableTags] = useState<Tag[]>([])
 
   useEffect(() => {
-    void Promise.all([getSectors(), getCategories(), getTags()]).then(
-      ([s, c, t]) => {
-        setSectors([{ value: '', label: 'Selecione...' }, ...s.filter((x) => x.ativo).map((x) => ({ value: x.nome, label: x.nome }))])
-        setCategories([{ value: '', label: 'Selecione...' }, ...c.filter((x) => x.ativo).map((x) => ({ value: x.nome, label: x.nome }))])
-        setAvailableTags(t.filter((x) => x.ativo).map((x) => x.nome))
-      }
-    )
+    void Promise.all([getSectors(), getCategories(), getTags()]).then(([s, c, t]) => {
+      setSectors([
+        { value: '', label: 'Selecione...' },
+        ...s.filter((x) => x.active).map((x) => ({ value: x.id, label: x.name })),
+      ])
+      setCategories([
+        { value: '', label: 'Selecione...' },
+        ...c.filter((x) => x.active).map((x) => ({ value: x.id, label: x.name })),
+      ])
+      setAvailableTags(t.filter((x) => x.active))
+    })
   }, [])
 
-  const toggleTag = (tag: string) => {
-    setTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]))
+  const toggleTag = (tagId: string) => {
+    setTagIds((prev) =>
+      prev.includes(tagId) ? prev.filter((id) => id !== tagId) : [...prev, tagId]
+    )
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     onSubmit({
-      titulo,
-      setor,
-      categoria,
-      descricaoSemantica,
-      tags,
-      dataValidade: dataValidade || null,
-      arquivo,
+      title,
+      sectorId,
+      categoryId,
+      semanticDescription,
+      tagIds,
+      expirationDate: expirationDate || null,
+      file,
     })
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <Input label="Título" value={titulo} onChange={(e) => setTitulo(e.target.value)} required />
+      <Input label="Título" value={title} onChange={(e) => setTitle(e.target.value)} required />
       <div className="grid gap-4 md:grid-cols-2">
-        <Select label="Setor" value={setor} onChange={(e) => setSetor(e.target.value)} options={sectors} required />
-        <Select label="Categoria" value={categoria} onChange={(e) => setCategoria(e.target.value)} options={categories} required />
+        <Select
+          label="Setor"
+          value={sectorId}
+          onChange={(e) => setSectorId(e.target.value)}
+          options={sectors}
+          required
+        />
+        <Select
+          label="Categoria"
+          value={categoryId}
+          onChange={(e) => setCategoryId(e.target.value)}
+          options={categories}
+          required
+        />
       </div>
       <Textarea
         label="Descrição Semântica"
-        value={descricaoSemantica}
-        onChange={(e) => setDescricaoSemantica(e.target.value)}
+        value={semanticDescription}
+        onChange={(e) => setSemanticDescription(e.target.value)}
         required
       />
       <div>
@@ -78,16 +96,16 @@ export function DocumentForm({
         <div className="flex flex-wrap gap-2">
           {availableTags.map((tag) => (
             <button
-              key={tag}
+              key={tag.id}
               type="button"
-              onClick={() => toggleTag(tag)}
+              onClick={() => toggleTag(tag.id)}
               className={`rounded-full px-3 py-1 text-xs font-medium transition ${
-                tags.includes(tag)
+                tagIds.includes(tag.id)
                   ? 'bg-[var(--color-primary,#0d4f8b)] text-white'
                   : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
               }`}
             >
-              {tag}
+              {tag.name}
             </button>
           ))}
         </div>
@@ -95,15 +113,15 @@ export function DocumentForm({
       <Input
         label="Data de validade"
         type="date"
-        value={dataValidade}
-        onChange={(e) => setDataValidade(e.target.value)}
+        value={expirationDate}
+        onChange={(e) => setExpirationDate(e.target.value)}
       />
       <div>
         <label className="text-sm font-medium text-slate-700">Upload de arquivo</label>
         <input
           type="file"
           accept={ACCEPTED_FILE_TYPES}
-          onChange={(e) => setArquivo(e.target.files?.[0] ?? null)}
+          onChange={(e) => setFile(e.target.files?.[0] ?? null)}
           className="mt-1 block w-full text-sm text-slate-600 file:mr-4 file:rounded-lg file:border-0 file:bg-slate-100 file:px-4 file:py-2 file:text-sm file:font-medium hover:file:bg-slate-200"
         />
         <p className="mt-1 text-xs text-slate-400">

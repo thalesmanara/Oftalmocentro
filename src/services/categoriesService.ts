@@ -6,8 +6,11 @@ export async function getCategories(): Promise<Category[]> {
   return mockDelay([...mockCategories])
 }
 
-export async function createCategory(data: Omit<Category, 'id'>): Promise<Category> {
-  const category: Category = { ...data, id: `cat-${Date.now()}` }
+export async function createCategory(
+  data: Omit<Category, 'id' | 'createdAt' | 'updatedAt'>
+): Promise<Category> {
+  const now = new Date().toISOString()
+  const category: Category = { ...data, id: `cat-${Date.now()}`, createdAt: now, updatedAt: now }
   mockCategories.push(category)
   return mockDelay(category)
 }
@@ -18,7 +21,11 @@ export async function updateCategory(
 ): Promise<Category | null> {
   const index = mockCategories.findIndex((c) => c.id === id)
   if (index === -1) return mockDelay(null)
-  mockCategories[index] = { ...mockCategories[index], ...data }
+  mockCategories[index] = {
+    ...mockCategories[index],
+    ...data,
+    updatedAt: new Date().toISOString(),
+  }
   return mockDelay(mockCategories[index])
 }
 

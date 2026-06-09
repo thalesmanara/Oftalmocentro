@@ -26,17 +26,17 @@ npm run dev
 
 ### Login mockado
 
-- **E-mail:** `master@oftalmocentro.com.br`
-- **Senha:** `master123`
+- **E-mail:** `admin@oftalmocentro.cloud`
+- **Senha:** `admin123`
 
-Usuário MASTER com todas as permissões habilitadas.
+Sessão persistida em `localStorage` (`user` + `token`). Integração futura via `authService` → `POST ${VITE_N8N_BASE_URL}/webhook/auth/login`.
 
 ## Variáveis de ambiente
 
 Copie `.env.example` para `.env`:
 
 ```
-VITE_N8N_BASE_URL=https://seu-n8n.exemplo.com/webhook
+VITE_N8N_BASE_URL=https://n8n.oftalmocentrouberaba.cloud
 ```
 
 ## Rotas
@@ -57,8 +57,24 @@ VITE_N8N_BASE_URL=https://seu-n8n.exemplo.com/webhook
 | `/minha-conta` | Perfil do usuário |
 | `/consulta-ia` | Placeholder (próxima etapa) |
 
+## Deploy (subpasta)
+
+O sistema é publicado em:
+
+**https://oftalmocentrouberaba.com.br/oftalmocentrointeligente/**
+
+Configurações já aplicadas:
+
+- `base` no Vite: `/oftalmocentrointeligente/`
+- `basename` no React Router: `/oftalmocentrointeligente`
+- `.htaccess` em `public/` (copiado para `dist/` no build) — necessário no Apache/Hostinger para rotas do SPA (evita 404 ao atualizar a página)
+
+Após o build, envie o conteúdo da pasta `dist/` para o diretório `oftalmocentrointeligente/` no servidor.
+
 ## Build
 
 ```bash
 npm run build
 ```
+
+Em desenvolvimento local, o app continua em `http://localhost:5173/oftalmocentrointeligente/` (com o mesmo `base`).

@@ -33,7 +33,10 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.documentElement.style.setProperty('--color-primary', settings.primaryColor)
-    document.documentElement.style.setProperty('--color-secondary', settings.secondaryColor)
+    document.documentElement.style.setProperty(
+      '--color-secondary',
+      settings.secondaryColor ?? '#1a8fbf'
+    )
   }, [settings.primaryColor, settings.secondaryColor])
 
   const value = useMemo(

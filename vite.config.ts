@@ -7,6 +7,8 @@ import { fileURLToPath } from 'url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
+  // Produção: https://oftalmocentrouberaba.com.br/oftalmocentrointeligente/
+  base: '/oftalmocentrointeligente/',
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {

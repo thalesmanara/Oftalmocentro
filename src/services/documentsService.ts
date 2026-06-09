@@ -1,8 +1,17 @@
 import { mockDelay } from './api'
-import { mockDocuments } from '@/data/mocks'
+import { mockDocuments, mockCategories, mockSectors, mockTags } from '@/data/mocks'
 import type { Document, DocumentFormData } from '@/types'
+import { getCategoryNameById, getSectorNameById } from '@/utils/entities'
 
-// Futuro: GET ${API_BASE_URL}/documents → getDocuments()
+function resolveDocumentNames(data: DocumentFormData): Pick<Document, 'sectorName' | 'categoryName' | 'tags'> {
+  const sectorName = getSectorNameById(data.sectorId, mockSectors)
+  const categoryName = getCategoryNameById(data.categoryId, mockCategories)
+  const tags = data.tagIds
+    .map((id) => mockTags.find((t) => t.id === id))
+    .filter((t): t is NonNullable<typeof t> => Boolean(t))
+
+  return { sectorName, categoryName, tags: tags.length ? tags : undefined }
+}
 
 export async function getDocuments(): Promise<Document[]> {
   return mockDelay([...mockDocuments])
@@ -20,26 +29,29 @@ export async function createDocument(
 ): Promise<Document> {
   const id = `doc-${Date.now()}`
   const now = new Date().toISOString()
-  const file = data.arquivo
+  const file = data.file
+  const names = resolveDocumentNames(data)
 
   const doc: Document = {
     id,
-    titulo: data.titulo,
-    setor: data.setor,
-    categoria: data.categoria,
-    descricaoSemantica: data.descricaoSemantica,
-    tags: data.tags,
-    dataValidade: data.dataValidade,
-    nomeArquivo: file?.name ?? 'sem-arquivo.txt',
-    tipoArquivo: file?.type ?? 'text/plain',
-    tamanhoArquivo: file?.size ?? 0,
-    caminhoArquivo: `/uploads/${file?.name ?? 'sem-arquivo.txt'}`,
-    textoExtraido: `[Mock] Texto extraído do documento "${data.titulo}" para indexação futura.`,
-    usuarioResponsavel: userName,
+    title: data.title,
+    sectorId: data.sectorId,
+    categoryId: data.categoryId,
+    semanticDescription: data.semanticDescription,
+    tagIds: data.tagIds,
+    expirationDate: data.expirationDate,
+    fileName: file?.name ?? 'sem-arquivo.txt',
+    fileType: file?.type ?? 'text/plain',
+    fileSize: file?.size ?? 0,
+    filePath: `/uploads/${file?.name ?? 'sem-arquivo.txt'}`,
+    extractedText: `[Mock] Texto extraído do documento "${data.title}" para indexação futura.`,
+    responsibleUserId: userId,
+    responsibleUserName: userName,
     createdAt: now,
     updatedAt: now,
     createdBy: userId,
     updatedBy: userId,
+    ...names,
   }
 
   mockDocuments.unshift(doc)
@@ -56,24 +68,37 @@ export async function updateDocument(
   if (index === -1) return mockDelay(null)
 
   const existing = mockDocuments[index]
-  const file = data.arquivo
+  const file = data.file
+  const merged: DocumentFormData = {
+    title: data.title ?? existing.title,
+    sectorId: data.sectorId ?? existing.sectorId,
+    categoryId: data.categoryId ?? existing.categoryId,
+    semanticDescription: data.semanticDescription ?? existing.semanticDescription,
+    tagIds: data.tagIds ?? existing.tagIds,
+    expirationDate: data.expirationDate !== undefined ? data.expirationDate : existing.expirationDate,
+    file: data.file,
+  }
+  const names = resolveDocumentNames(merged)
+
   const updated: Document = {
     ...existing,
-    titulo: data.titulo ?? existing.titulo,
-    setor: data.setor ?? existing.setor,
-    categoria: data.categoria ?? existing.categoria,
-    descricaoSemantica: data.descricaoSemantica ?? existing.descricaoSemantica,
-    tags: data.tags ?? existing.tags,
-    dataValidade: data.dataValidade !== undefined ? data.dataValidade : existing.dataValidade,
+    title: merged.title,
+    sectorId: merged.sectorId,
+    categoryId: merged.categoryId,
+    semanticDescription: merged.semanticDescription,
+    tagIds: merged.tagIds,
+    expirationDate: merged.expirationDate,
+    ...names,
     ...(file
       ? {
-          nomeArquivo: file.name,
-          tipoArquivo: file.type,
-          tamanhoArquivo: file.size,
-          caminhoArquivo: `/uploads/${file.name}`,
+          fileName: file.name,
+          fileType: file.type,
+          fileSize: file.size,
+          filePath: `/uploads/${file.name}`,
         }
       : {}),
-    usuarioResponsavel: userName,
+    responsibleUserId: userId,
+    responsibleUserName: userName,
     updatedAt: new Date().toISOString(),
     updatedBy: userId,
   }
@@ -88,5 +113,3 @@ export async function deleteDocument(id: string): Promise<boolean> {
   mockDocuments.splice(index, 1)
   return mockDelay(true)
 }
-
-// Futuro: POST FormData via buildDocumentFormData() em api.ts

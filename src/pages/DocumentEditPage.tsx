@@ -20,8 +20,8 @@ export function DocumentEditPage() {
 
   const handleSubmit = async (data: DocumentFormData) => {
     if (!user || !id) return
-    await updateDocument(id, data, user.id, user.nome)
-    logAction(user.nome, 'Edição', 'Documento', `Documento "${data.titulo}" editado`)
+    await updateDocument(id, data, user.id, user.name)
+    logAction(user.name, 'Edição', 'Documento', `Documento "${data.title}" editado`)
     navigate(`/documentos/${id}`)
   }
 
@@ -29,16 +29,16 @@ export function DocumentEditPage() {
 
   return (
     <div>
-      <PageHeader title="Editar documento" description={doc.titulo} />
+      <PageHeader title="Editar documento" description={doc.title} />
       <Card>
         <DocumentForm
           initial={{
-            titulo: doc.titulo,
-            setor: doc.setor,
-            categoria: doc.categoria,
-            descricaoSemantica: doc.descricaoSemantica,
-            tags: doc.tags,
-            dataValidade: doc.dataValidade ?? '',
+            title: doc.title,
+            sectorId: doc.sectorId,
+            categoryId: doc.categoryId,
+            semanticDescription: doc.semanticDescription,
+            tagIds: doc.tagIds,
+            expirationDate: doc.expirationDate ?? '',
           }}
           onSubmit={handleSubmit}
           onCancel={() => navigate(`/documentos/${id}`)}

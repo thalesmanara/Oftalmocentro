@@ -1,16 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Plus, Pencil, Trash2 } from 'lucide-react'
-import {
-  getUsers,
-  createUser,
-  updateUser,
-  deleteUser,
-} from '@/services/usersService'
+import { getUsers, createUser, updateUser, deleteUser } from '@/services/usersService'
 import { getSectors } from '@/services/sectorsService'
 import { logAction } from '@/services/auditService'
 import type { User, UserFormData, Permission, Sector } from '@/types'
 import { ALL_PERMISSIONS, PERMISSION_LABELS } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
+import { getSectorNameById } from '@/utils/entities'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
@@ -21,12 +17,12 @@ import { ModalConfirm } from '@/components/ui/Modal'
 import { Badge } from '@/components/ui/Badge'
 
 const emptyForm: UserFormData = {
-  nome: '',
+  name: '',
   email: '',
-  senha: '',
-  setorId: '',
-  ativo: true,
-  permissoes: [],
+  password: '',
+  sectorId: null,
+  active: true,
+  permissions: [],
 }
 
 export function UsersPage() {
@@ -38,16 +34,15 @@ export function UsersPage() {
   const [form, setForm] = useState<UserFormData>(emptyForm)
   const [deleteId, setDeleteId] = useState<string | null>(null)
 
-  const refresh = () => {
-    void getUsers().then(setUsers)
-  }
+  const refresh = () => void getUsers().then(setUsers)
 
   useEffect(() => {
     refresh()
     void getSectors().then(setSectors)
   }, [])
 
-  const sectorName = (id: string) => sectors.find((s) => s.id === id)?.nome ?? '—'
+  const sectorLabel = (user: User) =>
+    user.sectorName ?? getSectorNameById(user.sectorId, sectors)
 
   const openCreate = () => {
     setEditing(null)
@@ -58,12 +53,12 @@ export function UsersPage() {
   const openEdit = (u: User) => {
     setEditing(u)
     setForm({
-      nome: u.nome,
+      name: u.name,
       email: u.email,
-      senha: '',
-      setorId: u.setorId,
-      ativo: u.ativo,
-      permissoes: [...u.permissoes],
+      password: '',
+      sectorId: u.sectorId,
+      active: u.active,
+      permissions: [...u.permissions],
     })
     setModalOpen(true)
   }
@@ -71,9 +66,9 @@ export function UsersPage() {
   const togglePermission = (p: Permission) => {
     setForm((f) => ({
       ...f,
-      permissoes: f.permissoes.includes(p)
-        ? f.permissoes.filter((x) => x !== p)
-        : [...f.permissoes, p],
+      permissions: f.permissions.includes(p)
+        ? f.permissions.filter((x) => x !== p)
+        : [...f.permissions, p],
     }))
   }
 
@@ -81,15 +76,15 @@ export function UsersPage() {
     if (editing) {
       await updateUser(editing.id, form)
       if (currentUser) {
-        logAction(currentUser.nome, 'Alteração de usuário', 'Usuário', `Usuário "${form.nome}" atualizado`)
-        if (form.permissoes.length !== editing.permissoes.length) {
-          logAction(currentUser.nome, 'Alteração de permissões', 'Usuário', `Permissões de ${form.nome} alteradas`)
+        logAction(currentUser.name, 'Alteração de usuário', 'Usuário', `Usuário "${form.name}" atualizado`)
+        if (form.permissions.length !== editing.permissions.length) {
+          logAction(currentUser.name, 'Alteração de permissões', 'Usuário', `Permissões de ${form.name} alteradas`)
         }
       }
     } else {
       await createUser(form)
       if (currentUser) {
-        logAction(currentUser.nome, 'Cadastro', 'Usuário', `Usuário "${form.nome}" cadastrado`)
+        logAction(currentUser.name, 'Cadastro', 'Usuário', `Usuário "${form.name}" cadastrado`)
       }
     }
     setModalOpen(false)
@@ -100,7 +95,7 @@ export function UsersPage() {
     if (!deleteId || !currentUser) return
     const u = users.find((x) => x.id === deleteId)
     await deleteUser(deleteId)
-    if (u) logAction(currentUser.nome, 'Exclusão', 'Usuário', `Usuário "${u.nome}" excluído`)
+    if (u) logAction(currentUser.name, 'Exclusão', 'Usuário', `Usuário "${u.name}" excluído`)
     setDeleteId(null)
     refresh()
   }
@@ -112,8 +107,7 @@ export function UsersPage() {
         description="Gestão de usuários e permissões individuais"
         actions={
           <Button onClick={openCreate}>
-            <Plus size={16} />
-            Novo usuário
+            <Plus size={16} /> Novo usuário
           </Button>
         }
       />
@@ -133,15 +127,15 @@ export function UsersPage() {
           <tbody className="divide-y divide-slate-100">
             {users.map((u) => (
               <tr key={u.id} className="hover:bg-slate-50">
-                <td className="px-4 py-3 font-medium">{u.nome}</td>
+                <td className="px-4 py-3 font-medium">{u.name}</td>
                 <td className="px-4 py-3">{u.email}</td>
-                <td className="px-4 py-3">{sectorName(u.setorId)}</td>
+                <td className="px-4 py-3">{sectorLabel(u)}</td>
                 <td className="px-4 py-3">
-                  <Badge variant={u.ativo ? 'success' : 'danger'}>
-                    {u.ativo ? 'Ativo' : 'Inativo'}
+                  <Badge variant={u.active ? 'success' : 'danger'}>
+                    {u.active ? 'Ativo' : 'Inativo'}
                   </Badge>
                 </td>
-                <td className="px-4 py-3 text-xs text-slate-500">{u.permissoes.length} permissões</td>
+                <td className="px-4 py-3 text-xs text-slate-500">{u.permissions.length} permissões</td>
                 <td className="px-4 py-3">
                   <div className="flex gap-1">
                     <Button variant="ghost" size="sm" onClick={() => openEdit(u)}>
@@ -170,31 +164,26 @@ export function UsersPage() {
         }
       >
         <div className="space-y-4">
-          <Input label="Nome" value={form.nome} onChange={(e) => setForm({ ...form, nome: e.target.value })} required />
+          <Input label="Nome" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
           <Input label="E-mail" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
           <Input
             label={editing ? 'Senha (deixe em branco para manter)' : 'Senha'}
             type="password"
-            value={form.senha}
-            onChange={(e) => setForm({ ...form, senha: e.target.value })}
+            value={form.password}
+            onChange={(e) => setForm({ ...form, password: e.target.value })}
             required={!editing}
           />
           <Select
             label="Setor"
-            value={form.setorId}
-            onChange={(e) => setForm({ ...form, setorId: e.target.value })}
+            value={form.sectorId ?? ''}
+            onChange={(e) => setForm({ ...form, sectorId: e.target.value || null })}
             options={[
               { value: '', label: 'Selecione...' },
-              ...sectors.map((s) => ({ value: s.id, label: s.nome })),
+              ...sectors.filter((s) => s.active).map((s) => ({ value: s.id, label: s.name })),
             ]}
           />
           <label className="flex items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={form.ativo}
-              onChange={(e) => setForm({ ...form, ativo: e.target.checked })}
-              className="rounded"
-            />
+            <input type="checkbox" checked={form.active} onChange={(e) => setForm({ ...form, active: e.target.checked })} className="rounded" />
             Usuário ativo
           </label>
           <div>
@@ -202,12 +191,7 @@ export function UsersPage() {
             <div className="max-h-48 space-y-2 overflow-y-auto rounded-lg border border-slate-200 p-3">
               {ALL_PERMISSIONS.map((p) => (
                 <label key={p} className="flex items-center gap-2 text-sm">
-                  <input
-                    type="checkbox"
-                    checked={form.permissoes.includes(p)}
-                    onChange={() => togglePermission(p)}
-                    className="rounded"
-                  />
+                  <input type="checkbox" checked={form.permissions.includes(p)} onChange={() => togglePermission(p)} className="rounded" />
                   {PERMISSION_LABELS[p]}
                 </label>
               ))}
