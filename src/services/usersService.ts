@@ -1,16 +1,39 @@
-import { mockDelay } from './api'
+import { API_BASE_URL, mockDelay } from './api'
 import { mockUsers, mockUserPasswords } from '@/data/mocks'
 import type { User, UserFormData } from '@/types'
 
 export async function getUsers(): Promise<User[]> {
-  return mockDelay([...mockUsers])
+  try {
+    const response = await fetch(`${API_BASE_URL}/webhook/users`)
+
+    if (!response.ok) {
+      throw new Error('Erro ao buscar usuários')
+    }
+
+    const data = await response.json()
+
+    if (Array.isArray(data)) {
+      return data
+    }
+
+    if (data?.data && Array.isArray(data.data)) {
+      return data.data
+    }
+
+    return mockUsers
+  } catch (error) {
+    console.warn('Usando usuários mockados por falha no webhook:', error)
+    return mockUsers
+  }
 }
 
 export async function getUserById(id: string): Promise<User | null> {
-  const user = mockUsers.find((u) => u.id === id)
+  const users = await getUsers()
+  const user = users.find((u) => u.id === id) ?? mockUsers.find((u) => u.id === id)
   return mockDelay(user ?? null)
 }
 
+// Futuro: POST `${API_BASE_URL}/webhook/users/create`
 export async function createUser(data: UserFormData): Promise<User> {
   const id = `user-${Date.now()}`
   const now = new Date().toISOString()
@@ -20,7 +43,7 @@ export async function createUser(data: UserFormData): Promise<User> {
     email: data.email,
     sectorId: data.sectorId,
     active: data.active,
-    isMaster: false,
+    isMaster: data.isMaster,
     permissions: data.permissions,
     createdAt: now,
     updatedAt: now,
@@ -32,6 +55,7 @@ export async function createUser(data: UserFormData): Promise<User> {
   return mockDelay(user)
 }
 
+// Futuro: PUT `${API_BASE_URL}/webhook/users/update`
 export async function updateUser(id: string, data: Partial<UserFormData>): Promise<User | null> {
   const index = mockUsers.findIndex((u) => u.id === id)
   if (index === -1) return mockDelay(null)
@@ -46,6 +70,7 @@ export async function updateUser(id: string, data: Partial<UserFormData>): Promi
     email: data.email ?? existing.email,
     sectorId: data.sectorId !== undefined ? data.sectorId : existing.sectorId,
     active: data.active ?? existing.active,
+    isMaster: data.isMaster ?? existing.isMaster,
     permissions: data.permissions ?? existing.permissions,
     updatedAt: new Date().toISOString(),
   }
@@ -53,6 +78,7 @@ export async function updateUser(id: string, data: Partial<UserFormData>): Promi
   return mockDelay(updated)
 }
 
+// Futuro: DELETE `${API_BASE_URL}/webhook/users/delete`
 export async function deleteUser(id: string): Promise<boolean> {
   const index = mockUsers.findIndex((u) => u.id === id)
   if (index === -1) return mockDelay(false)

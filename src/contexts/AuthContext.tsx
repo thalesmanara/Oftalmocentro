@@ -6,7 +6,7 @@ import {
   type ReactNode,
 } from 'react'
 import { useNavigate } from 'react-router-dom'
-import type { AuthUser, Permission } from '@/types'
+import type { AuthUser, PermissionCode } from '@/types'
 import {
   getCurrentUser,
   getToken,
@@ -15,6 +15,7 @@ import {
   persistSession,
 } from '@/services/authService'
 import { logAction } from '@/services/auditService'
+import { hasPermission as checkPermission } from '@/utils/permissions'
 
 export interface AuthContextValue {
   user: AuthUser | null
@@ -22,7 +23,7 @@ export interface AuthContextValue {
   loading: boolean
   login: (email: string, password: string) => Promise<boolean>
   logout: () => void
-  hasPermission: (permission: Permission) => boolean
+  hasPermission: (permissionCode: PermissionCode) => boolean
   updateCurrentUser: (user: AuthUser) => void
 }
 
@@ -61,10 +62,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [user, navigate])
 
   const hasPermission = useCallback(
-    (permission: Permission) => {
-      if (!user) return false
-      return user.permissions.includes(permission)
-    },
+    (permissionCode: PermissionCode) => checkPermission(user, permissionCode),
     [user]
   )
 

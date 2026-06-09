@@ -1,9 +1,9 @@
 import { Navigate, Outlet } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
-import type { Permission } from '@/types'
+import type { PermissionCode } from '@/types'
 
 interface ProtectedRouteProps {
-  permission?: Permission
+  permission?: PermissionCode
 }
 
 export function ProtectedRoute({ permission }: ProtectedRouteProps) {

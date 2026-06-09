@@ -13,13 +13,13 @@ import {
 } from 'lucide-react'
 import { useSettings } from '@/hooks/useSettings'
 import { useAuth } from '@/hooks/useAuth'
-import type { Permission } from '@/types'
+import type { PermissionCode } from '@/types'
 
 interface NavItem {
   to: string
   label: string
   icon: typeof LayoutDashboard
-  permission?: Permission
+  permission?: PermissionCode
 }
 
 interface NavGroup {
@@ -81,10 +81,7 @@ export function Sidebar() {
             className="mx-auto h-10 max-w-full object-contain"
           />
         ) : (
-          <div className="text-center">
-            <p className="text-sm font-bold leading-tight">Oftalmocentro</p>
-            <p className="text-xs font-medium text-white/80">Inteligente</p>
-          </div>
+          <p className="text-center text-sm font-bold leading-tight">{settings.systemName}</p>
         )}
       </div>
 

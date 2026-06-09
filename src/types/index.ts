@@ -1,4 +1,5 @@
-export type Permission =
+/** Códigos de permissão utilizados no controle de acesso */
+export type PermissionCode =
   | 'visualizar_documentos'
   | 'cadastrar_documentos'
   | 'editar_documentos'
@@ -11,19 +12,12 @@ export type Permission =
   | 'editar_configuracoes'
   | 'usar_consulta_ia'
 
-export const ALL_PERMISSIONS: Permission[] = [
-  'visualizar_documentos',
-  'cadastrar_documentos',
-  'editar_documentos',
-  'excluir_documentos',
-  'gerenciar_usuarios',
-  'gerenciar_setores',
-  'gerenciar_categorias',
-  'gerenciar_tags',
-  'visualizar_auditoria',
-  'editar_configuracoes',
-  'usar_consulta_ia',
-]
+/** Entidade de permissão (PostgreSQL / n8n) */
+export interface Permission {
+  id: string
+  code: string
+  name: string
+}
 
 /** Usuário autenticado na sessão (AuthContext / authService) */
 export interface AuthUser {
@@ -32,21 +26,7 @@ export interface AuthUser {
   email: string
   sectorName: string
   isMaster: boolean
-  permissions: Permission[]
-}
-
-export const PERMISSION_LABELS: Record<Permission, string> = {
-  visualizar_documentos: 'Visualizar documentos',
-  cadastrar_documentos: 'Cadastrar documentos',
-  editar_documentos: 'Editar documentos',
-  excluir_documentos: 'Excluir documentos',
-  gerenciar_usuarios: 'Gerenciar usuários',
-  gerenciar_setores: 'Gerenciar setores',
-  gerenciar_categorias: 'Gerenciar categorias',
-  gerenciar_tags: 'Gerenciar tags',
-  visualizar_auditoria: 'Visualizar auditoria',
-  editar_configuracoes: 'Editar configurações',
-  usar_consulta_ia: 'Usar consulta IA',
+  permissions: string[]
 }
 
 export interface Sector {
@@ -81,10 +61,10 @@ export interface User {
   name: string
   email: string
   sectorId: string | null
-  sectorName?: string
+  sectorName?: string | null
   active: boolean
   isMaster: boolean
-  permissions: Permission[]
+  permissions: string[]
   createdAt: string
   updatedAt: string
 }
@@ -117,9 +97,9 @@ export interface SystemSettings {
   id: string
   systemName: string
   clinicName: string
-  logoUrl?: string | null
+  logoUrl: string | null
   primaryColor: string
-  secondaryColor?: string | null
+  secondaryColor: string | null
   createdAt: string
   updatedAt: string
 }
@@ -152,5 +132,6 @@ export interface UserFormData {
   password: string
   sectorId: string | null
   active: boolean
-  permissions: Permission[]
+  isMaster: boolean
+  permissions: string[]
 }

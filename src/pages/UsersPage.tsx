@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Plus, Pencil, Trash2 } from 'lucide-react'
 import { getUsers, createUser, updateUser, deleteUser } from '@/services/usersService'
 import { getSectors } from '@/services/sectorsService'
+import { getPermissions } from '@/services/permissionsService'
 import { logAction } from '@/services/auditService'
 import type { User, UserFormData, Permission, Sector } from '@/types'
-import { ALL_PERMISSIONS, PERMISSION_LABELS } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
 import { getSectorNameById } from '@/utils/entities'
 import { PageHeader } from '@/components/ui/PageHeader'
@@ -22,27 +22,45 @@ const emptyForm: UserFormData = {
   password: '',
   sectorId: null,
   active: true,
+  isMaster: false,
   permissions: [],
 }
 
 export function UsersPage() {
-  const { user: currentUser } = useAuth()
+  const { user: currentUser, hasPermission } = useAuth()
   const [users, setUsers] = useState<User[]>([])
+  const [loading, setLoading] = useState(true)
   const [sectors, setSectors] = useState<Sector[]>([])
+  const [permissions, setPermissions] = useState<Permission[]>([])
+  const [permissionsLoading, setPermissionsLoading] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
   const [editing, setEditing] = useState<User | null>(null)
   const [form, setForm] = useState<UserFormData>(emptyForm)
   const [deleteId, setDeleteId] = useState<string | null>(null)
 
-  const refresh = () => void getUsers().then(setUsers)
+  const loadUsers = useCallback(async () => {
+    setLoading(true)
+    try {
+      const data = await getUsers()
+      setUsers(data)
+    } finally {
+      setLoading(false)
+    }
+  }, [])
 
   useEffect(() => {
-    refresh()
+    void loadUsers()
     void getSectors().then(setSectors)
-  }, [])
+    setPermissionsLoading(true)
+    void getPermissions()
+      .then(setPermissions)
+      .finally(() => setPermissionsLoading(false))
+  }, [loadUsers])
 
   const sectorLabel = (user: User) =>
     user.sectorName ?? getSectorNameById(user.sectorId, sectors)
+
+  const canManage = hasPermission('gerenciar_usuarios')
 
   const openCreate = () => {
     setEditing(null)
@@ -58,17 +76,18 @@ export function UsersPage() {
       password: '',
       sectorId: u.sectorId,
       active: u.active,
+      isMaster: u.isMaster,
       permissions: [...u.permissions],
     })
     setModalOpen(true)
   }
 
-  const togglePermission = (p: Permission) => {
+  const togglePermission = (code: string) => {
     setForm((f) => ({
       ...f,
-      permissions: f.permissions.includes(p)
-        ? f.permissions.filter((x) => x !== p)
-        : [...f.permissions, p],
+      permissions: f.permissions.includes(code)
+        ? f.permissions.filter((x) => x !== code)
+        : [...f.permissions, code],
     }))
   }
 
@@ -88,7 +107,7 @@ export function UsersPage() {
       }
     }
     setModalOpen(false)
-    refresh()
+    void loadUsers()
   }
 
   const handleDelete = async () => {
@@ -97,7 +116,11 @@ export function UsersPage() {
     await deleteUser(deleteId)
     if (u) logAction(currentUser.name, 'Exclusão', 'Usuário', `Usuário "${u.name}" excluído`)
     setDeleteId(null)
-    refresh()
+    void loadUsers()
+  }
+
+  if (loading) {
+    return <p className="text-slate-500">Carregando...</p>
   }
 
   return (
@@ -106,9 +129,11 @@ export function UsersPage() {
         title="Usuários"
         description="Gestão de usuários e permissões individuais"
         actions={
-          <Button onClick={openCreate}>
-            <Plus size={16} /> Novo usuário
-          </Button>
+          canManage ? (
+            <Button onClick={openCreate}>
+              <Plus size={16} /> Novo usuário
+            </Button>
+          ) : undefined
         }
       />
 
@@ -120,8 +145,9 @@ export function UsersPage() {
               <th className="px-4 py-3 font-medium">E-mail</th>
               <th className="px-4 py-3 font-medium">Setor</th>
               <th className="px-4 py-3 font-medium">Status</th>
+              <th className="px-4 py-3 font-medium">Master</th>
               <th className="px-4 py-3 font-medium">Permissões</th>
-              <th className="px-4 py-3 font-medium">Ações</th>
+              {canManage && <th className="px-4 py-3 font-medium">Ações</th>}
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
@@ -135,17 +161,24 @@ export function UsersPage() {
                     {u.active ? 'Ativo' : 'Inativo'}
                   </Badge>
                 </td>
-                <td className="px-4 py-3 text-xs text-slate-500">{u.permissions.length} permissões</td>
                 <td className="px-4 py-3">
-                  <div className="flex gap-1">
-                    <Button variant="ghost" size="sm" onClick={() => openEdit(u)}>
-                      <Pencil size={14} />
-                    </Button>
-                    <Button variant="ghost" size="sm" onClick={() => setDeleteId(u.id)}>
-                      <Trash2 size={14} className="text-red-600" />
-                    </Button>
-                  </div>
+                  <Badge variant={u.isMaster ? 'info' : 'default'}>
+                    {u.isMaster ? 'Sim' : 'Não'}
+                  </Badge>
                 </td>
+                <td className="px-4 py-3 text-xs text-slate-500">{u.permissions.length} permissões</td>
+                {canManage && (
+                  <td className="px-4 py-3">
+                    <div className="flex gap-1">
+                      <Button variant="ghost" size="sm" onClick={() => openEdit(u)}>
+                        <Pencil size={14} />
+                      </Button>
+                      <Button variant="ghost" size="sm" onClick={() => setDeleteId(u.id)}>
+                        <Trash2 size={14} className="text-red-600" />
+                      </Button>
+                    </div>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>
@@ -186,16 +219,36 @@ export function UsersPage() {
             <input type="checkbox" checked={form.active} onChange={(e) => setForm({ ...form, active: e.target.checked })} className="rounded" />
             Usuário ativo
           </label>
+          {currentUser?.isMaster && (
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={form.isMaster}
+                onChange={(e) => setForm({ ...form, isMaster: e.target.checked })}
+                className="rounded"
+              />
+              Usuário master (acesso total)
+            </label>
+          )}
           <div>
             <p className="mb-2 text-sm font-medium text-slate-700">Permissões individuais</p>
-            <div className="max-h-48 space-y-2 overflow-y-auto rounded-lg border border-slate-200 p-3">
-              {ALL_PERMISSIONS.map((p) => (
-                <label key={p} className="flex items-center gap-2 text-sm">
-                  <input type="checkbox" checked={form.permissions.includes(p)} onChange={() => togglePermission(p)} className="rounded" />
-                  {PERMISSION_LABELS[p]}
-                </label>
-              ))}
-            </div>
+            {permissionsLoading ? (
+              <p className="text-sm text-slate-500">Carregando permissões...</p>
+            ) : (
+              <div className="max-h-48 space-y-2 overflow-y-auto rounded-lg border border-slate-200 p-3">
+                {permissions.map((permission) => (
+                  <label key={permission.id} className="flex items-center gap-2 text-sm">
+                    <input
+                      type="checkbox"
+                      checked={form.permissions.includes(permission.code)}
+                      onChange={() => togglePermission(permission.code)}
+                      className="rounded"
+                    />
+                    {permission.name}
+                  </label>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </Modal>

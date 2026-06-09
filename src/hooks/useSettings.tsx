@@ -8,23 +8,37 @@ import {
   type ReactNode,
 } from 'react'
 import type { SystemSettings } from '@/types'
-import { getSettings } from '@/services/settingsService'
-import { systemSettings as defaultSettings } from '@/data/mocks'
+import { getSettings, updateSettings as updateSettingsService } from '@/services/settingsService'
+import { mockSystemSettings } from '@/data/mocks'
 
 interface SettingsContextValue {
   settings: SystemSettings
+  loading: boolean
   refreshSettings: () => Promise<void>
   applySettings: (s: SystemSettings) => void
+  updateSettings: (data: Partial<SystemSettings>) => Promise<SystemSettings>
 }
 
 const SettingsContext = createContext<SettingsContextValue | null>(null)
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
-  const [settings, setSettings] = useState<SystemSettings>(defaultSettings)
+  const [settings, setSettings] = useState<SystemSettings>(mockSystemSettings)
+  const [loading, setLoading] = useState(true)
 
   const refreshSettings = useCallback(async () => {
-    const data = await getSettings()
-    setSettings(data)
+    setLoading(true)
+    try {
+      const data = await getSettings()
+      setSettings(data)
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  const updateSettings = useCallback(async (data: Partial<SystemSettings>) => {
+    const updated = await updateSettingsService(data)
+    setSettings(updated)
+    return updated
   }, [])
 
   useEffect(() => {
@@ -35,17 +49,19 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     document.documentElement.style.setProperty('--color-primary', settings.primaryColor)
     document.documentElement.style.setProperty(
       '--color-secondary',
-      settings.secondaryColor ?? '#1a8fbf'
+      settings.secondaryColor ?? '#0f172a'
     )
   }, [settings.primaryColor, settings.secondaryColor])
 
   const value = useMemo(
     () => ({
       settings,
+      loading,
       refreshSettings,
       applySettings: setSettings,
+      updateSettings,
     }),
-    [settings, refreshSettings]
+    [settings, loading, refreshSettings, updateSettings]
   )
 
   return <SettingsContext.Provider value={value}>{children}</SettingsContext.Provider>

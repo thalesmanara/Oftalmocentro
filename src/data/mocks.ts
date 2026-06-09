@@ -2,12 +2,12 @@ import type {
   AuditLog,
   Category,
   Document,
+  Permission,
   Sector,
   SystemSettings,
   Tag,
   User,
 } from '@/types'
-import { ALL_PERMISSIONS } from '@/types'
 
 const ts = () => new Date().toISOString()
 
@@ -35,62 +35,52 @@ export const INITIAL_SECTORS: Sector[] = [
   { id: MOCK_SECTOR_TELE, name: 'TELEATENDIMENTO', description: null, active: true, createdAt: ts(), updatedAt: ts() },
 ]
 
-export const systemSettings: SystemSettings = {
-  id: 'settings-1',
+export const mockSystemSettings: SystemSettings = {
+  id: 'mock-settings',
   systemName: 'Oftalmocentro Inteligente',
   clinicName: 'Oftalmocentro Uberaba',
   logoUrl: null,
-  primaryColor: '#0d4f8b',
-  secondaryColor: '#1a8fbf',
-  createdAt: '2025-01-01T00:00:00Z',
-  updatedAt: '2025-01-01T00:00:00Z',
+  primaryColor: '#1e3a8a',
+  secondaryColor: '#0f172a',
+  createdAt: new Date().toISOString(),
+  updatedAt: new Date().toISOString(),
 }
 
-export const MASTER_USER_ID = 'user-master'
+export let mockPermissions: Permission[] = [
+  { id: 'mock-permission-visualizar-documentos', code: 'visualizar_documentos', name: 'Visualizar documentos' },
+  { id: 'mock-permission-cadastrar-documentos', code: 'cadastrar_documentos', name: 'Cadastrar documentos' },
+  { id: 'mock-permission-editar-documentos', code: 'editar_documentos', name: 'Editar documentos' },
+  { id: 'mock-permission-excluir-documentos', code: 'excluir_documentos', name: 'Excluir documentos' },
+  { id: 'mock-permission-gerenciar-usuarios', code: 'gerenciar_usuarios', name: 'Gerenciar usuários' },
+  { id: 'mock-permission-gerenciar-setores', code: 'gerenciar_setores', name: 'Gerenciar setores' },
+  { id: 'mock-permission-gerenciar-categorias', code: 'gerenciar_categorias', name: 'Gerenciar categorias' },
+  { id: 'mock-permission-gerenciar-tags', code: 'gerenciar_tags', name: 'Gerenciar tags' },
+  { id: 'mock-permission-visualizar-auditoria', code: 'visualizar_auditoria', name: 'Visualizar auditoria' },
+  { id: 'mock-permission-editar-configuracoes', code: 'editar_configuracoes', name: 'Editar configurações' },
+  { id: 'mock-permission-usar-consulta-ia', code: 'usar_consulta_ia', name: 'Usar consulta IA' },
+]
+
+export const ALL_PERMISSION_CODES = mockPermissions.map((p) => p.code)
+
+export const MASTER_USER_ID = 'mock-master'
 
 /** Senhas mockadas — apenas para camada de serviço local, não expostas no tipo User */
 export const mockUserPasswords: Record<string, string> = {
-  [MASTER_USER_ID]: 'master123',
-  'user-2': 'senha123',
-  'user-3': 'senha123',
+  [MASTER_USER_ID]: 'admin123',
 }
 
 export let mockUsers: User[] = [
   {
-    id: MASTER_USER_ID,
-    name: 'MASTER',
-    email: 'master@oftalmocentro.com.br',
+    id: 'mock-master',
+    name: 'Administrador',
+    email: 'admin@oftalmocentro.cloud',
     sectorId: MOCK_SECTOR_ADMIN,
     sectorName: 'ADMINISTRAÇÃO',
     active: true,
     isMaster: true,
-    permissions: [...ALL_PERMISSIONS],
-    createdAt: '2025-01-15T10:00:00Z',
-    updatedAt: '2025-01-15T10:00:00Z',
-  },
-  {
-    id: 'user-2',
-    name: 'Ana Silva',
-    email: 'ana.silva@oftalmocentro.com.br',
-    sectorId: MOCK_SECTOR_RECEPCAO,
-    sectorName: 'RECEPÇÃO',
-    active: true,
-    isMaster: false,
-    permissions: ['visualizar_documentos', 'cadastrar_documentos'],
-    createdAt: '2025-02-01T10:00:00Z',
-    updatedAt: '2025-02-01T10:00:00Z',
-  },
-  {
-    id: 'user-3',
-    name: 'Carlos Mendes',
-    email: 'carlos.mendes@oftalmocentro.com.br',
-    sectorId: MOCK_SECTOR_MEDICO,
-    sectorName: 'MÉDICO',
-    active: true,
-    isMaster: false,
-    permissions: ['visualizar_documentos', 'editar_documentos'],
-    createdAt: '2025-02-10T10:00:00Z',
-    updatedAt: '2025-02-10T10:00:00Z',
+    permissions: mockPermissions.map((permission) => permission.code),
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   },
 ]
 
@@ -365,4 +355,4 @@ export let mockAuditLogs: AuditLog[] = [
   },
 ]
 
-export let mockSettings: SystemSettings = { ...systemSettings }
+export let mockSettings: SystemSettings = { ...mockSystemSettings }

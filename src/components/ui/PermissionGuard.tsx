@@ -1,9 +1,9 @@
-import type { Permission } from '@/types'
+import type { PermissionCode } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
 import type { ReactNode } from 'react'
 
 interface PermissionGuardProps {
-  permission: Permission
+  permission: PermissionCode
   children: ReactNode
   fallback?: ReactNode
 }

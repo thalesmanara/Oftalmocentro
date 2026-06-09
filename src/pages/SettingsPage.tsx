@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { getSettings, updateSettings } from '@/services/settingsService'
 import { logAction } from '@/services/auditService'
 import type { SystemSettings } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
@@ -11,24 +10,31 @@ import { Button } from '@/components/ui/Button'
 
 export function SettingsPage() {
   const { user } = useAuth()
-  const { applySettings } = useSettings()
+  const { settings, loading, updateSettings } = useSettings()
   const [form, setForm] = useState<SystemSettings | null>(null)
   const [saved, setSaved] = useState(false)
+  const [saving, setSaving] = useState(false)
 
   useEffect(() => {
-    void getSettings().then(setForm)
-  }, [])
+    if (!loading) {
+      setForm(settings)
+    }
+  }, [settings, loading])
 
   const handleSave = async () => {
     if (!form || !user) return
-    const updated = await updateSettings(form)
-    applySettings(updated)
-    logAction(user.name, 'Alteração de configurações', 'Sistema', 'Configurações do sistema atualizadas')
-    setSaved(true)
-    setTimeout(() => setSaved(false), 3000)
+    setSaving(true)
+    try {
+      await updateSettings(form)
+      logAction(user.name, 'Alteração de configurações', 'Sistema', 'Configurações do sistema atualizadas')
+      setSaved(true)
+      setTimeout(() => setSaved(false), 3000)
+    } finally {
+      setSaving(false)
+    }
   }
 
-  if (!form) return <p className="text-slate-500">Carregando...</p>
+  if (loading || !form) return <p className="text-slate-500">Carregando...</p>
 
   return (
     <div>
@@ -51,7 +57,7 @@ export function SettingsPage() {
           <Input
             label="URL do logo"
             value={form.logoUrl ?? ''}
-            onChange={(e) => setForm({ ...form, logoUrl: e.target.value })}
+            onChange={(e) => setForm({ ...form, logoUrl: e.target.value || null })}
             placeholder="https://..."
           />
           <div className="grid grid-cols-2 gap-4">
@@ -68,14 +74,16 @@ export function SettingsPage() {
               <label className="text-sm font-medium text-slate-700">Cor secundária</label>
               <input
                 type="color"
-                value={form.secondaryColor ?? '#1a8fbf'}
+                value={form.secondaryColor ?? '#0f172a'}
                 onChange={(e) => setForm({ ...form, secondaryColor: e.target.value })}
                 className="mt-1 h-10 w-full cursor-pointer rounded-lg border border-slate-300"
               />
             </div>
           </div>
           <div className="flex items-center gap-3 pt-2">
-            <Button onClick={handleSave}>Salvar</Button>
+            <Button onClick={handleSave} disabled={saving}>
+              {saving ? 'Salvando...' : 'Salvar'}
+            </Button>
             {saved && <span className="text-sm text-emerald-600">Configurações salvas!</span>}
           </div>
         </div>
