@@ -1,16 +1,28 @@
 import { mockDelay } from './api'
-import { mockDocuments, mockCategories, mockSectors, mockTags } from '@/data/mocks'
+import { mockDocuments } from '@/data/mocks'
+import { getCategories } from './categoriesService'
+import { getSectors } from './sectorsService'
+import { getTags } from './tagsService'
 import type { Document, DocumentFormData } from '@/types'
-import { getCategoryNameById, getSectorNameById } from '@/utils/entities'
+import { getCategoryNameById, getSectorNameById, getTagsByIds } from '@/utils/entities'
 
-function resolveDocumentNames(data: DocumentFormData): Pick<Document, 'sectorName' | 'categoryName' | 'tags'> {
-  const sectorName = getSectorNameById(data.sectorId, mockSectors)
-  const categoryName = getCategoryNameById(data.categoryId, mockCategories)
-  const tags = data.tagIds
-    .map((id) => mockTags.find((t) => t.id === id))
-    .filter((t): t is NonNullable<typeof t> => Boolean(t))
+async function resolveDocumentNames(
+  data: DocumentFormData
+): Promise<Pick<Document, 'sectorName' | 'categoryName' | 'tags'>> {
+  const [sectors, categories, tags] = await Promise.all([
+    getSectors(),
+    getCategories(),
+    getTags(),
+  ])
+  const sectorName = getSectorNameById(data.sectorId, sectors)
+  const categoryName = getCategoryNameById(data.categoryId, categories)
+  const resolvedTags = getTagsByIds(data.tagIds, tags)
 
-  return { sectorName, categoryName, tags: tags.length ? tags : undefined }
+  return {
+    sectorName,
+    categoryName,
+    tags: resolvedTags.length ? resolvedTags : undefined,
+  }
 }
 
 export async function getDocuments(): Promise<Document[]> {
@@ -30,7 +42,7 @@ export async function createDocument(
   const id = `doc-${Date.now()}`
   const now = new Date().toISOString()
   const file = data.file
-  const names = resolveDocumentNames(data)
+  const names = await resolveDocumentNames(data)
 
   const doc: Document = {
     id,
@@ -78,7 +90,7 @@ export async function updateDocument(
     expirationDate: data.expirationDate !== undefined ? data.expirationDate : existing.expirationDate,
     file: data.file,
   }
-  const names = resolveDocumentNames(merged)
+  const names = await resolveDocumentNames(merged)
 
   const updated: Document = {
     ...existing,

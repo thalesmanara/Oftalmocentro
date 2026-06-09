@@ -1,11 +1,33 @@
-import { mockDelay } from './api'
+import { API_BASE_URL, mockDelay } from './api'
 import { mockCategories } from '@/data/mocks'
 import type { Category } from '@/types'
 
 export async function getCategories(): Promise<Category[]> {
-  return mockDelay([...mockCategories])
+  try {
+    const response = await fetch(`${API_BASE_URL}/webhook/categories`)
+
+    if (!response.ok) {
+      throw new Error('Erro ao buscar categorias')
+    }
+
+    const data = await response.json()
+
+    if (Array.isArray(data)) {
+      return data as Category[]
+    }
+
+    if (data?.data && Array.isArray(data.data)) {
+      return data.data as Category[]
+    }
+
+    return mockCategories
+  } catch (error) {
+    console.warn('Usando categorias mockadas por falha no webhook:', error)
+    return mockCategories
+  }
 }
 
+// Futuro: POST `${API_BASE_URL}/webhook/categories/create`
 export async function createCategory(
   data: Omit<Category, 'id' | 'createdAt' | 'updatedAt'>
 ): Promise<Category> {
@@ -15,6 +37,7 @@ export async function createCategory(
   return mockDelay(category)
 }
 
+// Futuro: PUT `${API_BASE_URL}/webhook/categories/update`
 export async function updateCategory(
   id: string,
   data: Partial<Category>
@@ -29,6 +52,7 @@ export async function updateCategory(
   return mockDelay(mockCategories[index])
 }
 
+// Futuro: DELETE `${API_BASE_URL}/webhook/categories/delete`
 export async function deleteCategory(id: string): Promise<boolean> {
   const index = mockCategories.findIndex((c) => c.id === id)
   if (index === -1) return mockDelay(false)

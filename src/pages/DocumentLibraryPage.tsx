@@ -8,11 +8,8 @@ import { getTags } from '@/services/tagsService'
 import { logAction } from '@/services/auditService'
 import type { Category, Document, Sector, Tag } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
-import {
-  getCategoryNameById,
-  getSectorNameById,
-  getTagNamesByIds,
-} from '@/utils/entities'
+import { getCategoryNameById, getSectorNameById, getTagsByIds } from '@/utils/entities'
+import { TagBadge } from '@/components/ui/TagBadge'
 import { formatDate, formatFileSize, isDocumentExpired } from '@/utils/document'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { Input } from '@/components/ui/Input'
@@ -62,7 +59,7 @@ export function DocumentLibraryPage() {
   ]
   const tagOptions = [
     { value: '', label: 'Todas as tags' },
-    ...tags.map((x) => ({ value: x.id, label: x.name })),
+    ...tags.filter((x) => x.active).map((x) => ({ value: x.id, label: x.name })),
   ]
 
   const displaySector = (doc: Document) =>
@@ -70,7 +67,7 @@ export function DocumentLibraryPage() {
   const displayCategory = (doc: Document) =>
     doc.categoryName ?? getCategoryNameById(doc.categoryId, categories)
   const displayTags = (doc: Document) =>
-    doc.tags?.map((t) => t.name) ?? getTagNamesByIds(doc.tagIds, tags)
+    doc.tags?.length ? doc.tags : getTagsByIds(doc.tagIds, tags)
 
   const filtered = useMemo(() => {
     return documents.filter((doc) => {
@@ -149,7 +146,7 @@ export function DocumentLibraryPage() {
                 </p>
                 <p className="mt-2 text-sm text-slate-600 line-clamp-2">{doc.semanticDescription}</p>
                 <div className="mt-2 flex flex-wrap gap-1">
-                  {displayTags(doc).map((t) => <Badge key={t}>{t}</Badge>)}
+                  {displayTags(doc).map((t) => <TagBadge key={t.id} tag={t} />)}
                 </div>
                 <p className="mt-2 text-xs text-slate-400">
                   Validade: {formatDate(doc.expirationDate)} · {formatFileSize(doc.fileSize)}

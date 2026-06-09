@@ -15,11 +15,24 @@ export function getCategoryNameById(
   fallback?: string
 ): string {
   if (!categoryId) return fallback ?? '—'
-  return categories.find((c) => c.id === categoryId)?.name ?? fallback ?? '—'
+  return (
+    categories.find((c) => c.id === categoryId)?.name ??
+    fallback ??
+    'Categoria não encontrada'
+  )
+}
+
+export function getTagsByIds(tagIds: string[], tags: Tag[]): Tag[] {
+  return tags.filter((tag) => tagIds.includes(tag.id))
+}
+
+export function getTagNameById(tagId: string | null | undefined, tags: Tag[]): string {
+  if (!tagId) return '—'
+  return tags.find((t) => t.id === tagId)?.name ?? 'Tag não encontrada'
 }
 
 export function getTagNamesByIds(tagIds: string[], tags: Tag[]): string[] {
   return tagIds
-    .map((id) => tags.find((t) => t.id === id)?.name)
-    .filter((name): name is string => Boolean(name))
+    .map((id) => getTagNameById(id, tags))
+    .filter((name) => name !== 'Tag não encontrada')
 }

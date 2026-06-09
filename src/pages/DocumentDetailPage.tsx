@@ -8,11 +8,8 @@ import { getTags } from '@/services/tagsService'
 import { logAction } from '@/services/auditService'
 import type { Category, Document, Sector, Tag } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
-import {
-  getCategoryNameById,
-  getSectorNameById,
-  getTagNamesByIds,
-} from '@/utils/entities'
+import { getCategoryNameById, getSectorNameById, getTagsByIds } from '@/utils/entities'
+import { TagBadge } from '@/components/ui/TagBadge'
 import { formatDate, formatDateTime, formatFileSize, isDocumentExpired } from '@/utils/document'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
@@ -44,7 +41,7 @@ export function DocumentDetailPage() {
   const expired = isDocumentExpired(doc)
   const sectorLabel = doc.sectorName ?? getSectorNameById(doc.sectorId, sectors)
   const categoryLabel = doc.categoryName ?? getCategoryNameById(doc.categoryId, categories)
-  const tagLabels = doc.tags?.map((t) => t.name) ?? getTagNamesByIds(doc.tagIds, tags)
+  const resolvedTags = doc.tags?.length ? doc.tags : getTagsByIds(doc.tagIds, tags)
 
   const handleDelete = async () => {
     if (!user || !id) return
@@ -92,7 +89,7 @@ export function DocumentDetailPage() {
             <div>
               <dt className="text-slate-500">Tags</dt>
               <dd className="mt-1 flex flex-wrap gap-1">
-                {tagLabels.map((t) => <Badge key={t}>{t}</Badge>)}
+                {resolvedTags.map((t) => <TagBadge key={t.id} tag={t} />)}
               </dd>
             </div>
             <div>

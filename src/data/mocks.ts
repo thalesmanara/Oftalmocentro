@@ -96,18 +96,102 @@ export let mockUsers: User[] = [
 
 export let mockSectors: Sector[] = [...INITIAL_SECTORS]
 
+export const MOCK_CATEGORY_MANUAL = 'mock-category-manual'
+export const MOCK_CATEGORY_PROTOCOLOS = 'mock-category-protocolos'
+export const MOCK_CATEGORY_MANUAIS = 'mock-category-manuais'
+export const MOCK_CATEGORY_NORMAS = 'mock-category-normas'
+export const MOCK_CATEGORY_TREINAMENTOS = 'mock-category-treinamentos'
+
 export let mockCategories: Category[] = [
-  { id: 'cat-1', name: 'Protocolos Clínicos', description: 'Protocolos e fluxos clínicos', active: true, createdAt: ts(), updatedAt: ts() },
-  { id: 'cat-2', name: 'Manuais Administrativos', description: 'Procedimentos administrativos', active: true, createdAt: ts(), updatedAt: ts() },
-  { id: 'cat-3', name: 'Normas Regulatórias', description: 'Conformidade e regulamentação', active: true, createdAt: ts(), updatedAt: ts() },
-  { id: 'cat-4', name: 'Treinamentos', description: 'Materiais de capacitação', active: true, createdAt: ts(), updatedAt: ts() },
+  {
+    id: MOCK_CATEGORY_MANUAL,
+    name: 'Manual',
+    description: 'Manuais internos',
+    active: true,
+    createdAt: ts(),
+    updatedAt: ts(),
+  },
+  {
+    id: MOCK_CATEGORY_PROTOCOLOS,
+    name: 'Protocolos Clínicos',
+    description: 'Protocolos e fluxos clínicos',
+    active: true,
+    createdAt: ts(),
+    updatedAt: ts(),
+  },
+  {
+    id: MOCK_CATEGORY_MANUAIS,
+    name: 'Manuais Administrativos',
+    description: 'Procedimentos administrativos',
+    active: true,
+    createdAt: ts(),
+    updatedAt: ts(),
+  },
+  {
+    id: MOCK_CATEGORY_NORMAS,
+    name: 'Normas Regulatórias',
+    description: 'Conformidade e regulamentação',
+    active: true,
+    createdAt: ts(),
+    updatedAt: ts(),
+  },
+  {
+    id: MOCK_CATEGORY_TREINAMENTOS,
+    name: 'Treinamentos',
+    description: 'Materiais de capacitação',
+    active: true,
+    createdAt: ts(),
+    updatedAt: ts(),
+  },
 ]
 
+export const MOCK_TAG_AGENDAMENTO = 'mock-tag-agendamento'
+export const MOCK_TAG_URGENTE = 'mock-tag-urgente'
+export const MOCK_TAG_INTERNO = 'mock-tag-interno'
+export const MOCK_TAG_LGPD = 'mock-tag-lgpd'
+export const MOCK_TAG_REVISAO = 'mock-tag-revisao-anual'
+
 export let mockTags: Tag[] = [
-  { id: 'tag-1', name: 'urgente', color: '#dc2626', active: true, createdAt: ts(), updatedAt: ts() },
-  { id: 'tag-2', name: 'interno', color: '#2563eb', active: true, createdAt: ts(), updatedAt: ts() },
-  { id: 'tag-3', name: 'LGPD', color: '#7c3aed', active: true, createdAt: ts(), updatedAt: ts() },
-  { id: 'tag-4', name: 'revisão-anual', color: '#059669', active: true, createdAt: ts(), updatedAt: ts() },
+  {
+    id: MOCK_TAG_AGENDAMENTO,
+    name: 'Agendamento',
+    color: '#2563eb',
+    active: true,
+    createdAt: ts(),
+    updatedAt: ts(),
+  },
+  {
+    id: MOCK_TAG_URGENTE,
+    name: 'urgente',
+    color: '#dc2626',
+    active: true,
+    createdAt: ts(),
+    updatedAt: ts(),
+  },
+  {
+    id: MOCK_TAG_INTERNO,
+    name: 'interno',
+    color: '#2563eb',
+    active: true,
+    createdAt: ts(),
+    updatedAt: ts(),
+  },
+  {
+    id: MOCK_TAG_LGPD,
+    name: 'LGPD',
+    color: '#7c3aed',
+    active: true,
+    createdAt: ts(),
+    updatedAt: ts(),
+  },
+  {
+    id: MOCK_TAG_REVISAO,
+    name: 'revisão-anual',
+    color: '#059669',
+    active: true,
+    createdAt: ts(),
+    updatedAt: ts(),
+  },
 ]
 
 const now = new Date()
@@ -122,14 +206,10 @@ export let mockDocuments: Document[] = [
     title: 'Protocolo de Triagem Oftalmológica',
     sectorId: MOCK_SECTOR_ENFERMAGEM,
     sectorName: 'ENFERMAGEM',
-    categoryId: 'cat-1',
+    categoryId: MOCK_CATEGORY_PROTOCOLOS,
     categoryName: 'Protocolos Clínicos',
     semanticDescription: 'Fluxo de triagem para pacientes com queixa visual aguda.',
-    tagIds: ['tag-1', 'tag-2'],
-    tags: [
-      { id: 'tag-1', name: 'urgente', color: '#dc2626', active: true, createdAt: ts(), updatedAt: ts() },
-      { id: 'tag-2', name: 'interno', color: '#2563eb', active: true, createdAt: ts(), updatedAt: ts() },
-    ],
+    tagIds: [MOCK_TAG_URGENTE, MOCK_TAG_INTERNO],
     expirationDate: validFuture.toISOString().split('T')[0],
     fileName: 'protocolo-triagem.pdf',
     fileType: 'application/pdf',
@@ -147,10 +227,10 @@ export let mockDocuments: Document[] = [
     title: 'Manual de Faturamento TISS',
     sectorId: MOCK_SECTOR_FATURAMENTO,
     sectorName: 'FATURAMENTO',
-    categoryId: 'cat-2',
+    categoryId: MOCK_CATEGORY_MANUAIS,
     categoryName: 'Manuais Administrativos',
     semanticDescription: 'Procedimentos de faturamento e envio TISS.',
-    tagIds: ['tag-2', 'tag-4'],
+    tagIds: [MOCK_TAG_INTERNO, MOCK_TAG_REVISAO],
     expirationDate: expired.toISOString().split('T')[0],
     fileName: 'manual-faturamento.docx',
     fileType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -168,10 +248,10 @@ export let mockDocuments: Document[] = [
     title: 'Política de Privacidade e LGPD',
     sectorId: MOCK_SECTOR_ADMIN,
     sectorName: 'ADMINISTRAÇÃO',
-    categoryId: 'cat-3',
+    categoryId: MOCK_CATEGORY_NORMAS,
     categoryName: 'Normas Regulatórias',
     semanticDescription: 'Política interna de proteção de dados dos pacientes.',
-    tagIds: ['tag-3', 'tag-2'],
+    tagIds: [MOCK_TAG_LGPD, MOCK_TAG_INTERNO],
     expirationDate: validFuture.toISOString().split('T')[0],
     fileName: 'politica-lgpd.pdf',
     fileType: 'application/pdf',
@@ -189,10 +269,10 @@ export let mockDocuments: Document[] = [
     title: 'Checklist Pré-Operatório',
     sectorId: MOCK_SECTOR_MEDICO,
     sectorName: 'MÉDICO',
-    categoryId: 'cat-1',
+    categoryId: MOCK_CATEGORY_PROTOCOLOS,
     categoryName: 'Protocolos Clínicos',
     semanticDescription: 'Checklist para preparação de cirurgias oftalmológicas.',
-    tagIds: ['tag-1'],
+    tagIds: [MOCK_TAG_URGENTE],
     expirationDate: null,
     fileName: 'checklist-pre-op.xlsx',
     fileType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -210,10 +290,10 @@ export let mockDocuments: Document[] = [
     title: 'Fluxo de Teleatendimento',
     sectorId: MOCK_SECTOR_TELE,
     sectorName: 'TELEATENDIMENTO',
-    categoryId: 'cat-4',
+    categoryId: MOCK_CATEGORY_TREINAMENTOS,
     categoryName: 'Treinamentos',
     semanticDescription: 'Orientações para consultas por telemedicina.',
-    tagIds: ['tag-2'],
+    tagIds: [MOCK_TAG_INTERNO],
     expirationDate: validFuture.toISOString().split('T')[0],
     fileName: 'fluxo-teleatendimento.pdf',
     fileType: 'application/pdf',

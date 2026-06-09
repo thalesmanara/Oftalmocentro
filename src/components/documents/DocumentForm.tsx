@@ -94,20 +94,31 @@ export function DocumentForm({
       <div>
         <p className="mb-2 text-sm font-medium text-slate-700">Tags</p>
         <div className="flex flex-wrap gap-2">
-          {availableTags.map((tag) => (
-            <button
-              key={tag.id}
-              type="button"
-              onClick={() => toggleTag(tag.id)}
-              className={`rounded-full px-3 py-1 text-xs font-medium transition ${
-                tagIds.includes(tag.id)
-                  ? 'bg-[var(--color-primary,#0d4f8b)] text-white'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-              }`}
-            >
-              {tag.name}
-            </button>
-          ))}
+          {availableTags.map((tag) => {
+            const selected = tagIds.includes(tag.id)
+            const color = tag.color ?? '#64748b'
+            return (
+              <button
+                key={tag.id}
+                type="button"
+                onClick={() => toggleTag(tag.id)}
+                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium transition ${
+                  selected ? 'text-white ring-2 ring-offset-1' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                }`}
+                style={
+                  selected
+                    ? ({ backgroundColor: color, '--tw-ring-color': color } as React.CSSProperties)
+                    : undefined
+                }
+              >
+                <span
+                  className="h-2 w-2 rounded-full"
+                  style={{ backgroundColor: selected ? 'rgba(255,255,255,0.5)' : color }}
+                />
+                {tag.name}
+              </button>
+            )
+          })}
         </div>
       </div>
       <Input
