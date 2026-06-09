@@ -80,15 +80,17 @@ export interface Document {
   tagIds: string[]
   tags?: Tag[]
   expirationDate: string | null
-  fileName?: string
-  fileType?: string
-  fileSize?: number
-  filePath?: string
-  extractedText?: string
-  responsibleUserId?: string
-  responsibleUserName?: string
-  createdBy?: string
-  updatedBy?: string
+  fileName?: string | null
+  fileType?: string | null
+  fileSize?: number | null
+  filePath?: string | null
+  extractedText?: string | null
+  responsibleUserId?: string | null
+  responsibleUserName?: string | null
+  createdBy?: string | null
+  createdByName?: string | null
+  updatedBy?: string | null
+  updatedByName?: string | null
   createdAt: string
   updatedAt: string
 }

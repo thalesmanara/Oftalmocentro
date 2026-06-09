@@ -1,10 +1,24 @@
-import { mockDelay } from './api'
+import { API_BASE_URL, mockDelay } from './api'
 import { mockDocuments } from '@/data/mocks'
 import { getCategories } from './categoriesService'
 import { getSectors } from './sectorsService'
 import { getTags } from './tagsService'
 import type { Document, DocumentFormData } from '@/types'
 import { getCategoryNameById, getSectorNameById, getTagsByIds } from '@/utils/entities'
+
+function normalizeExpirationDate(value: string | null | undefined): string | null {
+  if (!value) return null
+  return value.split('T')[0]
+}
+
+function normalizeDocument(doc: Document): Document {
+  return {
+    ...doc,
+    tagIds: doc.tagIds ?? [],
+    tags: doc.tags ?? [],
+    expirationDate: normalizeExpirationDate(doc.expirationDate),
+  }
+}
 
 async function resolveDocumentNames(
   data: DocumentFormData
@@ -26,14 +40,36 @@ async function resolveDocumentNames(
 }
 
 export async function getDocuments(): Promise<Document[]> {
-  return mockDelay([...mockDocuments])
+  try {
+    const response = await fetch(`${API_BASE_URL}/webhook/documents`)
+
+    if (!response.ok) {
+      throw new Error('Erro ao buscar documentos')
+    }
+
+    const data = await response.json()
+
+    if (Array.isArray(data)) {
+      return data.map((doc) => normalizeDocument(doc as Document))
+    }
+
+    if (data?.data && Array.isArray(data.data)) {
+      return data.data.map((doc: Document) => normalizeDocument(doc))
+    }
+
+    return mockDocuments
+  } catch (error) {
+    console.warn('Usando documentos mockados por falha no webhook:', error)
+    return mockDocuments
+  }
 }
 
 export async function getDocumentById(id: string): Promise<Document | null> {
-  const doc = mockDocuments.find((d) => d.id === id)
-  return mockDelay(doc ?? null)
+  const documents = await getDocuments()
+  return documents.find((d) => d.id === id) ?? null
 }
 
+// Futuro: POST `${API_BASE_URL}/webhook/documents/create`
 export async function createDocument(
   data: DocumentFormData,
   userId: string,
@@ -62,7 +98,9 @@ export async function createDocument(
     createdAt: now,
     updatedAt: now,
     createdBy: userId,
+    createdByName: userName,
     updatedBy: userId,
+    updatedByName: userName,
     ...names,
   }
 
@@ -70,6 +108,7 @@ export async function createDocument(
   return mockDelay(doc)
 }
 
+// Futuro: PUT `${API_BASE_URL}/webhook/documents/update`
 export async function updateDocument(
   id: string,
   data: Partial<DocumentFormData>,
@@ -113,12 +152,14 @@ export async function updateDocument(
     responsibleUserName: userName,
     updatedAt: new Date().toISOString(),
     updatedBy: userId,
+    updatedByName: userName,
   }
 
   mockDocuments[index] = updated
   return mockDelay(updated)
 }
 
+// Futuro: DELETE `${API_BASE_URL}/webhook/documents/delete`
 export async function deleteDocument(id: string): Promise<boolean> {
   const index = mockDocuments.findIndex((d) => d.id === id)
   if (index === -1) return mockDelay(false)

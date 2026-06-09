@@ -27,6 +27,7 @@ export function DocumentLibraryPage() {
   const navigate = useNavigate()
   const { user, hasPermission } = useAuth()
   const [documents, setDocuments] = useState<Document[]>([])
+  const [loading, setLoading] = useState(true)
   const [sectors, setSectors] = useState<Sector[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   const [tags, setTags] = useState<Tag[]>([])
@@ -38,10 +39,18 @@ export function DocumentLibraryPage() {
   const [filterExpiration, setFilterExpiration] = useState('')
   const [deleteId, setDeleteId] = useState<string | null>(null)
 
-  const load = () => void getDocuments().then(setDocuments)
+  const load = async () => {
+    setLoading(true)
+    try {
+      const data = await getDocuments()
+      setDocuments(data)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
-    load()
+    void load()
     void Promise.all([getSectors(), getCategories(), getTags()]).then(([s, c, t]) => {
       setSectors(s)
       setCategories(c)
@@ -89,7 +98,11 @@ export function DocumentLibraryPage() {
     await deleteDocument(deleteId)
     if (doc) logAction(user.name, 'Exclusão', 'Documento', `Documento "${doc.title}" excluído`)
     setDeleteId(null)
-    load()
+    void load()
+  }
+
+  if (loading) {
+    return <p className="text-slate-500">Carregando documentos...</p>
   }
 
   return (
@@ -130,8 +143,14 @@ export function DocumentLibraryPage() {
         </div>
       </Card>
 
-      {filtered.length === 0 ? (
-        <Card><EmptyState icon={FileText} title="Nenhum documento encontrado" /></Card>
+      {documents.length === 0 ? (
+        <Card>
+          <EmptyState icon={FileText} title="Nenhum documento cadastrado ainda." />
+        </Card>
+      ) : filtered.length === 0 ? (
+        <Card>
+          <EmptyState icon={FileText} title="Nenhum documento encontrado" />
+        </Card>
       ) : viewMode === 'cards' ? (
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
           {filtered.map((doc) => (
@@ -149,6 +168,9 @@ export function DocumentLibraryPage() {
                   {displayTags(doc).map((t) => <TagBadge key={t.id} tag={t} />)}
                 </div>
                 <p className="mt-2 text-xs text-slate-400">
+                  Arquivo: {doc.fileName ?? '—'} · Responsável: {doc.responsibleUserName ?? '—'}
+                </p>
+                <p className="mt-1 text-xs text-slate-400">
                   Validade: {formatDate(doc.expirationDate)} · {formatFileSize(doc.fileSize)}
                 </p>
                 <div className="mt-4 flex gap-2">
@@ -180,7 +202,10 @@ export function DocumentLibraryPage() {
                 <th className="px-4 py-3 font-medium">Título</th>
                 <th className="px-4 py-3 font-medium">Setor</th>
                 <th className="px-4 py-3 font-medium">Categoria</th>
+                <th className="px-4 py-3 font-medium">Tags</th>
                 <th className="px-4 py-3 font-medium">Validade</th>
+                <th className="px-4 py-3 font-medium">Arquivo</th>
+                <th className="px-4 py-3 font-medium">Responsável</th>
                 <th className="px-4 py-3 font-medium">Ações</th>
               </tr>
             </thead>
@@ -195,7 +220,14 @@ export function DocumentLibraryPage() {
                   </td>
                   <td className="px-4 py-3">{displaySector(doc)}</td>
                   <td className="px-4 py-3">{displayCategory(doc)}</td>
+                  <td className="px-4 py-3">
+                    <div className="flex flex-wrap gap-1">
+                      {displayTags(doc).map((t) => <TagBadge key={t.id} tag={t} />)}
+                    </div>
+                  </td>
                   <td className="px-4 py-3">{formatDate(doc.expirationDate)}</td>
+                  <td className="px-4 py-3">{doc.fileName ?? '—'}</td>
+                  <td className="px-4 py-3">{doc.responsibleUserName ?? '—'}</td>
                   <td className="px-4 py-3">
                     <div className="flex gap-1">
                       {hasPermission('visualizar_documentos') && (

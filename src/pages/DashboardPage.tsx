@@ -15,6 +15,7 @@ import { Badge } from '@/components/ui/Badge'
 export function DashboardPage() {
   const [documents, setDocuments] = useState<Document[]>([])
   const [sectors, setSectors] = useState<Sector[]>([])
+  const [loading, setLoading] = useState(true)
   const [stats, setStats] = useState({
     totalDocs: 0,
     expired: 0,
@@ -23,9 +24,13 @@ export function DashboardPage() {
   })
 
   useEffect(() => {
-    void Promise.all([getDocuments(), getUsers(), getCategories(), getSectors()]).then(
-      ([docs, users, categories, sectors]) => {
-        setDocuments(docs.slice(0, 5))
+    setLoading(true)
+    void Promise.all([getDocuments(), getUsers(), getCategories(), getSectors()])
+      .then(([docs, users, categories, sectors]) => {
+        const recent = [...docs].sort(
+          (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        )
+        setDocuments(recent.slice(0, 5))
         setSectors(sectors)
         setStats({
           totalDocs: docs.length,
@@ -33,8 +38,8 @@ export function DashboardPage() {
           activeUsers: users.filter((u) => u.active).length,
           categories: categories.length,
         })
-      }
-    )
+      })
+      .finally(() => setLoading(false))
   }, [])
 
   const cards = [
@@ -45,6 +50,10 @@ export function DashboardPage() {
   ]
 
   const chartData = [12, 19, 8, 22, 15, 28, 18]
+
+  if (loading) {
+    return <p className="text-slate-500">Carregando dashboard...</p>
+  }
 
   return (
     <div>
@@ -68,21 +77,25 @@ export function DashboardPage() {
 
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
         <Card title="Últimos documentos enviados">
-          <ul className="divide-y divide-slate-100">
-            {documents.map((doc) => (
-              <li key={doc.id} className="flex items-center justify-between py-3 first:pt-0 last:pb-0">
-                <div>
-                  <Link to={`/documentos/${doc.id}`} className="font-medium text-[var(--color-primary,#0d4f8b)] hover:underline">
-                    {doc.title}
-                  </Link>
-                  <p className="text-xs text-slate-500">
-                    {doc.sectorName ?? getSectorNameById(doc.sectorId, sectors)} · {formatDateTime(doc.createdAt)}
-                  </p>
-                </div>
-                {isDocumentExpired(doc) && <Badge variant="danger">Vencido</Badge>}
-              </li>
-            ))}
-          </ul>
+          {documents.length === 0 ? (
+            <p className="text-sm text-slate-500">Nenhum documento cadastrado ainda.</p>
+          ) : (
+            <ul className="divide-y divide-slate-100">
+              {documents.map((doc) => (
+                <li key={doc.id} className="flex items-center justify-between py-3 first:pt-0 last:pb-0">
+                  <div>
+                    <Link to={`/documentos/${doc.id}`} className="font-medium text-[var(--color-primary,#0d4f8b)] hover:underline">
+                      {doc.title}
+                    </Link>
+                    <p className="text-xs text-slate-500">
+                      {doc.sectorName ?? getSectorNameById(doc.sectorId, sectors)} · {formatDateTime(doc.createdAt)}
+                    </p>
+                  </div>
+                  {isDocumentExpired(doc) && <Badge variant="danger">Vencido</Badge>}
+                </li>
+              ))}
+            </ul>
+          )}
         </Card>
 
         <Card title="Atividade documental (mock)">

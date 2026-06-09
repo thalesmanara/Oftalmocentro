@@ -22,21 +22,45 @@ export function DocumentDetailPage() {
   const navigate = useNavigate()
   const { user } = useAuth()
   const [doc, setDoc] = useState<Document | null>(null)
+  const [loading, setLoading] = useState(true)
   const [sectors, setSectors] = useState<Sector[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   const [tags, setTags] = useState<Tag[]>([])
   const [confirmDelete, setConfirmDelete] = useState(false)
 
   useEffect(() => {
-    if (id) void getDocumentById(id).then(setDoc)
-    void Promise.all([getSectors(), getCategories(), getTags()]).then(([s, c, t]) => {
-      setSectors(s)
-      setCategories(c)
-      setTags(t)
-    })
+    if (!id) return
+
+    setLoading(true)
+    void Promise.all([
+      getDocumentById(id),
+      getSectors(),
+      getCategories(),
+      getTags(),
+    ])
+      .then(([document, s, c, t]) => {
+        setDoc(document)
+        setSectors(s)
+        setCategories(c)
+        setTags(t)
+      })
+      .finally(() => setLoading(false))
   }, [id])
 
-  if (!doc) return <p className="text-slate-500">Carregando documento...</p>
+  if (loading) {
+    return <p className="text-slate-500">Carregando documento...</p>
+  }
+
+  if (!doc) {
+    return (
+      <div>
+        <Link to="/documentos" className="mb-4 inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800">
+          <ArrowLeft size={16} /> Voltar à biblioteca
+        </Link>
+        <p className="text-slate-500">Documento não encontrado.</p>
+      </div>
+    )
+  }
 
   const expired = isDocumentExpired(doc)
   const sectorLabel = doc.sectorName ?? getSectorNameById(doc.sectorId, sectors)
@@ -89,7 +113,9 @@ export function DocumentDetailPage() {
             <div>
               <dt className="text-slate-500">Tags</dt>
               <dd className="mt-1 flex flex-wrap gap-1">
-                {resolvedTags.map((t) => <TagBadge key={t.id} tag={t} />)}
+                {resolvedTags.length > 0
+                  ? resolvedTags.map((t) => <TagBadge key={t.id} tag={t} />)
+                  : '—'}
               </dd>
             </div>
             <div>
@@ -99,6 +125,14 @@ export function DocumentDetailPage() {
             <div>
               <dt className="text-slate-500">Responsável</dt>
               <dd className="text-slate-800">{doc.responsibleUserName ?? '—'}</dd>
+            </div>
+            <div>
+              <dt className="text-slate-500">Cadastrado por</dt>
+              <dd className="text-slate-800">{doc.createdByName ?? '—'}</dd>
+            </div>
+            <div>
+              <dt className="text-slate-500">Atualizado por</dt>
+              <dd className="text-slate-800">{doc.updatedByName ?? '—'}</dd>
             </div>
             <div>
               <dt className="text-slate-500">Data de cadastro</dt>
@@ -116,8 +150,9 @@ export function DocumentDetailPage() {
             <FileIcon className="text-slate-400" size={40} />
             <div>
               <p className="font-medium text-slate-800">{doc.fileName ?? '—'}</p>
+              <p className="text-sm text-slate-500">{doc.fileType ?? '—'}</p>
               <p className="text-sm text-slate-500">{formatFileSize(doc.fileSize)}</p>
-              <p className="mt-1 text-xs text-slate-400">{doc.filePath}</p>
+              <p className="mt-1 text-xs text-slate-400">{doc.filePath ?? '—'}</p>
             </div>
           </div>
         </Card>
