@@ -28,33 +28,41 @@ export function DocumentUploadPage() {
     setSaving(true)
     setFeedback(null)
 
+    let doc
     try {
-      const doc = await createDocument(data, user.id, user.name)
-
-      if (data.file) {
-        setUploading(true)
-        try {
-          await uploadDocumentFile(doc.id, data.file)
-        } catch {
-          setFeedback({
-            type: 'error',
-            message:
-              'Documento criado, mas não foi possível enviar o arquivo. Edite o documento para tentar novamente.',
-          })
-          navigate(`/documentos/${doc.id}/editar`)
-          return
-        } finally {
-          setUploading(false)
-        }
-      }
-
-      logAction(user.name, 'Cadastro', 'Documento', `Documento "${doc.title}" cadastrado`)
-      navigate(`/documentos/${doc.id}`)
+      doc = await createDocument(data, user.id, user.name)
+      console.log('Documento criado:', doc)
     } catch {
       setFeedback({ type: 'error', message: 'Erro ao criar documento.' })
-    } finally {
+      setSaving(false)
+      return
+    }
+
+    if (data.file) {
+      console.log('Arquivo selecionado:', data.file)
+      console.log('Chamando upload do documento', doc.id, data.file?.name)
+
+      setUploading(true)
+      try {
+        await uploadDocumentFile(doc.id, data.file)
+        console.log('Upload concluído')
+      } catch {
+        setFeedback({
+          type: 'error',
+          message: 'Documento criado, mas o arquivo não foi enviado.',
+        })
+        navigate(`/documentos/${doc.id}/editar`)
+        return
+      } finally {
+        setUploading(false)
+        setSaving(false)
+      }
+    } else {
       setSaving(false)
     }
+
+    logAction(user.name, 'Cadastro', 'Documento', `Documento "${doc.title}" cadastrado`)
+    navigate(`/documentos/${doc.id}`)
   }
 
   return (

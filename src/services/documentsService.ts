@@ -99,8 +99,20 @@ function parseDocument(data: unknown): Document | null {
 
   const record = data as Record<string, unknown>
 
-  if (record.id && record.title) {
-    return normalizeDocument(record as unknown as Document)
+  if (record.id) {
+    const doc = record as unknown as Document
+    return normalizeDocument({
+      ...doc,
+      title: doc.title ?? '',
+      sectorId: doc.sectorId ?? '',
+      categoryId: doc.categoryId ?? '',
+      semanticDescription: doc.semanticDescription ?? '',
+      tagIds: doc.tagIds ?? [],
+      tags: doc.tags ?? [],
+      expirationDate: doc.expirationDate ?? null,
+      createdAt: doc.createdAt ?? new Date().toISOString(),
+      updatedAt: doc.updatedAt ?? new Date().toISOString(),
+    })
   }
 
   if (record.document) {
@@ -112,6 +124,25 @@ function parseDocument(data: unknown): Document | null {
   }
 
   return null
+}
+
+async function findCreatedDocument(match: {
+  title: string
+  sectorId: string
+  categoryId: string
+}): Promise<Document | null> {
+  const documents = await getDocuments()
+
+  return (
+    documents
+      .filter(
+        (doc) =>
+          doc.title === match.title &&
+          doc.sectorId === match.sectorId &&
+          doc.categoryId === match.categoryId
+      )
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0] ?? null
+  )
 }
 
 async function parseJsonResponse(response: Response): Promise<unknown> {
@@ -129,24 +160,12 @@ async function resolveDocumentAfterCreate(
   match: { title: string; sectorId: string; categoryId: string }
 ): Promise<Document> {
   const parsed = parseDocument(result)
-  if (parsed) return parsed
+  if (parsed?.id) return parsed
 
-  const record = result && typeof result === 'object' ? (result as Record<string, unknown>) : null
-  if (record?.success === true) {
-    const documents = await getDocuments()
-    const found = documents
-      .filter(
-        (doc) =>
-          doc.title === match.title &&
-          doc.sectorId === match.sectorId &&
-          doc.categoryId === match.categoryId
-      )
-      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0]
+  const found = await findCreatedDocument(match)
+  if (found) return found
 
-    if (found) return found
-  }
-
-  throw new Error('Resposta inválida ao criar documento')
+  throw new Error('Documento criado não encontrado')
 }
 
 async function resolveDocumentAfterUpdate(_result: unknown, id: string): Promise<Document> {
