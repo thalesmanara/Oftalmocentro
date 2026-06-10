@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
-import { getDocumentById, updateDocument } from '@/services/documentsService'
+import { getDocumentById, updateDocument, uploadDocumentFile } from '@/services/documentsService'
 import { logAction } from '@/services/auditService'
 import type { Document, DocumentFormData } from '@/types'
 import { getDocumentTagIds } from '@/utils/document'
@@ -19,6 +19,7 @@ export function DocumentEditPage() {
   const [doc, setDoc] = useState<Document | null>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [uploading, setUploading] = useState(false)
   const [feedback, setFeedback] = useState<Feedback | null>(null)
 
   useEffect(() => {
@@ -43,7 +44,26 @@ export function DocumentEditPage() {
 
     try {
       const updated = await updateDocument(id, data, user.id, user.name, doc)
-      setDoc(updated)
+
+      if (data.file) {
+        setUploading(true)
+        try {
+          await uploadDocumentFile(id, data.file)
+        } catch {
+          setDoc(updated)
+          setFeedback({
+            type: 'error',
+            message:
+              'Dados salvos, mas não foi possível enviar o arquivo. Selecione o arquivo novamente e tente outra vez.',
+          })
+          return
+        } finally {
+          setUploading(false)
+        }
+      }
+
+      const refreshed = await getDocumentById(id)
+      if (refreshed) setDoc(refreshed)
       logAction(user.name, 'Edição', 'Documento', `Documento "${data.title}" editado`)
       navigate(`/documentos/${id}`)
     } catch {
@@ -94,10 +114,17 @@ export function DocumentEditPage() {
           }}
           initialTagIds={getDocumentTagIds(doc)}
           initialDocumentTags={doc.tags}
+          initialFile={{
+            fileName: doc.fileName,
+            fileType: doc.fileType,
+            fileSize: doc.fileSize,
+          }}
           onSubmit={handleSubmit}
           onCancel={() => navigate(`/documentos/${id}`)}
-          submitLabel={saving ? 'Salvando...' : 'Salvar alterações'}
-          submitting={saving}
+          submitLabel={
+            uploading ? 'Enviando arquivo...' : saving ? 'Salvando...' : 'Salvar alterações'
+          }
+          submitting={saving || uploading}
         />
       </Card>
     </div>

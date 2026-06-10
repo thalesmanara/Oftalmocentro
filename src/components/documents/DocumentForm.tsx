@@ -8,12 +8,17 @@ import { TagBadge } from '@/components/ui/TagBadge'
 import { getSectors } from '@/services/sectorsService'
 import { getCategories } from '@/services/categoriesService'
 import { getTags } from '@/services/tagsService'
-import { ACCEPTED_FILE_TYPES } from '@/utils/document'
+import { ACCEPTED_FILE_TYPES, formatFileSize } from '@/utils/document'
 
 interface DocumentFormProps {
   initial?: Partial<DocumentFormData>
   initialTagIds?: string[]
   initialDocumentTags?: Tag[]
+  initialFile?: {
+    fileName?: string | null
+    fileType?: string | null
+    fileSize?: number | null
+  }
   onSubmit: (data: DocumentFormData) => void | Promise<void>
   onCancel: () => void
   submitLabel?: string
@@ -38,6 +43,7 @@ export function DocumentForm({
   initial,
   initialTagIds,
   initialDocumentTags,
+  initialFile,
   onSubmit,
   onCancel,
   submitLabel = 'Salvar',
@@ -51,6 +57,7 @@ export function DocumentForm({
     resolveInitialTagIds(initialTagIds, initial, initialDocumentTags)
   )
   const [expirationDate, setExpirationDate] = useState(initial?.expirationDate ?? '')
+  const [file, setFile] = useState<File | null>(null)
   const [sectors, setSectors] = useState<{ value: string; label: string }[]>([])
   const [categories, setCategories] = useState<{ value: string; label: string }[]>([])
   const [availableTags, setAvailableTags] = useState<Tag[]>([])
@@ -124,7 +131,7 @@ export function DocumentForm({
       semanticDescription: semanticDescription.trim(),
       tagIds: Array.from(new Set(tagIds)),
       expirationDate,
-      file: null,
+      file,
     })
   }
 
@@ -204,14 +211,29 @@ export function DocumentForm({
       />
       <div>
         <label className="text-sm font-medium text-slate-700">Upload de arquivo</label>
+        {initialFile?.fileName && !file && (
+          <p className="mt-1 text-sm text-slate-600">
+            Arquivo atual: {initialFile.fileName}
+            {initialFile.fileType ? ` · ${initialFile.fileType}` : ''}
+            {initialFile.fileSize ? ` · ${formatFileSize(initialFile.fileSize)}` : ''}
+          </p>
+        )}
         <input
           type="file"
           accept={ACCEPTED_FILE_TYPES}
-          disabled
-          className="mt-1 block w-full cursor-not-allowed text-sm text-slate-400 file:mr-4 file:rounded-lg file:border-0 file:bg-slate-100 file:px-4 file:py-2 file:text-sm file:font-medium"
+          disabled={submitting}
+          onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+          className="mt-1 block w-full text-sm text-slate-700 file:mr-4 file:rounded-lg file:border-0 file:bg-slate-100 file:px-4 file:py-2 file:text-sm file:font-medium hover:file:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-50"
         />
+        {file && (
+          <p className="mt-1 text-sm text-slate-600">
+            Novo arquivo: {file.name}
+            {file.type ? ` · ${file.type}` : ''}
+            {` · ${formatFileSize(file.size)}`}
+          </p>
+        )}
         <p className="mt-1 text-xs text-slate-400">
-          Upload de arquivo será habilitado em etapa futura. O cadastro salva apenas os metadados do documento.
+          Formatos aceitos: PDF, Word, Excel, CSV e TXT. O arquivo é enviado após salvar os dados do documento.
         </p>
       </div>
       <div className="flex gap-2 pt-4">

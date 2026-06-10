@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '@/hooks/useAuth'
-import { createDocument } from '@/services/documentsService'
+import { createDocument, uploadDocumentFile } from '@/services/documentsService'
 import { logAction } from '@/services/auditService'
 import type { DocumentFormData } from '@/types'
 import { Card } from '@/components/ui/Card'
@@ -14,6 +14,7 @@ export function DocumentUploadPage() {
   const navigate = useNavigate()
   const { user } = useAuth()
   const [saving, setSaving] = useState(false)
+  const [uploading, setUploading] = useState(false)
   const [feedback, setFeedback] = useState<Feedback | null>(null)
 
   const handleSubmit = async (data: DocumentFormData) => {
@@ -29,6 +30,24 @@ export function DocumentUploadPage() {
 
     try {
       const doc = await createDocument(data, user.id, user.name)
+
+      if (data.file) {
+        setUploading(true)
+        try {
+          await uploadDocumentFile(doc.id, data.file)
+        } catch {
+          setFeedback({
+            type: 'error',
+            message:
+              'Documento criado, mas não foi possível enviar o arquivo. Edite o documento para tentar novamente.',
+          })
+          navigate(`/documentos/${doc.id}/editar`)
+          return
+        } finally {
+          setUploading(false)
+        }
+      }
+
       logAction(user.name, 'Cadastro', 'Documento', `Documento "${doc.title}" cadastrado`)
       navigate(`/documentos/${doc.id}`)
     } catch {
@@ -59,8 +78,8 @@ export function DocumentUploadPage() {
         <DocumentForm
           onSubmit={handleSubmit}
           onCancel={() => navigate('/documentos')}
-          submitLabel={saving ? 'Salvando...' : 'Salvar'}
-          submitting={saving}
+          submitLabel={uploading ? 'Enviando arquivo...' : saving ? 'Salvando...' : 'Salvar'}
+          submitting={saving || uploading}
         />
       </Card>
     </div>

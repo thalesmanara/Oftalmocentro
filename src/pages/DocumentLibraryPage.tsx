@@ -177,10 +177,12 @@ export function DocumentLibraryPage() {
                   {displayTags(doc).map((t) => <TagBadge key={t.id} tag={t} />)}
                 </div>
                 <p className="mt-2 text-xs text-slate-400">
-                  Arquivo: {doc.fileName ?? '—'} · Responsável: {doc.responsibleUserName ?? '—'}
+                  Arquivo: {doc.fileName ?? '—'}
+                  {doc.fileType ? ` · ${doc.fileType}` : ''}
+                  {doc.fileSize ? ` · ${formatFileSize(doc.fileSize)}` : ''}
                 </p>
                 <p className="mt-1 text-xs text-slate-400">
-                  Validade: {formatDate(doc.expirationDate)} · {formatFileSize(doc.fileSize)}
+                  Responsável: {doc.responsibleUserName ?? '—'} · Validade: {formatDate(doc.expirationDate)}
                 </p>
                 <div className="mt-4 flex gap-2">
                   {hasPermission('visualizar_documentos') && (
@@ -235,7 +237,15 @@ export function DocumentLibraryPage() {
                     </div>
                   </td>
                   <td className="px-4 py-3">{formatDate(doc.expirationDate)}</td>
-                  <td className="px-4 py-3">{doc.fileName ?? '—'}</td>
+                  <td className="px-4 py-3">
+                    {doc.fileName ?? '—'}
+                    {doc.fileType ? (
+                      <span className="block text-xs text-slate-400">{doc.fileType}</span>
+                    ) : null}
+                    {doc.fileSize ? (
+                      <span className="block text-xs text-slate-400">{formatFileSize(doc.fileSize)}</span>
+                    ) : null}
+                  </td>
                   <td className="px-4 py-3">{doc.responsibleUserName ?? '—'}</td>
                   <td className="px-4 py-3">
                     <div className="flex gap-1">

@@ -4,6 +4,16 @@ import { getTags } from './tagsService'
 import type { Document, DocumentFormData, Tag } from '@/types'
 import { getDocumentTagIds } from '@/utils/document'
 
+export interface DocumentFileUploadResult {
+  id: string
+  title: string
+  fileName: string
+  fileType: string
+  fileSize: number
+  filePath: string
+  updatedAt: string
+}
+
 function normalizeExpirationDate(value: string | null | undefined): string | null {
   if (!value) return null
   return value.split('T')[0]
@@ -250,6 +260,66 @@ export async function updateDocument(
   }
 
   return resolveDocumentAfterUpdate(result, id)
+}
+
+function parseUploadResult(data: unknown): DocumentFileUploadResult | null {
+  if (!data) return null
+
+  if (Array.isArray(data) && data.length > 0) {
+    return parseUploadResult(data[0])
+  }
+
+  if (typeof data !== 'object') return null
+
+  const record = data as Record<string, unknown>
+
+  if (record.id && record.fileName) {
+    return record as unknown as DocumentFileUploadResult
+  }
+
+  if (record.data) {
+    return parseUploadResult(record.data)
+  }
+
+  return null
+}
+
+export async function uploadDocumentFile(
+  documentId: string,
+  file: File
+): Promise<DocumentFileUploadResult> {
+  const formData = new FormData()
+  formData.append('documentId', documentId)
+  formData.append('file', file)
+
+  const response = await fetch(`${API_BASE_URL}/webhook/documents/upload`, {
+    method: 'POST',
+    body: formData,
+  })
+
+  if (!response.ok) {
+    throw new Error('Erro ao enviar arquivo do documento')
+  }
+
+  const result = await parseJsonResponse(response)
+  const parsed = parseUploadResult(result)
+
+  if (parsed) return parsed
+
+  const refreshed = await getDocumentById(documentId)
+  if (refreshed?.fileName) {
+    return {
+      id: refreshed.id,
+      title: refreshed.title,
+      fileName: refreshed.fileName,
+      fileType: refreshed.fileType ?? '',
+      fileSize: refreshed.fileSize ?? 0,
+      filePath: refreshed.filePath ?? '',
+      updatedAt: refreshed.updatedAt,
+    }
+  }
+
+  throw new Error('Resposta inválida ao enviar arquivo do documento')
 }
 
 export async function deleteDocument(id: string): Promise<void> {
