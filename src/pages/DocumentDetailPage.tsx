@@ -27,6 +27,7 @@ export function DocumentDetailPage() {
   const [categories, setCategories] = useState<Category[]>([])
   const [tags, setTags] = useState<Tag[]>([])
   const [confirmDelete, setConfirmDelete] = useState(false)
+  const [deleting, setDeleting] = useState(false)
 
   useEffect(() => {
     if (!id) return
@@ -69,9 +70,18 @@ export function DocumentDetailPage() {
 
   const handleDelete = async () => {
     if (!user || !id) return
-    await deleteDocument(id)
-    logAction(user.name, 'Exclusão', 'Documento', `Documento "${doc.title}" excluído`)
-    navigate('/documentos')
+
+    setDeleting(true)
+    try {
+      await deleteDocument(id)
+      logAction(user.name, 'Exclusão', 'Documento', `Documento "${doc.title}" excluído`)
+      setConfirmDelete(false)
+      navigate('/documentos')
+    } catch {
+      // Mantém o modal aberto para nova tentativa
+    } finally {
+      setDeleting(false)
+    }
   }
 
   return (
@@ -164,11 +174,11 @@ export function DocumentDetailPage() {
 
       <ModalConfirm
         open={confirmDelete}
-        onClose={() => setConfirmDelete(false)}
+        onClose={() => !deleting && setConfirmDelete(false)}
         onConfirm={handleDelete}
         title="Excluir documento"
-        message={`Deseja excluir "${doc.title}"? Esta ação não pode ser desfeita.`}
-        confirmLabel="Excluir"
+        message={`Deseja excluir "${doc.title}"? O registro será removido da biblioteca (exclusão lógica).`}
+        confirmLabel={deleting ? 'Excluindo...' : 'Excluir'}
         danger
       />
     </div>

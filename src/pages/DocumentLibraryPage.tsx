@@ -38,6 +38,7 @@ export function DocumentLibraryPage() {
   const [filterTagId, setFilterTagId] = useState('')
   const [filterExpiration, setFilterExpiration] = useState('')
   const [deleteId, setDeleteId] = useState<string | null>(null)
+  const [deleting, setDeleting] = useState(false)
 
   const load = async () => {
     setLoading(true)
@@ -94,11 +95,19 @@ export function DocumentLibraryPage() {
 
   const handleDelete = async () => {
     if (!deleteId || !user) return
+
     const doc = documents.find((d) => d.id === deleteId)
-    await deleteDocument(deleteId)
-    if (doc) logAction(user.name, 'Exclusão', 'Documento', `Documento "${doc.title}" excluído`)
-    setDeleteId(null)
-    void load()
+    setDeleting(true)
+    try {
+      await deleteDocument(deleteId)
+      if (doc) logAction(user.name, 'Exclusão', 'Documento', `Documento "${doc.title}" excluído`)
+      setDeleteId(null)
+      await load()
+    } catch {
+      // Mantém o modal aberto para nova tentativa
+    } finally {
+      setDeleting(false)
+    }
   }
 
   if (loading) {
@@ -256,11 +265,11 @@ export function DocumentLibraryPage() {
 
       <ModalConfirm
         open={!!deleteId}
-        onClose={() => setDeleteId(null)}
+        onClose={() => !deleting && setDeleteId(null)}
         onConfirm={handleDelete}
         title="Excluir documento"
-        message="Deseja excluir este documento?"
-        confirmLabel="Excluir"
+        message="Deseja excluir este documento? O registro será removido da biblioteca (exclusão lógica)."
+        confirmLabel={deleting ? 'Excluindo...' : 'Excluir'}
         danger
       />
     </div>

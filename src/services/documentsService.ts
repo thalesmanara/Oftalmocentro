@@ -1,10 +1,8 @@
-import { API_BASE_URL, mockDelay } from './api'
+import { API_BASE_URL } from './api'
 import { mockDocuments } from '@/data/mocks'
-import { getCategories } from './categoriesService'
-import { getSectors } from './sectorsService'
 import { getTags } from './tagsService'
-import type { Document, DocumentFormData } from '@/types'
-import { getCategoryNameById, getSectorNameById, getTagsByIds } from '@/utils/entities'
+import type { Document, DocumentFormData, Tag } from '@/types'
+import { getDocumentTagIds } from '@/utils/document'
 
 function normalizeExpirationDate(value: string | null | undefined): string | null {
   if (!value) return null
@@ -14,9 +12,69 @@ function normalizeExpirationDate(value: string | null | undefined): string | nul
 function normalizeDocument(doc: Document): Document {
   return {
     ...doc,
-    tagIds: doc.tagIds ?? [],
+    tagIds: getDocumentTagIds(doc),
     tags: doc.tags ?? [],
     expirationDate: normalizeExpirationDate(doc.expirationDate),
+  }
+}
+
+async function resolveTagsForPayload(
+  tagIds: string[],
+  existing: Document
+): Promise<Pick<Tag, 'id' | 'name' | 'color' | 'active'>[]> {
+  const catalog = await getTags()
+
+  return tagIds.map((tagId) => {
+    const fromCatalog = catalog.find((tag) => tag.id === tagId)
+    const fromDocument = existing.tags?.find((tag) => tag.id === tagId)
+
+    const tag = fromCatalog ?? fromDocument
+    if (!tag) return { id: tagId, name: tagId, color: null, active: true }
+
+    return {
+      id: tag.id,
+      name: tag.name,
+      color: tag.color,
+      active: tag.active,
+    }
+  })
+}
+
+async function buildUpdatePayload(
+  existing: Document,
+  data: DocumentFormData,
+  userId: string
+) {
+  const tagIds = Array.from(new Set(data.tagIds ?? getDocumentTagIds(existing)))
+  const tags = await resolveTagsForPayload(tagIds, existing)
+
+  const merged = {
+    ...existing,
+    title: data.title.trim(),
+    sectorId: data.sectorId,
+    categoryId: data.categoryId,
+    semanticDescription: data.semanticDescription.trim(),
+    expirationDate: data.expirationDate!,
+    tagIds,
+    tags,
+  }
+
+  return {
+    id: existing.id,
+    title: merged.title,
+    sectorId: merged.sectorId,
+    categoryId: merged.categoryId,
+    semanticDescription: merged.semanticDescription,
+    expirationDate: merged.expirationDate,
+    tagIds,
+    tags,
+    fileName: existing.fileName ?? null,
+    fileType: existing.fileType ?? null,
+    fileSize: existing.fileSize ?? null,
+    filePath: existing.filePath ?? null,
+    extractedText: existing.extractedText ?? null,
+    responsibleUserId: existing.responsibleUserId ?? userId,
+    updatedBy: userId,
   }
 }
 
@@ -81,23 +139,11 @@ async function resolveDocumentAfterCreate(
   throw new Error('Resposta inválida ao criar documento')
 }
 
-async function resolveDocumentNames(
-  data: DocumentFormData
-): Promise<Pick<Document, 'sectorName' | 'categoryName' | 'tags'>> {
-  const [sectors, categories, tags] = await Promise.all([
-    getSectors(),
-    getCategories(),
-    getTags(),
-  ])
-  const sectorName = getSectorNameById(data.sectorId, sectors)
-  const categoryName = getCategoryNameById(data.categoryId, categories)
-  const resolvedTags = getTagsByIds(data.tagIds, tags)
+async function resolveDocumentAfterUpdate(_result: unknown, id: string): Promise<Document> {
+  const refreshed = await getDocumentById(id)
+  if (refreshed) return refreshed
 
-  return {
-    sectorName,
-    categoryName,
-    tags: resolvedTags.length ? resolvedTags : undefined,
-  }
+  throw new Error('Resposta inválida ao atualizar documento')
 }
 
 export async function getDocuments(): Promise<Document[]> {
@@ -173,61 +219,47 @@ export async function createDocument(
   })
 }
 
-// Futuro: PUT `${API_BASE_URL}/webhook/documents/update`
 export async function updateDocument(
   id: string,
-  data: Partial<DocumentFormData>,
+  data: DocumentFormData,
   userId: string,
-  userName: string
-): Promise<Document | null> {
-  const index = mockDocuments.findIndex((d) => d.id === id)
-  if (index === -1) return mockDelay(null)
-
-  const existing = mockDocuments[index]
-  const file = data.file
-  const merged: DocumentFormData = {
-    title: data.title ?? existing.title,
-    sectorId: data.sectorId ?? existing.sectorId,
-    categoryId: data.categoryId ?? existing.categoryId,
-    semanticDescription: data.semanticDescription ?? existing.semanticDescription,
-    tagIds: data.tagIds ?? existing.tagIds,
-    expirationDate: data.expirationDate !== undefined ? data.expirationDate : existing.expirationDate,
-    file: data.file,
-  }
-  const names = await resolveDocumentNames(merged)
-
-  const updated: Document = {
-    ...existing,
-    title: merged.title,
-    sectorId: merged.sectorId,
-    categoryId: merged.categoryId,
-    semanticDescription: merged.semanticDescription,
-    tagIds: merged.tagIds,
-    expirationDate: merged.expirationDate,
-    ...names,
-    ...(file
-      ? {
-          fileName: file.name,
-          fileType: file.type,
-          fileSize: file.size,
-          filePath: `/uploads/${file.name}`,
-        }
-      : {}),
-    responsibleUserId: userId,
-    responsibleUserName: userName,
-    updatedAt: new Date().toISOString(),
-    updatedBy: userId,
-    updatedByName: userName,
+  _userName: string,
+  currentDocument?: Document
+): Promise<Document> {
+  if (!data.expirationDate) {
+    throw new Error('Data de validade é obrigatória')
   }
 
-  mockDocuments[index] = updated
-  return mockDelay(updated)
+  const existing = currentDocument ?? (await getDocumentById(id))
+  if (!existing) {
+    throw new Error('Documento não encontrado')
+  }
+
+  const payload = await buildUpdatePayload(existing, data, userId)
+
+  const response = await fetch(`${API_BASE_URL}/webhook/documents/update`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+
+  const result = await parseJsonResponse(response)
+
+  if (!response.ok) {
+    throw new Error('Erro ao atualizar documento')
+  }
+
+  return resolveDocumentAfterUpdate(result, id)
 }
 
-// Futuro: DELETE `${API_BASE_URL}/webhook/documents/delete`
-export async function deleteDocument(id: string): Promise<boolean> {
-  const index = mockDocuments.findIndex((d) => d.id === id)
-  if (index === -1) return mockDelay(false)
-  mockDocuments.splice(index, 1)
-  return mockDelay(true)
+export async function deleteDocument(id: string): Promise<void> {
+  const response = await fetch(`${API_BASE_URL}/webhook/documents/delete`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id }),
+  })
+
+  if (!response.ok) {
+    throw new Error('Erro ao excluir documento')
+  }
 }

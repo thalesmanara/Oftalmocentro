@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import type { DocumentFormData, Tag } from '@/types'
 import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
 import { Textarea } from '@/components/ui/Textarea'
 import { Button } from '@/components/ui/Button'
+import { TagBadge } from '@/components/ui/TagBadge'
 import { getSectors } from '@/services/sectorsService'
 import { getCategories } from '@/services/categoriesService'
 import { getTags } from '@/services/tagsService'
@@ -11,14 +12,32 @@ import { ACCEPTED_FILE_TYPES } from '@/utils/document'
 
 interface DocumentFormProps {
   initial?: Partial<DocumentFormData>
+  initialTagIds?: string[]
+  initialDocumentTags?: Tag[]
   onSubmit: (data: DocumentFormData) => void | Promise<void>
   onCancel: () => void
   submitLabel?: string
   submitting?: boolean
 }
 
+function resolveInitialTagIds(
+  initialTagIds?: string[],
+  initial?: Partial<DocumentFormData>,
+  initialDocumentTags?: Tag[]
+): string[] {
+  return Array.from(
+    new Set([
+      ...(initialTagIds ?? []),
+      ...(initial?.tagIds ?? []),
+      ...(initialDocumentTags?.map((tag) => tag.id) ?? []),
+    ])
+  )
+}
+
 export function DocumentForm({
   initial,
+  initialTagIds,
+  initialDocumentTags,
   onSubmit,
   onCancel,
   submitLabel = 'Salvar',
@@ -28,7 +47,9 @@ export function DocumentForm({
   const [sectorId, setSectorId] = useState(initial?.sectorId ?? '')
   const [categoryId, setCategoryId] = useState(initial?.categoryId ?? '')
   const [semanticDescription, setSemanticDescription] = useState(initial?.semanticDescription ?? '')
-  const [tagIds, setTagIds] = useState<string[]>(initial?.tagIds ?? [])
+  const [tagIds, setTagIds] = useState<string[]>(() =>
+    resolveInitialTagIds(initialTagIds, initial, initialDocumentTags)
+  )
   const [expirationDate, setExpirationDate] = useState(initial?.expirationDate ?? '')
   const [sectors, setSectors] = useState<{ value: string; label: string }[]>([])
   const [categories, setCategories] = useState<{ value: string; label: string }[]>([])
@@ -44,14 +65,46 @@ export function DocumentForm({
         { value: '', label: 'Selecione...' },
         ...c.filter((x) => x.active).map((x) => ({ value: x.id, label: x.name })),
       ])
-      setAvailableTags(t.filter((x) => x.active))
+
+      const activeTags = t.filter((x) => x.active)
+      const documentTags = initialDocumentTags ?? []
+      const mergedTags = [...activeTags]
+
+      for (const tag of documentTags) {
+        if (!mergedTags.some((item) => item.id === tag.id)) {
+          mergedTags.push(tag)
+        }
+      }
+
+      setAvailableTags(mergedTags)
     })
-  }, [])
+  }, [initialDocumentTags])
+
+  const selectedTags = useMemo(() => {
+    const byId = new Map(availableTags.map((tag) => [tag.id, tag]))
+    for (const tag of initialDocumentTags ?? []) {
+      if (!byId.has(tag.id)) byId.set(tag.id, tag)
+    }
+
+    return tagIds
+      .map((id) => byId.get(id))
+      .filter((tag): tag is Tag => Boolean(tag))
+  }, [availableTags, initialDocumentTags, tagIds])
+
+  const addTag = (tagId: string) => {
+    setTagIds((prev) => Array.from(new Set([...(prev ?? []), tagId])))
+  }
+
+  const removeTag = (tagId: string) => {
+    setTagIds((prev) => (prev ?? []).filter((id) => id !== tagId))
+  }
 
   const toggleTag = (tagId: string) => {
-    setTagIds((prev) =>
-      prev.includes(tagId) ? prev.filter((id) => id !== tagId) : [...prev, tagId]
-    )
+    if (tagIds.includes(tagId)) {
+      removeTag(tagId)
+      return
+    }
+    addTag(tagId)
   }
 
   const isValid =
@@ -69,7 +122,7 @@ export function DocumentForm({
       sectorId,
       categoryId,
       semanticDescription: semanticDescription.trim(),
-      tagIds,
+      tagIds: Array.from(new Set(tagIds)),
       expirationDate,
       file: null,
     })
@@ -101,7 +154,19 @@ export function DocumentForm({
         required
       />
       <div>
-        <p className="mb-2 text-sm font-medium text-slate-700">Tags</p>
+        <p className="mb-2 text-sm font-medium text-slate-700">
+          Tags selecionadas ({tagIds.length})
+        </p>
+        {selectedTags.length > 0 ? (
+          <div className="mb-3 flex flex-wrap gap-2">
+            {selectedTags.map((tag) => (
+              <TagBadge key={tag.id} tag={tag} />
+            ))}
+          </div>
+        ) : (
+          <p className="mb-3 text-sm text-slate-500">Nenhuma tag selecionada.</p>
+        )}
+        <p className="mb-2 text-sm font-medium text-slate-700">Adicionar ou remover tags</p>
         <div className="flex flex-wrap gap-2">
           {availableTags.map((tag) => {
             const selected = tagIds.includes(tag.id)

@@ -1,5 +1,11 @@
 import type { Document } from '@/types'
 
+export function getDocumentTagIds(doc: Pick<Document, 'tagIds' | 'tags'>): string[] {
+  return Array.from(
+    new Set([...(doc.tagIds ?? []), ...(doc.tags?.map((tag) => tag.id) ?? [])])
+  )
+}
+
 export function isDocumentExpired(doc: Document): boolean {
   if (!doc.expirationDate) return false
   const today = new Date()
