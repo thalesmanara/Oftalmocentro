@@ -4,9 +4,10 @@ import type { PermissionCode } from '@/types'
 
 interface ProtectedRouteProps {
   permission?: PermissionCode
+  anyPermission?: PermissionCode[]
 }
 
-export function ProtectedRoute({ permission }: ProtectedRouteProps) {
+export function ProtectedRoute({ permission, anyPermission }: ProtectedRouteProps) {
   const { user, hasPermission } = useAuth()
 
   if (!user) {
@@ -14,6 +15,10 @@ export function ProtectedRoute({ permission }: ProtectedRouteProps) {
   }
 
   if (permission && !hasPermission(permission)) {
+    return <Navigate to="/dashboard" replace />
+  }
+
+  if (anyPermission && !anyPermission.some((code) => hasPermission(code))) {
     return <Navigate to="/dashboard" replace />
   }
 

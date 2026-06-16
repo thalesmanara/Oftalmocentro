@@ -14,6 +14,13 @@ export interface DocumentFileUploadResult {
   updatedAt: string
 }
 
+export interface DocumentProcessResult {
+  success: boolean
+  message: string
+  documentId: string
+  chunks?: number
+}
+
 function normalizeExpirationDate(value: string | null | undefined): string | null {
   if (!value) return null
   return value.split('T')[0]
@@ -126,6 +133,57 @@ function parseDocument(data: unknown): Document | null {
   return null
 }
 
+function extractDocumentIdFromResponse(data: unknown): string | null {
+  if (!data) return null
+
+  if (Array.isArray(data) && data.length > 0) {
+    return extractDocumentIdFromResponse(data[0])
+  }
+
+  if (typeof data !== 'object') return null
+
+  const record = data as Record<string, unknown>
+
+  if (typeof record.id === 'string' && record.id) {
+    return record.id
+  }
+
+  if (typeof record.documentId === 'string' && record.documentId) {
+    return record.documentId
+  }
+
+  if (record.document) {
+    return extractDocumentIdFromResponse(record.document)
+  }
+
+  if (record.data) {
+    return extractDocumentIdFromResponse(record.data)
+  }
+
+  return null
+}
+
+function buildMinimalCreatedDocument(id: string, match: {
+  title: string
+  sectorId: string
+  categoryId: string
+}): Document {
+  const now = new Date().toISOString()
+
+  return normalizeDocument({
+    id,
+    title: match.title,
+    sectorId: match.sectorId,
+    categoryId: match.categoryId,
+    semanticDescription: '',
+    tagIds: [],
+    tags: [],
+    expirationDate: null,
+    createdAt: now,
+    updatedAt: now,
+  })
+}
+
 async function findCreatedDocument(match: {
   title: string
   sectorId: string
@@ -145,6 +203,8 @@ async function findCreatedDocument(match: {
   )
 }
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
 async function parseJsonResponse(response: Response): Promise<unknown> {
   const text = await response.text()
   if (!text) return null
@@ -162,8 +222,22 @@ async function resolveDocumentAfterCreate(
   const parsed = parseDocument(result)
   if (parsed?.id) return parsed
 
-  const found = await findCreatedDocument(match)
-  if (found) return found
+  const extractedId = extractDocumentIdFromResponse(result)
+  if (extractedId) {
+    const foundById = await getDocumentById(extractedId)
+    if (foundById) return foundById
+
+    return buildMinimalCreatedDocument(extractedId, match)
+  }
+
+  for (let attempt = 0; attempt < 4; attempt += 1) {
+    const found = await findCreatedDocument(match)
+    if (found) return found
+
+    if (attempt < 3) {
+      await delay(400)
+    }
+  }
 
   throw new Error('Documento criado não encontrado')
 }
@@ -339,6 +413,50 @@ export async function uploadDocumentFile(
   }
 
   throw new Error('Resposta inválida ao enviar arquivo do documento')
+}
+
+export async function processDocument(documentId: string): Promise<DocumentProcessResult> {
+  const response = await fetch(`${API_BASE_URL}/webhook/documents/process`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ documentId }),
+  })
+
+  const result = await parseJsonResponse(response)
+
+  if (!response.ok) {
+    throw new Error('Erro ao processar documento')
+  }
+
+  if (Array.isArray(result)) {
+    return {
+      success: true,
+      message: 'Documento processado com sucesso',
+      documentId,
+      chunks: result.length,
+    }
+  }
+
+  if (result && typeof result === 'object') {
+    const record = result as Record<string, unknown>
+
+    if (record.success === false) {
+      throw new Error(String(record.message ?? 'Erro ao processar documento'))
+    }
+
+    return {
+      success: true,
+      message: String(record.message ?? 'Documento processado com sucesso'),
+      documentId: String(record.documentId ?? record.id ?? documentId),
+      chunks: typeof record.chunks === 'number' ? record.chunks : undefined,
+    }
+  }
+
+  return {
+    success: true,
+    message: 'Documento processado com sucesso',
+    documentId,
+  }
 }
 
 export async function deleteDocument(id: string): Promise<void> {

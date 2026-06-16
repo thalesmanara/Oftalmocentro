@@ -26,15 +26,20 @@ export function AppRoutes() {
           <Route path="dashboard" element={<DashboardPage />} />
           <Route element={<ProtectedRoute permission="visualizar_documentos" />}>
             <Route path="documentos" element={<DocumentLibraryPage />} />
-            <Route path="documentos/:id" element={<DocumentDetailPage />} />
           </Route>
           <Route element={<ProtectedRoute permission="cadastrar_documentos" />}>
             <Route path="documentos/novo" element={<DocumentUploadPage />} />
           </Route>
+          <Route
+            element={
+              <ProtectedRoute anyPermission={['visualizar_documentos', 'cadastrar_documentos']} />
+            }
+          >
+            <Route path="documentos/:id" element={<DocumentDetailPage />} />
+          </Route>
           <Route element={<ProtectedRoute permission="editar_documentos" />}>
             <Route path="documentos/:id/editar" element={<DocumentEditPage />} />
-          </Route>
-          <Route element={<ProtectedRoute permission="gerenciar_usuarios" />}>
+          </Route>          <Route element={<ProtectedRoute permission="gerenciar_usuarios" />}>
             <Route path="usuarios" element={<UsersPage />} />
           </Route>
           <Route element={<ProtectedRoute permission="gerenciar_setores" />}>

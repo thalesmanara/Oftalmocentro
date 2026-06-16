@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Loader2 } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
-import { createDocument, uploadDocumentFile } from '@/services/documentsService'
+import { createDocument, processDocument, uploadDocumentFile } from '@/services/documentsService'
 import { logAction } from '@/services/auditService'
 import type { DocumentFormData } from '@/types'
 import { Card } from '@/components/ui/Card'
@@ -15,7 +16,18 @@ export function DocumentUploadPage() {
   const { user } = useAuth()
   const [saving, setSaving] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [processing, setProcessing] = useState(false)
   const [feedback, setFeedback] = useState<Feedback | null>(null)
+
+  const isBusy = saving || uploading || processing
+
+  const submitLabel = processing
+    ? 'Processando documento...'
+    : uploading
+      ? 'Enviando arquivo...'
+      : saving
+        ? 'Salvando...'
+        : 'Salvar'
 
   const handleSubmit = async (data: DocumentFormData) => {
     if (!user) return
@@ -26,43 +38,71 @@ export function DocumentUploadPage() {
     }
 
     setSaving(true)
+    setUploading(false)
+    setProcessing(false)
     setFeedback(null)
 
-    let doc
+    let documentId: string | null = null
+    let postCreateError: string | null = null
+
     try {
-      doc = await createDocument(data, user.id, user.name)
-      console.log('Documento criado:', doc)
+      const createdDocument = await createDocument(data, user.id, user.name)
+      console.log('Documento criado:', createdDocument)
+
+      if (!createdDocument?.id) {
+        throw new Error('Documento criado, mas o ID não foi retornado')
+      }
+
+      documentId = createdDocument.id
+
+      if (data.file) {
+        setSaving(false)
+        setUploading(true)
+
+        try {
+          await uploadDocumentFile(createdDocument.id, data.file)
+        } catch {
+          postCreateError = 'Documento criado, mas houve erro ao enviar o arquivo.'
+        } finally {
+          setUploading(false)
+        }
+
+        if (!postCreateError) {
+          setProcessing(true)
+
+          try {
+            await processDocument(createdDocument.id)
+          } catch {
+            postCreateError =
+              'Documento criado e arquivo enviado, mas houve erro no processamento.'
+          } finally {
+            setProcessing(false)
+          }
+        }
+      }
     } catch {
+      setFeedback({ type: 'error', message: 'Erro ao criar documento.' })
+      setSaving(false)
+      setUploading(false)
+      setProcessing(false)
+      return
+    }
+
+    if (!documentId) {
       setFeedback({ type: 'error', message: 'Erro ao criar documento.' })
       setSaving(false)
       return
     }
 
-    if (data.file) {
-      console.log('Arquivo selecionado:', data.file)
-      console.log('Chamando upload do documento', doc.id, data.file?.name)
+    console.log('ID para navegação:', documentId)
+    console.log('Navegando para:', `/documentos/${documentId}`)
 
-      setUploading(true)
-      try {
-        await uploadDocumentFile(doc.id, data.file)
-        console.log('Upload concluído')
-      } catch {
-        setFeedback({
-          type: 'error',
-          message: 'Documento criado, mas o arquivo não foi enviado.',
-        })
-        navigate(`/documentos/${doc.id}/editar`)
-        return
-      } finally {
-        setUploading(false)
-        setSaving(false)
-      }
-    } else {
-      setSaving(false)
-    }
+    logAction(user.name, 'Cadastro', 'Documento', `Documento "${data.title.trim()}" cadastrado`)
 
-    logAction(user.name, 'Cadastro', 'Documento', `Documento "${doc.title}" cadastrado`)
-    navigate(`/documentos/${doc.id}`)
+    navigate(`/documentos/${documentId}`, {
+      replace: true,
+      state: postCreateError ? { errorMessage: postCreateError } : undefined,
+    })
   }
 
   return (
@@ -82,12 +122,19 @@ export function DocumentUploadPage() {
         </p>
       )}
 
+      {processing && (
+        <div className="mb-4 flex items-center gap-2 text-sm text-slate-600">
+          <Loader2 size={18} className="animate-spin text-[var(--color-primary,#0d4f8b)]" />
+          Processando documento e preparando base de conhecimento...
+        </div>
+      )}
+
       <Card>
         <DocumentForm
           onSubmit={handleSubmit}
           onCancel={() => navigate('/documentos')}
-          submitLabel={uploading ? 'Enviando arquivo...' : saving ? 'Salvando...' : 'Salvar'}
-          submitting={saving || uploading}
+          submitLabel={submitLabel}
+          submitting={isBusy}
         />
       </Card>
     </div>

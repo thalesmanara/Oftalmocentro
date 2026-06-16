@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useEffect, useRef, useState } from 'react'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Pencil, Trash2, FileIcon, ArrowLeft } from 'lucide-react'
 import { getDocumentById, deleteDocument } from '@/services/documentsService'
 import { getSectors } from '@/services/sectorsService'
@@ -19,8 +19,11 @@ import { ModalConfirm } from '@/components/ui/Modal'
 
 export function DocumentDetailPage() {
   const { id } = useParams<{ id: string }>()
+  const location = useLocation()
   const navigate = useNavigate()
   const { user } = useAuth()
+  const [flashError, setFlashError] = useState('')
+  const handledLocationKey = useRef<string | null>(null)
   const [doc, setDoc] = useState<Document | null>(null)
   const [loading, setLoading] = useState(true)
   const [sectors, setSectors] = useState<Sector[]>([])
@@ -28,6 +31,21 @@ export function DocumentDetailPage() {
   const [tags, setTags] = useState<Tag[]>([])
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [deleting, setDeleting] = useState(false)
+
+  useEffect(() => {
+    if (handledLocationKey.current === location.key) return
+
+    handledLocationKey.current = location.key
+    const state = location.state as { errorMessage?: string } | null
+
+    if (state?.errorMessage) {
+      setFlashError(state.errorMessage)
+      navigate(location.pathname, { replace: true, state: null })
+      return
+    }
+
+    setFlashError('')
+  }, [id, location.key, location.pathname, location.state, navigate])
 
   useEffect(() => {
     if (!id) return
@@ -86,6 +104,10 @@ export function DocumentDetailPage() {
 
   return (
     <div>
+      {flashError && (
+        <p className="mb-4 text-sm text-red-600">{flashError}</p>
+      )}
+
       <Link to="/documentos" className="mb-4 inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800">
         <ArrowLeft size={16} /> Voltar à biblioteca
       </Link>

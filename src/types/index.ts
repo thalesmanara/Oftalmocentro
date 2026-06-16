@@ -85,6 +85,8 @@ export interface Document {
   fileSize?: number | null
   filePath?: string | null
   extractedText?: string | null
+  processingStatus?: string | null
+  processedAt?: string | null
   responsibleUserId?: string | null
   responsibleUserName?: string | null
   createdBy?: string | null

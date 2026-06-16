@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { ArrowLeft } from 'lucide-react'
-import { getDocumentById, updateDocument, uploadDocumentFile } from '@/services/documentsService'
+import { ArrowLeft, Loader2 } from 'lucide-react'
+import { getDocumentById, processDocument, updateDocument, uploadDocumentFile } from '@/services/documentsService'
 import { logAction } from '@/services/auditService'
 import type { Document, DocumentFormData } from '@/types'
 import { getDocumentTagIds } from '@/utils/document'
@@ -20,7 +20,18 @@ export function DocumentEditPage() {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [processing, setProcessing] = useState(false)
   const [feedback, setFeedback] = useState<Feedback | null>(null)
+
+  const isBusy = saving || uploading || processing
+
+  const submitLabel = processing
+    ? 'Processando documento...'
+    : uploading
+      ? 'Enviando arquivo...'
+      : saving
+        ? 'Salvando...'
+        : 'Salvar alterações'
 
   useEffect(() => {
     if (!id) return
@@ -46,20 +57,46 @@ export function DocumentEditPage() {
       const updated = await updateDocument(id, data, user.id, user.name, doc)
 
       if (data.file) {
+        setSaving(false)
         setUploading(true)
+
         try {
           await uploadDocumentFile(id, data.file)
         } catch {
           setDoc(updated)
-          setFeedback({
-            type: 'error',
-            message:
-              'Dados salvos, mas não foi possível enviar o arquivo. Selecione o arquivo novamente e tente outra vez.',
-          })
+          setFeedback({ type: 'error', message: 'Falha ao enviar arquivo.' })
           return
         } finally {
           setUploading(false)
         }
+
+        setProcessing(true)
+
+        try {
+          await processDocument(id)
+          const refreshed = await getDocumentById(id)
+          if (refreshed) setDoc(refreshed)
+
+          setFeedback({
+            type: 'success',
+            message: 'Documento enviado e processado com sucesso.',
+          })
+          logAction(user.name, 'Edição', 'Documento', `Documento "${data.title}" editado e processado`)
+
+          window.setTimeout(() => {
+            navigate(`/documentos/${id}`)
+          }, 1500)
+        } catch {
+          setDoc(updated)
+          setFeedback({
+            type: 'error',
+            message: 'Arquivo enviado, mas ocorreu erro no processamento.',
+          })
+        } finally {
+          setProcessing(false)
+        }
+
+        return
       }
 
       const refreshed = await getDocumentById(id)
@@ -102,6 +139,13 @@ export function DocumentEditPage() {
         </p>
       )}
 
+      {processing && (
+        <div className="mb-4 flex items-center gap-2 text-sm text-slate-600">
+          <Loader2 size={18} className="animate-spin text-[var(--color-primary,#0d4f8b)]" />
+          Processando documento e preparando base de conhecimento...
+        </div>
+      )}
+
       <Card>
         <DocumentForm
           key={`${doc.id}-${getDocumentTagIds(doc).join(',')}`}
@@ -121,10 +165,8 @@ export function DocumentEditPage() {
           }}
           onSubmit={handleSubmit}
           onCancel={() => navigate(`/documentos/${id}`)}
-          submitLabel={
-            uploading ? 'Enviando arquivo...' : saving ? 'Salvando...' : 'Salvar alterações'
-          }
-          submitting={saving || uploading}
+          submitLabel={submitLabel}
+          submitting={isBusy}
         />
       </Card>
     </div>
