@@ -103,37 +103,41 @@ export function ConsultaIAPage() {
           </Card>
 
           <Card title="Fontes consultadas">
-            {response.sources.length > 0 ? (
-              <ul className="space-y-3">
-                {response.sources.map((source) => (
-                  <li
-                    key={`${source.documentId}-${source.index}-${source.chunkOrder ?? 0}`}
-                    className="rounded-lg border border-slate-200 bg-white p-4 text-sm text-slate-700"
-                  >
-                    <p>
-                      <span className="font-medium text-slate-900">Documento:</span>{' '}
-                      {source.documentTitle || '—'}
-                    </p>
-                    <p>
-                      <span className="font-medium text-slate-900">Setor:</span>{' '}
-                      {source.sectorName || '—'}
-                    </p>
-                    <p>
-                      <span className="font-medium text-slate-900">Categoria:</span>{' '}
-                      {source.categoryName || '—'}
-                    </p>
-                    <p>
-                      <span className="font-medium text-slate-900">Chunk:</span>{' '}
-                      {source.chunkOrder ?? '—'}
-                    </p>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="text-sm text-slate-500">
-                A IA respondeu, mas nenhuma fonte foi retornada para esta consulta.
-              </p>
-            )}
+            {(() => {
+              const uniqueSources = Array.from(
+                new Map(
+                  response.sources.map((source) => [source.documentId, source])
+                ).values()
+              )
+
+              return uniqueSources.length > 0 ? (
+                <ul className="space-y-3">
+                  {uniqueSources.map((source) => (
+                    <li
+                      key={source.documentId}
+                      className="rounded-lg border border-slate-200 bg-white p-4 text-sm text-slate-700"
+                    >
+                      <p>
+                        <span className="font-medium text-slate-900">Documento:</span>{' '}
+                        {source.documentTitle || '—'}
+                      </p>
+                      <p>
+                        <span className="font-medium text-slate-900">Setor:</span>{' '}
+                        {source.sectorName || '—'}
+                      </p>
+                      <p>
+                        <span className="font-medium text-slate-900">Categoria:</span>{' '}
+                        {source.categoryName || '—'}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="text-sm text-slate-500">
+                  A IA respondeu, mas nenhuma fonte foi retornada para esta consulta.
+                </p>
+              )
+            })()}
           </Card>
         </>
       )}
