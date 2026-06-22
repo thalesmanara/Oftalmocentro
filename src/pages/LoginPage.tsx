@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { Eye } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { useSettings } from '@/hooks/useSettings'
@@ -9,19 +9,28 @@ import { Button } from '@/components/ui/Button'
 export function LoginPage() {
   const { user, login, loading } = useAuth()
   const { settings } = useSettings()
-  const navigate = useNavigate()
-  const [email, setEmail] = useState('admin@oftalmocentro.cloud')
-  const [senha, setSenha] = useState('admin123')
+  const [email, setEmail] = useState('')
+  const [senha, setSenha] = useState('')
   const [error, setError] = useState('')
 
   if (user) return <Navigate to="/dashboard" replace />
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault()
     setError('')
-    const ok = await login(email, senha)
-    if (ok) navigate('/dashboard')
-    else setError('E-mail ou senha inválidos.')
+
+    if (!email.trim() || !senha) {
+      setError('Informe e-mail e senha.')
+      return
+    }
+
+    try {
+      await login(email, senha)
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : 'Usuário ou senha inválidos.'
+      )
+    }
   }
 
   return (
@@ -52,26 +61,29 @@ export function LoginPage() {
               label="E-mail"
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(event) => setEmail(event.target.value)}
               required
               autoComplete="email"
+              disabled={loading}
             />
             <Input
               label="Senha"
               type="password"
               value={senha}
-              onChange={(e) => setSenha(e.target.value)}
+              onChange={(event) => setSenha(event.target.value)}
               required
               autoComplete="current-password"
+              disabled={loading}
             />
             {error && <p className="text-sm text-red-600">{error}</p>}
-            <Button type="submit" className="w-full" disabled={loading}>
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={loading || !email.trim() || !senha}
+            >
               {loading ? 'Entrando...' : 'Entrar'}
             </Button>
           </form>
-          <p className="mt-6 text-center text-xs text-slate-400">
-            MVP — autenticação mockada. Integração futura com n8n.
-          </p>
         </div>
       </div>
     </div>

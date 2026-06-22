@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router-dom'
 import type { AuthUser, PermissionCode } from '@/types'
 import {
   getCurrentUser,
-  getToken,
   login as authLogin,
   logout as authLogout,
   persistSession,
@@ -19,9 +18,8 @@ import { hasPermission as checkPermission } from '@/utils/permissions'
 
 export interface AuthContextValue {
   user: AuthUser | null
-  token: string | null
   loading: boolean
-  login: (email: string, password: string) => Promise<boolean>
+  login: (email: string, password: string) => Promise<void>
   logout: () => void
   hasPermission: (permissionCode: PermissionCode) => boolean
   updateCurrentUser: (user: AuthUser) => void
@@ -32,24 +30,20 @@ export const AuthContext = createContext<AuthContextValue | null>(null)
 export function AuthProvider({ children }: { children: ReactNode }) {
   const navigate = useNavigate()
   const [user, setUser] = useState<AuthUser | null>(() => getCurrentUser())
-  const [token, setToken] = useState<string | null>(() => getToken())
   const [loading, setLoading] = useState(false)
 
   const login = useCallback(async (email: string, password: string) => {
     setLoading(true)
     try {
-      const result = await authLogin(email, password)
-      if (!result) return false
-
-      persistSession(result.user, result.token)
-      setUser(result.user)
-      setToken(result.token)
-      logAction(result.user.name, 'Login', 'Sessão', 'Login realizado com sucesso')
-      return true
+      const loggedUser = await authLogin(email, password)
+      persistSession(loggedUser)
+      setUser(loggedUser)
+      logAction(loggedUser.name, 'Login', 'Sessão', 'Login realizado com sucesso')
+      navigate('/dashboard', { replace: true })
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [navigate])
 
   const logout = useCallback(() => {
     if (user) {
@@ -57,7 +51,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     authLogout()
     setUser(null)
-    setToken(null)
     navigate('/login', { replace: true })
   }, [user, navigate])
 
@@ -68,25 +61,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const updateCurrentUser = useCallback((updated: AuthUser) => {
     setUser(updated)
-    const currentToken = getToken()
-    if (currentToken) {
-      persistSession(updated, currentToken)
-    } else {
-      localStorage.setItem('user', JSON.stringify(updated))
-    }
+    persistSession(updated)
   }, [])
 
   const value = useMemo(
     () => ({
       user,
-      token,
       loading,
       login,
       logout,
       hasPermission,
       updateCurrentUser,
     }),
-    [user, token, loading, login, logout, hasPermission, updateCurrentUser]
+    [user, loading, login, logout, hasPermission, updateCurrentUser]
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
