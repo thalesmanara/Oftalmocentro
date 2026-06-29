@@ -31,7 +31,6 @@ export function SectorsPage() {
   const [modalOpen, setModalOpen] = useState(false)
   const [editing, setEditing] = useState<Sector | null>(null)
   const [formName, setFormName] = useState('')
-  const [formDescription, setFormDescription] = useState('')
   const [formActive, setFormActive] = useState(true)
   const [deleteId, setDeleteId] = useState<string | null>(null)
 
@@ -59,7 +58,6 @@ export function SectorsPage() {
   const openCreate = () => {
     setEditing(null)
     setFormName('')
-    setFormDescription('')
     setFormActive(true)
     setModalOpen(true)
   }
@@ -67,7 +65,6 @@ export function SectorsPage() {
   const openEdit = (sector: Sector) => {
     setEditing(sector)
     setFormName(sector.name)
-    setFormDescription(sector.description ?? '')
     setFormActive(sector.active)
     setModalOpen(true)
   }
@@ -80,14 +77,14 @@ export function SectorsPage() {
       if (editing) {
         await updateSector(editing.id, {
           name: formName.trim(),
-          description: formDescription.trim() || null,
+          description: null,
           active: formActive,
         })
         showFeedback({ type: 'success', message: 'Setor atualizado com sucesso.' })
       } else {
         await createSector({
           name: formName.trim(),
-          description: formDescription.trim() || null,
+          description: null,
           active: formActive,
         })
         showFeedback({ type: 'success', message: 'Setor criado com sucesso.' })
@@ -155,7 +152,6 @@ export function SectorsPage() {
             <thead className="border-b border-slate-100 bg-slate-50 text-slate-600">
               <tr>
                 <th className="px-4 py-3 font-medium">Nome</th>
-                <th className="px-4 py-3 font-medium">Descrição</th>
                 <th className="px-4 py-3 font-medium">Status</th>
                 {canManage && <th className="px-4 py-3 font-medium">Ações</th>}
               </tr>
@@ -164,7 +160,6 @@ export function SectorsPage() {
               {sectors.map((sector) => (
                 <tr key={sector.id} className="hover:bg-slate-50">
                   <td className="px-4 py-3 font-medium">{sector.name}</td>
-                  <td className="px-4 py-3 text-slate-600">{sector.description ?? '—'}</td>
                   <td className="px-4 py-3">
                     <Badge variant={sector.active ? 'success' : 'danger'}>
                       {sector.active ? 'Ativo' : 'Inativo'}
@@ -206,11 +201,6 @@ export function SectorsPage() {
       >
         <div className="space-y-4">
           <Input label="Nome" value={formName} onChange={(e) => setFormName(e.target.value)} required />
-          <Input
-            label="Descrição"
-            value={formDescription}
-            onChange={(e) => setFormDescription(e.target.value)}
-          />
           <label className="flex items-center gap-2 text-sm">
             <input
               type="checkbox"

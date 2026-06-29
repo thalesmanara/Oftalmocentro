@@ -12,6 +12,7 @@ import { PageHeader } from '@/components/ui/PageHeader'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
+import { Textarea } from '@/components/ui/Textarea'
 import { Modal } from '@/components/ui/Modal'
 import { ModalConfirm } from '@/components/ui/Modal'
 import { Badge } from '@/components/ui/Badge'
@@ -155,7 +156,7 @@ export function CategoriesPage() {
             <thead className="border-b border-slate-100 bg-slate-50 text-slate-600">
               <tr>
                 <th className="px-4 py-3 font-medium">Nome</th>
-                <th className="px-4 py-3 font-medium">Descrição</th>
+                <th className="px-4 py-3 font-medium">Descrição para IA</th>
                 <th className="px-4 py-3 font-medium">Status</th>
                 {canManage && <th className="px-4 py-3 font-medium">Ações</th>}
               </tr>
@@ -206,11 +207,16 @@ export function CategoriesPage() {
       >
         <div className="space-y-4">
           <Input label="Nome" value={formName} onChange={(e) => setFormName(e.target.value)} required />
-          <Input
-            label="Descrição"
+          <Textarea
+            label="Descrição para orientação da IA"
             value={formDescription}
             onChange={(e) => setFormDescription(e.target.value)}
+            rows={4}
           />
+          <p className="text-xs text-slate-500">
+            Explique quais tipos de documentos pertencem a esta categoria e quando a IA deve
+            consultar esses documentos.
+          </p>
           <label className="flex items-center gap-2 text-sm">
             <input
               type="checkbox"

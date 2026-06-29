@@ -8,6 +8,7 @@ import { TagBadge } from '@/components/ui/TagBadge'
 import { getSectors } from '@/services/sectorsService'
 import { getCategories } from '@/services/categoriesService'
 import { getTags } from '@/services/tagsService'
+import { useSettings } from '@/hooks/useSettings'
 import { ACCEPTED_FILE_TYPES, formatFileSize } from '@/utils/document'
 
 interface DocumentFormProps {
@@ -49,6 +50,7 @@ export function DocumentForm({
   submitLabel = 'Salvar',
   submitting = false,
 }: DocumentFormProps) {
+  const { settings } = useSettings()
   const [title, setTitle] = useState(initial?.title ?? '')
   const [sectorId, setSectorId] = useState(initial?.sectorId ?? '')
   const [categoryId, setCategoryId] = useState(initial?.categoryId ?? '')
@@ -118,8 +120,7 @@ export function DocumentForm({
     title.trim() &&
     sectorId &&
     categoryId &&
-    semanticDescription.trim() &&
-    expirationDate
+    semanticDescription.trim()
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -130,7 +131,7 @@ export function DocumentForm({
       categoryId,
       semanticDescription: semanticDescription.trim(),
       tagIds: Array.from(new Set(tagIds)),
-      expirationDate,
+      expirationDate: expirationDate || null,
       file,
     })
   }
@@ -203,11 +204,10 @@ export function DocumentForm({
         </div>
       </div>
       <Input
-        label="Data de validade"
+        label="Data de vigência"
         type="date"
         value={expirationDate}
         onChange={(e) => setExpirationDate(e.target.value)}
-        required
       />
       <div>
         <label className="text-sm font-medium text-slate-700">Upload de arquivo</label>
@@ -237,7 +237,12 @@ export function DocumentForm({
         </p>
       </div>
       <div className="flex gap-2 pt-4">
-        <Button type="submit" disabled={submitting || !isValid}>
+        <Button
+          type="submit"
+          disabled={submitting || !isValid}
+          style={{ backgroundColor: settings.primaryColor }}
+          className="text-white hover:opacity-90"
+        >
           {submitLabel}
         </Button>
         <Button type="button" variant="outline" onClick={onCancel} disabled={submitting}>

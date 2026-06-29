@@ -140,7 +140,7 @@ export function DocumentLibraryPage() {
           <Select label="Setor" value={filterSectorId} onChange={(e) => setFilterSectorId(e.target.value)} options={sectorOptions} />
           <Select label="Categoria" value={filterCategoryId} onChange={(e) => setFilterCategoryId(e.target.value)} options={categoryOptions} />
           <Select label="Tag" value={filterTagId} onChange={(e) => setFilterTagId(e.target.value)} options={tagOptions} />
-          <Input label="Data de validade" type="date" value={filterExpiration} onChange={(e) => setFilterExpiration(e.target.value)} />
+          <Input label="Data de vigência" type="date" value={filterExpiration} onChange={(e) => setFilterExpiration(e.target.value)} />
         </div>
         <div className="mt-4 flex justify-end gap-2">
           <Button variant={viewMode === 'cards' ? 'primary' : 'outline'} size="sm" onClick={() => setViewMode('cards')}>
@@ -167,7 +167,7 @@ export function DocumentLibraryPage() {
               <div className="p-5">
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="font-semibold text-slate-800 line-clamp-2">{doc.title}</h3>
-                  {isDocumentExpired(doc) && <Badge variant="danger">Vencido</Badge>}
+                  {isDocumentExpired(doc) && <Badge variant="danger">Vigência expirada</Badge>}
                 </div>
                 <p className="mt-1 text-xs text-slate-500">
                   {displaySector(doc)} · {displayCategory(doc)}
@@ -182,7 +182,7 @@ export function DocumentLibraryPage() {
                   {doc.fileSize ? ` · ${formatFileSize(doc.fileSize)}` : ''}
                 </p>
                 <p className="mt-1 text-xs text-slate-400">
-                  Responsável: {doc.responsibleUserName ?? '—'} · Validade: {formatDate(doc.expirationDate)}
+                  Responsável: {doc.responsibleUserName ?? '—'} · Vigência: {formatDate(doc.expirationDate)}
                 </p>
                 <div className="mt-4 flex gap-2">
                   {hasPermission('visualizar_documentos') && (
@@ -214,7 +214,7 @@ export function DocumentLibraryPage() {
                 <th className="px-4 py-3 font-medium">Setor</th>
                 <th className="px-4 py-3 font-medium">Categoria</th>
                 <th className="px-4 py-3 font-medium">Tags</th>
-                <th className="px-4 py-3 font-medium">Validade</th>
+                <th className="px-4 py-3 font-medium">Vigência</th>
                 <th className="px-4 py-3 font-medium">Arquivo</th>
                 <th className="px-4 py-3 font-medium">Responsável</th>
                 <th className="px-4 py-3 font-medium">Ações</th>
@@ -227,7 +227,7 @@ export function DocumentLibraryPage() {
                     <Link to={`/documentos/${doc.id}`} className="font-medium text-[var(--color-primary,#0d4f8b)] hover:underline">
                       {doc.title}
                     </Link>
-                    {isDocumentExpired(doc) && <Badge variant="danger" className="ml-2">Vencido</Badge>}
+                    {isDocumentExpired(doc) && <Badge variant="danger" className="ml-2">Vigência expirada</Badge>}
                   </td>
                   <td className="px-4 py-3">{displaySector(doc)}</td>
                   <td className="px-4 py-3">{displayCategory(doc)}</td>

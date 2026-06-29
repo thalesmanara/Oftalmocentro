@@ -91,7 +91,7 @@ export function DashboardPage() {
                       {doc.sectorName ?? getSectorNameById(doc.sectorId, sectors)} · {formatDateTime(doc.createdAt)}
                     </p>
                   </div>
-                  {isDocumentExpired(doc) && <Badge variant="danger">Vencido</Badge>}
+                  {isDocumentExpired(doc) && <Badge variant="danger">Vigência expirada</Badge>}
                 </li>
               ))}
             </ul>

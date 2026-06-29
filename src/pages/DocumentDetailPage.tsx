@@ -118,7 +118,7 @@ export function DocumentDetailPage() {
           <div className="mt-2 flex flex-wrap gap-2">
             <Badge variant="info">{sectorLabel}</Badge>
             <Badge>{categoryLabel}</Badge>
-            {expired ? <Badge variant="danger">Vencido</Badge> : <Badge variant="success">Válido</Badge>}
+            {expired ? <Badge variant="danger">Vigência expirada</Badge> : <Badge variant="success">Em vigência</Badge>}
           </div>
         </div>
         <div className="flex gap-2">
@@ -151,7 +151,7 @@ export function DocumentDetailPage() {
               </dd>
             </div>
             <div>
-              <dt className="text-slate-500">Data de validade</dt>
+              <dt className="text-slate-500">Data de vigência</dt>
               <dd className="text-slate-800">{formatDate(doc.expirationDate)}</dd>
             </div>
             <div>

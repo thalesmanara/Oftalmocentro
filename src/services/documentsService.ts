@@ -71,7 +71,7 @@ async function buildUpdatePayload(
     sectorId: data.sectorId,
     categoryId: data.categoryId,
     semanticDescription: data.semanticDescription.trim(),
-    expirationDate: data.expirationDate!,
+    expirationDate: data.expirationDate || null,
     tagIds,
     tags,
   }
@@ -284,10 +284,6 @@ export async function createDocument(
   userId: string,
   _userName: string
 ): Promise<Document> {
-  if (!data.expirationDate) {
-    throw new Error('Data de validade é obrigatória')
-  }
-
   const response = await fetch(`${API_BASE_URL}/webhook/documents/create`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -296,7 +292,7 @@ export async function createDocument(
       sectorId: data.sectorId,
       categoryId: data.categoryId,
       semanticDescription: data.semanticDescription.trim(),
-      expirationDate: data.expirationDate,
+      expirationDate: data.expirationDate || null,
       tagIds: data.tagIds,
       fileName: null,
       fileType: null,
@@ -329,10 +325,6 @@ export async function updateDocument(
   _userName: string,
   currentDocument?: Document
 ): Promise<Document> {
-  if (!data.expirationDate) {
-    throw new Error('Data de validade é obrigatória')
-  }
-
   const existing = currentDocument ?? (await getDocumentById(id))
   if (!existing) {
     throw new Error('Documento não encontrado')

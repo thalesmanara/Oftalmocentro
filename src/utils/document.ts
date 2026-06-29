@@ -22,7 +22,7 @@ export function formatFileSize(bytes?: number | null): string {
 }
 
 export function formatDate(dateStr: string | null | undefined): string {
-  if (!dateStr) return 'Sem validade'
+  if (!dateStr) return 'Sem vigência'
   return new Date(dateStr + 'T00:00:00').toLocaleDateString('pt-BR')
 }
 

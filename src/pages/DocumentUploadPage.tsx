@@ -32,7 +32,7 @@ export function DocumentUploadPage() {
   const handleSubmit = async (data: DocumentFormData) => {
     if (!user) return
 
-    if (!data.title.trim() || !data.sectorId || !data.categoryId || !data.semanticDescription.trim() || !data.expirationDate) {
+    if (!data.title.trim() || !data.sectorId || !data.categoryId || !data.semanticDescription.trim()) {
       setFeedback({ type: 'error', message: 'Preencha todos os campos obrigatórios.' })
       return
     }

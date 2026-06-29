@@ -32,13 +32,16 @@ async function resolveUserAfterCreate(result: unknown, email: string): Promise<U
   const parsed = parseUser(result)
   if (parsed) return parsed
 
-  const record = result && typeof result === 'object' ? (result as Record<string, unknown>) : null
-  if (record?.success === true) {
+  for (let attempt = 0; attempt < 4; attempt += 1) {
     const users = await getUsers()
     const found = users.find(
       (u) => u.email.trim().toLowerCase() === email.trim().toLowerCase()
     )
     if (found) return found
+
+    if (attempt < 3) {
+      await new Promise((resolve) => setTimeout(resolve, 400))
+    }
   }
 
   throw new Error('Resposta inválida ao criar usuário')

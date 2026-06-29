@@ -50,15 +50,15 @@ export function UsersPage() {
     setTimeout(() => setFeedback(null), 4000)
   }
 
-  const loadUsers = useCallback(async () => {
-    setLoading(true)
+  const loadUsers = useCallback(async (showPageLoading = true) => {
+    if (showPageLoading) setLoading(true)
     try {
       const data = await getUsers()
       setUsers(data)
     } catch {
       showFeedback({ type: 'error', message: 'Erro ao carregar usuários.' })
     } finally {
-      setLoading(false)
+      if (showPageLoading) setLoading(false)
     }
   }, [])
 
@@ -103,6 +103,11 @@ export function UsersPage() {
     }))
   }
 
+  const resetForm = () => {
+    setForm(emptyForm)
+    setEditing(null)
+  }
+
   const handleSave = async () => {
     if (!form.name.trim() || !form.email.trim()) return
     if (!editing && !form.password.trim()) return
@@ -136,8 +141,10 @@ export function UsersPage() {
         }
         showFeedback({ type: 'success', message: 'Usuário criado com sucesso.' })
       }
+
       setModalOpen(false)
-      await loadUsers()
+      resetForm()
+      await loadUsers(false)
     } catch {
       showFeedback({
         type: 'error',
@@ -158,7 +165,7 @@ export function UsersPage() {
       if (u) logAction(currentUser.name, 'Exclusão', 'Usuário', `Usuário "${u.name}" inativado`)
       setDeleteId(null)
       showFeedback({ type: 'success', message: 'Usuário inativado com sucesso.' })
-      await loadUsers()
+      await loadUsers(false)
     } catch {
       showFeedback({ type: 'error', message: 'Erro ao inativar usuário.' })
     } finally {
