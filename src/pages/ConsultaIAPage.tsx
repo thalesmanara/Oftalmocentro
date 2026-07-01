@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
-import { Bot, Loader2, Printer } from 'lucide-react'
+import { Bot, Download, Loader2, Printer } from 'lucide-react'
 import { askAI, type AIResponse, type AISource } from '@/services/aiService'
+import { downloadDocumentFile } from '@/services/documentsService'
 import { useSettings } from '@/hooks/useSettings'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { Card } from '@/components/ui/Card'
@@ -18,6 +19,8 @@ export function ConsultaIAPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [response, setResponse] = useState<AIResponse | null>(null)
+  const [downloadingId, setDownloadingId] = useState<string | null>(null)
+  const [downloadError, setDownloadError] = useState<string | null>(null)
 
   const uniqueSources = useMemo(
     () => (response ? getUniqueSources(response.sources) : []),
@@ -33,6 +36,7 @@ export function ConsultaIAPage() {
     setLoading(true)
     setError(null)
     setResponse(null)
+    setDownloadError(null)
 
     try {
       const result = await askAI(trimmed)
@@ -50,6 +54,19 @@ export function ConsultaIAPage() {
 
   const handlePrint = () => {
     window.print()
+  }
+
+  const handleDownloadSource = async (source: AISource) => {
+    setDownloadingId(source.documentId)
+    setDownloadError(null)
+
+    try {
+      await downloadDocumentFile(source.documentId, source.documentTitle)
+    } catch {
+      setDownloadError('Não foi possível baixar o arquivo do documento selecionado.')
+    } finally {
+      setDownloadingId(null)
+    }
   }
 
   return (
@@ -132,6 +149,9 @@ export function ConsultaIAPage() {
           </Card>
 
           <Card title="Fontes consultadas" className="print-section">
+            {downloadError && (
+              <p className="no-print mb-3 text-sm text-red-600">{downloadError}</p>
+            )}
             {uniqueSources.length > 0 ? (
               <ul className="space-y-3">
                 {uniqueSources.map((source) => (
@@ -151,6 +171,18 @@ export function ConsultaIAPage() {
                       <span className="font-medium text-slate-900">Categoria:</span>{' '}
                       {source.categoryName || '—'}
                     </p>
+                    <Button
+                      size="sm"
+                      className="no-print mt-3 text-white hover:opacity-90"
+                      style={{ backgroundColor: settings.primaryColor }}
+                      onClick={() => handleDownloadSource(source)}
+                      disabled={downloadingId === source.documentId}
+                    >
+                      <Download size={16} />
+                      {downloadingId === source.documentId
+                        ? 'Baixando...'
+                        : 'Download do arquivo'}
+                    </Button>
                   </li>
                 ))}
               </ul>

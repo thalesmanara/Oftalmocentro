@@ -462,3 +462,53 @@ export async function deleteDocument(id: string): Promise<void> {
     throw new Error('Erro ao excluir documento')
   }
 }
+
+function parseFileNameFromDisposition(header: string | null): string | null {
+  if (!header) return null
+
+  const utf8Match = header.match(/filename\*=UTF-8''([^;]+)/i)
+  if (utf8Match?.[1]) {
+    try {
+      return decodeURIComponent(utf8Match[1])
+    } catch {
+      return utf8Match[1]
+    }
+  }
+
+  const match = header.match(/filename="?([^";\n]+)"?/i)
+  return match?.[1] ?? null
+}
+
+export async function downloadDocumentFile(
+  documentId: string,
+  fallbackFileName?: string | null
+): Promise<void> {
+  const url = `${API_BASE_URL}/webhook/documents/download?documentId=${encodeURIComponent(documentId)}`
+
+  let response: Response
+
+  try {
+    response = await fetch(url)
+  } catch {
+    throw new Error('Não foi possível baixar o arquivo.')
+  }
+
+  if (!response.ok) {
+    throw new Error('Não foi possível baixar o arquivo.')
+  }
+
+  const blob = await response.blob()
+  const fileName =
+    parseFileNameFromDisposition(response.headers.get('Content-Disposition')) ??
+    fallbackFileName ??
+    'documento'
+
+  const objectUrl = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = objectUrl
+  link.download = fileName
+  document.body.appendChild(link)
+  link.click()
+  link.remove()
+  URL.revokeObjectURL(objectUrl)
+}

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import type { DocumentFormData, Tag } from '@/types'
 import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
@@ -51,6 +51,7 @@ export function DocumentForm({
   submitting = false,
 }: DocumentFormProps) {
   const { settings } = useSettings()
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const [title, setTitle] = useState(initial?.title ?? '')
   const [sectorId, setSectorId] = useState(initial?.sectorId ?? '')
   const [categoryId, setCategoryId] = useState(initial?.categoryId ?? '')
@@ -209,30 +210,43 @@ export function DocumentForm({
         value={expirationDate}
         onChange={(e) => setExpirationDate(e.target.value)}
       />
-      <div>
-        <label className="text-sm font-medium text-slate-700">Upload de arquivo</label>
+      <div className="flex flex-col gap-3">
+        <div className="flex flex-wrap items-center gap-3">
+          <label className="text-sm font-medium text-slate-700">Upload de arquivo</label>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept={ACCEPTED_FILE_TYPES}
+            disabled={submitting}
+            onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+            className="hidden"
+          />
+          <Button
+            type="button"
+            size="sm"
+            disabled={submitting}
+            onClick={() => fileInputRef.current?.click()}
+            style={{ backgroundColor: settings.primaryColor }}
+            className="text-white hover:opacity-90"
+          >
+            Escolher arquivo
+          </Button>
+        </div>
         {initialFile?.fileName && !file && (
-          <p className="mt-1 text-sm text-slate-600">
+          <p className="text-sm text-slate-600">
             Arquivo atual: {initialFile.fileName}
             {initialFile.fileType ? ` · ${initialFile.fileType}` : ''}
             {initialFile.fileSize ? ` · ${formatFileSize(initialFile.fileSize)}` : ''}
           </p>
         )}
-        <input
-          type="file"
-          accept={ACCEPTED_FILE_TYPES}
-          disabled={submitting}
-          onChange={(e) => setFile(e.target.files?.[0] ?? null)}
-          className="mt-1 block w-full text-sm text-slate-700 file:mr-4 file:rounded-lg file:border-0 file:bg-slate-100 file:px-4 file:py-2 file:text-sm file:font-medium hover:file:bg-slate-200 disabled:cursor-not-allowed disabled:opacity-50"
-        />
         {file && (
-          <p className="mt-1 text-sm text-slate-600">
+          <p className="text-sm text-slate-600">
             Novo arquivo: {file.name}
             {file.type ? ` · ${file.type}` : ''}
             {` · ${formatFileSize(file.size)}`}
           </p>
         )}
-        <p className="mt-1 text-xs text-slate-400">
+        <p className="text-xs text-slate-400">
           Formatos aceitos: PDF, Word, Excel, CSV e TXT. O arquivo é enviado após salvar os dados do documento.
         </p>
       </div>

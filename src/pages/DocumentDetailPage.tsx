@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
-import { Pencil, Trash2, FileIcon, ArrowLeft } from 'lucide-react'
-import { getDocumentById, deleteDocument } from '@/services/documentsService'
+import { Pencil, Trash2, FileIcon, ArrowLeft, Download } from 'lucide-react'
+import { getDocumentById, deleteDocument, downloadDocumentFile } from '@/services/documentsService'
 import { getSectors } from '@/services/sectorsService'
 import { getCategories } from '@/services/categoriesService'
 import { getTags } from '@/services/tagsService'
 import { logAction } from '@/services/auditService'
 import type { Category, Document, Sector, Tag } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
+import { useSettings } from '@/hooks/useSettings'
 import { getCategoryNameById, getSectorNameById, getTagsByIds } from '@/utils/entities'
 import { TagBadge } from '@/components/ui/TagBadge'
 import { formatDate, formatDateTime, formatFileSize, isDocumentExpired } from '@/utils/document'
@@ -22,6 +23,7 @@ export function DocumentDetailPage() {
   const location = useLocation()
   const navigate = useNavigate()
   const { user } = useAuth()
+  const { settings } = useSettings()
   const [flashError, setFlashError] = useState('')
   const handledLocationKey = useRef<string | null>(null)
   const [doc, setDoc] = useState<Document | null>(null)
@@ -31,6 +33,8 @@ export function DocumentDetailPage() {
   const [tags, setTags] = useState<Tag[]>([])
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [deleting, setDeleting] = useState(false)
+  const [downloading, setDownloading] = useState(false)
+  const [downloadError, setDownloadError] = useState<string | null>(null)
 
   useEffect(() => {
     if (handledLocationKey.current === location.key) return
@@ -85,6 +89,21 @@ export function DocumentDetailPage() {
   const sectorLabel = doc.sectorName ?? getSectorNameById(doc.sectorId, sectors)
   const categoryLabel = doc.categoryName ?? getCategoryNameById(doc.categoryId, categories)
   const resolvedTags = doc.tags?.length ? doc.tags : getTagsByIds(doc.tagIds, tags)
+
+  const handleDownload = async () => {
+    if (!id) return
+
+    setDownloading(true)
+    setDownloadError(null)
+
+    try {
+      await downloadDocumentFile(id, doc.fileName)
+    } catch {
+      setDownloadError('Não foi possível baixar o arquivo.')
+    } finally {
+      setDownloading(false)
+    }
+  }
 
   const handleDelete = async () => {
     if (!user || !id) return
@@ -180,17 +199,27 @@ export function DocumentDetailPage() {
         <Card title="Arquivo">
           <div className="flex items-start gap-4">
             <FileIcon className="text-slate-400" size={40} />
-            <div>
+            <div className="flex-1">
               <p className="font-medium text-slate-800">{doc.fileName ?? '—'}</p>
               <p className="text-sm text-slate-500">{doc.fileType ?? '—'}</p>
               <p className="text-sm text-slate-500">{formatFileSize(doc.fileSize)}</p>
-              <p className="mt-1 text-xs text-slate-400">{doc.filePath ?? '—'}</p>
+              {doc.fileName && (
+                <Button
+                  size="sm"
+                  className="mt-4 text-white hover:opacity-90"
+                  style={{ backgroundColor: settings.primaryColor }}
+                  onClick={handleDownload}
+                  disabled={downloading}
+                >
+                  <Download size={16} />
+                  {downloading ? 'Baixando...' : 'Download do arquivo'}
+                </Button>
+              )}
+              {downloadError && (
+                <p className="mt-2 text-sm text-red-600">{downloadError}</p>
+              )}
             </div>
           </div>
-        </Card>
-
-        <Card title="Texto extraído" className="lg:col-span-2">
-          <p className="whitespace-pre-wrap text-sm text-slate-700">{doc.extractedText ?? '—'}</p>
         </Card>
       </div>
 
