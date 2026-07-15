@@ -1,4 +1,4 @@
-import type { Category, Sector, Tag } from '@/types'
+import type { Category, Sector, Subcategory } from '@/types'
 
 export function getSectorNameById(
   sectorId: string | null | undefined,
@@ -22,17 +22,15 @@ export function getCategoryNameById(
   )
 }
 
-export function getTagsByIds(tagIds: string[], tags: Tag[]): Tag[] {
-  return tags.filter((tag) => tagIds.includes(tag.id))
-}
-
-export function getTagNameById(tagId: string | null | undefined, tags: Tag[]): string {
-  if (!tagId) return '—'
-  return tags.find((t) => t.id === tagId)?.name ?? 'Tag não encontrada'
-}
-
-export function getTagNamesByIds(tagIds: string[], tags: Tag[]): string[] {
-  return tagIds
-    .map((id) => getTagNameById(id, tags))
-    .filter((name) => name !== 'Tag não encontrada')
+export function getSubcategoryNameById(
+  subcategoryId: string | null | undefined,
+  subcategories: Subcategory[],
+  fallback?: string
+): string {
+  if (!subcategoryId) return fallback ?? 'Não informada'
+  return (
+    subcategories.find((s) => s.id === subcategoryId)?.name ??
+    fallback ??
+    'Subcategoria não encontrada'
+  )
 }

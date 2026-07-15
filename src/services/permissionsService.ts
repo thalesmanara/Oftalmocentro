@@ -2,6 +2,10 @@ import { API_BASE_URL } from './api'
 import { mockPermissions } from '@/data/mocks'
 import type { Permission } from '@/types'
 
+function withoutLegacyTagPermission(permissions: Permission[]): Permission[] {
+  return permissions.filter((permission) => permission.code !== 'gerenciar_tags')
+}
+
 export async function getPermissions(): Promise<Permission[]> {
   try {
     const response = await fetch(`${API_BASE_URL}/webhook/permissions`)
@@ -13,11 +17,11 @@ export async function getPermissions(): Promise<Permission[]> {
     const data = await response.json()
 
     if (Array.isArray(data)) {
-      return data as Permission[]
+      return withoutLegacyTagPermission(data as Permission[])
     }
 
     if (data?.data && Array.isArray(data.data)) {
-      return data.data as Permission[]
+      return withoutLegacyTagPermission(data.data as Permission[])
     }
 
     return mockPermissions

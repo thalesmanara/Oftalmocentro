@@ -1,8 +1,6 @@
 import { API_BASE_URL } from './api'
 import { mockDocuments } from '@/data/mocks'
-import { getTags } from './tagsService'
-import type { Document, DocumentFormData, Tag } from '@/types'
-import { getDocumentTagIds } from '@/utils/document'
+import type { Document, DocumentFormData } from '@/types'
 
 export interface DocumentFileUploadResult {
   id: string
@@ -29,32 +27,11 @@ function normalizeExpirationDate(value: string | null | undefined): string | nul
 function normalizeDocument(doc: Document): Document {
   return {
     ...doc,
-    tagIds: getDocumentTagIds(doc),
-    tags: doc.tags ?? [],
+    subcategoryId: doc.subcategoryId ?? null,
+    subcategoryName: doc.subcategoryName ?? null,
+    subcategoryDescription: doc.subcategoryDescription ?? null,
     expirationDate: normalizeExpirationDate(doc.expirationDate),
   }
-}
-
-async function resolveTagsForPayload(
-  tagIds: string[],
-  existing: Document
-): Promise<Pick<Tag, 'id' | 'name' | 'color' | 'active'>[]> {
-  const catalog = await getTags()
-
-  return tagIds.map((tagId) => {
-    const fromCatalog = catalog.find((tag) => tag.id === tagId)
-    const fromDocument = existing.tags?.find((tag) => tag.id === tagId)
-
-    const tag = fromCatalog ?? fromDocument
-    if (!tag) return { id: tagId, name: tagId, color: null, active: true }
-
-    return {
-      id: tag.id,
-      name: tag.name,
-      color: tag.color,
-      active: tag.active,
-    }
-  })
 }
 
 async function buildUpdatePayload(
@@ -62,29 +39,14 @@ async function buildUpdatePayload(
   data: DocumentFormData,
   userId: string
 ) {
-  const tagIds = Array.from(new Set(data.tagIds ?? getDocumentTagIds(existing)))
-  const tags = await resolveTagsForPayload(tagIds, existing)
-
-  const merged = {
-    ...existing,
+  return {
+    id: existing.id,
     title: data.title.trim(),
     sectorId: data.sectorId,
     categoryId: data.categoryId,
+    subcategoryId: data.subcategoryId ?? null,
     semanticDescription: data.semanticDescription.trim(),
     expirationDate: data.expirationDate || null,
-    tagIds,
-    tags,
-  }
-
-  return {
-    id: existing.id,
-    title: merged.title,
-    sectorId: merged.sectorId,
-    categoryId: merged.categoryId,
-    semanticDescription: merged.semanticDescription,
-    expirationDate: merged.expirationDate,
-    tagIds,
-    tags,
     fileName: existing.fileName ?? null,
     fileType: existing.fileType ?? null,
     fileSize: existing.fileSize ?? null,
@@ -113,9 +75,10 @@ function parseDocument(data: unknown): Document | null {
       title: doc.title ?? '',
       sectorId: doc.sectorId ?? '',
       categoryId: doc.categoryId ?? '',
+      subcategoryId: doc.subcategoryId ?? null,
+      subcategoryName: doc.subcategoryName ?? null,
+      subcategoryDescription: doc.subcategoryDescription ?? null,
       semanticDescription: doc.semanticDescription ?? '',
-      tagIds: doc.tagIds ?? [],
-      tags: doc.tags ?? [],
       expirationDate: doc.expirationDate ?? null,
       createdAt: doc.createdAt ?? new Date().toISOString(),
       updatedAt: doc.updatedAt ?? new Date().toISOString(),
@@ -175,9 +138,8 @@ function buildMinimalCreatedDocument(id: string, match: {
     title: match.title,
     sectorId: match.sectorId,
     categoryId: match.categoryId,
+    subcategoryId: null,
     semanticDescription: '',
-    tagIds: [],
-    tags: [],
     expirationDate: null,
     createdAt: now,
     updatedAt: now,
@@ -291,9 +253,9 @@ export async function createDocument(
       title: data.title.trim(),
       sectorId: data.sectorId,
       categoryId: data.categoryId,
+      subcategoryId: data.subcategoryId ?? null,
       semanticDescription: data.semanticDescription.trim(),
       expirationDate: data.expirationDate || null,
-      tagIds: data.tagIds,
       fileName: null,
       fileType: null,
       fileSize: null,

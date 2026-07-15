@@ -6,7 +6,6 @@ import {
   Users,
   Building2,
   FolderOpen,
-  Tags,
   Bot,
   ClipboardList,
   Settings,
@@ -43,8 +42,7 @@ const navGroups: NavGroup[] = [
     items: [
       { to: '/usuarios', label: 'Usuários', icon: Users, permission: 'gerenciar_usuarios' },
       { to: '/setores', label: 'Setores', icon: Building2, permission: 'gerenciar_setores' },
-      { to: '/categorias', label: 'Categorias', icon: FolderOpen, permission: 'gerenciar_categorias' },
-      { to: '/tags', label: 'Tags', icon: Tags, permission: 'gerenciar_tags' },
+      { to: '/categorias', label: 'Categorias do documento', icon: FolderOpen, permission: 'gerenciar_categorias' },
     ],
   },
   {

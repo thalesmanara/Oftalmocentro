@@ -16,7 +16,7 @@ export function Select({ label, options, className = '', id, ...props }: SelectP
       )}
       <select
         id={selectId}
-        className={`rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-[var(--color-primary,#0d4f8b)] focus:ring-2 focus:ring-[var(--color-primary,#0d4f8b)]/20 ${className}`}
+        className={`rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-[var(--color-primary,#0d4f8b)] focus:ring-2 focus:ring-[var(--color-primary,#0d4f8b)]/20 disabled:cursor-not-allowed disabled:bg-slate-50 disabled:text-slate-400 ${className}`}
         {...props}
       >
         {options.map((opt) => (

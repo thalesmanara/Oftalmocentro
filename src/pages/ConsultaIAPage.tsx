@@ -171,6 +171,10 @@ export function ConsultaIAPage() {
                       <span className="font-medium text-slate-900">Categoria:</span>{' '}
                       {source.categoryName || '—'}
                     </p>
+                    <p>
+                      <span className="font-medium text-slate-900">Subcategoria:</span>{' '}
+                      {source.subcategoryName || 'Não informada'}
+                    </p>
                     <Button
                       size="sm"
                       className="no-print mt-3 text-white hover:opacity-90"

@@ -14,13 +14,17 @@ async function parseJsonResponse(response: Response): Promise<unknown> {
 }
 
 function normalizePermissions(permissions: unknown): string[] {
+  const ignore = new Set(['gerenciar_tags'])
+
   if (Array.isArray(permissions)) {
-    return permissions.filter((item): item is string => typeof item === 'string')
+    return permissions.filter(
+      (item): item is string => typeof item === 'string' && !ignore.has(item)
+    )
   }
 
   if (permissions && typeof permissions === 'object') {
     return Object.entries(permissions as Record<string, boolean>)
-      .filter(([, value]) => value === true)
+      .filter(([code, value]) => value === true && !ignore.has(code))
       .map(([code]) => code)
   }
 

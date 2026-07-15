@@ -4,12 +4,11 @@ import { LayoutGrid, List, Eye, Pencil, Trash2, Plus, FileText } from 'lucide-re
 import { getDocuments, deleteDocument } from '@/services/documentsService'
 import { getSectors } from '@/services/sectorsService'
 import { getCategories } from '@/services/categoriesService'
-import { getTags } from '@/services/tagsService'
+import { getSubcategories } from '@/services/subcategoriesService'
 import { logAction } from '@/services/auditService'
-import type { Category, Document, Sector, Tag } from '@/types'
+import type { Category, Document, Sector, Subcategory } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
-import { getCategoryNameById, getSectorNameById, getTagsByIds } from '@/utils/entities'
-import { TagBadge } from '@/components/ui/TagBadge'
+import { getCategoryNameById, getSectorNameById, getSubcategoryNameById } from '@/utils/entities'
 import { formatDate, formatFileSize, isDocumentExpired } from '@/utils/document'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { Input } from '@/components/ui/Input'
@@ -30,12 +29,13 @@ export function DocumentLibraryPage() {
   const [loading, setLoading] = useState(true)
   const [sectors, setSectors] = useState<Sector[]>([])
   const [categories, setCategories] = useState<Category[]>([])
-  const [tags, setTags] = useState<Tag[]>([])
+  const [subcategories, setSubcategories] = useState<Subcategory[]>([])
+  const [loadingSubcategories, setLoadingSubcategories] = useState(false)
   const [viewMode, setViewMode] = useState<ViewMode>('cards')
   const [filterTitle, setFilterTitle] = useState('')
   const [filterSectorId, setFilterSectorId] = useState('')
   const [filterCategoryId, setFilterCategoryId] = useState('')
-  const [filterTagId, setFilterTagId] = useState('')
+  const [filterSubcategoryId, setFilterSubcategoryId] = useState('')
   const [filterExpiration, setFilterExpiration] = useState('')
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [deleting, setDeleting] = useState(false)
@@ -52,46 +52,85 @@ export function DocumentLibraryPage() {
 
   useEffect(() => {
     void load()
-    void Promise.all([getSectors(), getCategories(), getTags()]).then(([s, c, t]) => {
+    void Promise.all([getSectors(), getCategories()]).then(([s, c]) => {
       setSectors(s)
       setCategories(c)
-      setTags(t)
     })
   }, [])
+
+  useEffect(() => {
+    if (!filterCategoryId) {
+      setSubcategories([])
+      setFilterSubcategoryId('')
+      return
+    }
+
+    let cancelled = false
+    setLoadingSubcategories(true)
+
+    void getSubcategories(filterCategoryId)
+      .then((items) => {
+        if (!cancelled) setSubcategories(items.filter((item) => item.active))
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingSubcategories(false)
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [filterCategoryId])
+
+  const handleCategoryFilterChange = (value: string) => {
+    setFilterCategoryId(value)
+    setFilterSubcategoryId('')
+  }
 
   const sectorOptions = [
     { value: '', label: 'Todos os setores' },
     ...sectors.map((x) => ({ value: x.id, label: x.name })),
   ]
   const categoryOptions = [
-    { value: '', label: 'Todas as categorias' },
+    { value: '', label: 'Todas as categorias do documento' },
     ...categories.map((x) => ({ value: x.id, label: x.name })),
   ]
-  const tagOptions = [
-    { value: '', label: 'Todas as tags' },
-    ...tags.filter((x) => x.active).map((x) => ({ value: x.id, label: x.name })),
-  ]
+  const subcategoryOptions = !filterCategoryId
+    ? [{ value: '', label: 'Selecione uma categoria' }]
+    : loadingSubcategories
+      ? [{ value: '', label: 'Carregando...' }]
+      : [
+          { value: '', label: 'Todas as subcategorias' },
+          ...subcategories.map((x) => ({ value: x.id, label: x.name })),
+        ]
 
   const displaySector = (doc: Document) =>
     doc.sectorName ?? getSectorNameById(doc.sectorId, sectors)
   const displayCategory = (doc: Document) =>
     doc.categoryName ?? getCategoryNameById(doc.categoryId, categories)
-  const displayTags = (doc: Document) =>
-    doc.tags?.length ? doc.tags : getTagsByIds(doc.tagIds, tags)
+  const displaySubcategory = (doc: Document) =>
+    doc.subcategoryName ??
+    getSubcategoryNameById(doc.subcategoryId, subcategories, 'Não informada')
 
   const filtered = useMemo(() => {
     return documents.filter((doc) => {
       if (filterTitle && !doc.title.toLowerCase().includes(filterTitle.toLowerCase())) return false
       if (filterSectorId && doc.sectorId !== filterSectorId) return false
       if (filterCategoryId && doc.categoryId !== filterCategoryId) return false
-      if (filterTagId && !doc.tagIds.includes(filterTagId)) return false
+      if (filterSubcategoryId && doc.subcategoryId !== filterSubcategoryId) return false
       if (filterExpiration) {
         if (!doc.expirationDate) return false
         if (doc.expirationDate !== filterExpiration) return false
       }
       return true
     })
-  }, [documents, filterTitle, filterSectorId, filterCategoryId, filterTagId, filterExpiration])
+  }, [
+    documents,
+    filterTitle,
+    filterSectorId,
+    filterCategoryId,
+    filterSubcategoryId,
+    filterExpiration,
+  ])
 
   const handleDelete = async () => {
     if (!deleteId || !user) return
@@ -137,16 +176,45 @@ export function DocumentLibraryPage() {
             value={filterTitle}
             onChange={(e) => setFilterTitle(e.target.value)}
           />
-          <Select label="Setor" value={filterSectorId} onChange={(e) => setFilterSectorId(e.target.value)} options={sectorOptions} />
-          <Select label="Categoria" value={filterCategoryId} onChange={(e) => setFilterCategoryId(e.target.value)} options={categoryOptions} />
-          <Select label="Tag" value={filterTagId} onChange={(e) => setFilterTagId(e.target.value)} options={tagOptions} />
-          <Input label="Data de vigência" type="date" value={filterExpiration} onChange={(e) => setFilterExpiration(e.target.value)} />
+          <Select
+            label="Setor"
+            value={filterSectorId}
+            onChange={(e) => setFilterSectorId(e.target.value)}
+            options={sectorOptions}
+          />
+          <Select
+            label="Categoria do documento"
+            value={filterCategoryId}
+            onChange={(e) => handleCategoryFilterChange(e.target.value)}
+            options={categoryOptions}
+          />
+          <Select
+            label="Subcategoria"
+            value={filterSubcategoryId}
+            onChange={(e) => setFilterSubcategoryId(e.target.value)}
+            options={subcategoryOptions}
+            disabled={!filterCategoryId || loadingSubcategories}
+          />
+          <Input
+            label="Data de vigência"
+            type="date"
+            value={filterExpiration}
+            onChange={(e) => setFilterExpiration(e.target.value)}
+          />
         </div>
         <div className="mt-4 flex justify-end gap-2">
-          <Button variant={viewMode === 'cards' ? 'primary' : 'outline'} size="sm" onClick={() => setViewMode('cards')}>
+          <Button
+            variant={viewMode === 'cards' ? 'primary' : 'outline'}
+            size="sm"
+            onClick={() => setViewMode('cards')}
+          >
             <LayoutGrid size={16} /> Cards
           </Button>
-          <Button variant={viewMode === 'table' ? 'primary' : 'outline'} size="sm" onClick={() => setViewMode('table')}>
+          <Button
+            variant={viewMode === 'table' ? 'primary' : 'outline'}
+            size="sm"
+            onClick={() => setViewMode('table')}
+          >
             <List size={16} /> Tabela
           </Button>
         </div>
@@ -171,27 +239,36 @@ export function DocumentLibraryPage() {
                 </div>
                 <p className="mt-1 text-xs text-slate-500">
                   {displaySector(doc)} · {displayCategory(doc)}
+                  {doc.subcategoryId || doc.subcategoryName
+                    ? ` · ${displaySubcategory(doc)}`
+                    : ''}
                 </p>
                 <p className="mt-2 text-sm text-slate-600 line-clamp-2">{doc.semanticDescription}</p>
-                <div className="mt-2 flex flex-wrap gap-1">
-                  {displayTags(doc).map((t) => <TagBadge key={t.id} tag={t} />)}
-                </div>
                 <p className="mt-2 text-xs text-slate-400">
                   Arquivo: {doc.fileName ?? '—'}
                   {doc.fileType ? ` · ${doc.fileType}` : ''}
                   {doc.fileSize ? ` · ${formatFileSize(doc.fileSize)}` : ''}
                 </p>
                 <p className="mt-1 text-xs text-slate-400">
-                  Responsável: {doc.responsibleUserName ?? '—'} · Vigência: {formatDate(doc.expirationDate)}
+                  Responsável: {doc.responsibleUserName ?? '—'} · Vigência:{' '}
+                  {formatDate(doc.expirationDate)}
                 </p>
                 <div className="mt-4 flex gap-2">
                   {hasPermission('visualizar_documentos') && (
-                    <Button variant="outline" size="sm" onClick={() => navigate(`/documentos/${doc.id}`)}>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => navigate(`/documentos/${doc.id}`)}
+                    >
                       <Eye size={14} /> Visualizar
                     </Button>
                   )}
                   {hasPermission('editar_documentos') && (
-                    <Button variant="ghost" size="sm" onClick={() => navigate(`/documentos/${doc.id}/editar`)}>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => navigate(`/documentos/${doc.id}/editar`)}
+                    >
                       <Pencil size={14} />
                     </Button>
                   )}
@@ -212,8 +289,8 @@ export function DocumentLibraryPage() {
               <tr>
                 <th className="px-4 py-3 font-medium">Título</th>
                 <th className="px-4 py-3 font-medium">Setor</th>
-                <th className="px-4 py-3 font-medium">Categoria</th>
-                <th className="px-4 py-3 font-medium">Tags</th>
+                <th className="px-4 py-3 font-medium">Categoria do documento</th>
+                <th className="px-4 py-3 font-medium">Subcategoria</th>
                 <th className="px-4 py-3 font-medium">Vigência</th>
                 <th className="px-4 py-3 font-medium">Arquivo</th>
                 <th className="px-4 py-3 font-medium">Responsável</th>
@@ -224,18 +301,21 @@ export function DocumentLibraryPage() {
               {filtered.map((doc) => (
                 <tr key={doc.id} className="hover:bg-slate-50">
                   <td className="px-4 py-3">
-                    <Link to={`/documentos/${doc.id}`} className="font-medium text-[var(--color-primary,#0d4f8b)] hover:underline">
+                    <Link
+                      to={`/documentos/${doc.id}`}
+                      className="font-medium text-[var(--color-primary,#0d4f8b)] hover:underline"
+                    >
                       {doc.title}
                     </Link>
-                    {isDocumentExpired(doc) && <Badge variant="danger" className="ml-2">Vigência expirada</Badge>}
+                    {isDocumentExpired(doc) && (
+                      <Badge variant="danger" className="ml-2">
+                        Vigência expirada
+                      </Badge>
+                    )}
                   </td>
                   <td className="px-4 py-3">{displaySector(doc)}</td>
                   <td className="px-4 py-3">{displayCategory(doc)}</td>
-                  <td className="px-4 py-3">
-                    <div className="flex flex-wrap gap-1">
-                      {displayTags(doc).map((t) => <TagBadge key={t.id} tag={t} />)}
-                    </div>
-                  </td>
+                  <td className="px-4 py-3">{displaySubcategory(doc)}</td>
                   <td className="px-4 py-3">{formatDate(doc.expirationDate)}</td>
                   <td className="px-4 py-3">
                     {doc.fileName ?? '—'}
@@ -243,19 +323,29 @@ export function DocumentLibraryPage() {
                       <span className="block text-xs text-slate-400">{doc.fileType}</span>
                     ) : null}
                     {doc.fileSize ? (
-                      <span className="block text-xs text-slate-400">{formatFileSize(doc.fileSize)}</span>
+                      <span className="block text-xs text-slate-400">
+                        {formatFileSize(doc.fileSize)}
+                      </span>
                     ) : null}
                   </td>
                   <td className="px-4 py-3">{doc.responsibleUserName ?? '—'}</td>
                   <td className="px-4 py-3">
                     <div className="flex gap-1">
                       {hasPermission('visualizar_documentos') && (
-                        <Button variant="ghost" size="sm" onClick={() => navigate(`/documentos/${doc.id}`)}>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => navigate(`/documentos/${doc.id}`)}
+                        >
                           <Eye size={14} />
                         </Button>
                       )}
                       {hasPermission('editar_documentos') && (
-                        <Button variant="ghost" size="sm" onClick={() => navigate(`/documentos/${doc.id}/editar`)}>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => navigate(`/documentos/${doc.id}/editar`)}
+                        >
                           <Pencil size={14} />
                         </Button>
                       )}

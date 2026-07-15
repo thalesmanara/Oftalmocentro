@@ -6,6 +6,7 @@ export interface AISource {
   documentTitle: string
   sectorName?: string
   categoryName?: string
+  subcategoryName?: string
   chunkOrder?: number
 }
 
@@ -40,6 +41,12 @@ function parseSource(data: unknown): AISource | null {
     documentTitle,
     sectorName: record.sectorName != null ? String(record.sectorName) : undefined,
     categoryName: record.categoryName != null ? String(record.categoryName) : undefined,
+    subcategoryName:
+      record.subcategoryName != null
+        ? String(record.subcategoryName)
+        : record.subcategory_name != null
+          ? String(record.subcategory_name)
+          : undefined,
     chunkOrder:
       record.chunkOrder != null
         ? Number(record.chunkOrder)

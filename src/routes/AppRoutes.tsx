@@ -10,7 +10,6 @@ import { DocumentEditPage } from '@/pages/DocumentEditPage'
 import { UsersPage } from '@/pages/UsersPage'
 import { SectorsPage } from '@/pages/SectorsPage'
 import { CategoriesPage } from '@/pages/CategoriesPage'
-import { TagsPage } from '@/pages/TagsPage'
 import { AuditPage } from '@/pages/AuditPage'
 import { SettingsPage } from '@/pages/SettingsPage'
 import { MyAccountPage } from '@/pages/MyAccountPage'
@@ -47,9 +46,6 @@ export function AppRoutes() {
           </Route>
           <Route element={<ProtectedRoute permission="gerenciar_categorias" />}>
             <Route path="categorias" element={<CategoriesPage />} />
-          </Route>
-          <Route element={<ProtectedRoute permission="gerenciar_tags" />}>
-            <Route path="tags" element={<TagsPage />} />
           </Route>
           <Route element={<ProtectedRoute permission="usar_consulta_ia" />}>
             <Route path="consulta-ia" element={<ConsultaIAPage />} />

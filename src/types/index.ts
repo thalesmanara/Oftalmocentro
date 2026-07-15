@@ -7,7 +7,6 @@ export type PermissionCode =
   | 'gerenciar_usuarios'
   | 'gerenciar_setores'
   | 'gerenciar_categorias'
-  | 'gerenciar_tags'
   | 'visualizar_auditoria'
   | 'editar_configuracoes'
   | 'usar_consulta_ia'
@@ -47,13 +46,15 @@ export interface Category {
   updatedAt: string
 }
 
-export interface Tag {
+export interface Subcategory {
   id: string
+  categoryId: string
+  categoryName?: string
   name: string
-  color: string | null
+  description?: string | null
   active: boolean
-  createdAt: string
-  updatedAt: string
+  createdAt?: string
+  updatedAt?: string
 }
 
 export interface User {
@@ -76,9 +77,10 @@ export interface Document {
   sectorName?: string
   categoryId: string
   categoryName?: string
+  subcategoryId?: string | null
+  subcategoryName?: string | null
+  subcategoryDescription?: string | null
   semanticDescription: string
-  tagIds: string[]
-  tags?: Tag[]
   expirationDate: string | null
   fileName?: string | null
   fileType?: string | null
@@ -124,8 +126,8 @@ export interface DocumentFormData {
   title: string
   sectorId: string
   categoryId: string
+  subcategoryId?: string | null
   semanticDescription: string
-  tagIds: string[]
   expirationDate: string | null
   file?: File | null
 }

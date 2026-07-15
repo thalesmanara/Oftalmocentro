@@ -1,20 +1,17 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
-import type { DocumentFormData, Tag } from '@/types'
+import { useEffect, useRef, useState } from 'react'
+import type { DocumentFormData } from '@/types'
 import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
 import { Textarea } from '@/components/ui/Textarea'
 import { Button } from '@/components/ui/Button'
-import { TagBadge } from '@/components/ui/TagBadge'
 import { getSectors } from '@/services/sectorsService'
 import { getCategories } from '@/services/categoriesService'
-import { getTags } from '@/services/tagsService'
+import { getSubcategories } from '@/services/subcategoriesService'
 import { useSettings } from '@/hooks/useSettings'
 import { ACCEPTED_FILE_TYPES, formatFileSize } from '@/utils/document'
 
 interface DocumentFormProps {
   initial?: Partial<DocumentFormData>
-  initialTagIds?: string[]
-  initialDocumentTags?: Tag[]
   initialFile?: {
     fileName?: string | null
     fileType?: string | null
@@ -26,24 +23,8 @@ interface DocumentFormProps {
   submitting?: boolean
 }
 
-function resolveInitialTagIds(
-  initialTagIds?: string[],
-  initial?: Partial<DocumentFormData>,
-  initialDocumentTags?: Tag[]
-): string[] {
-  return Array.from(
-    new Set([
-      ...(initialTagIds ?? []),
-      ...(initial?.tagIds ?? []),
-      ...(initialDocumentTags?.map((tag) => tag.id) ?? []),
-    ])
-  )
-}
-
 export function DocumentForm({
   initial,
-  initialTagIds,
-  initialDocumentTags,
   initialFile,
   onSubmit,
   onCancel,
@@ -55,18 +36,17 @@ export function DocumentForm({
   const [title, setTitle] = useState(initial?.title ?? '')
   const [sectorId, setSectorId] = useState(initial?.sectorId ?? '')
   const [categoryId, setCategoryId] = useState(initial?.categoryId ?? '')
+  const [subcategoryId, setSubcategoryId] = useState(initial?.subcategoryId ?? '')
   const [semanticDescription, setSemanticDescription] = useState(initial?.semanticDescription ?? '')
-  const [tagIds, setTagIds] = useState<string[]>(() =>
-    resolveInitialTagIds(initialTagIds, initial, initialDocumentTags)
-  )
   const [expirationDate, setExpirationDate] = useState(initial?.expirationDate ?? '')
   const [file, setFile] = useState<File | null>(null)
   const [sectors, setSectors] = useState<{ value: string; label: string }[]>([])
   const [categories, setCategories] = useState<{ value: string; label: string }[]>([])
-  const [availableTags, setAvailableTags] = useState<Tag[]>([])
+  const [subcategories, setSubcategories] = useState<{ value: string; label: string }[]>([])
+  const [loadingSubcategories, setLoadingSubcategories] = useState(false)
 
   useEffect(() => {
-    void Promise.all([getSectors(), getCategories(), getTags()]).then(([s, c, t]) => {
+    void Promise.all([getSectors(), getCategories()]).then(([s, c]) => {
       setSectors([
         { value: '', label: 'Selecione...' },
         ...s.filter((x) => x.active).map((x) => ({ value: x.id, label: x.name })),
@@ -75,46 +55,43 @@ export function DocumentForm({
         { value: '', label: 'Selecione...' },
         ...c.filter((x) => x.active).map((x) => ({ value: x.id, label: x.name })),
       ])
-
-      const activeTags = t.filter((x) => x.active)
-      const documentTags = initialDocumentTags ?? []
-      const mergedTags = [...activeTags]
-
-      for (const tag of documentTags) {
-        if (!mergedTags.some((item) => item.id === tag.id)) {
-          mergedTags.push(tag)
-        }
-      }
-
-      setAvailableTags(mergedTags)
     })
-  }, [initialDocumentTags])
+  }, [])
 
-  const selectedTags = useMemo(() => {
-    const byId = new Map(availableTags.map((tag) => [tag.id, tag]))
-    for (const tag of initialDocumentTags ?? []) {
-      if (!byId.has(tag.id)) byId.set(tag.id, tag)
-    }
-
-    return tagIds
-      .map((id) => byId.get(id))
-      .filter((tag): tag is Tag => Boolean(tag))
-  }, [availableTags, initialDocumentTags, tagIds])
-
-  const addTag = (tagId: string) => {
-    setTagIds((prev) => Array.from(new Set([...(prev ?? []), tagId])))
-  }
-
-  const removeTag = (tagId: string) => {
-    setTagIds((prev) => (prev ?? []).filter((id) => id !== tagId))
-  }
-
-  const toggleTag = (tagId: string) => {
-    if (tagIds.includes(tagId)) {
-      removeTag(tagId)
+  useEffect(() => {
+    if (!categoryId) {
+      setSubcategories([])
+      setSubcategoryId('')
       return
     }
-    addTag(tagId)
+
+    let cancelled = false
+    setLoadingSubcategories(true)
+
+    void getSubcategories(categoryId)
+      .then((items) => {
+        if (cancelled) return
+        const active = items.filter((item) => item.active)
+        setSubcategories(active.map((item) => ({ value: item.id, label: item.name })))
+
+        if (subcategoryId && !active.some((item) => item.id === subcategoryId)) {
+          setSubcategoryId('')
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingSubcategories(false)
+      })
+
+    return () => {
+      cancelled = true
+    }
+    // subcategoryId omitted intentionally — only reload when category changes
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [categoryId])
+
+  const handleCategoryChange = (value: string) => {
+    setCategoryId(value)
+    setSubcategoryId('')
   }
 
   const isValid =
@@ -123,6 +100,14 @@ export function DocumentForm({
     categoryId &&
     semanticDescription.trim()
 
+  const subcategoryOptions = !categoryId
+    ? [{ value: '', label: 'Selecione uma categoria primeiro' }]
+    : loadingSubcategories
+      ? [{ value: '', label: 'Carregando subcategorias...' }]
+      : subcategories.length === 0
+        ? [{ value: '', label: 'Nenhuma subcategoria cadastrada' }]
+        : [{ value: '', label: 'Opcional — selecione...' }, ...subcategories]
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!isValid) return
@@ -130,8 +115,8 @@ export function DocumentForm({
       title: title.trim(),
       sectorId,
       categoryId,
+      subcategoryId: subcategoryId || null,
       semanticDescription: semanticDescription.trim(),
-      tagIds: Array.from(new Set(tagIds)),
       expirationDate: expirationDate || null,
       file,
     })
@@ -149,61 +134,26 @@ export function DocumentForm({
           required
         />
         <Select
-          label="Categoria"
+          label="Categoria do documento"
           value={categoryId}
-          onChange={(e) => setCategoryId(e.target.value)}
+          onChange={(e) => handleCategoryChange(e.target.value)}
           options={categories}
           required
         />
       </div>
+      <Select
+        label="Subcategoria"
+        value={subcategoryId}
+        onChange={(e) => setSubcategoryId(e.target.value)}
+        options={subcategoryOptions}
+        disabled={!categoryId || loadingSubcategories || subcategories.length === 0}
+      />
       <Textarea
         label="Descrição Semântica"
         value={semanticDescription}
         onChange={(e) => setSemanticDescription(e.target.value)}
         required
       />
-      <div>
-        <p className="mb-2 text-sm font-medium text-slate-700">
-          Tags selecionadas ({tagIds.length})
-        </p>
-        {selectedTags.length > 0 ? (
-          <div className="mb-3 flex flex-wrap gap-2">
-            {selectedTags.map((tag) => (
-              <TagBadge key={tag.id} tag={tag} />
-            ))}
-          </div>
-        ) : (
-          <p className="mb-3 text-sm text-slate-500">Nenhuma tag selecionada.</p>
-        )}
-        <p className="mb-2 text-sm font-medium text-slate-700">Adicionar ou remover tags</p>
-        <div className="flex flex-wrap gap-2">
-          {availableTags.map((tag) => {
-            const selected = tagIds.includes(tag.id)
-            const color = tag.color ?? '#64748b'
-            return (
-              <button
-                key={tag.id}
-                type="button"
-                onClick={() => toggleTag(tag.id)}
-                className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium transition ${
-                  selected ? 'text-white ring-2 ring-offset-1' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                }`}
-                style={
-                  selected
-                    ? ({ backgroundColor: color, '--tw-ring-color': color } as React.CSSProperties)
-                    : undefined
-                }
-              >
-                <span
-                  className="h-2 w-2 rounded-full"
-                  style={{ backgroundColor: selected ? 'rgba(255,255,255,0.5)' : color }}
-                />
-                {tag.name}
-              </button>
-            )
-          })}
-        </div>
-      </div>
       <Input
         label="Data de vigência"
         type="date"

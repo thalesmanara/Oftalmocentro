@@ -4,8 +4,8 @@ import type {
   Document,
   Permission,
   Sector,
+  Subcategory,
   SystemSettings,
-  Tag,
   User,
 } from '@/types'
 
@@ -54,7 +54,6 @@ export let mockPermissions: Permission[] = [
   { id: 'mock-permission-gerenciar-usuarios', code: 'gerenciar_usuarios', name: 'Gerenciar usuários' },
   { id: 'mock-permission-gerenciar-setores', code: 'gerenciar_setores', name: 'Gerenciar setores' },
   { id: 'mock-permission-gerenciar-categorias', code: 'gerenciar_categorias', name: 'Gerenciar categorias' },
-  { id: 'mock-permission-gerenciar-tags', code: 'gerenciar_tags', name: 'Gerenciar tags' },
   { id: 'mock-permission-visualizar-auditoria', code: 'visualizar_auditoria', name: 'Visualizar auditoria' },
   { id: 'mock-permission-editar-configuracoes', code: 'editar_configuracoes', name: 'Editar configurações' },
   { id: 'mock-permission-usar-consulta-ia', code: 'usar_consulta_ia', name: 'Usar consulta IA' },
@@ -135,49 +134,59 @@ export let mockCategories: Category[] = [
   },
 ]
 
-export const MOCK_TAG_AGENDAMENTO = 'mock-tag-agendamento'
-export const MOCK_TAG_URGENTE = 'mock-tag-urgente'
-export const MOCK_TAG_INTERNO = 'mock-tag-interno'
-export const MOCK_TAG_LGPD = 'mock-tag-lgpd'
-export const MOCK_TAG_REVISAO = 'mock-tag-revisao-anual'
+export const MOCK_SUBCATEGORY_TRIAGEM = 'mock-subcategory-triagem'
+export const MOCK_SUBCATEGORY_FATURAMENTO = 'mock-subcategory-faturamento'
+export const MOCK_SUBCATEGORY_LGPD = 'mock-subcategory-lgpd'
+export const MOCK_SUBCATEGORY_CIRURGIA = 'mock-subcategory-cirurgia'
+export const MOCK_SUBCATEGORY_TELE = 'mock-subcategory-tele'
 
-export let mockTags: Tag[] = [
+export let mockSubcategories: Subcategory[] = [
   {
-    id: MOCK_TAG_AGENDAMENTO,
-    name: 'Agendamento',
-    color: '#2563eb',
+    id: MOCK_SUBCATEGORY_TRIAGEM,
+    categoryId: MOCK_CATEGORY_PROTOCOLOS,
+    categoryName: 'Protocolos Clínicos',
+    name: 'Triagem',
+    description: 'Protocolos de triagem e acolhimento',
     active: true,
     createdAt: ts(),
     updatedAt: ts(),
   },
   {
-    id: MOCK_TAG_URGENTE,
-    name: 'urgente',
-    color: '#dc2626',
+    id: MOCK_SUBCATEGORY_CIRURGIA,
+    categoryId: MOCK_CATEGORY_PROTOCOLOS,
+    categoryName: 'Protocolos Clínicos',
+    name: 'Cirurgia',
+    description: 'Checklists e protocolos cirúrgicos',
     active: true,
     createdAt: ts(),
     updatedAt: ts(),
   },
   {
-    id: MOCK_TAG_INTERNO,
-    name: 'interno',
-    color: '#2563eb',
+    id: MOCK_SUBCATEGORY_FATURAMENTO,
+    categoryId: MOCK_CATEGORY_MANUAIS,
+    categoryName: 'Manuais Administrativos',
+    name: 'Faturamento',
+    description: 'Manuais de faturamento e TISS',
     active: true,
     createdAt: ts(),
     updatedAt: ts(),
   },
   {
-    id: MOCK_TAG_LGPD,
+    id: MOCK_SUBCATEGORY_LGPD,
+    categoryId: MOCK_CATEGORY_NORMAS,
+    categoryName: 'Normas Regulatórias',
     name: 'LGPD',
-    color: '#7c3aed',
+    description: 'Normas de proteção de dados',
     active: true,
     createdAt: ts(),
     updatedAt: ts(),
   },
   {
-    id: MOCK_TAG_REVISAO,
-    name: 'revisão-anual',
-    color: '#059669',
+    id: MOCK_SUBCATEGORY_TELE,
+    categoryId: MOCK_CATEGORY_TREINAMENTOS,
+    categoryName: 'Treinamentos',
+    name: 'Telemedicina',
+    description: 'Materiais de capacitação em teleatendimento',
     active: true,
     createdAt: ts(),
     updatedAt: ts(),
@@ -198,8 +207,9 @@ export let mockDocuments: Document[] = [
     sectorName: 'ENFERMAGEM',
     categoryId: MOCK_CATEGORY_PROTOCOLOS,
     categoryName: 'Protocolos Clínicos',
+    subcategoryId: MOCK_SUBCATEGORY_TRIAGEM,
+    subcategoryName: 'Triagem',
     semanticDescription: 'Fluxo de triagem para pacientes com queixa visual aguda.',
-    tagIds: [MOCK_TAG_URGENTE, MOCK_TAG_INTERNO],
     expirationDate: validFuture.toISOString().split('T')[0],
     fileName: 'protocolo-triagem.pdf',
     fileType: 'application/pdf',
@@ -219,8 +229,9 @@ export let mockDocuments: Document[] = [
     sectorName: 'FATURAMENTO',
     categoryId: MOCK_CATEGORY_MANUAIS,
     categoryName: 'Manuais Administrativos',
+    subcategoryId: MOCK_SUBCATEGORY_FATURAMENTO,
+    subcategoryName: 'Faturamento',
     semanticDescription: 'Procedimentos de faturamento e envio TISS.',
-    tagIds: [MOCK_TAG_INTERNO, MOCK_TAG_REVISAO],
     expirationDate: expired.toISOString().split('T')[0],
     fileName: 'manual-faturamento.docx',
     fileType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
@@ -240,8 +251,9 @@ export let mockDocuments: Document[] = [
     sectorName: 'ADMINISTRAÇÃO',
     categoryId: MOCK_CATEGORY_NORMAS,
     categoryName: 'Normas Regulatórias',
+    subcategoryId: MOCK_SUBCATEGORY_LGPD,
+    subcategoryName: 'LGPD',
     semanticDescription: 'Política interna de proteção de dados dos pacientes.',
-    tagIds: [MOCK_TAG_LGPD, MOCK_TAG_INTERNO],
     expirationDate: validFuture.toISOString().split('T')[0],
     fileName: 'politica-lgpd.pdf',
     fileType: 'application/pdf',
@@ -261,8 +273,9 @@ export let mockDocuments: Document[] = [
     sectorName: 'MÉDICO',
     categoryId: MOCK_CATEGORY_PROTOCOLOS,
     categoryName: 'Protocolos Clínicos',
+    subcategoryId: MOCK_SUBCATEGORY_CIRURGIA,
+    subcategoryName: 'Cirurgia',
     semanticDescription: 'Checklist para preparação de cirurgias oftalmológicas.',
-    tagIds: [MOCK_TAG_URGENTE],
     expirationDate: null,
     fileName: 'checklist-pre-op.xlsx',
     fileType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
@@ -282,8 +295,9 @@ export let mockDocuments: Document[] = [
     sectorName: 'TELEATENDIMENTO',
     categoryId: MOCK_CATEGORY_TREINAMENTOS,
     categoryName: 'Treinamentos',
+    subcategoryId: MOCK_SUBCATEGORY_TELE,
+    subcategoryName: 'Telemedicina',
     semanticDescription: 'Orientações para consultas por telemedicina.',
-    tagIds: [MOCK_TAG_INTERNO],
     expirationDate: validFuture.toISOString().split('T')[0],
     fileName: 'fluxo-teleatendimento.pdf',
     fileType: 'application/pdf',

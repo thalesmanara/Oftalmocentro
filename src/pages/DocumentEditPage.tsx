@@ -4,7 +4,6 @@ import { ArrowLeft, Loader2 } from 'lucide-react'
 import { getDocumentById, processDocument, updateDocument, uploadDocumentFile } from '@/services/documentsService'
 import { logAction } from '@/services/auditService'
 import type { Document, DocumentFormData } from '@/types'
-import { getDocumentTagIds } from '@/utils/document'
 import { useAuth } from '@/hooks/useAuth'
 import { Card } from '@/components/ui/Card'
 import { PageHeader } from '@/components/ui/PageHeader'
@@ -148,16 +147,15 @@ export function DocumentEditPage() {
 
       <Card>
         <DocumentForm
-          key={`${doc.id}-${getDocumentTagIds(doc).join(',')}`}
+          key={`${doc.id}-${doc.categoryId}-${doc.subcategoryId ?? ''}`}
           initial={{
             title: doc.title,
             sectorId: doc.sectorId,
             categoryId: doc.categoryId,
+            subcategoryId: doc.subcategoryId ?? '',
             semanticDescription: doc.semanticDescription,
             expirationDate: doc.expirationDate ?? '',
           }}
-          initialTagIds={getDocumentTagIds(doc)}
-          initialDocumentTags={doc.tags}
           initialFile={{
             fileName: doc.fileName,
             fileType: doc.fileType,

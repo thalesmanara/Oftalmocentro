@@ -4,13 +4,11 @@ import { Pencil, Trash2, FileIcon, ArrowLeft, Download } from 'lucide-react'
 import { getDocumentById, deleteDocument, downloadDocumentFile } from '@/services/documentsService'
 import { getSectors } from '@/services/sectorsService'
 import { getCategories } from '@/services/categoriesService'
-import { getTags } from '@/services/tagsService'
 import { logAction } from '@/services/auditService'
-import type { Category, Document, Sector, Tag } from '@/types'
+import type { Category, Document, Sector } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
 import { useSettings } from '@/hooks/useSettings'
-import { getCategoryNameById, getSectorNameById, getTagsByIds } from '@/utils/entities'
-import { TagBadge } from '@/components/ui/TagBadge'
+import { getCategoryNameById, getSectorNameById } from '@/utils/entities'
 import { formatDate, formatDateTime, formatFileSize, isDocumentExpired } from '@/utils/document'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
@@ -30,7 +28,6 @@ export function DocumentDetailPage() {
   const [loading, setLoading] = useState(true)
   const [sectors, setSectors] = useState<Sector[]>([])
   const [categories, setCategories] = useState<Category[]>([])
-  const [tags, setTags] = useState<Tag[]>([])
   const [confirmDelete, setConfirmDelete] = useState(false)
   const [deleting, setDeleting] = useState(false)
   const [downloading, setDownloading] = useState(false)
@@ -55,17 +52,11 @@ export function DocumentDetailPage() {
     if (!id) return
 
     setLoading(true)
-    void Promise.all([
-      getDocumentById(id),
-      getSectors(),
-      getCategories(),
-      getTags(),
-    ])
-      .then(([document, s, c, t]) => {
+    void Promise.all([getDocumentById(id), getSectors(), getCategories()])
+      .then(([document, s, c]) => {
         setDoc(document)
         setSectors(s)
         setCategories(c)
-        setTags(t)
       })
       .finally(() => setLoading(false))
   }, [id])
@@ -88,7 +79,7 @@ export function DocumentDetailPage() {
   const expired = isDocumentExpired(doc)
   const sectorLabel = doc.sectorName ?? getSectorNameById(doc.sectorId, sectors)
   const categoryLabel = doc.categoryName ?? getCategoryNameById(doc.categoryId, categories)
-  const resolvedTags = doc.tags?.length ? doc.tags : getTagsByIds(doc.tagIds, tags)
+  const subcategoryLabel = doc.subcategoryName || 'Não informada'
 
   const handleDownload = async () => {
     if (!id) return
@@ -162,12 +153,12 @@ export function DocumentDetailPage() {
               <dd className="mt-0.5 text-slate-800">{doc.semanticDescription}</dd>
             </div>
             <div>
-              <dt className="text-slate-500">Tags</dt>
-              <dd className="mt-1 flex flex-wrap gap-1">
-                {resolvedTags.length > 0
-                  ? resolvedTags.map((t) => <TagBadge key={t.id} tag={t} />)
-                  : '—'}
-              </dd>
+              <dt className="text-slate-500">Categoria</dt>
+              <dd className="text-slate-800">{categoryLabel}</dd>
+            </div>
+            <div>
+              <dt className="text-slate-500">Subcategoria</dt>
+              <dd className="text-slate-800">{subcategoryLabel}</dd>
             </div>
             <div>
               <dt className="text-slate-500">Data de vigência</dt>
