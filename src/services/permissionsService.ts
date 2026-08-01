@@ -1,4 +1,4 @@
-import { API_BASE_URL } from './api'
+import { API_BASE_URL, apiFetch } from './api'
 import { mockPermissions } from '@/data/mocks'
 import type { Permission } from '@/types'
 
@@ -8,7 +8,7 @@ function withoutLegacyTagPermission(permissions: Permission[]): Permission[] {
 
 export async function getPermissions(): Promise<Permission[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/webhook/permissions`)
+    const response = await apiFetch(`/webhook/permissions`)
 
     if (!response.ok) {
       throw new Error('Erro ao buscar permissões')

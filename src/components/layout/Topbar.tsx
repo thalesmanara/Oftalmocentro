@@ -26,7 +26,7 @@ export function Topbar() {
           <User size={16} />
           Minha Conta
         </Link>
-        <Button variant="outline" size="sm" onClick={logout}>
+        <Button variant="outline" size="sm" onClick={() => void logout()}>
           <LogOut size={16} />
           Sair
         </Button>

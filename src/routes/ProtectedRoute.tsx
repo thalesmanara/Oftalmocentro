@@ -8,7 +8,11 @@ interface ProtectedRouteProps {
 }
 
 export function ProtectedRoute({ permission, anyPermission }: ProtectedRouteProps) {
-  const { user, hasPermission } = useAuth()
+  const { user, loading, hasPermission } = useAuth()
+
+  if (loading) {
+    return <p className="p-6 text-slate-500">Carregando sessão...</p>
+  }
 
   if (!user) {
     return <Navigate to="/login" replace />

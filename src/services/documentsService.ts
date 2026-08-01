@@ -1,4 +1,4 @@
-import { API_BASE_URL } from './api'
+import { apiFetch } from './api'
 import { mockDocuments } from '@/data/mocks'
 import type { Document, DocumentFormData } from '@/types'
 
@@ -213,7 +213,7 @@ async function resolveDocumentAfterUpdate(_result: unknown, id: string): Promise
 
 export async function getDocuments(): Promise<Document[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/webhook/documents`)
+    const response = await apiFetch(`/webhook/documents`)
 
     if (!response.ok) {
       throw new Error('Erro ao buscar documentos')
@@ -246,7 +246,7 @@ export async function createDocument(
   userId: string,
   _userName: string
 ): Promise<Document> {
-  const response = await fetch(`${API_BASE_URL}/webhook/documents/create`, {
+  const response = await apiFetch(`/webhook/documents/create`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -294,7 +294,7 @@ export async function updateDocument(
 
   const payload = await buildUpdatePayload(existing, data, userId)
 
-  const response = await fetch(`${API_BASE_URL}/webhook/documents/update`, {
+  const response = await apiFetch(`/webhook/documents/update`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
@@ -339,7 +339,7 @@ export async function uploadDocumentFile(
   formData.append('documentId', documentId)
   formData.append('file', file)
 
-  const response = await fetch(`${API_BASE_URL}/webhook/documents/upload`, {
+  const response = await apiFetch(`/webhook/documents/upload`, {
     method: 'POST',
     body: formData,
   })
@@ -370,7 +370,7 @@ export async function uploadDocumentFile(
 }
 
 export async function processDocument(documentId: string): Promise<DocumentProcessResult> {
-  const response = await fetch(`${API_BASE_URL}/webhook/documents/process`, {
+  const response = await apiFetch(`/webhook/documents/process`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ documentId }),
@@ -414,7 +414,7 @@ export async function processDocument(documentId: string): Promise<DocumentProce
 }
 
 export async function deleteDocument(id: string): Promise<void> {
-  const response = await fetch(`${API_BASE_URL}/webhook/documents/delete`, {
+  const response = await apiFetch(`/webhook/documents/delete`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ id }),
@@ -445,12 +445,12 @@ export async function downloadDocumentFile(
   documentId: string,
   fallbackFileName?: string | null
 ): Promise<void> {
-  const url = `${API_BASE_URL}/webhook/documents/download?documentId=${encodeURIComponent(documentId)}`
-
   let response: Response
 
   try {
-    response = await fetch(url)
+    response = await apiFetch(
+      `/webhook/documents/download?documentId=${encodeURIComponent(documentId)}`
+    )
   } catch {
     throw new Error('Não foi possível baixar o arquivo.')
   }

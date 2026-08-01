@@ -118,6 +118,7 @@ export function UsersPage() {
         await updateUser(editing.id, {
           name: form.name.trim(),
           email: form.email.trim(),
+          password: form.password,
           sectorId: form.sectorId,
           active: form.active,
           isMaster: form.isMaster,
@@ -275,15 +276,13 @@ export function UsersPage() {
         <div className="space-y-4">
           <Input label="Nome" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
           <Input label="E-mail" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
-          {!editing && (
-            <Input
-              label="Senha provisória"
-              type="password"
-              value={form.password}
-              onChange={(e) => setForm({ ...form, password: e.target.value })}
-              required
-            />
-          )}
+          <Input
+            label={editing ? 'Nova senha (opcional)' : 'Senha provisória'}
+            type="password"
+            value={form.password}
+            onChange={(e) => setForm({ ...form, password: e.target.value })}
+            required={!editing}
+          />
           <Select
             label="Setor"
             value={form.sectorId ?? ''}

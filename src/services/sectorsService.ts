@@ -1,4 +1,4 @@
-import { API_BASE_URL } from './api'
+import { API_BASE_URL, apiFetch } from './api'
 import { mockSectors } from '@/data/mocks'
 import type { Sector } from '@/types'
 
@@ -36,7 +36,7 @@ async function parseJsonResponse(response: Response): Promise<unknown> {
 
 export async function getSectors(): Promise<Sector[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/webhook/sectors`)
+    const response = await apiFetch(`/webhook/sectors`)
 
     if (!response.ok) {
       throw new Error('Erro ao buscar setores')
@@ -62,7 +62,7 @@ export async function getSectors(): Promise<Sector[]> {
 export async function createSector(
   data: Omit<Sector, 'id' | 'createdAt' | 'updatedAt'>
 ): Promise<Sector> {
-  const response = await fetch(`${API_BASE_URL}/webhook/sectors/create`, {
+  const response = await apiFetch(`/webhook/sectors/create`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -90,7 +90,7 @@ export async function updateSector(
   id: string,
   data: Pick<Sector, 'name' | 'description' | 'active'>
 ): Promise<Sector> {
-  const response = await fetch(`${API_BASE_URL}/webhook/sectors/update`, {
+  const response = await apiFetch(`/webhook/sectors/update`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -116,7 +116,7 @@ export async function updateSector(
 }
 
 export async function deleteSector(id: string): Promise<void> {
-  const response = await fetch(`${API_BASE_URL}/webhook/sectors/delete`, {
+  const response = await apiFetch(`/webhook/sectors/delete`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ id }),

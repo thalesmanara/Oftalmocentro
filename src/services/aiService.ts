@@ -1,4 +1,4 @@
-import { API_BASE_URL } from './api'
+import { API_BASE_URL, apiFetch } from './api'
 
 export interface AISource {
   index: number
@@ -100,7 +100,7 @@ export async function askAI(question: string): Promise<AIResponse> {
   let response: Response
 
   try {
-    response = await fetch(`${API_BASE_URL}/webhook/consulta-ia`, {
+    response = await apiFetch(`/webhook/consulta-ia`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ question: trimmed }),

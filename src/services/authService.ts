@@ -1,4 +1,12 @@
-import { API_BASE_URL } from './api'
+import {
+  API_BASE_URL,
+  apiFetch,
+  clearAuthToken,
+  getAccessToken,
+  getTokenExpiresAt,
+  isTokenExpired,
+  persistAuthToken,
+} from './api'
 import type { AuthUser, PermissionCode } from '@/types'
 
 const USER_STORAGE_KEY = 'oftalmocentro_user'
@@ -54,7 +62,13 @@ function parseAuthUser(data: unknown): AuthUser | null {
   }
 }
 
-export async function login(email: string, password: string): Promise<AuthUser> {
+export interface LoginResult {
+  user: AuthUser
+  token: string
+  expiresAt: string
+}
+
+export async function login(email: string, password: string): Promise<LoginResult> {
   const trimmedEmail = email.trim()
 
   if (!trimmedEmail || !password) {
@@ -83,7 +97,12 @@ export async function login(email: string, password: string): Promise<AuthUser> 
     }
 
     const user = parseAuthUser(record.user)
-    if (user) return user
+    const token = record.token != null ? String(record.token) : ''
+    const expiresAt = record.expiresAt != null ? String(record.expiresAt) : ''
+
+    if (user && token && expiresAt) {
+      return { user, token, expiresAt }
+    }
   }
 
   if (!response.ok) {
@@ -93,25 +112,89 @@ export async function login(email: string, password: string): Promise<AuthUser> 
   throw new Error('Resposta inválida ao fazer login.')
 }
 
-export function logout(): void {
+export async function logout(): Promise<void> {
+  const token = getAccessToken()
+
+  if (token) {
+    try {
+      await fetch(`${API_BASE_URL}/webhook/auth/logout`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({}),
+      })
+    } catch {
+      // Logout local mesmo se o webhook falhar
+    }
+  }
+
+  clearAuthToken()
   localStorage.removeItem(USER_STORAGE_KEY)
   localStorage.removeItem('user')
-  localStorage.removeItem('token')
+}
+
+export async function validateSession(): Promise<AuthUser | null> {
+  const token = getAccessToken()
+  if (!token || isTokenExpired()) {
+    clearAuthToken()
+    localStorage.removeItem(USER_STORAGE_KEY)
+    return null
+  }
+
+  try {
+    const response = await apiFetch('/webhook/auth/validate', {
+      method: 'POST',
+      body: JSON.stringify({}),
+    })
+
+    if (!response.ok) {
+      clearAuthToken()
+      localStorage.removeItem(USER_STORAGE_KEY)
+      return null
+    }
+
+    const result = await parseJsonResponse(response)
+    if (!result || typeof result !== 'object') return null
+
+    const record = result as Record<string, unknown>
+    if (record.ok === false || record.success === false) {
+      clearAuthToken()
+      localStorage.removeItem(USER_STORAGE_KEY)
+      return null
+    }
+
+    const user = parseAuthUser(record.user)
+    if (user) {
+      persistSession(user)
+    }
+    return user
+  } catch {
+    return getCurrentUser()
+  }
 }
 
 export function getCurrentUser(): AuthUser | null {
   try {
+    if (isTokenExpired()) {
+      clearAuthToken()
+      localStorage.removeItem(USER_STORAGE_KEY)
+      return null
+    }
+
     const raw = localStorage.getItem(USER_STORAGE_KEY)
     if (raw) {
-      return JSON.parse(raw) as AuthUser
+      return parseAuthUser(JSON.parse(raw) as unknown)
     }
 
     const legacy = localStorage.getItem('user')
     if (legacy) {
-      const user = JSON.parse(legacy) as AuthUser
-      persistSession(user)
-      localStorage.removeItem('user')
-      localStorage.removeItem('token')
+      const user = parseAuthUser(JSON.parse(legacy) as unknown)
+      if (user) {
+        persistSession(user)
+        localStorage.removeItem('user')
+      }
       return user
     }
 
@@ -123,6 +206,15 @@ export function getCurrentUser(): AuthUser | null {
 
 export function persistSession(user: AuthUser): void {
   localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user))
+}
+
+export function persistLoginSession(result: LoginResult): void {
+  persistAuthToken(result.token, result.expiresAt)
+  persistSession(result.user)
+}
+
+export function hasStoredAuth(): boolean {
+  return Boolean(getAccessToken() && getCurrentUser() && !isTokenExpired(getTokenExpiresAt()))
 }
 
 export const AUTH_LOGIN_URL = `${API_BASE_URL}/webhook/auth/login`

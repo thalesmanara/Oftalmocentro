@@ -1,6 +1,34 @@
-import { API_BASE_URL } from './api'
+import { API_BASE_URL, apiFetch } from './api'
 import { mockUsers } from '@/data/mocks'
 import type { User, UserFormData } from '@/types'
+
+function normalizePermissionCodes(permissions: unknown): string[] {
+  if (!Array.isArray(permissions)) return []
+  return permissions.filter(
+    (item): item is string => typeof item === 'string' && item !== 'gerenciar_tags'
+  )
+}
+
+function normalizeUser(record: Record<string, unknown>): User {
+  return {
+    id: String(record.id),
+    name: String(record.name ?? ''),
+    email: String(record.email ?? ''),
+    sectorId:
+      record.sectorId === null || record.sectorId === undefined || record.sectorId === ''
+        ? null
+        : String(record.sectorId),
+    sectorName:
+      record.sectorName === null || record.sectorName === undefined
+        ? null
+        : String(record.sectorName),
+    active: record.active !== false,
+    isMaster: record.isMaster === true || record.is_master === true,
+    permissions: normalizePermissionCodes(record.permissions),
+    createdAt: String(record.createdAt ?? record.created_at ?? ''),
+    updatedAt: String(record.updatedAt ?? record.updated_at ?? ''),
+  }
+}
 
 function parseUser(data: unknown): User | null {
   if (!data) return null
@@ -14,7 +42,7 @@ function parseUser(data: unknown): User | null {
   const record = data as Record<string, unknown>
 
   if (record.id && record.email) {
-    return record as unknown as User
+    return normalizeUser(record)
   }
 
   if (record.user) {
@@ -59,7 +87,7 @@ async function parseJsonResponse(response: Response): Promise<unknown> {
 
 export async function getUsers(): Promise<User[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/webhook/users`)
+    const response = await apiFetch(`/webhook/users`)
 
     if (!response.ok) {
       throw new Error('Erro ao buscar usuários')
@@ -69,10 +97,14 @@ export async function getUsers(): Promise<User[]> {
 
     if (Array.isArray(data)) {
       return data
+        .map((item) => parseUser(item))
+        .filter((user): user is User => user !== null)
     }
 
     if (data?.data && Array.isArray(data.data)) {
       return data.data
+        .map((item: unknown) => parseUser(item))
+        .filter((user: User | null): user is User => user !== null)
     }
 
     return mockUsers
@@ -101,7 +133,7 @@ export async function createUser(data: UserFormData): Promise<User> {
     payload.passwordHash = data.password
   }
 
-  const response = await fetch(`${API_BASE_URL}/webhook/users/create`, {
+  const response = await apiFetch(`/webhook/users/create`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
@@ -118,20 +150,29 @@ export async function createUser(data: UserFormData): Promise<User> {
 
 export async function updateUser(
   id: string,
-  data: Pick<UserFormData, 'name' | 'email' | 'sectorId' | 'active' | 'isMaster' | 'permissions'>
+  data: Pick<
+    UserFormData,
+    'name' | 'email' | 'password' | 'sectorId' | 'active' | 'isMaster' | 'permissions'
+  >
 ): Promise<User> {
-  const response = await fetch(`${API_BASE_URL}/webhook/users/update`, {
+  const payload: Record<string, unknown> = {
+    id,
+    name: data.name,
+    email: data.email,
+    sectorId: data.sectorId,
+    active: data.active,
+    isMaster: data.isMaster,
+    permissions: data.permissions,
+  }
+
+  if (data.password?.trim()) {
+    payload.passwordHash = data.password.trim()
+  }
+
+  const response = await apiFetch(`/webhook/users/update`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      id,
-      name: data.name,
-      email: data.email,
-      sectorId: data.sectorId,
-      active: data.active,
-      isMaster: data.isMaster,
-      permissions: data.permissions,
-    }),
+    body: JSON.stringify(payload),
   })
 
   const result = await parseJsonResponse(response)
@@ -149,7 +190,7 @@ export async function updateUser(
 }
 
 export async function deleteUser(id: string): Promise<void> {
-  const response = await fetch(`${API_BASE_URL}/webhook/users/delete`, {
+  const response = await apiFetch(`/webhook/users/delete`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ id }),

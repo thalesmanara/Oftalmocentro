@@ -1,4 +1,4 @@
-import { API_BASE_URL } from './api'
+import { API_BASE_URL, apiFetch } from './api'
 import { mockCategories } from '@/data/mocks'
 import type { Category } from '@/types'
 
@@ -36,7 +36,7 @@ async function parseJsonResponse(response: Response): Promise<unknown> {
 
 export async function getCategories(): Promise<Category[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/webhook/categories`)
+    const response = await apiFetch(`/webhook/categories`)
 
     if (!response.ok) {
       throw new Error('Erro ao buscar categorias')
@@ -62,7 +62,7 @@ export async function getCategories(): Promise<Category[]> {
 export async function createCategory(
   data: Omit<Category, 'id' | 'createdAt' | 'updatedAt'>
 ): Promise<Category> {
-  const response = await fetch(`${API_BASE_URL}/webhook/categories/create`, {
+  const response = await apiFetch(`/webhook/categories/create`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -90,7 +90,7 @@ export async function updateCategory(
   id: string,
   data: Pick<Category, 'name' | 'description' | 'active'>
 ): Promise<Category> {
-  const response = await fetch(`${API_BASE_URL}/webhook/categories/update`, {
+  const response = await apiFetch(`/webhook/categories/update`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -116,7 +116,7 @@ export async function updateCategory(
 }
 
 export async function deleteCategory(id: string): Promise<void> {
-  const response = await fetch(`${API_BASE_URL}/webhook/categories/delete`, {
+  const response = await apiFetch(`/webhook/categories/delete`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ id }),

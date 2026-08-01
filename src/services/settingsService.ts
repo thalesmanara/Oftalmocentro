@@ -1,4 +1,4 @@
-import { API_BASE_URL } from './api'
+import { API_BASE_URL, apiFetch } from './api'
 import { mockSystemSettings } from '@/data/mocks'
 import type { SystemSettings } from '@/types'
 
@@ -36,7 +36,7 @@ async function parseJsonResponse(response: Response): Promise<unknown> {
 
 export async function getSettings(): Promise<SystemSettings> {
   try {
-    const response = await fetch(`${API_BASE_URL}/webhook/settings`)
+    const response = await apiFetch(`/webhook/settings`)
 
     if (!response.ok) {
       throw new Error('Erro ao buscar configurações')
@@ -68,7 +68,7 @@ export async function getSettings(): Promise<SystemSettings> {
 }
 
 export async function updateSettings(data: SystemSettings): Promise<SystemSettings> {
-  const response = await fetch(`${API_BASE_URL}/webhook/settings/update`, {
+  const response = await apiFetch(`/webhook/settings/update`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({

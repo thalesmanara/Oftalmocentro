@@ -71,12 +71,17 @@ export function DocumentForm({
     void getSubcategories(categoryId)
       .then((items) => {
         if (cancelled) return
-        const active = items.filter((item) => item.active)
+        const active = items
+          .filter((item) => item.active)
+          .sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'))
         setSubcategories(active.map((item) => ({ value: item.id, label: item.name })))
 
         if (subcategoryId && !active.some((item) => item.id === subcategoryId)) {
           setSubcategoryId('')
         }
+      })
+      .catch(() => {
+        if (!cancelled) setSubcategories([])
       })
       .finally(() => {
         if (!cancelled) setLoadingSubcategories(false)

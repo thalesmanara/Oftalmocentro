@@ -11,6 +11,7 @@ import {
   createSubcategory,
   updateSubcategory,
   deleteSubcategory,
+  rememberSubcategories,
 } from '@/services/subcategoriesService'
 import type { Category, Subcategory } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
@@ -75,6 +76,7 @@ export function CategoriesPage() {
     setLoadingSubcategories(true)
     try {
       const data = await getSubcategories(categoryId)
+      let merged = data
       setSubcategories((prev) => {
         const byId = new Map(
           prev.filter((item) => item.categoryId === categoryId).map((item) => [item.id, item])
@@ -82,8 +84,10 @@ export function CategoriesPage() {
         for (const item of data) {
           byId.set(item.id, item)
         }
-        return Array.from(byId.values()).sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'))
+        merged = Array.from(byId.values()).sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'))
+        return merged
       })
+      rememberSubcategories(merged)
     } catch {
       showFeedback({ type: 'error', message: 'Erro ao carregar subcategorias.' })
     } finally {
@@ -188,6 +192,7 @@ export function CategoriesPage() {
   }
 
   const mergeSubcategories = (items: Subcategory[]) => {
+    rememberSubcategories(items)
     setSubcategories((prev) => {
       const byId = new Map(prev.map((item) => [item.id, item]))
       for (const item of items) {

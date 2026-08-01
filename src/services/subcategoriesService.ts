@@ -1,4 +1,4 @@
-import { API_BASE_URL } from './api'
+import { API_BASE_URL, apiFetch } from './api'
 import { mockSubcategories } from '@/data/mocks'
 import type { Subcategory } from '@/types'
 
@@ -6,7 +6,7 @@ const CACHE_KEY = 'oftalmocentro_subcategories_cache'
 
 function readCache(): Subcategory[] {
   try {
-    const raw = sessionStorage.getItem(CACHE_KEY)
+    const raw = localStorage.getItem(CACHE_KEY) ?? sessionStorage.getItem(CACHE_KEY)
     if (!raw) return []
     const parsed = JSON.parse(raw) as Subcategory[]
     return Array.isArray(parsed) ? parsed : []
@@ -15,31 +15,37 @@ function readCache(): Subcategory[] {
   }
 }
 
+function writeCache(items: Subcategory[]): Subcategory[] {
+  const serialized = JSON.stringify(items)
+  localStorage.setItem(CACHE_KEY, serialized)
+  try {
+    sessionStorage.removeItem(CACHE_KEY)
+  } catch {
+    // ignore
+  }
+  return items
+}
+
+/** Persiste subcategorias conhecidas (create/update/listagem na UI). */
+export function rememberSubcategories(items: Subcategory[]): Subcategory[] {
+  if (!items.length) return readCache()
+  return mergeIntoCache(items)
+}
+
 function mergeIntoCache(items: Subcategory[]): Subcategory[] {
   const byId = new Map(readCache().map((item) => [item.id, item]))
   for (const item of items) {
     byId.set(item.id, item)
   }
-  const merged = Array.from(byId.values())
-  sessionStorage.setItem(CACHE_KEY, JSON.stringify(merged))
-  return merged
+  return writeCache(Array.from(byId.values()))
 }
 
 function removeFromCache(id: string): void {
-  const next = readCache().filter((item) => item.id !== id)
-  sessionStorage.setItem(CACHE_KEY, JSON.stringify(next))
+  writeCache(readCache().filter((item) => item.id !== id))
 }
 
 function parseSubcategory(data: unknown): Subcategory | null {
-  if (!data) return null
-
-  if (Array.isArray(data) && data.length > 0) {
-    // Em listas, parseSubcategory individual deve ser usado por item.
-    // Se chamado com array inteiro, trata cada item.
-    return null
-  }
-
-  if (typeof data !== 'object') return null
+  if (!data || typeof data !== 'object' || Array.isArray(data)) return null
 
   const record = data as Record<string, unknown>
 
@@ -81,7 +87,7 @@ function parseSubcategory(data: unknown): Subcategory | null {
 
 async function parseJsonResponse(response: Response): Promise<unknown> {
   const text = await response.text()
-  if (!text) return null
+  if (!text.trim()) return null
   try {
     return JSON.parse(text)
   } catch {
@@ -137,28 +143,33 @@ function filterByCategory(list: Subcategory[], categoryId?: string): Subcategory
   return list.filter((item) => item.categoryId === categoryId)
 }
 
+function sortByName(list: Subcategory[]): Subcategory[] {
+  return [...list].sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'))
+}
+
 export async function getSubcategories(categoryId?: string): Promise<Subcategory[]> {
+  const cached = filterByCategory(readCache(), categoryId)
+
   try {
     const query = categoryId ? `?categoryId=${encodeURIComponent(categoryId)}` : ''
-    const response = await fetch(`${API_BASE_URL}/webhook/subcategories${query}`)
+    const response = await apiFetch(`/webhook/subcategories${query}`)
 
     if (!response.ok) {
       throw new Error('Erro ao buscar subcategorias')
     }
 
-    const data = await response.json()
+    const data = await parseJsonResponse(response)
     const fromApi = normalizeList(data)
 
-    // Mescla API + cache da sessão.
+    // Mescla API + cache local.
     // Necessário enquanto o n8n devolver só o primeiro item (objeto) em vez de array.
     const merged = mergeIntoCache(fromApi)
-    return filterByCategory(merged, categoryId)
+    return sortByName(filterByCategory(merged, categoryId))
   } catch (error) {
-    console.warn('Usando subcategorias mockadas/cache por falha no webhook:', error)
-    const cached = filterByCategory(readCache(), categoryId)
-    if (cached.length > 0) return cached
+    console.warn('Usando subcategorias do cache/mock por falha no webhook:', error)
+    if (cached.length > 0) return sortByName(cached)
 
-    return filterByCategory(mockSubcategories, categoryId)
+    return sortByName(filterByCategory(mockSubcategories, categoryId))
   }
 }
 
@@ -167,9 +178,15 @@ async function resolveAfterMutation(
   match: { categoryId: string; name: string; id?: string }
 ): Promise<Subcategory> {
   const fromList = normalizeList(result)
-  if (fromList.length === 1) {
+  if (fromList.length >= 1) {
+    const preferred =
+      (match.id ? fromList.find((item) => item.id === match.id) : undefined) ??
+      fromList.find(
+        (item) => item.name.trim().toLowerCase() === match.name.trim().toLowerCase()
+      ) ??
+      fromList[0]
     mergeIntoCache(fromList)
-    return fromList[0]
+    return preferred
   }
 
   const parsed = parseSubcategory(result)
@@ -197,7 +214,7 @@ async function resolveAfterMutation(
 export async function createSubcategory(
   data: Omit<Subcategory, 'id' | 'createdAt' | 'updatedAt' | 'categoryName'>
 ): Promise<Subcategory> {
-  const response = await fetch(`${API_BASE_URL}/webhook/subcategories/create`, {
+  const response = await apiFetch(`/webhook/subcategories/create`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -224,7 +241,7 @@ export async function updateSubcategory(
   id: string,
   data: Pick<Subcategory, 'categoryId' | 'name' | 'description' | 'active'>
 ): Promise<Subcategory> {
-  const response = await fetch(`${API_BASE_URL}/webhook/subcategories/update`, {
+  const response = await apiFetch(`/webhook/subcategories/update`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -250,7 +267,7 @@ export async function updateSubcategory(
 }
 
 export async function deleteSubcategory(id: string): Promise<void> {
-  const response = await fetch(`${API_BASE_URL}/webhook/subcategories/delete`, {
+  const response = await apiFetch(`/webhook/subcategories/delete`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ id }),
@@ -260,5 +277,12 @@ export async function deleteSubcategory(id: string): Promise<void> {
     throw new Error('Erro ao inativar subcategoria')
   }
 
-  removeFromCache(id)
+  // Soft-delete: marca inativo no cache em vez de remover, alinhado ao backend
+  const cached = readCache()
+  const current = cached.find((item) => item.id === id)
+  if (current) {
+    mergeIntoCache([{ ...current, active: false }])
+  } else {
+    removeFromCache(id)
+  }
 }
