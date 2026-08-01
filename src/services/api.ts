@@ -77,6 +77,18 @@ async function handleUnauthorized(response: Response): Promise<void> {
   unauthorizedHandler?.()
 }
 
+async function readApiErrorMessage(response: Response): Promise<string | null> {
+  try {
+    const data = (await response.clone().json()) as {
+      message?: string
+      error?: { message?: string; code?: string }
+    }
+    return data.error?.message || data.message || null
+  } catch {
+    return null
+  }
+}
+
 /** Fetch autenticado com Bearer automático e tratamento de 401. */
 export async function apiFetch(inputPath: string, options?: RequestInit): Promise<Response> {
   const isFormData = typeof FormData !== 'undefined' && options?.body instanceof FormData
@@ -101,7 +113,13 @@ export async function request<T>(endpoint: string, options?: RequestInit): Promi
   const response = await apiFetch(endpoint, options)
 
   if (!response.ok) {
-    throw new Error(`Erro na API: ${response.status} ${response.statusText}`)
+    const apiMessage = await readApiErrorMessage(response)
+    if (response.status === 403) {
+      throw new Error(
+        apiMessage || 'Você não possui permissão para executar esta ação.'
+      )
+    }
+    throw new Error(apiMessage || `Erro na API: ${response.status} ${response.statusText}`)
   }
 
   return response.json() as Promise<T>

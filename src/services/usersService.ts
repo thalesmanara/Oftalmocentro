@@ -86,32 +86,40 @@ async function parseJsonResponse(response: Response): Promise<unknown> {
 }
 
 export async function getUsers(): Promise<User[]> {
-  try {
-    const response = await apiFetch(`/webhook/users`)
+  const response = await apiFetch(`/webhook/users`)
 
-    if (!response.ok) {
-      throw new Error('Erro ao buscar usuários')
+  if (response.status === 401 || response.status === 403) {
+    const text = await response.text()
+    let message = 'Sem permissão para listar usuários.'
+    try {
+      const body = text ? (JSON.parse(text) as { error?: { message?: string }; message?: string }) : null
+      message = body?.error?.message || body?.message || message
+    } catch {
+      // keep default
     }
+    throw new Error(message)
+  }
 
-    const data = await response.json()
-
-    if (Array.isArray(data)) {
-      return data
-        .map((item) => parseUser(item))
-        .filter((user): user is User => user !== null)
-    }
-
-    if (data?.data && Array.isArray(data.data)) {
-      return data.data
-        .map((item: unknown) => parseUser(item))
-        .filter((user: User | null): user is User => user !== null)
-    }
-
-    return mockUsers
-  } catch (error) {
-    console.warn('Usando usuários mockados por falha no webhook:', error)
+  if (!response.ok) {
+    console.warn('Usando usuários mockados por falha no webhook')
     return mockUsers
   }
+
+  const data = await response.json()
+
+  if (Array.isArray(data)) {
+    return data
+      .map((item) => parseUser(item))
+      .filter((user): user is User => user !== null)
+  }
+
+  if (data?.data && Array.isArray(data.data)) {
+    return data.data
+      .map((item: unknown) => parseUser(item))
+      .filter((user: User | null): user is User => user !== null)
+  }
+
+  return mockUsers
 }
 
 export async function getUserById(id: string): Promise<User | null> {
