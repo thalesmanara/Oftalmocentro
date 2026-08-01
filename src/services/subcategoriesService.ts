@@ -1,4 +1,4 @@
-import { ApiError, request } from './api'
+import { ApiError, apiDelete, apiGet, apiPost, apiPut } from './api'
 import type { Subcategory } from '@/types'
 
 const CACHE_KEY = 'oftalmocentro_subcategories_cache'
@@ -84,7 +84,6 @@ function parseSubcategory(data: unknown): Subcategory | null {
   return null
 }
 
-/** Compatibilidade temporária para formatos legados de lista. */
 function normalizeList(data: unknown): Subcategory[] {
   if (!data) return []
 
@@ -94,30 +93,8 @@ function normalizeList(data: unknown): Subcategory[] {
       .filter((item): item is Subcategory => Boolean(item))
   }
 
-  if (typeof data === 'object') {
-    const record = data as Record<string, unknown>
-
-    if (Array.isArray(record.data)) {
-      return normalizeList(record.data)
-    }
-
-    if (Array.isArray(record.subcategories)) {
-      return normalizeList(record.subcategories)
-    }
-
-    const numericKeys = Object.keys(record).filter((key) => /^\d+$/.test(key))
-    if (numericKeys.length > 0) {
-      return numericKeys
-        .sort((a, b) => Number(a) - Number(b))
-        .map((key) => parseSubcategory(record[key]))
-        .filter((item): item is Subcategory => Boolean(item))
-    }
-
-    const single = parseSubcategory(record)
-    return single ? [single] : []
-  }
-
-  return []
+  const single = parseSubcategory(data)
+  return single ? [single] : []
 }
 
 function filterByCategory(list: Subcategory[], categoryId?: string): Subcategory[] {
@@ -131,7 +108,7 @@ function sortByName(list: Subcategory[]): Subcategory[] {
 
 export async function getSubcategories(categoryId?: string): Promise<Subcategory[]> {
   const query = categoryId ? `?categoryId=${encodeURIComponent(categoryId)}` : ''
-  const data = await request<unknown>(`/webhook/subcategories${query}`)
+  const data = await apiGet<unknown>(`/webhook/subcategories${query}`)
   const fromApi = normalizeList(data)
   const merged = mergeIntoCache(fromApi)
   return sortByName(filterByCategory(merged, categoryId))
@@ -182,14 +159,11 @@ async function resolveAfterMutation(
 export async function createSubcategory(
   data: Omit<Subcategory, 'id' | 'createdAt' | 'updatedAt' | 'categoryName'>
 ): Promise<Subcategory> {
-  const result = await request<unknown>('/webhook/subcategories/create', {
-    method: 'POST',
-    body: JSON.stringify({
-      categoryId: data.categoryId,
-      name: data.name,
-      description: data.description ?? null,
-      active: data.active,
-    }),
+  const result = await apiPost<unknown>('/webhook/subcategories/create', {
+    categoryId: data.categoryId,
+    name: data.name,
+    description: data.description ?? null,
+    active: data.active,
   })
 
   return resolveAfterMutation(result, {
@@ -202,15 +176,12 @@ export async function updateSubcategory(
   id: string,
   data: Pick<Subcategory, 'categoryId' | 'name' | 'description' | 'active'>
 ): Promise<Subcategory> {
-  const result = await request<unknown>('/webhook/subcategories/update', {
-    method: 'PUT',
-    body: JSON.stringify({
-      id,
-      categoryId: data.categoryId,
-      name: data.name,
-      description: data.description ?? null,
-      active: data.active,
-    }),
+  const result = await apiPut<unknown>('/webhook/subcategories/update', {
+    id,
+    categoryId: data.categoryId,
+    name: data.name,
+    description: data.description ?? null,
+    active: data.active,
   })
 
   return resolveAfterMutation(result, {
@@ -221,10 +192,7 @@ export async function updateSubcategory(
 }
 
 export async function deleteSubcategory(id: string): Promise<void> {
-  await request<unknown>('/webhook/subcategories/delete', {
-    method: 'DELETE',
-    body: JSON.stringify({ id }),
-  })
+  await apiDelete('/webhook/subcategories/delete', { id })
 
   const cached = readCache()
   const current = cached.find((item) => item.id === id)

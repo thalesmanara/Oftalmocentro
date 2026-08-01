@@ -44,7 +44,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     setUnauthorizedHandler(() => {
       clearLocalSession()
-      navigate('/login', { replace: true })
+      if (window.location.pathname !== '/login') {
+        navigate('/login', { replace: true })
+      }
     })
 
     return () => setUnauthorizedHandler(null)

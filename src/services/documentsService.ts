@@ -1,4 +1,12 @@
-import { ApiError, apiFetch, parseApiResponse, request } from './api'
+import {
+  ApiError,
+  apiDelete,
+  apiDownload,
+  apiGet,
+  apiPost,
+  apiPut,
+  apiUpload,
+} from './api'
 import type { Document, DocumentFormData } from '@/types'
 
 export interface DocumentFileUploadResult {
@@ -179,7 +187,7 @@ async function resolveDocumentAfterUpdate(_result: unknown, id: string): Promise
 }
 
 export async function getDocuments(): Promise<Document[]> {
-  const data = await request<unknown>('/webhook/documents')
+  const data = await apiGet<unknown>('/webhook/documents')
   if (!Array.isArray(data)) return []
   return data.map((doc) => normalizeDocument(doc as Document))
 }
@@ -194,24 +202,21 @@ export async function createDocument(
   userId: string,
   _userName: string
 ): Promise<Document> {
-  const result = await request<unknown>('/webhook/documents/create', {
-    method: 'POST',
-    body: JSON.stringify({
-      title: data.title.trim(),
-      sectorId: data.sectorId,
-      categoryId: data.categoryId,
-      subcategoryId: data.subcategoryId ?? null,
-      semanticDescription: data.semanticDescription.trim(),
-      expirationDate: data.expirationDate || null,
-      fileName: null,
-      fileType: null,
-      fileSize: null,
-      filePath: null,
-      extractedText: null,
-      responsibleUserId: userId,
-      createdBy: userId,
-      updatedBy: userId,
-    }),
+  const result = await apiPost<unknown>('/webhook/documents/create', {
+    title: data.title.trim(),
+    sectorId: data.sectorId,
+    categoryId: data.categoryId,
+    subcategoryId: data.subcategoryId ?? null,
+    semanticDescription: data.semanticDescription.trim(),
+    expirationDate: data.expirationDate || null,
+    fileName: null,
+    fileType: null,
+    fileSize: null,
+    filePath: null,
+    extractedText: null,
+    responsibleUserId: userId,
+    createdBy: userId,
+    updatedBy: userId,
   })
 
   return resolveDocumentAfterCreate(result, {
@@ -239,10 +244,7 @@ export async function updateDocument(
 
   const payload = await buildUpdatePayload(existing, data, userId)
 
-  const result = await request<unknown>('/webhook/documents/update', {
-    method: 'PUT',
-    body: JSON.stringify(payload),
-  })
+  const result = await apiPut<unknown>('/webhook/documents/update', payload)
 
   return resolveDocumentAfterUpdate(result, id)
 }
@@ -277,10 +279,7 @@ export async function uploadDocumentFile(
   formData.append('documentId', documentId)
   formData.append('file', file)
 
-  const result = await request<unknown>('/webhook/documents/upload', {
-    method: 'POST',
-    body: formData,
-  })
+  const result = await apiUpload<unknown>('/webhook/documents/upload', formData)
 
   const parsed = parseUploadResult(result)
   if (parsed) return parsed
@@ -306,10 +305,7 @@ export async function uploadDocumentFile(
 }
 
 export async function processDocument(documentId: string): Promise<DocumentProcessResult> {
-  const result = await request<unknown>('/webhook/documents/process', {
-    method: 'POST',
-    body: JSON.stringify({ documentId }),
-  })
+  const result = await apiPost<unknown>('/webhook/documents/process', { documentId })
 
   if (Array.isArray(result)) {
     return {
@@ -339,69 +335,21 @@ export async function processDocument(documentId: string): Promise<DocumentProce
 }
 
 export async function deleteDocument(id: string): Promise<void> {
-  await request<unknown>('/webhook/documents/delete', {
-    method: 'DELETE',
-    body: JSON.stringify({ id }),
-  })
-}
-
-function parseFileNameFromDisposition(header: string | null): string | null {
-  if (!header) return null
-
-  const utf8Match = header.match(/filename\*=UTF-8''([^;]+)/i)
-  if (utf8Match?.[1]) {
-    try {
-      return decodeURIComponent(utf8Match[1])
-    } catch {
-      return utf8Match[1]
-    }
-  }
-
-  const match = header.match(/filename="?([^";\n]+)"?/i)
-  return match?.[1] ?? null
+  await apiDelete('/webhook/documents/delete', { id })
 }
 
 export async function downloadDocumentFile(
   documentId: string,
   fallbackFileName?: string | null
 ): Promise<void> {
-  let response: Response
-
-  try {
-    response = await apiFetch(
-      `/webhook/documents/download?documentId=${encodeURIComponent(documentId)}`
-    )
-  } catch {
-    throw new ApiError({
-      status: 503,
-      code: 'SERVICE_UNAVAILABLE',
-      message: 'Não foi possível baixar o arquivo.',
-    })
-  }
-
-  if (!response.ok) {
-    try {
-      await parseApiResponse(response)
-    } catch (error) {
-      if (error instanceof ApiError) throw error
-    }
-    throw new ApiError({
-      status: response.status,
-      code: response.status === 404 ? 'DOCUMENT_FILE_NOT_FOUND' : 'INTERNAL_ERROR',
-      message: 'Não foi possível baixar o arquivo.',
-    })
-  }
-
-  const blob = await response.blob()
-  const fileName =
-    parseFileNameFromDisposition(response.headers.get('Content-Disposition')) ??
-    fallbackFileName ??
-    'documento'
+  const { blob, fileName } = await apiDownload(
+    `/webhook/documents/download?documentId=${encodeURIComponent(documentId)}`
+  )
 
   const objectUrl = URL.createObjectURL(blob)
   const link = document.createElement('a')
   link.href = objectUrl
-  link.download = fileName
+  link.download = fileName ?? fallbackFileName ?? 'documento'
   document.body.appendChild(link)
   link.click()
   link.remove()

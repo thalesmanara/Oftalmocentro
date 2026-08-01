@@ -1,4 +1,4 @@
-import { ApiError, request } from './api'
+import { ApiError, apiDelete, apiGet, apiPost, apiPut } from './api'
 import type { Category } from '@/types'
 
 function parseCategory(data: unknown): Category | null {
@@ -20,7 +20,7 @@ function parseCategory(data: unknown): Category | null {
 }
 
 export async function getCategories(): Promise<Category[]> {
-  const data = await request<unknown>('/webhook/categories')
+  const data = await apiGet<unknown>('/webhook/categories')
   if (!Array.isArray(data)) return []
   return data.filter((item): item is Category => Boolean(parseCategory(item)))
 }
@@ -28,13 +28,10 @@ export async function getCategories(): Promise<Category[]> {
 export async function createCategory(
   data: Omit<Category, 'id' | 'createdAt' | 'updatedAt'>
 ): Promise<Category> {
-  const result = await request<unknown>('/webhook/categories/create', {
-    method: 'POST',
-    body: JSON.stringify({
-      name: data.name,
-      description: data.description,
-      active: data.active,
-    }),
+  const result = await apiPost<unknown>('/webhook/categories/create', {
+    name: data.name,
+    description: data.description,
+    active: data.active,
   })
 
   const category = parseCategory(result)
@@ -53,14 +50,11 @@ export async function updateCategory(
   id: string,
   data: Pick<Category, 'name' | 'description' | 'active'>
 ): Promise<Category> {
-  const result = await request<unknown>('/webhook/categories/update', {
-    method: 'PUT',
-    body: JSON.stringify({
-      id,
-      name: data.name,
-      description: data.description,
-      active: data.active,
-    }),
+  const result = await apiPut<unknown>('/webhook/categories/update', {
+    id,
+    name: data.name,
+    description: data.description,
+    active: data.active,
   })
 
   const category = parseCategory(result)
@@ -76,8 +70,5 @@ export async function updateCategory(
 }
 
 export async function deleteCategory(id: string): Promise<void> {
-  await request<unknown>('/webhook/categories/delete', {
-    method: 'DELETE',
-    body: JSON.stringify({ id }),
-  })
+  await apiDelete('/webhook/categories/delete', { id })
 }

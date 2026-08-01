@@ -1,13 +1,15 @@
 /**
- * Camada base de API para integração com n8n (webhooks).
+ * Cliente HTTP central — React → n8n → PostgreSQL.
  *
- * Arquitetura:
- * React (frontend) → Webhooks/API n8n → PostgreSQL
- *
- * O frontend NUNCA acessa o PostgreSQL diretamente.
+ * Responsabilidades: transporte, Bearer, X-Request-Id, envelopes e erros.
+ * Regras de domínio ficam nos services.
  */
 
-import { ApiError, type ApiEnvelope, type ApiMeta } from '@/types/api'
+import {
+  ApiError,
+  type ApiDownloadResult,
+  type ApiEnvelope,
+} from '@/types/api'
 
 export const API_BASE_URL =
   import.meta.env.VITE_N8N_BASE_URL || 'https://n8n.oftalmocentrouberaba.cloud'
@@ -58,6 +60,19 @@ export function isTokenExpired(expiresAt?: string | null): boolean {
   return Date.now() >= ts
 }
 
+export interface ApiClientOptions extends Omit<RequestInit, 'body'> {
+  body?: BodyInit | null
+  /** Não envia Bearer (login, settings públicos). */
+  public?: boolean
+  /** Não dispara logout/redirect em 401 (ex.: logout, validate interno). */
+  skipAuthRedirect?: boolean
+  /**
+   * Timeout opcional em ms.
+   * Não usar valores curtos em upload, processamento ou consulta IA.
+   */
+  timeoutMs?: number
+}
+
 function createRequestId(): string {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
     return crypto.randomUUID()
@@ -65,10 +80,10 @@ function createRequestId(): string {
   return `req-${Date.now()}-${Math.random().toString(16).slice(2)}`
 }
 
-function buildHeaders(init?: HeadersInit, withJson = true): Headers {
+function buildHeaders(init: HeadersInit | undefined, options: { json: boolean; public: boolean }): Headers {
   const headers = new Headers(init)
 
-  if (withJson && !headers.has('Content-Type')) {
+  if (options.json && !headers.has('Content-Type')) {
     headers.set('Content-Type', 'application/json')
   }
 
@@ -76,55 +91,74 @@ function buildHeaders(init?: HeadersInit, withJson = true): Headers {
     headers.set('X-Request-Id', createRequestId())
   }
 
-  const token = getAccessToken()
-  if (token && !headers.has('Authorization')) {
-    headers.set('Authorization', `Bearer ${token}`)
+  if (!options.public) {
+    const token = getAccessToken()
+    if (token && !headers.has('Authorization')) {
+      headers.set('Authorization', `Bearer ${token}`)
+    }
+  } else {
+    headers.delete('Authorization')
   }
 
   return headers
-}
-
-async function handleUnauthorized(response: Response): Promise<void> {
-  if (response.status !== 401) return
-  clearAuthToken()
-  unauthorizedHandler?.()
 }
 
 function isEnvelope(value: unknown): value is ApiEnvelope<unknown> {
   return Boolean(value && typeof value === 'object' && 'success' in (value as object))
 }
 
-/** Compatibilidade temporária: aceita envelope novo e formatos legados. */
-export function unwrapApiData<T>(payload: unknown): { data: T; meta?: ApiMeta } {
-  if (isEnvelope(payload)) {
-    if (payload.success === false) {
-      throw new ApiError({
-        status: 400,
-        code: payload.error?.code || 'INTERNAL_ERROR',
-        message: payload.error?.message || 'Erro na API.',
-        fields: payload.error?.fields,
-        requestId: payload.meta?.requestId,
-      })
-    }
-    return { data: payload.data as T, meta: payload.meta }
+function statusToCode(status: number): string {
+  switch (status) {
+    case 400:
+      return 'INVALID_PAYLOAD'
+    case 401:
+      return 'UNAUTHORIZED'
+    case 403:
+      return 'FORBIDDEN'
+    case 404:
+      return 'NOT_FOUND'
+    case 409:
+      return 'CONFLICT'
+    case 422:
+      return 'VALIDATION_ERROR'
+    case 502:
+    case 503:
+      return 'SERVICE_UNAVAILABLE'
+    default:
+      return 'INTERNAL_ERROR'
   }
-
-  return { data: payload as T }
 }
 
+function notifyUnauthorized(skipAuthRedirect: boolean): void {
+  clearAuthToken()
+  if (!skipAuthRedirect) {
+    unauthorizedHandler?.()
+  }
+}
+
+async function parseJsonSafe(response: Response): Promise<unknown> {
+  const text = await response.text()
+  if (!text) return null
+  try {
+    return JSON.parse(text) as unknown
+  } catch {
+    return null
+  }
+}
+
+/** Interpreta envelope padrão; exige `success` quando presente. */
 export async function parseApiResponse<T>(response: Response): Promise<T> {
   if (response.status === 204) {
     return undefined as T
   }
 
-  const text = await response.text()
-  const payload = text ? (JSON.parse(text) as unknown) : null
+  const payload = await parseJsonSafe(response)
 
   if (!response.ok) {
     if (isEnvelope(payload) && payload.success === false) {
       throw new ApiError({
         status: response.status,
-        code: payload.error?.code || 'INTERNAL_ERROR',
+        code: payload.error?.code || statusToCode(response.status),
         message: payload.error?.message || `Erro na API: ${response.status}`,
         fields: payload.error?.fields,
         requestId: payload.meta?.requestId,
@@ -134,7 +168,7 @@ export async function parseApiResponse<T>(response: Response): Promise<T> {
     const legacy = payload as { message?: string; error?: { message?: string; code?: string } } | null
     throw new ApiError({
       status: response.status,
-      code: legacy?.error?.code || (response.status === 403 ? 'FORBIDDEN' : 'INTERNAL_ERROR'),
+      code: legacy?.error?.code || statusToCode(response.status),
       message:
         legacy?.error?.message ||
         legacy?.message ||
@@ -142,18 +176,49 @@ export async function parseApiResponse<T>(response: Response): Promise<T> {
     })
   }
 
-  const { data } = unwrapApiData<T>(payload)
-  return data
+  if (isEnvelope(payload)) {
+    if (payload.success === false) {
+      throw new ApiError({
+        status: response.status || 400,
+        code: payload.error?.code || 'INTERNAL_ERROR',
+        message: payload.error?.message || 'Erro na API.',
+        fields: payload.error?.fields,
+        requestId: payload.meta?.requestId,
+      })
+    }
+    return payload.data as T
+  }
+
+  // Compatibilidade mínima: payload sem campo success (não deve ocorrer nos webhooks ativos).
+  return payload as T
 }
 
-/** Fetch autenticado com Bearer automático, X-Request-Id e tratamento de 401. */
-export async function apiFetch(inputPath: string, options?: RequestInit): Promise<Response> {
-  const isFormData = typeof FormData !== 'undefined' && options?.body instanceof FormData
-  const headers = buildHeaders(options?.headers, !isFormData)
+function mergeAbortSignals(signals: Array<AbortSignal | undefined | null>): AbortSignal | undefined {
+  const active = signals.filter((s): s is AbortSignal => Boolean(s))
+  if (active.length === 0) return undefined
+  if (active.length === 1) return active[0]
+  if (typeof AbortSignal !== 'undefined' && 'any' in AbortSignal) {
+    return AbortSignal.any(active)
+  }
+  return active[0]
+}
 
-  if (isTokenExpired()) {
-    clearAuthToken()
-    unauthorizedHandler?.()
+async function rawFetch(endpoint: string, options: ApiClientOptions = {}): Promise<Response> {
+  const {
+    public: isPublic = false,
+    skipAuthRedirect = false,
+    timeoutMs,
+    headers: initHeaders,
+    signal,
+    body,
+    ...rest
+  } = options
+
+  const isFormData = typeof FormData !== 'undefined' && body instanceof FormData
+  const headers = buildHeaders(initHeaders, { json: !isFormData && body != null, public: isPublic })
+
+  if (!isPublic && isTokenExpired()) {
+    notifyUnauthorized(skipAuthRedirect)
     throw new ApiError({
       status: 401,
       code: 'UNAUTHORIZED',
@@ -161,36 +226,178 @@ export async function apiFetch(inputPath: string, options?: RequestInit): Promis
     })
   }
 
-  const response = await fetch(`${API_BASE_URL}${inputPath}`, {
-    ...options,
-    headers,
-  })
+  let timeoutId: ReturnType<typeof setTimeout> | undefined
+  let timeoutSignal: AbortSignal | undefined
+  if (timeoutMs && timeoutMs > 0) {
+    const controller = new AbortController()
+    timeoutSignal = controller.signal
+    timeoutId = setTimeout(() => controller.abort(), timeoutMs)
+  }
 
-  await handleUnauthorized(response)
-  return response
+  try {
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      ...rest,
+      body,
+      headers,
+      signal: mergeAbortSignals([signal, timeoutSignal]),
+    })
+
+    if (response.status === 401 && !isPublic) {
+      notifyUnauthorized(skipAuthRedirect)
+    }
+
+    return response
+  } catch (error) {
+    if (error instanceof ApiError) throw error
+    if (error instanceof DOMException && error.name === 'AbortError') {
+      throw new ApiError({
+        status: 499,
+        code: 'REQUEST_ABORTED',
+        message: 'Requisição cancelada.',
+      })
+    }
+    throw new ApiError({
+      status: 503,
+      code: 'SERVICE_UNAVAILABLE',
+      message: 'Não foi possível conectar ao servidor.',
+    })
+  } finally {
+    if (timeoutId) clearTimeout(timeoutId)
+  }
 }
 
-/** Request JSON com unwrap do envelope padrão (`data`). */
-export async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {
-  const response = await apiFetch(endpoint, options)
+/** Request genérico com unwrap de `data`. */
+export async function apiRequest<T>(endpoint: string, options?: ApiClientOptions): Promise<T> {
+  const response = await rawFetch(endpoint, options)
   return parseApiResponse<T>(response)
 }
 
-/** Request sem autenticação (login / settings públicos). */
+export async function apiGet<T>(endpoint: string, options?: ApiClientOptions): Promise<T> {
+  return apiRequest<T>(endpoint, { ...options, method: 'GET' })
+}
+
+export async function apiPost<T>(
+  endpoint: string,
+  body?: unknown,
+  options?: ApiClientOptions
+): Promise<T> {
+  return apiRequest<T>(endpoint, {
+    ...options,
+    method: 'POST',
+    body: body === undefined ? options?.body : JSON.stringify(body),
+  })
+}
+
+export async function apiPut<T>(
+  endpoint: string,
+  body?: unknown,
+  options?: ApiClientOptions
+): Promise<T> {
+  return apiRequest<T>(endpoint, {
+    ...options,
+    method: 'PUT',
+    body: body === undefined ? options?.body : JSON.stringify(body),
+  })
+}
+
+export async function apiPatch<T>(
+  endpoint: string,
+  body?: unknown,
+  options?: ApiClientOptions
+): Promise<T> {
+  return apiRequest<T>(endpoint, {
+    ...options,
+    method: 'PATCH',
+    body: body === undefined ? options?.body : JSON.stringify(body),
+  })
+}
+
+export async function apiDelete<T = void>(
+  endpoint: string,
+  body?: unknown,
+  options?: ApiClientOptions
+): Promise<T> {
+  return apiRequest<T>(endpoint, {
+    ...options,
+    method: 'DELETE',
+    body: body === undefined ? options?.body : JSON.stringify(body),
+  })
+}
+
+/** Upload multipart — não define Content-Type (boundary do browser). */
+export async function apiUpload<T>(
+  endpoint: string,
+  formData: FormData,
+  options?: ApiClientOptions
+): Promise<T> {
+  return apiRequest<T>(endpoint, {
+    ...options,
+    method: options?.method ?? 'POST',
+    body: formData,
+  })
+}
+
+function parseFileNameFromDisposition(header: string | null): string | null {
+  if (!header) return null
+
+  const utf8Match = header.match(/filename\*=UTF-8''([^;]+)/i)
+  if (utf8Match?.[1]) {
+    try {
+      return decodeURIComponent(utf8Match[1])
+    } catch {
+      return utf8Match[1]
+    }
+  }
+
+  const match = header.match(/filename="?([^";\n]+)"?/i)
+  return match?.[1] ?? null
+}
+
+/** Download binário — sucesso = Blob; erro = JSON tipado. */
+export async function apiDownload(
+  endpoint: string,
+  options?: ApiClientOptions
+): Promise<ApiDownloadResult> {
+  const response = await rawFetch(endpoint, {
+    ...options,
+    method: options?.method ?? 'GET',
+  })
+
+  const requestId = response.headers.get('X-Request-Id')
+
+  if (!response.ok) {
+    await parseApiResponse(response)
+    throw new ApiError({
+      status: response.status,
+      code: statusToCode(response.status),
+      message: 'Não foi possível baixar o arquivo.',
+      requestId: requestId ?? undefined,
+    })
+  }
+
+  const blob = await response.blob()
+  return {
+    blob,
+    fileName: parseFileNameFromDisposition(response.headers.get('Content-Disposition')),
+    contentType: response.headers.get('Content-Type'),
+    requestId,
+  }
+}
+
+/** @deprecated Preferir `apiRequest` / `apiGet` / … */
+export const request = apiRequest
+
+/** @deprecated Preferir `apiRequest(..., { public: true })` */
 export async function publicRequest<T>(endpoint: string, options?: RequestInit): Promise<T> {
-  const isFormData = typeof FormData !== 'undefined' && options?.body instanceof FormData
-  const headers = buildHeaders(options?.headers, !isFormData)
-  headers.delete('Authorization')
-
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-    ...options,
-    headers,
-  })
-
-  return parseApiResponse<T>(response)
+  return apiRequest<T>(endpoint, { ...options, public: true })
 }
 
-/** @deprecated Use request() — mantido para compatibilidade */
+/** @deprecated Preferir `raw` via `apiDownload` / `apiUpload` / `apiRequest`. */
+export async function apiFetch(inputPath: string, options?: RequestInit): Promise<Response> {
+  return rawFetch(inputPath, options)
+}
+
+/** Delay apenas para mocks explícitos (ex.: audit local). Não usar como fallback de API. */
 export async function mockDelay<T>(data: T, ms = 300): Promise<T> {
   await new Promise((resolve) => setTimeout(resolve, ms))
   return data
@@ -209,4 +416,4 @@ export function buildDocumentFormData(
 }
 
 export { ApiError }
-export type { ApiMeta, ApiSuccess, ApiErrorResponse } from '@/types/api'
+export type { ApiMeta, ApiSuccess, ApiFailure, ApiErrorResponse, ApiDownloadResult } from '@/types/api'

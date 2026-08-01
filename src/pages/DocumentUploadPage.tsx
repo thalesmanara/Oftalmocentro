@@ -8,6 +8,7 @@ import type { DocumentFormData } from '@/types'
 import { Card } from '@/components/ui/Card'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { DocumentForm } from '@/components/documents/DocumentForm'
+import { getErrorMessage } from '@/utils/apiError'
 
 type Feedback = { type: 'success' | 'error'; message: string }
 
@@ -61,8 +62,11 @@ export function DocumentUploadPage() {
 
         try {
           await uploadDocumentFile(createdDocument.id, data.file)
-        } catch {
-          postCreateError = 'Documento criado, mas houve erro ao enviar o arquivo.'
+        } catch (err) {
+          postCreateError = getErrorMessage(
+            err,
+            'Documento criado, mas houve erro ao enviar o arquivo.'
+          )
         } finally {
           setUploading(false)
         }
@@ -72,16 +76,18 @@ export function DocumentUploadPage() {
 
           try {
             await processDocument(createdDocument.id)
-          } catch {
-            postCreateError =
+          } catch (err) {
+            postCreateError = getErrorMessage(
+              err,
               'Documento criado e arquivo enviado, mas houve erro no processamento.'
+            )
           } finally {
             setProcessing(false)
           }
         }
       }
-    } catch {
-      setFeedback({ type: 'error', message: 'Erro ao criar documento.' })
+    } catch (err) {
+      setFeedback({ type: 'error', message: getErrorMessage(err, 'Erro ao criar documento.') })
       setSaving(false)
       setUploading(false)
       setProcessing(false)

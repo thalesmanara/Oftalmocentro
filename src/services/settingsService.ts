@@ -1,4 +1,4 @@
-import { ApiError, publicRequest, request } from './api'
+import { ApiError, apiGet, apiPut } from './api'
 import type { SystemSettings } from '@/types'
 
 function parseSettings(data: unknown): SystemSettings | null {
@@ -20,7 +20,7 @@ function parseSettings(data: unknown): SystemSettings | null {
 }
 
 export async function getSettings(): Promise<SystemSettings> {
-  const data = await publicRequest<unknown>('/webhook/settings')
+  const data = await apiGet<unknown>('/webhook/settings', { public: true })
   const settings = parseSettings(data)
   if (!settings) {
     throw new ApiError({
@@ -33,16 +33,13 @@ export async function getSettings(): Promise<SystemSettings> {
 }
 
 export async function updateSettings(data: SystemSettings): Promise<SystemSettings> {
-  const result = await request<unknown>('/webhook/settings/update', {
-    method: 'PUT',
-    body: JSON.stringify({
-      id: data.id,
-      systemName: data.systemName,
-      clinicName: data.clinicName,
-      logoUrl: data.logoUrl,
-      primaryColor: data.primaryColor,
-      secondaryColor: data.secondaryColor,
-    }),
+  const result = await apiPut<unknown>('/webhook/settings/update', {
+    id: data.id,
+    systemName: data.systemName,
+    clinicName: data.clinicName,
+    logoUrl: data.logoUrl,
+    primaryColor: data.primaryColor,
+    secondaryColor: data.secondaryColor,
   })
 
   const updated = parseSettings(result)

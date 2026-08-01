@@ -1,4 +1,4 @@
-import { ApiError, request } from './api'
+import { ApiError, apiDelete, apiGet, apiPost, apiPut } from './api'
 import type { Sector } from '@/types'
 
 function parseSector(data: unknown): Sector | null {
@@ -20,7 +20,7 @@ function parseSector(data: unknown): Sector | null {
 }
 
 export async function getSectors(): Promise<Sector[]> {
-  const data = await request<unknown>('/webhook/sectors')
+  const data = await apiGet<unknown>('/webhook/sectors')
   if (!Array.isArray(data)) return []
   return data.filter((item): item is Sector => Boolean(parseSector(item)))
 }
@@ -28,13 +28,10 @@ export async function getSectors(): Promise<Sector[]> {
 export async function createSector(
   data: Omit<Sector, 'id' | 'createdAt' | 'updatedAt'>
 ): Promise<Sector> {
-  const result = await request<unknown>('/webhook/sectors/create', {
-    method: 'POST',
-    body: JSON.stringify({
-      name: data.name,
-      description: data.description,
-      active: data.active,
-    }),
+  const result = await apiPost<unknown>('/webhook/sectors/create', {
+    name: data.name,
+    description: data.description,
+    active: data.active,
   })
 
   const sector = parseSector(result)
@@ -53,14 +50,11 @@ export async function updateSector(
   id: string,
   data: Pick<Sector, 'name' | 'description' | 'active'>
 ): Promise<Sector> {
-  const result = await request<unknown>('/webhook/sectors/update', {
-    method: 'PUT',
-    body: JSON.stringify({
-      id,
-      name: data.name,
-      description: data.description,
-      active: data.active,
-    }),
+  const result = await apiPut<unknown>('/webhook/sectors/update', {
+    id,
+    name: data.name,
+    description: data.description,
+    active: data.active,
   })
 
   const sector = parseSector(result)
@@ -76,8 +70,5 @@ export async function updateSector(
 }
 
 export async function deleteSector(id: string): Promise<void> {
-  await request<unknown>('/webhook/sectors/delete', {
-    method: 'DELETE',
-    body: JSON.stringify({ id }),
-  })
+  await apiDelete('/webhook/sectors/delete', { id })
 }

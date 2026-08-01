@@ -15,6 +15,7 @@ import { Select } from '@/components/ui/Select'
 import { Modal } from '@/components/ui/Modal'
 import { ModalConfirm } from '@/components/ui/Modal'
 import { Badge } from '@/components/ui/Badge'
+import { getErrorMessage } from '@/utils/apiError'
 
 type Feedback = { type: 'success' | 'error'; message: string }
 
@@ -55,8 +56,8 @@ export function UsersPage() {
     try {
       const data = await getUsers()
       setUsers(data)
-    } catch {
-      showFeedback({ type: 'error', message: 'Erro ao carregar usuários.' })
+    } catch (err) {
+      showFeedback({ type: 'error', message: getErrorMessage(err, 'Erro ao carregar usuários.') })
     } finally {
       if (showPageLoading) setLoading(false)
     }
@@ -146,10 +147,13 @@ export function UsersPage() {
       setModalOpen(false)
       resetForm()
       await loadUsers(false)
-    } catch {
+    } catch (err) {
       showFeedback({
         type: 'error',
-        message: editing ? 'Erro ao atualizar usuário.' : 'Erro ao criar usuário.',
+        message: getErrorMessage(
+          err,
+          editing ? 'Erro ao atualizar usuário.' : 'Erro ao criar usuário.'
+        ),
       })
     } finally {
       setSaving(false)
@@ -167,8 +171,8 @@ export function UsersPage() {
       setDeleteId(null)
       showFeedback({ type: 'success', message: 'Usuário inativado com sucesso.' })
       await loadUsers(false)
-    } catch {
-      showFeedback({ type: 'error', message: 'Erro ao inativar usuário.' })
+    } catch (err) {
+      showFeedback({ type: 'error', message: getErrorMessage(err, 'Erro ao inativar usuário.') })
     } finally {
       setDeleting(false)
     }

@@ -7,6 +7,7 @@ import { PageHeader } from '@/components/ui/PageHeader'
 import { Card } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
+import { getErrorMessage } from '@/utils/apiError'
 
 type Feedback = { type: 'success' | 'error'; message: string }
 
@@ -33,8 +34,8 @@ export function SettingsPage() {
       logAction(user.name, 'Alteração de configurações', 'Sistema', 'Configurações do sistema atualizadas')
       setFeedback({ type: 'success', message: 'Configurações salvas com sucesso.' })
       setTimeout(() => setFeedback(null), 4000)
-    } catch {
-      setFeedback({ type: 'error', message: 'Erro ao salvar configurações.' })
+    } catch (err) {
+      setFeedback({ type: 'error', message: getErrorMessage(err, 'Erro ao salvar configurações.') })
     } finally {
       setSaving(false)
     }

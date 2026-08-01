@@ -16,6 +16,7 @@ import { Modal } from '@/components/ui/Modal'
 import { ModalConfirm } from '@/components/ui/Modal'
 import { Badge } from '@/components/ui/Badge'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { getErrorMessage } from '@/utils/apiError'
 
 type Feedback = { type: 'success' | 'error'; message: string }
 
@@ -44,8 +45,8 @@ export function SectorsPage() {
     try {
       const data = await getSectors()
       setSectors(data)
-    } catch {
-      showFeedback({ type: 'error', message: 'Erro ao carregar setores.' })
+    } catch (err) {
+      showFeedback({ type: 'error', message: getErrorMessage(err, 'Erro ao carregar setores.') })
     } finally {
       setLoading(false)
     }
@@ -91,10 +92,13 @@ export function SectorsPage() {
       }
       setModalOpen(false)
       await loadSectors()
-    } catch {
+    } catch (err) {
       showFeedback({
         type: 'error',
-        message: editing ? 'Erro ao atualizar setor.' : 'Erro ao criar setor.',
+        message: getErrorMessage(
+          err,
+          editing ? 'Erro ao atualizar setor.' : 'Erro ao criar setor.'
+        ),
       })
     } finally {
       setSaving(false)
@@ -110,8 +114,8 @@ export function SectorsPage() {
       setDeleteId(null)
       showFeedback({ type: 'success', message: 'Setor inativado com sucesso.' })
       await loadSectors()
-    } catch {
-      showFeedback({ type: 'error', message: 'Erro ao inativar setor.' })
+    } catch (err) {
+      showFeedback({ type: 'error', message: getErrorMessage(err, 'Erro ao inativar setor.') })
     } finally {
       setDeleting(false)
     }

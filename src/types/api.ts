@@ -15,13 +15,16 @@ export interface ApiErrorBody {
   fields?: Record<string, string>
 }
 
-export interface ApiErrorResponse {
+export interface ApiFailure {
   success: false
   error: ApiErrorBody
-  meta?: ApiMeta
+  meta: ApiMeta
 }
 
-export type ApiEnvelope<T> = ApiSuccess<T> | ApiErrorResponse
+/** Alias histórico — preferir `ApiFailure`. */
+export type ApiErrorResponse = ApiFailure
+
+export type ApiEnvelope<T> = ApiSuccess<T> | ApiFailure
 
 export class ApiError extends Error {
   status: number
@@ -43,4 +46,11 @@ export class ApiError extends Error {
     this.fields = options.fields
     this.requestId = options.requestId
   }
+}
+
+export interface ApiDownloadResult {
+  blob: Blob
+  fileName: string | null
+  contentType: string | null
+  requestId: string | null
 }

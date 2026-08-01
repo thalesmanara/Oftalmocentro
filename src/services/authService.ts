@@ -1,14 +1,12 @@
 import {
   API_BASE_URL,
   ApiError,
-  apiFetch,
+  apiPost,
   clearAuthToken,
   getAccessToken,
   getTokenExpiresAt,
   isTokenExpired,
   persistAuthToken,
-  publicRequest,
-  request,
 } from './api'
 import type { AuthUser, PermissionCode } from '@/types'
 
@@ -79,10 +77,11 @@ export async function login(email: string, password: string): Promise<LoginResul
   }
 
   try {
-    const data = await publicRequest<LoginData>('/webhook/auth/login', {
-      method: 'POST',
-      body: JSON.stringify({ email: trimmedEmail, password }),
-    })
+    const data = await apiPost<LoginData>(
+      '/webhook/auth/login',
+      { email: trimmedEmail, password },
+      { public: true }
+    )
 
     const user = parseAuthUser(data?.user)
     const token = data?.token != null ? String(data.token) : ''
@@ -105,6 +104,7 @@ export async function login(email: string, password: string): Promise<LoginResul
           code: 'INVALID_CREDENTIALS',
           message: error.message || 'E-mail ou senha inválidos.',
           requestId: error.requestId,
+          fields: error.fields,
         })
       }
       throw error
@@ -122,10 +122,11 @@ export async function logout(): Promise<void> {
 
   if (token) {
     try {
-      await apiFetch('/webhook/auth/logout', {
-        method: 'POST',
-        body: JSON.stringify({}),
-      })
+      await apiPost(
+        '/webhook/auth/logout',
+        {},
+        { skipAuthRedirect: true }
+      )
     } catch {
       // Logout local mesmo se o webhook falhar
     }
@@ -145,10 +146,11 @@ export async function validateSession(): Promise<AuthUser | null> {
   }
 
   try {
-    const data = await request<{ user?: unknown; permissions?: unknown }>('/webhook/auth/validate', {
-      method: 'POST',
-      body: JSON.stringify({}),
-    })
+    const data = await apiPost<{ user?: unknown; permissions?: unknown }>(
+      '/webhook/auth/validate',
+      {},
+      { skipAuthRedirect: true }
+    )
 
     const userPayload =
       data && typeof data === 'object' && 'user' in data

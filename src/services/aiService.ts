@@ -1,4 +1,4 @@
-import { ApiError, request } from './api'
+import { ApiError, apiPost } from './api'
 
 export interface AISource {
   index: number
@@ -86,28 +86,19 @@ export async function askAI(question: string): Promise<AIResponse> {
     })
   }
 
-  try {
-    const data = await request<unknown>('/webhook/consulta-ia', {
-      method: 'POST',
-      body: JSON.stringify({ question: trimmed }),
-    })
+  const data = await apiPost<unknown>(
+    '/webhook/consulta-ia',
+    { question: trimmed }
+  )
 
-    const parsed = parseAIResponse(data)
-    if (!parsed) {
-      throw new ApiError({
-        status: 500,
-        code: 'INTERNAL_ERROR',
-        message: 'Não foi possível consultar a IA no momento. Tente novamente.',
-      })
-    }
-
-    return parsed
-  } catch (error) {
-    if (error instanceof ApiError) throw error
+  const parsed = parseAIResponse(data)
+  if (!parsed) {
     throw new ApiError({
-      status: 503,
-      code: 'SERVICE_UNAVAILABLE',
+      status: 500,
+      code: 'INTERNAL_ERROR',
       message: 'Não foi possível consultar a IA no momento. Tente novamente.',
     })
   }
+
+  return parsed
 }

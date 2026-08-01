@@ -1,4 +1,4 @@
-import { ApiError, request } from './api'
+import { ApiError, apiDelete, apiGet, apiPost, apiPut } from './api'
 import type { User, UserFormData } from '@/types'
 
 function normalizePermissionCodes(permissions: unknown): string[] {
@@ -57,7 +57,7 @@ function asUserList(data: unknown): User[] {
 }
 
 export async function getUsers(): Promise<User[]> {
-  const data = await request<unknown>('/webhook/users')
+  const data = await apiGet<unknown>('/webhook/users')
   return asUserList(data)
 }
 
@@ -80,29 +80,16 @@ export async function createUser(data: UserFormData): Promise<User> {
     payload.passwordHash = data.password
   }
 
-  try {
-    const result = await request<unknown>('/webhook/users/create', {
-      method: 'POST',
-      body: JSON.stringify(payload),
-    })
-
-    const user = parseUser(result)
-    if (!user) {
-      throw new ApiError({
-        status: 500,
-        code: 'INTERNAL_ERROR',
-        message: 'Resposta inválida ao criar usuário',
-      })
-    }
-    return user
-  } catch (error) {
-    if (error instanceof ApiError) throw error
+  const result = await apiPost<unknown>('/webhook/users/create', payload)
+  const user = parseUser(result)
+  if (!user) {
     throw new ApiError({
       status: 500,
       code: 'INTERNAL_ERROR',
-      message: 'Erro ao criar usuário',
+      message: 'Resposta inválida ao criar usuário',
     })
   }
+  return user
 }
 
 export async function updateUser(
@@ -126,11 +113,7 @@ export async function updateUser(
     payload.passwordHash = data.password.trim()
   }
 
-  const result = await request<unknown>('/webhook/users/update', {
-    method: 'PUT',
-    body: JSON.stringify(payload),
-  })
-
+  const result = await apiPut<unknown>('/webhook/users/update', payload)
   const user = parseUser(result)
   if (!user) {
     throw new ApiError({
@@ -144,8 +127,5 @@ export async function updateUser(
 }
 
 export async function deleteUser(id: string): Promise<void> {
-  await request<unknown>('/webhook/users/delete', {
-    method: 'DELETE',
-    body: JSON.stringify({ id }),
-  })
+  await apiDelete('/webhook/users/delete', { id })
 }

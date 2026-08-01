@@ -8,6 +8,7 @@ import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Textarea } from '@/components/ui/Textarea'
 import { SimpleMarkdown } from '@/components/ai/SimpleMarkdown'
+import { getErrorMessage } from '@/utils/apiError'
 
 function getUniqueSources(sources: AISource[]) {
   return Array.from(new Map(sources.map((source) => [source.documentId, source])).values())
@@ -43,9 +44,7 @@ export function ConsultaIAPage() {
       setResponse(result)
     } catch (err) {
       setError(
-        err instanceof Error
-          ? err.message
-          : 'Não foi possível consultar a IA no momento. Tente novamente.'
+        getErrorMessage(err, 'Não foi possível consultar a IA no momento. Tente novamente.')
       )
     } finally {
       setLoading(false)
@@ -62,8 +61,10 @@ export function ConsultaIAPage() {
 
     try {
       await downloadDocumentFile(source.documentId, source.documentTitle)
-    } catch {
-      setDownloadError('Não foi possível baixar o arquivo do documento selecionado.')
+    } catch (err) {
+      setDownloadError(
+        getErrorMessage(err, 'Não foi possível baixar o arquivo do documento selecionado.')
+      )
     } finally {
       setDownloadingId(null)
     }

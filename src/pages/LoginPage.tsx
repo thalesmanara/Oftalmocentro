@@ -5,6 +5,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useSettings } from '@/hooks/useSettings'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
+import { getErrorMessage } from '@/utils/apiError'
 
 export function LoginPage() {
   const { user, login, loading } = useAuth()
@@ -27,9 +28,7 @@ export function LoginPage() {
     try {
       await login(email, senha)
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : 'Usuário ou senha inválidos.'
-      )
+      setError(getErrorMessage(err, 'Usuário ou senha inválidos.'))
     }
   }
 

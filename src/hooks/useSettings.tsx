@@ -21,8 +21,11 @@ interface SettingsContextValue {
 
 const SettingsContext = createContext<SettingsContextValue | null>(null)
 
+/** Defaults visuais iniciais (CSS/login) — não mascaram falha de API nos services. */
+const INITIAL_SETTINGS = mockSystemSettings
+
 export function SettingsProvider({ children }: { children: ReactNode }) {
-  const [settings, setSettings] = useState<SystemSettings>(mockSystemSettings)
+  const [settings, setSettings] = useState<SystemSettings>(INITIAL_SETTINGS)
   const [loading, setLoading] = useState(true)
 
   const refreshSettings = useCallback(async () => {
@@ -30,6 +33,8 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
     try {
       const data = await getSettings()
       setSettings(data)
+    } catch {
+      // Mantém último valor conhecido / defaults visuais; erro não vira mock de domínio.
     } finally {
       setLoading(false)
     }
