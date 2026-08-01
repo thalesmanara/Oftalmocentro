@@ -1,5 +1,4 @@
-import { apiFetch } from './api'
-import { mockDocuments } from '@/data/mocks'
+import { ApiError, apiFetch, parseApiResponse, request } from './api'
 import type { Document, DocumentFormData } from '@/types'
 
 export interface DocumentFileUploadResult {
@@ -146,37 +145,6 @@ function buildMinimalCreatedDocument(id: string, match: {
   })
 }
 
-async function findCreatedDocument(match: {
-  title: string
-  sectorId: string
-  categoryId: string
-}): Promise<Document | null> {
-  const documents = await getDocuments()
-
-  return (
-    documents
-      .filter(
-        (doc) =>
-          doc.title === match.title &&
-          doc.sectorId === match.sectorId &&
-          doc.categoryId === match.categoryId
-      )
-      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())[0] ?? null
-  )
-}
-
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
-
-async function parseJsonResponse(response: Response): Promise<unknown> {
-  const text = await response.text()
-  if (!text) return null
-  try {
-    return JSON.parse(text)
-  } catch {
-    return null
-  }
-}
-
 async function resolveDocumentAfterCreate(
   result: unknown,
   match: { title: string; sectorId: string; categoryId: string }
@@ -192,48 +160,28 @@ async function resolveDocumentAfterCreate(
     return buildMinimalCreatedDocument(extractedId, match)
   }
 
-  for (let attempt = 0; attempt < 4; attempt += 1) {
-    const found = await findCreatedDocument(match)
-    if (found) return found
-
-    if (attempt < 3) {
-      await delay(400)
-    }
-  }
-
-  throw new Error('Documento criado não encontrado')
+  throw new ApiError({
+    status: 500,
+    code: 'INTERNAL_ERROR',
+    message: 'Documento criado não encontrado',
+  })
 }
 
 async function resolveDocumentAfterUpdate(_result: unknown, id: string): Promise<Document> {
   const refreshed = await getDocumentById(id)
   if (refreshed) return refreshed
 
-  throw new Error('Resposta inválida ao atualizar documento')
+  throw new ApiError({
+    status: 500,
+    code: 'INTERNAL_ERROR',
+    message: 'Resposta inválida ao atualizar documento',
+  })
 }
 
 export async function getDocuments(): Promise<Document[]> {
-  try {
-    const response = await apiFetch(`/webhook/documents`)
-
-    if (!response.ok) {
-      throw new Error('Erro ao buscar documentos')
-    }
-
-    const data = await response.json()
-
-    if (Array.isArray(data)) {
-      return data.map((doc) => normalizeDocument(doc as Document))
-    }
-
-    if (data?.data && Array.isArray(data.data)) {
-      return data.data.map((doc: Document) => normalizeDocument(doc))
-    }
-
-    return mockDocuments
-  } catch (error) {
-    console.warn('Usando documentos mockados por falha no webhook:', error)
-    return mockDocuments
-  }
+  const data = await request<unknown>('/webhook/documents')
+  if (!Array.isArray(data)) return []
+  return data.map((doc) => normalizeDocument(doc as Document))
 }
 
 export async function getDocumentById(id: string): Promise<Document | null> {
@@ -246,9 +194,8 @@ export async function createDocument(
   userId: string,
   _userName: string
 ): Promise<Document> {
-  const response = await apiFetch(`/webhook/documents/create`, {
+  const result = await request<unknown>('/webhook/documents/create', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       title: data.title.trim(),
       sectorId: data.sectorId,
@@ -267,12 +214,6 @@ export async function createDocument(
     }),
   })
 
-  const result = await parseJsonResponse(response)
-
-  if (!response.ok) {
-    throw new Error('Erro ao criar documento')
-  }
-
   return resolveDocumentAfterCreate(result, {
     title: data.title.trim(),
     sectorId: data.sectorId,
@@ -289,22 +230,19 @@ export async function updateDocument(
 ): Promise<Document> {
   const existing = currentDocument ?? (await getDocumentById(id))
   if (!existing) {
-    throw new Error('Documento não encontrado')
+    throw new ApiError({
+      status: 404,
+      code: 'DOCUMENT_NOT_FOUND',
+      message: 'Documento não encontrado',
+    })
   }
 
   const payload = await buildUpdatePayload(existing, data, userId)
 
-  const response = await apiFetch(`/webhook/documents/update`, {
+  const result = await request<unknown>('/webhook/documents/update', {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   })
-
-  const result = await parseJsonResponse(response)
-
-  if (!response.ok) {
-    throw new Error('Erro ao atualizar documento')
-  }
 
   return resolveDocumentAfterUpdate(result, id)
 }
@@ -339,18 +277,12 @@ export async function uploadDocumentFile(
   formData.append('documentId', documentId)
   formData.append('file', file)
 
-  const response = await apiFetch(`/webhook/documents/upload`, {
+  const result = await request<unknown>('/webhook/documents/upload', {
     method: 'POST',
     body: formData,
   })
 
-  if (!response.ok) {
-    throw new Error('Erro ao enviar arquivo do documento')
-  }
-
-  const result = await parseJsonResponse(response)
   const parsed = parseUploadResult(result)
-
   if (parsed) return parsed
 
   const refreshed = await getDocumentById(documentId)
@@ -366,21 +298,18 @@ export async function uploadDocumentFile(
     }
   }
 
-  throw new Error('Resposta inválida ao enviar arquivo do documento')
+  throw new ApiError({
+    status: 500,
+    code: 'INTERNAL_ERROR',
+    message: 'Resposta inválida ao enviar arquivo do documento',
+  })
 }
 
 export async function processDocument(documentId: string): Promise<DocumentProcessResult> {
-  const response = await apiFetch(`/webhook/documents/process`, {
+  const result = await request<unknown>('/webhook/documents/process', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ documentId }),
   })
-
-  const result = await parseJsonResponse(response)
-
-  if (!response.ok) {
-    throw new Error('Erro ao processar documento')
-  }
 
   if (Array.isArray(result)) {
     return {
@@ -393,10 +322,6 @@ export async function processDocument(documentId: string): Promise<DocumentProce
 
   if (result && typeof result === 'object') {
     const record = result as Record<string, unknown>
-
-    if (record.success === false) {
-      throw new Error(String(record.message ?? 'Erro ao processar documento'))
-    }
 
     return {
       success: true,
@@ -414,15 +339,10 @@ export async function processDocument(documentId: string): Promise<DocumentProce
 }
 
 export async function deleteDocument(id: string): Promise<void> {
-  const response = await apiFetch(`/webhook/documents/delete`, {
+  await request<unknown>('/webhook/documents/delete', {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ id }),
   })
-
-  if (!response.ok) {
-    throw new Error('Erro ao excluir documento')
-  }
 }
 
 function parseFileNameFromDisposition(header: string | null): string | null {
@@ -452,11 +372,24 @@ export async function downloadDocumentFile(
       `/webhook/documents/download?documentId=${encodeURIComponent(documentId)}`
     )
   } catch {
-    throw new Error('Não foi possível baixar o arquivo.')
+    throw new ApiError({
+      status: 503,
+      code: 'SERVICE_UNAVAILABLE',
+      message: 'Não foi possível baixar o arquivo.',
+    })
   }
 
   if (!response.ok) {
-    throw new Error('Não foi possível baixar o arquivo.')
+    try {
+      await parseApiResponse(response)
+    } catch (error) {
+      if (error instanceof ApiError) throw error
+    }
+    throw new ApiError({
+      status: response.status,
+      code: response.status === 404 ? 'DOCUMENT_FILE_NOT_FOUND' : 'INTERNAL_ERROR',
+      message: 'Não foi possível baixar o arquivo.',
+    })
   }
 
   const blob = await response.blob()

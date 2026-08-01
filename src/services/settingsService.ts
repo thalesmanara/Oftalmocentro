@@ -1,5 +1,4 @@
-import { API_BASE_URL, apiFetch } from './api'
-import { mockSystemSettings } from '@/data/mocks'
+import { ApiError, publicRequest, request } from './api'
 import type { SystemSettings } from '@/types'
 
 function parseSettings(data: unknown): SystemSettings | null {
@@ -13,64 +12,29 @@ function parseSettings(data: unknown): SystemSettings | null {
 
   const record = data as Record<string, unknown>
 
-  if (record.id && record.systemName) {
+  if (record.id && (record.systemName || record.clinicName)) {
     return record as unknown as SystemSettings
-  }
-
-  if (record.data) {
-    return parseSettings(record.data)
   }
 
   return null
 }
 
-async function parseJsonResponse(response: Response): Promise<unknown> {
-  const text = await response.text()
-  if (!text) return null
-  try {
-    return JSON.parse(text)
-  } catch {
-    return null
-  }
-}
-
 export async function getSettings(): Promise<SystemSettings> {
-  try {
-    const response = await apiFetch(`/webhook/settings`)
-
-    if (!response.ok) {
-      throw new Error('Erro ao buscar configurações')
-    }
-
-    const data = await response.json()
-
-    if (Array.isArray(data) && data.length > 0) {
-      return data[0]
-    }
-
-    if (data?.data && Array.isArray(data.data) && data.data.length > 0) {
-      return data.data[0]
-    }
-
-    if (data?.data && !Array.isArray(data.data)) {
-      return data.data
-    }
-
-    if (data?.id) {
-      return data
-    }
-
-    return mockSystemSettings
-  } catch (error) {
-    console.warn('Usando configurações mockadas por falha no webhook:', error)
-    return mockSystemSettings
+  const data = await publicRequest<unknown>('/webhook/settings')
+  const settings = parseSettings(data)
+  if (!settings) {
+    throw new ApiError({
+      status: 404,
+      code: 'SETTINGS_NOT_FOUND',
+      message: 'Configurações não encontradas.',
+    })
   }
+  return settings
 }
 
 export async function updateSettings(data: SystemSettings): Promise<SystemSettings> {
-  const response = await apiFetch(`/webhook/settings/update`, {
+  const result = await request<unknown>('/webhook/settings/update', {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       id: data.id,
       systemName: data.systemName,
@@ -81,15 +45,13 @@ export async function updateSettings(data: SystemSettings): Promise<SystemSettin
     }),
   })
 
-  const result = await parseJsonResponse(response)
-
-  if (!response.ok) {
-    throw new Error('Erro ao atualizar configurações')
-  }
-
   const updated = parseSettings(result)
   if (!updated) {
-    throw new Error('Resposta inválida ao atualizar configurações')
+    throw new ApiError({
+      status: 500,
+      code: 'INTERNAL_ERROR',
+      message: 'Resposta inválida ao atualizar configurações',
+    })
   }
 
   return updated

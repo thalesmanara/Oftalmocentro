@@ -7,6 +7,8 @@
  * O frontend NUNCA acessa o PostgreSQL diretamente.
  */
 
+import { ApiError, type ApiEnvelope, type ApiMeta } from '@/types/api'
+
 export const API_BASE_URL =
   import.meta.env.VITE_N8N_BASE_URL || 'https://n8n.oftalmocentrouberaba.cloud'
 
@@ -56,11 +58,22 @@ export function isTokenExpired(expiresAt?: string | null): boolean {
   return Date.now() >= ts
 }
 
+function createRequestId(): string {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID()
+  }
+  return `req-${Date.now()}-${Math.random().toString(16).slice(2)}`
+}
+
 function buildHeaders(init?: HeadersInit, withJson = true): Headers {
   const headers = new Headers(init)
 
   if (withJson && !headers.has('Content-Type')) {
     headers.set('Content-Type', 'application/json')
+  }
+
+  if (!headers.has('X-Request-Id')) {
+    headers.set('X-Request-Id', createRequestId())
   }
 
   const token = getAccessToken()
@@ -77,19 +90,63 @@ async function handleUnauthorized(response: Response): Promise<void> {
   unauthorizedHandler?.()
 }
 
-async function readApiErrorMessage(response: Response): Promise<string | null> {
-  try {
-    const data = (await response.clone().json()) as {
-      message?: string
-      error?: { message?: string; code?: string }
-    }
-    return data.error?.message || data.message || null
-  } catch {
-    return null
-  }
+function isEnvelope(value: unknown): value is ApiEnvelope<unknown> {
+  return Boolean(value && typeof value === 'object' && 'success' in (value as object))
 }
 
-/** Fetch autenticado com Bearer automático e tratamento de 401. */
+/** Compatibilidade temporária: aceita envelope novo e formatos legados. */
+export function unwrapApiData<T>(payload: unknown): { data: T; meta?: ApiMeta } {
+  if (isEnvelope(payload)) {
+    if (payload.success === false) {
+      throw new ApiError({
+        status: 400,
+        code: payload.error?.code || 'INTERNAL_ERROR',
+        message: payload.error?.message || 'Erro na API.',
+        fields: payload.error?.fields,
+        requestId: payload.meta?.requestId,
+      })
+    }
+    return { data: payload.data as T, meta: payload.meta }
+  }
+
+  return { data: payload as T }
+}
+
+export async function parseApiResponse<T>(response: Response): Promise<T> {
+  if (response.status === 204) {
+    return undefined as T
+  }
+
+  const text = await response.text()
+  const payload = text ? (JSON.parse(text) as unknown) : null
+
+  if (!response.ok) {
+    if (isEnvelope(payload) && payload.success === false) {
+      throw new ApiError({
+        status: response.status,
+        code: payload.error?.code || 'INTERNAL_ERROR',
+        message: payload.error?.message || `Erro na API: ${response.status}`,
+        fields: payload.error?.fields,
+        requestId: payload.meta?.requestId,
+      })
+    }
+
+    const legacy = payload as { message?: string; error?: { message?: string; code?: string } } | null
+    throw new ApiError({
+      status: response.status,
+      code: legacy?.error?.code || (response.status === 403 ? 'FORBIDDEN' : 'INTERNAL_ERROR'),
+      message:
+        legacy?.error?.message ||
+        legacy?.message ||
+        `Erro na API: ${response.status} ${response.statusText}`,
+    })
+  }
+
+  const { data } = unwrapApiData<T>(payload)
+  return data
+}
+
+/** Fetch autenticado com Bearer automático, X-Request-Id e tratamento de 401. */
 export async function apiFetch(inputPath: string, options?: RequestInit): Promise<Response> {
   const isFormData = typeof FormData !== 'undefined' && options?.body instanceof FormData
   const headers = buildHeaders(options?.headers, !isFormData)
@@ -97,7 +154,11 @@ export async function apiFetch(inputPath: string, options?: RequestInit): Promis
   if (isTokenExpired()) {
     clearAuthToken()
     unauthorizedHandler?.()
-    throw new Error('Sessão expirada.')
+    throw new ApiError({
+      status: 401,
+      code: 'UNAUTHORIZED',
+      message: 'Sessão expirada.',
+    })
   }
 
   const response = await fetch(`${API_BASE_URL}${inputPath}`, {
@@ -109,20 +170,24 @@ export async function apiFetch(inputPath: string, options?: RequestInit): Promis
   return response
 }
 
+/** Request JSON com unwrap do envelope padrão (`data`). */
 export async function request<T>(endpoint: string, options?: RequestInit): Promise<T> {
   const response = await apiFetch(endpoint, options)
+  return parseApiResponse<T>(response)
+}
 
-  if (!response.ok) {
-    const apiMessage = await readApiErrorMessage(response)
-    if (response.status === 403) {
-      throw new Error(
-        apiMessage || 'Você não possui permissão para executar esta ação.'
-      )
-    }
-    throw new Error(apiMessage || `Erro na API: ${response.status} ${response.statusText}`)
-  }
+/** Request sem autenticação (login / settings públicos). */
+export async function publicRequest<T>(endpoint: string, options?: RequestInit): Promise<T> {
+  const isFormData = typeof FormData !== 'undefined' && options?.body instanceof FormData
+  const headers = buildHeaders(options?.headers, !isFormData)
+  headers.delete('Authorization')
 
-  return response.json() as Promise<T>
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    ...options,
+    headers,
+  })
+
+  return parseApiResponse<T>(response)
 }
 
 /** @deprecated Use request() — mantido para compatibilidade */
@@ -142,3 +207,6 @@ export function buildDocumentFormData(
   }
   return formData
 }
+
+export { ApiError }
+export type { ApiMeta, ApiSuccess, ApiErrorResponse } from '@/types/api'

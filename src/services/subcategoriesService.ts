@@ -1,5 +1,4 @@
-import { API_BASE_URL, apiFetch } from './api'
-import { mockSubcategories } from '@/data/mocks'
+import { ApiError, request } from './api'
 import type { Subcategory } from '@/types'
 
 const CACHE_KEY = 'oftalmocentro_subcategories_cache'
@@ -85,22 +84,7 @@ function parseSubcategory(data: unknown): Subcategory | null {
   return null
 }
 
-async function parseJsonResponse(response: Response): Promise<unknown> {
-  const text = await response.text()
-  if (!text.trim()) return null
-  try {
-    return JSON.parse(text)
-  } catch {
-    return null
-  }
-}
-
-/**
- * Aceita:
- * - array JSON (formato correto, igual categories)
- * - objeto único (formato atual do n8n — workaround)
- * - { data: [...] }
- */
+/** Compatibilidade temporária para formatos legados de lista. */
 function normalizeList(data: unknown): Subcategory[] {
   if (!data) return []
 
@@ -121,8 +105,6 @@ function normalizeList(data: unknown): Subcategory[] {
       return normalizeList(record.subcategories)
     }
 
-    // Alguns workflows n8n devolvem vários itens como propriedades numeradas
-    // { "0": {...}, "1": {...} }
     const numericKeys = Object.keys(record).filter((key) => /^\d+$/.test(key))
     if (numericKeys.length > 0) {
       return numericKeys
@@ -148,29 +130,11 @@ function sortByName(list: Subcategory[]): Subcategory[] {
 }
 
 export async function getSubcategories(categoryId?: string): Promise<Subcategory[]> {
-  const cached = filterByCategory(readCache(), categoryId)
-
-  try {
-    const query = categoryId ? `?categoryId=${encodeURIComponent(categoryId)}` : ''
-    const response = await apiFetch(`/webhook/subcategories${query}`)
-
-    if (!response.ok) {
-      throw new Error('Erro ao buscar subcategorias')
-    }
-
-    const data = await parseJsonResponse(response)
-    const fromApi = normalizeList(data)
-
-    // Mescla API + cache local.
-    // Necessário enquanto o n8n devolver só o primeiro item (objeto) em vez de array.
-    const merged = mergeIntoCache(fromApi)
-    return sortByName(filterByCategory(merged, categoryId))
-  } catch (error) {
-    console.warn('Usando subcategorias do cache/mock por falha no webhook:', error)
-    if (cached.length > 0) return sortByName(cached)
-
-    return sortByName(filterByCategory(mockSubcategories, categoryId))
-  }
+  const query = categoryId ? `?categoryId=${encodeURIComponent(categoryId)}` : ''
+  const data = await request<unknown>(`/webhook/subcategories${query}`)
+  const fromApi = normalizeList(data)
+  const merged = mergeIntoCache(fromApi)
+  return sortByName(filterByCategory(merged, categoryId))
 }
 
 async function resolveAfterMutation(
@@ -208,15 +172,18 @@ async function resolveAfterMutation(
 
   if (found) return found
 
-  throw new Error('Resposta inválida ao salvar subcategoria')
+  throw new ApiError({
+    status: 500,
+    code: 'INTERNAL_ERROR',
+    message: 'Resposta inválida ao salvar subcategoria',
+  })
 }
 
 export async function createSubcategory(
   data: Omit<Subcategory, 'id' | 'createdAt' | 'updatedAt' | 'categoryName'>
 ): Promise<Subcategory> {
-  const response = await apiFetch(`/webhook/subcategories/create`, {
+  const result = await request<unknown>('/webhook/subcategories/create', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       categoryId: data.categoryId,
       name: data.name,
@@ -224,12 +191,6 @@ export async function createSubcategory(
       active: data.active,
     }),
   })
-
-  const result = await parseJsonResponse(response)
-
-  if (!response.ok) {
-    throw new Error('Erro ao criar subcategoria')
-  }
 
   return resolveAfterMutation(result, {
     categoryId: data.categoryId,
@@ -241,9 +202,8 @@ export async function updateSubcategory(
   id: string,
   data: Pick<Subcategory, 'categoryId' | 'name' | 'description' | 'active'>
 ): Promise<Subcategory> {
-  const response = await apiFetch(`/webhook/subcategories/update`, {
+  const result = await request<unknown>('/webhook/subcategories/update', {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       id,
       categoryId: data.categoryId,
@@ -253,12 +213,6 @@ export async function updateSubcategory(
     }),
   })
 
-  const result = await parseJsonResponse(response)
-
-  if (!response.ok) {
-    throw new Error('Erro ao atualizar subcategoria')
-  }
-
   return resolveAfterMutation(result, {
     id,
     categoryId: data.categoryId,
@@ -267,17 +221,11 @@ export async function updateSubcategory(
 }
 
 export async function deleteSubcategory(id: string): Promise<void> {
-  const response = await apiFetch(`/webhook/subcategories/delete`, {
+  await request<unknown>('/webhook/subcategories/delete', {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ id }),
   })
 
-  if (!response.ok) {
-    throw new Error('Erro ao inativar subcategoria')
-  }
-
-  // Soft-delete: marca inativo no cache em vez de remover, alinhado ao backend
   const cached = readCache()
   const current = cached.find((item) => item.id === id)
   if (current) {

@@ -1,5 +1,4 @@
-import { API_BASE_URL, apiFetch } from './api'
-import { mockPermissions } from '@/data/mocks'
+import { request } from './api'
 import type { Permission } from '@/types'
 
 function withoutLegacyTagPermission(permissions: Permission[]): Permission[] {
@@ -7,26 +6,7 @@ function withoutLegacyTagPermission(permissions: Permission[]): Permission[] {
 }
 
 export async function getPermissions(): Promise<Permission[]> {
-  try {
-    const response = await apiFetch(`/webhook/permissions`)
-
-    if (!response.ok) {
-      throw new Error('Erro ao buscar permissões')
-    }
-
-    const data = await response.json()
-
-    if (Array.isArray(data)) {
-      return withoutLegacyTagPermission(data as Permission[])
-    }
-
-    if (data?.data && Array.isArray(data.data)) {
-      return withoutLegacyTagPermission(data.data as Permission[])
-    }
-
-    return mockPermissions
-  } catch (error) {
-    console.warn('Usando permissões mockadas por falha no webhook:', error)
-    return mockPermissions
-  }
+  const data = await request<unknown>('/webhook/permissions')
+  if (!Array.isArray(data)) return []
+  return withoutLegacyTagPermission(data as Permission[])
 }

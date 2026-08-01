@@ -1,5 +1,4 @@
-import { API_BASE_URL, apiFetch } from './api'
-import { mockUsers } from '@/data/mocks'
+import { ApiError, request } from './api'
 import type { User, UserFormData } from '@/types'
 
 function normalizePermissionCodes(permissions: unknown): string[] {
@@ -49,77 +48,17 @@ function parseUser(data: unknown): User | null {
     return parseUser(record.user)
   }
 
-  if (record.data) {
-    return parseUser(record.data)
-  }
-
   return null
 }
 
-async function resolveUserAfterCreate(result: unknown, email: string): Promise<User> {
-  const parsed = parseUser(result)
-  if (parsed) return parsed
-
-  for (let attempt = 0; attempt < 4; attempt += 1) {
-    const users = await getUsers()
-    const found = users.find(
-      (u) => u.email.trim().toLowerCase() === email.trim().toLowerCase()
-    )
-    if (found) return found
-
-    if (attempt < 3) {
-      await new Promise((resolve) => setTimeout(resolve, 400))
-    }
-  }
-
-  throw new Error('Resposta inválida ao criar usuário')
-}
-
-async function parseJsonResponse(response: Response): Promise<unknown> {
-  const text = await response.text()
-  if (!text) return null
-  try {
-    return JSON.parse(text)
-  } catch {
-    return null
-  }
+function asUserList(data: unknown): User[] {
+  if (!Array.isArray(data)) return []
+  return data.map((item) => parseUser(item)).filter((user): user is User => user !== null)
 }
 
 export async function getUsers(): Promise<User[]> {
-  const response = await apiFetch(`/webhook/users`)
-
-  if (response.status === 401 || response.status === 403) {
-    const text = await response.text()
-    let message = 'Sem permissão para listar usuários.'
-    try {
-      const body = text ? (JSON.parse(text) as { error?: { message?: string }; message?: string }) : null
-      message = body?.error?.message || body?.message || message
-    } catch {
-      // keep default
-    }
-    throw new Error(message)
-  }
-
-  if (!response.ok) {
-    console.warn('Usando usuários mockados por falha no webhook')
-    return mockUsers
-  }
-
-  const data = await response.json()
-
-  if (Array.isArray(data)) {
-    return data
-      .map((item) => parseUser(item))
-      .filter((user): user is User => user !== null)
-  }
-
-  if (data?.data && Array.isArray(data.data)) {
-    return data.data
-      .map((item: unknown) => parseUser(item))
-      .filter((user: User | null): user is User => user !== null)
-  }
-
-  return mockUsers
+  const data = await request<unknown>('/webhook/users')
+  return asUserList(data)
 }
 
 export async function getUserById(id: string): Promise<User | null> {
@@ -141,19 +80,29 @@ export async function createUser(data: UserFormData): Promise<User> {
     payload.passwordHash = data.password
   }
 
-  const response = await apiFetch(`/webhook/users/create`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(payload),
-  })
+  try {
+    const result = await request<unknown>('/webhook/users/create', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+    })
 
-  const result = await parseJsonResponse(response)
-
-  if (!response.ok) {
-    throw new Error('Erro ao criar usuário')
+    const user = parseUser(result)
+    if (!user) {
+      throw new ApiError({
+        status: 500,
+        code: 'INTERNAL_ERROR',
+        message: 'Resposta inválida ao criar usuário',
+      })
+    }
+    return user
+  } catch (error) {
+    if (error instanceof ApiError) throw error
+    throw new ApiError({
+      status: 500,
+      code: 'INTERNAL_ERROR',
+      message: 'Erro ao criar usuário',
+    })
   }
-
-  return resolveUserAfterCreate(result, data.email)
 }
 
 export async function updateUser(
@@ -177,34 +126,26 @@ export async function updateUser(
     payload.passwordHash = data.password.trim()
   }
 
-  const response = await apiFetch(`/webhook/users/update`, {
+  const result = await request<unknown>('/webhook/users/update', {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload),
   })
 
-  const result = await parseJsonResponse(response)
-
-  if (!response.ok) {
-    throw new Error('Erro ao atualizar usuário')
-  }
-
   const user = parseUser(result)
   if (!user) {
-    throw new Error('Resposta inválida ao atualizar usuário')
+    throw new ApiError({
+      status: 500,
+      code: 'INTERNAL_ERROR',
+      message: 'Resposta inválida ao atualizar usuário',
+    })
   }
 
   return user
 }
 
 export async function deleteUser(id: string): Promise<void> {
-  const response = await apiFetch(`/webhook/users/delete`, {
+  await request<unknown>('/webhook/users/delete', {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ id }),
   })
-
-  if (!response.ok) {
-    throw new Error('Erro ao inativar usuário')
-  }
 }

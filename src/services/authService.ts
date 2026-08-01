@@ -1,25 +1,18 @@
 import {
   API_BASE_URL,
+  ApiError,
   apiFetch,
   clearAuthToken,
   getAccessToken,
   getTokenExpiresAt,
   isTokenExpired,
   persistAuthToken,
+  publicRequest,
+  request,
 } from './api'
 import type { AuthUser, PermissionCode } from '@/types'
 
 const USER_STORAGE_KEY = 'oftalmocentro_user'
-
-async function parseJsonResponse(response: Response): Promise<unknown> {
-  const text = await response.text()
-  if (!text) return null
-  try {
-    return JSON.parse(text)
-  } catch {
-    return null
-  }
-}
 
 function normalizePermissions(permissions: unknown): string[] {
   const ignore = new Set(['gerenciar_tags'])
@@ -68,48 +61,60 @@ export interface LoginResult {
   expiresAt: string
 }
 
+interface LoginData {
+  token?: string
+  expiresAt?: string
+  user?: unknown
+}
+
 export async function login(email: string, password: string): Promise<LoginResult> {
   const trimmedEmail = email.trim()
 
   if (!trimmedEmail || !password) {
-    throw new Error('Informe e-mail e senha.')
+    throw new ApiError({
+      status: 400,
+      code: 'VALIDATION_ERROR',
+      message: 'Informe e-mail e senha.',
+    })
   }
-
-  let response: Response
 
   try {
-    response = await fetch(`${API_BASE_URL}/webhook/auth/login`, {
+    const data = await publicRequest<LoginData>('/webhook/auth/login', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: trimmedEmail, password }),
     })
-  } catch {
-    throw new Error('Não foi possível realizar o login. Tente novamente.')
-  }
 
-  const result = await parseJsonResponse(response)
-
-  if (result && typeof result === 'object') {
-    const record = result as Record<string, unknown>
-
-    if (record.success === false) {
-      throw new Error(String(record.message ?? 'Usuário ou senha inválidos.'))
-    }
-
-    const user = parseAuthUser(record.user)
-    const token = record.token != null ? String(record.token) : ''
-    const expiresAt = record.expiresAt != null ? String(record.expiresAt) : ''
+    const user = parseAuthUser(data?.user)
+    const token = data?.token != null ? String(data.token) : ''
+    const expiresAt = data?.expiresAt != null ? String(data.expiresAt) : ''
 
     if (user && token && expiresAt) {
       return { user, token, expiresAt }
     }
-  }
 
-  if (!response.ok) {
-    throw new Error('Usuário ou senha inválidos.')
+    throw new ApiError({
+      status: 500,
+      code: 'INTERNAL_ERROR',
+      message: 'Resposta inválida ao fazer login.',
+    })
+  } catch (error) {
+    if (error instanceof ApiError) {
+      if (error.code === 'INVALID_CREDENTIALS' || error.status === 401) {
+        throw new ApiError({
+          status: 401,
+          code: 'INVALID_CREDENTIALS',
+          message: error.message || 'E-mail ou senha inválidos.',
+          requestId: error.requestId,
+        })
+      }
+      throw error
+    }
+    throw new ApiError({
+      status: 503,
+      code: 'SERVICE_UNAVAILABLE',
+      message: 'Não foi possível realizar o login. Tente novamente.',
+    })
   }
-
-  throw new Error('Resposta inválida ao fazer login.')
 }
 
 export async function logout(): Promise<void> {
@@ -117,12 +122,8 @@ export async function logout(): Promise<void> {
 
   if (token) {
     try {
-      await fetch(`${API_BASE_URL}/webhook/auth/logout`, {
+      await apiFetch('/webhook/auth/logout', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify({}),
       })
     } catch {
@@ -144,34 +145,29 @@ export async function validateSession(): Promise<AuthUser | null> {
   }
 
   try {
-    const response = await apiFetch('/webhook/auth/validate', {
+    const data = await request<{ user?: unknown; permissions?: unknown }>('/webhook/auth/validate', {
       method: 'POST',
       body: JSON.stringify({}),
     })
 
-    if (!response.ok) {
-      clearAuthToken()
-      localStorage.removeItem(USER_STORAGE_KEY)
-      return null
-    }
+    const userPayload =
+      data && typeof data === 'object' && 'user' in data
+        ? {
+            ...(data.user as object),
+            permissions:
+              (data.user as { permissions?: unknown })?.permissions ?? data.permissions,
+          }
+        : data
 
-    const result = await parseJsonResponse(response)
-    if (!result || typeof result !== 'object') return null
-
-    const record = result as Record<string, unknown>
-    if (record.ok === false || record.success === false) {
-      clearAuthToken()
-      localStorage.removeItem(USER_STORAGE_KEY)
-      return null
-    }
-
-    const user = parseAuthUser(record.user)
+    const user = parseAuthUser(userPayload)
     if (user) {
       persistSession(user)
     }
     return user
   } catch {
-    return getCurrentUser()
+    clearAuthToken()
+    localStorage.removeItem(USER_STORAGE_KEY)
+    return null
   }
 }
 

@@ -1,5 +1,4 @@
-import { API_BASE_URL, apiFetch } from './api'
-import { mockCategories } from '@/data/mocks'
+import { ApiError, request } from './api'
 import type { Category } from '@/types'
 
 function parseCategory(data: unknown): Category | null {
@@ -17,54 +16,20 @@ function parseCategory(data: unknown): Category | null {
     return record as unknown as Category
   }
 
-  if (record.data) {
-    return parseCategory(record.data)
-  }
-
   return null
 }
 
-async function parseJsonResponse(response: Response): Promise<unknown> {
-  const text = await response.text()
-  if (!text) return null
-  try {
-    return JSON.parse(text)
-  } catch {
-    return null
-  }
-}
-
 export async function getCategories(): Promise<Category[]> {
-  try {
-    const response = await apiFetch(`/webhook/categories`)
-
-    if (!response.ok) {
-      throw new Error('Erro ao buscar categorias')
-    }
-
-    const data = await response.json()
-
-    if (Array.isArray(data)) {
-      return data as Category[]
-    }
-
-    if (data?.data && Array.isArray(data.data)) {
-      return data.data as Category[]
-    }
-
-    return mockCategories
-  } catch (error) {
-    console.warn('Usando categorias mockadas por falha no webhook:', error)
-    return mockCategories
-  }
+  const data = await request<unknown>('/webhook/categories')
+  if (!Array.isArray(data)) return []
+  return data.filter((item): item is Category => Boolean(parseCategory(item)))
 }
 
 export async function createCategory(
   data: Omit<Category, 'id' | 'createdAt' | 'updatedAt'>
 ): Promise<Category> {
-  const response = await apiFetch(`/webhook/categories/create`, {
+  const result = await request<unknown>('/webhook/categories/create', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       name: data.name,
       description: data.description,
@@ -72,15 +37,13 @@ export async function createCategory(
     }),
   })
 
-  const result = await parseJsonResponse(response)
-
-  if (!response.ok) {
-    throw new Error('Erro ao criar categoria')
-  }
-
   const category = parseCategory(result)
   if (!category) {
-    throw new Error('Resposta inválida ao criar categoria')
+    throw new ApiError({
+      status: 500,
+      code: 'INTERNAL_ERROR',
+      message: 'Resposta inválida ao criar categoria',
+    })
   }
 
   return category
@@ -90,9 +53,8 @@ export async function updateCategory(
   id: string,
   data: Pick<Category, 'name' | 'description' | 'active'>
 ): Promise<Category> {
-  const response = await apiFetch(`/webhook/categories/update`, {
+  const result = await request<unknown>('/webhook/categories/update', {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       id,
       name: data.name,
@@ -101,28 +63,21 @@ export async function updateCategory(
     }),
   })
 
-  const result = await parseJsonResponse(response)
-
-  if (!response.ok) {
-    throw new Error('Erro ao atualizar categoria')
-  }
-
   const category = parseCategory(result)
   if (!category) {
-    throw new Error('Resposta inválida ao atualizar categoria')
+    throw new ApiError({
+      status: 500,
+      code: 'INTERNAL_ERROR',
+      message: 'Resposta inválida ao atualizar categoria',
+    })
   }
 
   return category
 }
 
 export async function deleteCategory(id: string): Promise<void> {
-  const response = await apiFetch(`/webhook/categories/delete`, {
+  await request<unknown>('/webhook/categories/delete', {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ id }),
   })
-
-  if (!response.ok) {
-    throw new Error('Erro ao inativar categoria')
-  }
 }
