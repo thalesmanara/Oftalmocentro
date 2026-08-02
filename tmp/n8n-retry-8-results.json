@@ -1,0 +1,74 @@
+[
+  {
+    "workflowId": "WCwJqtFRROwoToik",
+    "name": "GET Documentos",
+    "status": "ok",
+    "mcpUpdateBatches": 3,
+    "appliedOperations": 9,
+    "activeVersionId": "5c468322-72d0-4711-adbd-4d8672000fd9",
+    "published": true
+  },
+  {
+    "workflowId": "XTEYFVPc26o3loMu",
+    "name": "GET Subcategorias",
+    "status": "ok",
+    "mcpUpdateBatches": 3,
+    "appliedOperations": 9,
+    "activeVersionId": "5978b7cb-8680-469b-a3ca-dd4ea173cc56",
+    "published": true
+  },
+  {
+    "workflowId": "OJZNWxBCkVXaysmf",
+    "name": "Document Download",
+    "status": "ok",
+    "mcpUpdateBatches": 3,
+    "appliedOperations": 9,
+    "activeVersionId": "e5ae0861-5b58-4a8b-a1d5-716a0083ce7f",
+    "published": true
+  },
+  {
+    "workflowId": "sofpi7zCHMCJkvfI",
+    "name": "DELETE Documentos",
+    "status": "ok",
+    "mcpUpdateBatches": 3,
+    "appliedOperations": 9,
+    "activeVersionId": "37b1fcf6-c561-4804-8ae8-fd473f621ae7",
+    "published": true
+  },
+  {
+    "workflowId": "ukDndCZDzemWsOMk",
+    "name": "PUT Configurações",
+    "status": "ok",
+    "mcpUpdateBatches": 3,
+    "appliedOperations": 9,
+    "activeVersionId": "ad4480e1-61f3-477f-96ae-1f1eb845e580",
+    "published": true
+  },
+  {
+    "workflowId": "vNDpCzOdR7ATnHDP",
+    "name": "Processar documento",
+    "status": "ok",
+    "mcpUpdateBatches": 3,
+    "appliedOperations": 9,
+    "activeVersionId": "608784ba-e158-454c-bcd3-6c3f0084f7c6",
+    "published": true
+  },
+  {
+    "workflowId": "vymsco8fVdIvgW4b",
+    "name": "Upload Arquivo",
+    "status": "ok",
+    "mcpUpdateBatches": 3,
+    "appliedOperations": 9,
+    "activeVersionId": "9d50e8cf-5d29-4649-8a4b-3bc56220b270",
+    "published": true
+  },
+  {
+    "workflowId": "gCEgRsZzch3l7mfD",
+    "name": "POST Usuários",
+    "status": "ok",
+    "mcpUpdateBatches": 4,
+    "appliedOperations": 11,
+    "activeVersionId": "37cab932-5023-42ed-b213-7f8183bdd465",
+    "published": true
+  }
+]

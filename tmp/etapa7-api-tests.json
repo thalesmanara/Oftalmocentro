@@ -1,0 +1,120 @@
+{
+  "pass": 22,
+  "fail": 0,
+  "results": [
+    {
+      "name": "1.valid-request-id",
+      "ok": true,
+      "detail": "id=042113d7-8ef0-4559-bb96-8058fcb24fc1 dur=65 hdr=042113d7-8ef0-4559-bb96-8058fcb24fc1",
+      "id": "042113d7-8ef0-4559-bb96-8058fcb24fc1",
+      "dur": 65
+    },
+    {
+      "name": "2.no-request-id",
+      "ok": true,
+      "detail": "id=aa39b21f-57dc-4651-8286-301d16bce066 dur=49 hdr=aa39b21f-57dc-4651-8286-301d16bce066",
+      "id": "aa39b21f-57dc-4651-8286-301d16bce066",
+      "dur": 49
+    },
+    {
+      "name": "3.invalid-request-id",
+      "ok": true,
+      "detail": "regenerated=816a79ac-803e-4cd2-a87f-713a2010c8c7; id=816a79ac-803e-4cd2-a87f-713a2010c8c7 dur=36 hdr=816a79ac-803e-4cd2-a87f-713a2010c8c7"
+    },
+    {
+      "name": "4.login-valid",
+      "ok": true,
+      "detail": "status=200; id=663a8df1-9723-44be-a6f7-febac17e2aa8 dur=129 hdr=663a8df1-9723-44be-a6f7-febac17e2aa8"
+    },
+    {
+      "name": "5.login-invalid",
+      "ok": true,
+      "detail": "status=401; id=8725afe4-71fa-44dd-a005-3256c7ae756a dur=191 hdr=8725afe4-71fa-44dd-a005-3256c7ae756a"
+    },
+    {
+      "name": "6.protected-success",
+      "ok": true,
+      "detail": "status=200; id=54fce589-b966-4cab-8be2-b996ef941064 dur=240 hdr=54fce589-b966-4cab-8be2-b996ef941064"
+    },
+    {
+      "name": "7.401",
+      "ok": true,
+      "detail": "status=401; id=d30e9887-b864-4628-883a-406f002afcb3 dur=65 hdr=d30e9887-b864-4628-883a-406f002afcb3"
+    },
+    {
+      "name": "8.403",
+      "ok": true,
+      "detail": "status=403; id=1c008bdc-d2ac-45dc-82f6-70aea7d3ff5d dur=130 hdr=1c008bdc-d2ac-45dc-82f6-70aea7d3ff5d"
+    },
+    {
+      "name": "9.404",
+      "ok": true,
+      "detail": "status=404; id=aa69ffb1-682f-42ca-93c9-33a2de6b52d9 dur=115 hdr=aa69ffb1-682f-42ca-93c9-33a2de6b52d9"
+    },
+    {
+      "name": "10.409-or-validation",
+      "ok": true,
+      "detail": "status=400 code=VALIDATION_ERROR; id=6f8d3544-d397-4b90-b806-e38c067ea36f dur=114 hdr=6f8d3544-d397-4b90-b806-e38c067ea36f"
+    },
+    {
+      "name": "11.error-sanitized",
+      "ok": true,
+      "detail": "status=401; id=7cb80fbd-442d-4e05-8cf4-a006b7dd10ae dur=77 hdr=7cb80fbd-442d-4e05-8cf4-a006b7dd10ae"
+    },
+    {
+      "name": "12.upload-soft",
+      "ok": true,
+      "detail": "status=400; id=ab754082-768c-463d-a0c5-124c9654f3db dur=118 hdr=ab754082-768c-463d-a0c5-124c9654f3db"
+    },
+    {
+      "name": "13.processar-soft",
+      "ok": true,
+      "detail": "status=404; id=acd7b6ef-8af0-430a-917f-2ad6ed7fa79f dur=105 hdr=acd7b6ef-8af0-430a-917f-2ad6ed7fa79f"
+    },
+    {
+      "name": "14.consulta-ia",
+      "ok": true,
+      "detail": "status=200; id=6ea357b3-0d86-4024-8676-81ac28c2f8d2 dur=9268 hdr=6ea357b3-0d86-4024-8676-81ac28c2f8d2"
+    },
+    {
+      "name": "15.download-valid-soft",
+      "ok": true,
+      "detail": "status=200 hdrId=ea938275-d251-4460-8873-925ce92f9fd1 dur=92 ct=application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    },
+    {
+      "name": "16.download-missing",
+      "ok": true,
+      "detail": "status=404; id=528e01d3-71bd-4a05-a0ce-822318ed520c dur=112 hdr=528e01d3-71bd-4a05-a0ce-822318ed520c"
+    },
+    {
+      "name": "17.logout",
+      "ok": true,
+      "detail": "status=200; id=bd39e740-67ca-49ae-8e72-96abbf448a0b dur=40 hdr=bd39e740-67ca-49ae-8e72-96abbf448a0b"
+    },
+    {
+      "name": "18.validate",
+      "ok": true,
+      "detail": "status=200; id=8db5ab8a-34f6-40d8-8f1f-26b34bb84ce9 dur=78 hdr=8db5ab8a-34f6-40d8-8f1f-26b34bb84ce9"
+    },
+    {
+      "name": "19.subworkflow-preserves-id",
+      "ok": true,
+      "detail": "id=522a5cfc-8164-4b77-bf03-cdadc5f290be dur=396 hdr=522a5cfc-8164-4b77-bf03-cdadc5f290be"
+    },
+    {
+      "name": "20.durationMs-nonneg",
+      "ok": true,
+      "detail": "durationMs=44"
+    },
+    {
+      "name": "21.header-body-same",
+      "ok": true,
+      "detail": "meta=8eeb85e1-bcb0-4c8d-9927-f5f07404f54a hdr=8eeb85e1-bcb0-4c8d-9927-f5f07404f54a"
+    },
+    {
+      "name": "22.no-sensitive",
+      "ok": true,
+      "detail": "clean"
+    }
+  ]
+}

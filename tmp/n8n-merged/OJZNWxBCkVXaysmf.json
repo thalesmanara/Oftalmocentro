@@ -1,0 +1,654 @@
+{
+  "id": "OJZNWxBCkVXaysmf",
+  "name": "Document Download",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "documents/download",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "61ffda29-0d0f-42a0-b0cc-74e3797b5b7e",
+      "name": "Webhook",
+      "webhookId": "dcafcb70-5d94-4208-9b0a-1dbd9c3795c4"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT\n    id,\n    title,\n    file_name,\n    file_type,\n    file_path\nFROM documents\nWHERE\n    id='{{ $json.query.documentId }}'::uuid\n    AND deleted_at IS NULL\nLIMIT 1;",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        208,
+        0
+      ],
+      "id": "7be96365-fe1d-4e43-9299-a6f4d0df4fd8",
+      "name": "Execute a SQL query",
+      "credentials": {
+        "postgres": {
+          "id": "XJtGZ5rpCR7BpN0X",
+          "name": "Postgres account"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "fileSelector": "={{ $json.file_path }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "4b0cf225-253b-46c5-aecd-0c676e336a79",
+      "name": "Read/Write Files from Disk"
+    },
+    {
+      "parameters": {
+        "respondWith": "binary",
+        "responseDataSource": "set",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "={{ $('Execute a SQL query').first().json.file_type || 'application/octet-stream' }}"
+              },
+              {
+                "name": "Content-Disposition",
+                "value": "={{ 'attachment; filename=\"' + ($('Execute a SQL query').first().json.file_name || 'document') + '\"' }}"
+              },
+              {
+                "name": "X-Request-Id",
+                "value": "={{ $('Normalizar request').first().json.requestId }}"
+              },
+              {
+                "name": "X-Response-Time-Ms",
+                "value": "={{ String(Math.max(0, Date.now() - Number($('Normalizar request').first().json.requestStartedAtMs || Date.now()))) }}"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        624,
+        0
+      ],
+      "id": "90a3c28a-d586-4a21-b38d-30eed61514cf",
+      "name": "Respond to Webhook"
+    },
+    {
+      "id": "5050d73d-04fb-4a8d-bb96-71470d53e45c",
+      "name": "Validar auth",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        120,
+        0
+      ],
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "AUTH - VALIDAR TOKEN",
+          "mode": "id",
+          "value": "P5E43ZXSJiI9wFYD"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "authorization": "={{ $json.authorization || $json.headers.authorization || $json.headers.Authorization || '' }}",
+            "requestId": "={{ $json.requestId || '' }}"
+          }
+        }
+      }
+    },
+    {
+      "id": "dd41f081-6fbc-4ade-9a5f-2317571de714",
+      "name": "Auth ok?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        320,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "a1",
+              "leftValue": "={{ $json.ok }}",
+              "operator": {
+                "operation": "true",
+                "type": "boolean"
+              },
+              "rightValue": true
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          }
+        },
+        "looseTypeValidation": true
+      }
+    },
+    {
+      "id": "c87c5eca-f660-4c2d-a2d6-9618f4988710",
+      "name": "Respond 401",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        560,
+        120
+      ],
+      "parameters": {
+        "options": {
+          "responseCode": 401,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "X-Request-Id",
+                "value": "={{ $json.responseHeaders && $json.responseHeaders[\"X-Request-Id\"] ? $json.responseHeaders[\"X-Request-Id\"] : ($json.requestId || \"\") }}"
+              },
+              {
+                "name": "X-Response-Time-Ms",
+                "value": "={{ $json.responseHeaders && $json.responseHeaders[\"X-Response-Time-Ms\"] ? $json.responseHeaders[\"X-Response-Time-Ms\"] : String($json.durationMs || 0) }}"
+              }
+            ]
+          }
+        },
+        "respondWith": "json",
+        "responseBody": "={{ $json.response }}"
+      }
+    },
+    {
+      "id": "fb24192b-fe9d-463e-a3a5-3df2f111b705",
+      "name": "Validar permissão",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        440,
+        -40
+      ],
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "AUTH - VALIDAR PERMISSÃO",
+          "mode": "id",
+          "value": "yXW3rW8EbHXuprRJ"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "isMaster": "={{ $json.user ? $json.user.isMaster === true : false }}",
+            "permissions": "={{ $json.permissions || ($json.user && $json.user.permissions) || [] }}",
+            "requiredAnyOf": "={{ [] }}",
+            "requiredPermission": "visualizar_documentos",
+            "sessionId": "={{ $json.sessionId || '' }}",
+            "user": "={{ $json.user || null }}",
+            "userId": "={{ $json.userId || ($json.user && $json.user.id) || '' }}",
+            "requestId": "={{ $json.requestId || $('Normalizar request').first().json.requestId || '' }}"
+          }
+        }
+      }
+    },
+    {
+      "id": "6361f7aa-cedc-4954-a21f-aa2df3ced7ec",
+      "name": "Permissão ok?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        620,
+        -40
+      ],
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "p1",
+              "leftValue": "={{ $json.ok }}",
+              "operator": {
+                "operation": "true",
+                "type": "boolean"
+              },
+              "rightValue": true
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          }
+        },
+        "looseTypeValidation": true
+      }
+    },
+    {
+      "id": "60b73f69-53e1-4172-b3cb-a00220abae86",
+      "name": "Respond 403",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        820,
+        120
+      ],
+      "parameters": {
+        "options": {
+          "responseCode": 403,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "X-Request-Id",
+                "value": "={{ $json.responseHeaders && $json.responseHeaders[\"X-Request-Id\"] ? $json.responseHeaders[\"X-Request-Id\"] : ($json.requestId || \"\") }}"
+              },
+              {
+                "name": "X-Response-Time-Ms",
+                "value": "={{ $json.responseHeaders && $json.responseHeaders[\"X-Response-Time-Ms\"] ? $json.responseHeaders[\"X-Response-Time-Ms\"] : String($json.durationMs || 0) }}"
+              }
+            ]
+          }
+        },
+        "respondWith": "json",
+        "responseBody": "={{ $json.response }}"
+      }
+    },
+    {
+      "id": "bb9a2620-ec2b-4350-b723-a1f7e3f6864d",
+      "name": "Restaurar request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        820,
+        -40
+      ],
+      "parameters": {
+        "jsCode": "return [$('Normalizar request').first()];",
+        "mode": "runOnceForAllItems"
+      }
+    },
+    {
+      "id": "a7dc72b0-97df-4bc7-8ce7-4570c81cfb46",
+      "name": "Normalizar request",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        120,
+        0
+      ],
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "SYSTEM - NORMALIZAR REQUEST",
+          "mode": "id",
+          "value": "N3zLpj7Dij4n5p5p"
+        }
+      }
+    },
+    {
+      "id": "29bb6f8b-6dbb-441e-9667-c56f4ca546a3",
+      "name": "Documento ok?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        520,
+        -40
+      ],
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "doc",
+              "leftValue": "={{ $json.id }}",
+              "operator": {
+                "operation": "notEmpty",
+                "type": "string"
+              },
+              "rightValue": ""
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          }
+        },
+        "looseTypeValidation": true
+      }
+    },
+    {
+      "id": "c3813cde-fc1e-419c-a407-631e05dd9b90",
+      "name": "Preparar erro 401",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        660,
+        120
+      ],
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "SYSTEM - PREPARAR ERRO",
+          "mode": "id",
+          "value": "r3iSBV1ClKOxS2UI"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "code": "={{ $json.error && $json.error.code ? $json.error.code : 'UNAUTHORIZED' }}",
+            "message": "={{ $json.error && $json.error.message ? $json.error.message : 'Autenticação obrigatória.' }}",
+            "requestId": "={{ $('Normalizar request').first().json.requestId }}",
+            "statusCode": 401,
+            "requestStartedAtMs": "={{ $('Normalizar request').first().json.requestStartedAtMs }}",
+            "method": "={{ $('Normalizar request').first().json.method }}",
+            "path": "={{ $('Normalizar request').first().json.path }}"
+          }
+        }
+      }
+    },
+    {
+      "id": "a3cd9469-81df-4d58-8dcc-767c69c29daa",
+      "name": "Preparar erro 403",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        960,
+        120
+      ],
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "SYSTEM - PREPARAR ERRO",
+          "mode": "id",
+          "value": "r3iSBV1ClKOxS2UI"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "code": "={{ $json.error && $json.error.code ? $json.error.code : 'FORBIDDEN' }}",
+            "message": "={{ $json.error && $json.error.message ? $json.error.message : 'Você não possui permissão para executar esta ação.' }}",
+            "requestId": "={{ $('Normalizar request').first().json.requestId }}",
+            "statusCode": 403,
+            "requestStartedAtMs": "={{ $('Normalizar request').first().json.requestStartedAtMs }}",
+            "method": "={{ $('Normalizar request').first().json.method }}",
+            "path": "={{ $('Normalizar request').first().json.path }}"
+          }
+        }
+      }
+    },
+    {
+      "id": "8513d6a3-cb35-4a30-a586-57c2cf897c2c",
+      "name": "Preparar erro 404",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        740,
+        120
+      ],
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "SYSTEM - PREPARAR ERRO",
+          "mode": "id",
+          "value": "r3iSBV1ClKOxS2UI"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "code": "DOCUMENT_FILE_NOT_FOUND",
+            "message": "O arquivo do documento não foi encontrado.",
+            "requestId": "={{ $('Normalizar request').first().json.requestId }}",
+            "statusCode": 404,
+            "requestStartedAtMs": "={{ $('Normalizar request').first().json.requestStartedAtMs }}",
+            "method": "={{ $('Normalizar request').first().json.method }}",
+            "path": "={{ $('Normalizar request').first().json.path }}"
+          }
+        }
+      }
+    },
+    {
+      "id": "1e6bb6bb-5128-4db8-8592-2f511f953c1e",
+      "name": "Respond 404",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        960,
+        200
+      ],
+      "parameters": {
+        "options": {
+          "responseCode": 404,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "X-Request-Id",
+                "value": "={{ $json.responseHeaders && $json.responseHeaders[\"X-Request-Id\"] ? $json.responseHeaders[\"X-Request-Id\"] : ($json.requestId || \"\") }}"
+              },
+              {
+                "name": "X-Response-Time-Ms",
+                "value": "={{ $json.responseHeaders && $json.responseHeaders[\"X-Response-Time-Ms\"] ? $json.responseHeaders[\"X-Response-Time-Ms\"] : String($json.durationMs || 0) }}"
+              }
+            ]
+          }
+        },
+        "respondWith": "json",
+        "responseBody": "={{ $json.response }}"
+      }
+    }
+  ],
+  "connections": {
+    "Read/Write Files from Disk": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar auth": {
+      "main": [
+        [
+          {
+            "node": "Auth ok?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auth ok?": {
+      "main": [
+        [
+          {
+            "node": "Validar permissão",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar erro 401",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar permissão": {
+      "main": [
+        [
+          {
+            "node": "Permissão ok?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Permissão ok?": {
+      "main": [
+        [
+          {
+            "node": "Restaurar request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar erro 403",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Restaurar request": {
+      "main": [
+        [
+          {
+            "node": "Execute a SQL query",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalizar request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalizar request": {
+      "main": [
+        [
+          {
+            "node": "Validar auth",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query": {
+      "main": [
+        [
+          {
+            "node": "Documento ok?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Documento ok?": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar erro 404",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar erro 404": {
+      "main": [
+        [
+          {
+            "node": "Respond 404",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar erro 401": {
+      "main": [
+        [
+          {
+            "node": "Respond 401",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar erro 403": {
+      "main": [
+        [
+          {
+            "node": "Respond 403",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

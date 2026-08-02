@@ -1,0 +1,205 @@
+[
+  {
+    "workflowId": "WCwJqtFRROwoToik",
+    "name": "GET Documentos",
+    "opCount": 9,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "0S1YXMDF4gHHrTbK",
+    "name": "AUTH - VALIDATE (Webhook)",
+    "opCount": 5,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "2cfvB59nVeJ91wii",
+    "name": "AUTH - LOGOUT",
+    "opCount": 4,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "eyRMMc4qCzGf9naj",
+    "name": "PUT Setores",
+    "opCount": 9,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "gCEgRsZzch3l7mfD",
+    "name": "POST Usuários",
+    "opCount": 11,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "8EXk5RkFW5cxnenL",
+    "name": "Consulta IA",
+    "opCount": 8,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "sofpi7zCHMCJkvfI",
+    "name": "DELETE Documentos",
+    "opCount": 9,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "OJZNWxBCkVXaysmf",
+    "name": "Document Download",
+    "opCount": 9,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "T7nHP1laYHDqwSPm",
+    "name": "GET Categorias",
+    "opCount": 9,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "4BnWd26yROvl0Ots",
+    "name": "PUT Categorias",
+    "opCount": 9,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "DYWXrIK8nGvzzWJ6",
+    "name": "GET Configurações",
+    "opCount": 2,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "T6CGZB4oxlzXlTQZ",
+    "name": "UPDATE Subcategory",
+    "opCount": 9,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "ZckYIZpMtw6HEtIs",
+    "name": "CREATE subcategoria",
+    "opCount": 9,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "FaSIMuXIHeiVJe29",
+    "name": "DELETE Categorias",
+    "opCount": 9,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "a7EsJH9zcj7SMEnM",
+    "name": "DELETE Usuários",
+    "opCount": 9,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "5VMmNgSU76d9gZye",
+    "name": "Listar Permissões",
+    "opCount": 9,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "vNDpCzOdR7ATnHDP",
+    "name": "Processar documento",
+    "opCount": 9,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "0ieW448wLfITZSlD",
+    "name": "DELETE Subcategory",
+    "opCount": 9,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "vymsco8fVdIvgW4b",
+    "name": "Upload Arquivo",
+    "opCount": 9,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "Oyt4aCpmjStLdYvO",
+    "name": "AUTH - LOGIN",
+    "opCount": 4,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "WLlD1eqbFmKDK9ow",
+    "name": "POST Documentos",
+    "opCount": 9,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "WMj1pu9mllQsZk2x",
+    "name": "DELETE Setores",
+    "opCount": 9,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "XTEYFVPc26o3loMu",
+    "name": "GET Subcategorias",
+    "opCount": 9,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "z63rJlQKqheFBw4u",
+    "name": "PUT Usuários",
+    "opCount": 9,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "oyTndr1NgGRbbsTt",
+    "name": "POST Setores",
+    "opCount": 9,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "6ZZlCncPKX4fGVmI",
+    "name": "POST Categorias",
+    "opCount": 9,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "Y0MuWEEdoMFts7ay",
+    "name": "PUT Documentos",
+    "opCount": 9,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "ukDndCZDzemWsOMk",
+    "name": "PUT Configurações",
+    "opCount": 9,
+    "note": null,
+    "skip": false
+  },
+  {
+    "workflowId": "ziXSdzv5ySslNeos",
+    "name": "GET Setores",
+    "opCount": 9,
+    "note": null,
+    "skip": false
+  }
+]

@@ -1,6 +1,7 @@
 export interface ApiMeta {
   requestId: string
   timestamp: string
+  durationMs?: number
 }
 
 export interface ApiSuccess<T> {
@@ -31,6 +32,7 @@ export class ApiError extends Error {
   code: string
   fields?: Record<string, string>
   requestId?: string
+  durationMs?: number
 
   constructor(options: {
     status: number
@@ -38,6 +40,7 @@ export class ApiError extends Error {
     message: string
     fields?: Record<string, string>
     requestId?: string
+    durationMs?: number
   }) {
     super(options.message)
     this.name = 'ApiError'
@@ -45,6 +48,7 @@ export class ApiError extends Error {
     this.code = options.code
     this.fields = options.fields
     this.requestId = options.requestId
+    this.durationMs = options.durationMs
   }
 }
 
@@ -53,4 +57,5 @@ export interface ApiDownloadResult {
   fileName: string | null
   contentType: string | null
   requestId: string | null
+  durationMs: number | null
 }

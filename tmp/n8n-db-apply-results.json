@@ -1,0 +1,158 @@
+[
+  {
+    "workflowId": "0ieW448wLfITZSlD",
+    "name": "DELETE Subcategory",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "0S1YXMDF4gHHrTbK",
+    "name": "AUTH - VALIDATE (Webhook)",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "4BnWd26yROvl0Ots",
+    "name": "PUT Categorias",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "5VMmNgSU76d9gZye",
+    "name": "Listar Permissões",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "6ZZlCncPKX4fGVmI",
+    "name": "POST Categorias",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "8EXk5RkFW5cxnenL",
+    "name": "Consulta IA",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "a7EsJH9zcj7SMEnM",
+    "name": "DELETE Usuários",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "eyRMMc4qCzGf9naj",
+    "name": "PUT Setores",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "FaSIMuXIHeiVJe29",
+    "name": "DELETE Categorias",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "gCEgRsZzch3l7mfD",
+    "name": "POST Usuários",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "OJZNWxBCkVXaysmf",
+    "name": "Document Download",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "oyTndr1NgGRbbsTt",
+    "name": "POST Setores",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "sofpi7zCHMCJkvfI",
+    "name": "DELETE Documentos",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "T6CGZB4oxlzXlTQZ",
+    "name": "UPDATE Subcategory",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "T7nHP1laYHDqwSPm",
+    "name": "GET Categorias",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "ukDndCZDzemWsOMk",
+    "name": "PUT Configurações",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "vNDpCzOdR7ATnHDP",
+    "name": "Processar documento",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "vymsco8fVdIvgW4b",
+    "name": "Upload Arquivo",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "WCwJqtFRROwoToik",
+    "name": "GET Documentos",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "WLlD1eqbFmKDK9ow",
+    "name": "POST Documentos",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "WMj1pu9mllQsZk2x",
+    "name": "DELETE Setores",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "XTEYFVPc26o3loMu",
+    "name": "GET Subcategorias",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "Y0MuWEEdoMFts7ay",
+    "name": "PUT Documentos",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "z63rJlQKqheFBw4u",
+    "name": "PUT Usuários",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "ZckYIZpMtw6HEtIs",
+    "name": "CREATE subcategoria",
+    "status": "updated",
+    "rowCount": 1
+  },
+  {
+    "workflowId": "ziXSdzv5ySslNeos",
+    "name": "GET Setores",
+    "status": "updated",
+    "rowCount": 1
+  }
+]

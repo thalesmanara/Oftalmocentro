@@ -73,11 +73,33 @@ export interface ApiClientOptions extends Omit<RequestInit, 'body'> {
   timeoutMs?: number
 }
 
-function createRequestId(): string {
+const UUID_RE =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+
+/** Gera um UUID válido (preferência v4). Nunca retorna formato não-UUID. */
+export function createRequestId(): string {
   if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
     return crypto.randomUUID()
   }
-  return `req-${Date.now()}-${Math.random().toString(16).slice(2)}`
+  // Fallback RFC4122-ish quando randomUUID não existe
+  const bytes = new Uint8Array(16)
+  if (typeof crypto !== 'undefined' && typeof crypto.getRandomValues === 'function') {
+    crypto.getRandomValues(bytes)
+  } else {
+    for (let i = 0; i < 16; i += 1) bytes[i] = Math.floor(Math.random() * 256)
+  }
+  bytes[6] = (bytes[6] & 0x0f) | 0x40
+  bytes[8] = (bytes[8] & 0x3f) | 0x80
+  const hex = Array.from(bytes, (b) => b.toString(16).padStart(2, '0')).join('')
+  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`
+}
+
+function resolveOutgoingRequestId(headers: Headers): string {
+  const existing = headers.get('X-Request-Id')?.trim()
+  if (existing && UUID_RE.test(existing)) return existing
+  const generated = createRequestId()
+  headers.set('X-Request-Id', generated)
+  return generated
 }
 
 function buildHeaders(init: HeadersInit | undefined, options: { json: boolean; public: boolean }): Headers {
@@ -87,9 +109,7 @@ function buildHeaders(init: HeadersInit | undefined, options: { json: boolean; p
     headers.set('Content-Type', 'application/json')
   }
 
-  if (!headers.has('X-Request-Id')) {
-    headers.set('X-Request-Id', createRequestId())
-  }
+  resolveOutgoingRequestId(headers)
 
   if (!options.public) {
     const token = getAccessToken()
@@ -161,7 +181,11 @@ export async function parseApiResponse<T>(response: Response): Promise<T> {
         code: payload.error?.code || statusToCode(response.status),
         message: payload.error?.message || `Erro na API: ${response.status}`,
         fields: payload.error?.fields,
-        requestId: payload.meta?.requestId,
+        requestId: payload.meta?.requestId || response.headers.get('X-Request-Id') || undefined,
+        durationMs:
+          typeof payload.meta?.durationMs === 'number'
+            ? payload.meta.durationMs
+            : parseDurationHeader(response),
       })
     }
 
@@ -173,6 +197,8 @@ export async function parseApiResponse<T>(response: Response): Promise<T> {
         legacy?.error?.message ||
         legacy?.message ||
         `Erro na API: ${response.status} ${response.statusText}`,
+      requestId: response.headers.get('X-Request-Id') || undefined,
+      durationMs: parseDurationHeader(response),
     })
   }
 
@@ -183,7 +209,11 @@ export async function parseApiResponse<T>(response: Response): Promise<T> {
         code: payload.error?.code || 'INTERNAL_ERROR',
         message: payload.error?.message || 'Erro na API.',
         fields: payload.error?.fields,
-        requestId: payload.meta?.requestId,
+        requestId: payload.meta?.requestId || response.headers.get('X-Request-Id') || undefined,
+        durationMs:
+          typeof payload.meta?.durationMs === 'number'
+            ? payload.meta.durationMs
+            : parseDurationHeader(response),
       })
     }
     return payload.data as T
@@ -191,6 +221,13 @@ export async function parseApiResponse<T>(response: Response): Promise<T> {
 
   // Compatibilidade mínima: payload sem campo success (não deve ocorrer nos webhooks ativos).
   return payload as T
+}
+
+function parseDurationHeader(response: Response): number | undefined {
+  const raw = response.headers.get('X-Response-Time-Ms')
+  if (raw == null || raw === '') return undefined
+  const n = Number(raw)
+  return Number.isFinite(n) && n >= 0 ? n : undefined
 }
 
 function mergeAbortSignals(signals: Array<AbortSignal | undefined | null>): AbortSignal | undefined {
@@ -364,14 +401,25 @@ export async function apiDownload(
   })
 
   const requestId = response.headers.get('X-Request-Id')
+  const durationMs = parseDurationHeader(response) ?? null
 
   if (!response.ok) {
-    await parseApiResponse(response)
+    try {
+      await parseApiResponse(response)
+    } catch (error) {
+      if (error instanceof ApiError) {
+        if (!error.requestId && requestId) error.requestId = requestId
+        if (error.durationMs == null && durationMs != null) error.durationMs = durationMs
+        throw error
+      }
+      throw error
+    }
     throw new ApiError({
       status: response.status,
       code: statusToCode(response.status),
       message: 'Não foi possível baixar o arquivo.',
       requestId: requestId ?? undefined,
+      durationMs: durationMs ?? undefined,
     })
   }
 
@@ -381,6 +429,7 @@ export async function apiDownload(
     fileName: parseFileNameFromDisposition(response.headers.get('Content-Disposition')),
     contentType: response.headers.get('Content-Type'),
     requestId,
+    durationMs,
   }
 }
 
