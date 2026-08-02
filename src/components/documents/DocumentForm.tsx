@@ -44,29 +44,38 @@ export function DocumentForm({
   const [categories, setCategories] = useState<{ value: string; label: string }[]>([])
   const [subcategories, setSubcategories] = useState<{ value: string; label: string }[]>([])
   const [loadingSubcategories, setLoadingSubcategories] = useState(false)
+  const [optionsError, setOptionsError] = useState<string | null>(null)
+  const [subcategoriesError, setSubcategoriesError] = useState<string | null>(null)
 
   useEffect(() => {
-    void Promise.all([getSectors(), getCategories()]).then(([s, c]) => {
-      setSectors([
-        { value: '', label: 'Selecione...' },
-        ...s.filter((x) => x.active).map((x) => ({ value: x.id, label: x.name })),
-      ])
-      setCategories([
-        { value: '', label: 'Selecione...' },
-        ...c.filter((x) => x.active).map((x) => ({ value: x.id, label: x.name })),
-      ])
-    })
+    setOptionsError(null)
+    void Promise.all([getSectors(), getCategories()])
+      .then(([s, c]) => {
+        setSectors([
+          { value: '', label: 'Selecione...' },
+          ...s.filter((x) => x.active).map((x) => ({ value: x.id, label: x.name })),
+        ])
+        setCategories([
+          { value: '', label: 'Selecione...' },
+          ...c.filter((x) => x.active).map((x) => ({ value: x.id, label: x.name })),
+        ])
+      })
+      .catch(() => {
+        setOptionsError('Não foi possível carregar setores e categorias.')
+      })
   }, [])
 
   useEffect(() => {
     if (!categoryId) {
       setSubcategories([])
       setSubcategoryId('')
+      setSubcategoriesError(null)
       return
     }
 
     let cancelled = false
     setLoadingSubcategories(true)
+    setSubcategoriesError(null)
 
     void getSubcategories(categoryId)
       .then((items) => {
@@ -81,7 +90,10 @@ export function DocumentForm({
         }
       })
       .catch(() => {
-        if (!cancelled) setSubcategories([])
+        if (!cancelled) {
+          setSubcategories([])
+          setSubcategoriesError('Não foi possível carregar subcategorias.')
+        }
       })
       .finally(() => {
         if (!cancelled) setLoadingSubcategories(false)
@@ -109,9 +121,11 @@ export function DocumentForm({
     ? [{ value: '', label: 'Selecione uma categoria primeiro' }]
     : loadingSubcategories
       ? [{ value: '', label: 'Carregando subcategorias...' }]
-      : subcategories.length === 0
-        ? [{ value: '', label: 'Nenhuma subcategoria cadastrada' }]
-        : [{ value: '', label: 'Opcional — selecione...' }, ...subcategories]
+      : subcategoriesError
+        ? [{ value: '', label: 'Erro ao carregar subcategorias' }]
+        : subcategories.length === 0
+          ? [{ value: '', label: 'Nenhuma subcategoria cadastrada' }]
+          : [{ value: '', label: 'Opcional — selecione...' }, ...subcategories]
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -129,6 +143,7 @@ export function DocumentForm({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
+      {optionsError && <p className="text-sm text-red-600">{optionsError}</p>}
       <Input label="Título" value={title} onChange={(e) => setTitle(e.target.value)} required />
       <div className="grid gap-4 md:grid-cols-2">
         <Select
@@ -151,8 +166,14 @@ export function DocumentForm({
         value={subcategoryId}
         onChange={(e) => setSubcategoryId(e.target.value)}
         options={subcategoryOptions}
-        disabled={!categoryId || loadingSubcategories || subcategories.length === 0}
+        disabled={
+          !categoryId ||
+          loadingSubcategories ||
+          Boolean(subcategoriesError) ||
+          subcategories.length === 0
+        }
       />
+      {subcategoriesError && <p className="text-sm text-red-600">{subcategoriesError}</p>}
       <Textarea
         label="Descrição Semântica"
         value={semanticDescription}

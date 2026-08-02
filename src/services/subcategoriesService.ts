@@ -1,11 +1,17 @@
 import { ApiError, apiDelete, apiGet, apiPost, apiPut } from './api'
+import { expectArray } from '@/utils/expectArray'
 import type { Subcategory } from '@/types'
 
-const CACHE_KEY = 'oftalmocentro_subcategories_cache'
+/**
+ * Cache de sessão (somente respostas reais da API).
+ * Nunca é usado como fallback após 401/403/500.
+ * Invalidado parcialmente após create/update/delete.
+ */
+const SESSION_CACHE_KEY = 'oftalmocentro_subcategories_session'
 
-function readCache(): Subcategory[] {
+function readSessionCache(): Subcategory[] {
   try {
-    const raw = localStorage.getItem(CACHE_KEY) ?? sessionStorage.getItem(CACHE_KEY)
+    const raw = sessionStorage.getItem(SESSION_CACHE_KEY)
     if (!raw) return []
     const parsed = JSON.parse(raw) as Subcategory[]
     return Array.isArray(parsed) ? parsed : []
@@ -14,33 +20,51 @@ function readCache(): Subcategory[] {
   }
 }
 
-function writeCache(items: Subcategory[]): Subcategory[] {
-  const serialized = JSON.stringify(items)
-  localStorage.setItem(CACHE_KEY, serialized)
+function writeSessionCache(items: Subcategory[]): void {
   try {
-    sessionStorage.removeItem(CACHE_KEY)
+    sessionStorage.setItem(SESSION_CACHE_KEY, JSON.stringify(items))
+  } catch {
+    // quota / private mode — cache é opcional
+  }
+}
+
+/** Remove cache persistente legado (localStorage) se ainda existir. */
+function clearLegacyPersistentCache(): void {
+  try {
+    localStorage.removeItem('oftalmocentro_subcategories_cache')
   } catch {
     // ignore
   }
-  return items
 }
 
-/** Persiste subcategorias conhecidas (create/update/listagem na UI). */
-export function rememberSubcategories(items: Subcategory[]): Subcategory[] {
-  if (!items.length) return readCache()
-  return mergeIntoCache(items)
+clearLegacyPersistentCache()
+
+function replaceCategoryInCache(categoryId: string | undefined, items: Subcategory[]): void {
+  if (!categoryId) {
+    writeSessionCache(items)
+    return
+  }
+  const others = readSessionCache().filter((item) => item.categoryId !== categoryId)
+  writeSessionCache([...others, ...items])
 }
 
-function mergeIntoCache(items: Subcategory[]): Subcategory[] {
-  const byId = new Map(readCache().map((item) => [item.id, item]))
+function upsertInCache(items: Subcategory[]): void {
+  if (!items.length) return
+  const byId = new Map(readSessionCache().map((item) => [item.id, item]))
   for (const item of items) {
     byId.set(item.id, item)
   }
-  return writeCache(Array.from(byId.values()))
+  writeSessionCache(Array.from(byId.values()))
 }
 
 function removeFromCache(id: string): void {
-  writeCache(readCache().filter((item) => item.id !== id))
+  writeSessionCache(readSessionCache().filter((item) => item.id !== id))
+}
+
+/** Atualiza cache de sessão com itens reais (após mutação bem-sucedida na UI). */
+export function rememberSubcategories(items: Subcategory[]): Subcategory[] {
+  upsertInCache(items)
+  return readSessionCache()
 }
 
 function parseSubcategory(data: unknown): Subcategory | null {
@@ -72,9 +96,7 @@ function parseSubcategory(data: unknown): Subcategory | null {
             : undefined,
       name: String(name),
       description:
-        record.description === undefined
-          ? null
-          : (record.description as string | null),
+        record.description === undefined ? null : (record.description as string | null),
       active: record.active !== false,
       createdAt: record.createdAt != null ? String(record.createdAt) : undefined,
       updatedAt: record.updatedAt != null ? String(record.updatedAt) : undefined,
@@ -85,40 +107,41 @@ function parseSubcategory(data: unknown): Subcategory | null {
 }
 
 function normalizeList(data: unknown): Subcategory[] {
-  if (!data) return []
-
-  if (Array.isArray(data)) {
-    return data
-      .map((item) => parseSubcategory(item))
-      .filter((item): item is Subcategory => Boolean(item))
-  }
-
-  const single = parseSubcategory(data)
-  return single ? [single] : []
-}
-
-function filterByCategory(list: Subcategory[], categoryId?: string): Subcategory[] {
-  if (!categoryId) return list
-  return list.filter((item) => item.categoryId === categoryId)
+  return expectArray(data, 'subcategorias')
+    .map((item) => parseSubcategory(item))
+    .filter((item): item is Subcategory => Boolean(item))
 }
 
 function sortByName(list: Subcategory[]): Subcategory[] {
   return [...list].sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'))
 }
 
+/**
+ * Sempre busca na API. Em erro, propaga ApiError (não devolve cache).
+ * Cache de sessão só é atualizado após sucesso.
+ */
 export async function getSubcategories(categoryId?: string): Promise<Subcategory[]> {
   const query = categoryId ? `?categoryId=${encodeURIComponent(categoryId)}` : ''
   const data = await apiGet<unknown>(`/webhook/subcategories${query}`)
   const fromApi = normalizeList(data)
-  const merged = mergeIntoCache(fromApi)
-  return sortByName(filterByCategory(merged, categoryId))
+  replaceCategoryInCache(categoryId, fromApi)
+  return sortByName(fromApi)
 }
 
 async function resolveAfterMutation(
   result: unknown,
   match: { categoryId: string; name: string; id?: string }
 ): Promise<Subcategory> {
-  const fromList = normalizeList(result)
+  let fromList: Subcategory[] = []
+  if (Array.isArray(result)) {
+    fromList = result
+      .map((item) => parseSubcategory(item))
+      .filter((item): item is Subcategory => Boolean(item))
+  } else {
+    const single = parseSubcategory(result)
+    if (single) fromList = [single]
+  }
+
   if (fromList.length >= 1) {
     const preferred =
       (match.id ? fromList.find((item) => item.id === match.id) : undefined) ??
@@ -126,14 +149,8 @@ async function resolveAfterMutation(
         (item) => item.name.trim().toLowerCase() === match.name.trim().toLowerCase()
       ) ??
       fromList[0]
-    mergeIntoCache(fromList)
+    upsertInCache(fromList)
     return preferred
-  }
-
-  const parsed = parseSubcategory(result)
-  if (parsed) {
-    mergeIntoCache([parsed])
-    return parsed
   }
 
   const list = await getSubcategories(match.categoryId)
@@ -194,10 +211,10 @@ export async function updateSubcategory(
 export async function deleteSubcategory(id: string): Promise<void> {
   await apiDelete('/webhook/subcategories/delete', { id })
 
-  const cached = readCache()
+  const cached = readSessionCache()
   const current = cached.find((item) => item.id === id)
   if (current) {
-    mergeIntoCache([{ ...current, active: false }])
+    upsertInCache([{ ...current, active: false }])
   } else {
     removeFromCache(id)
   }

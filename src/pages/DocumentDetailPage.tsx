@@ -9,6 +9,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useSettings } from '@/hooks/useSettings'
 import { getCategoryNameById, getSectorNameById } from '@/utils/entities'
 import { formatDate, formatDateTime, formatFileSize, isDocumentExpired } from '@/utils/document'
+import { getErrorMessage } from '@/utils/apiError'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
@@ -25,6 +26,7 @@ export function DocumentDetailPage() {
   const handledLocationKey = useRef<string | null>(null)
   const [doc, setDoc] = useState<Document | null>(null)
   const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState<string | null>(null)
   const [sectors, setSectors] = useState<Sector[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   const [confirmDelete, setConfirmDelete] = useState(false)
@@ -51,17 +53,36 @@ export function DocumentDetailPage() {
     if (!id) return
 
     setLoading(true)
+    setLoadError(null)
     void Promise.all([getDocumentById(id), getSectors(), getCategories()])
       .then(([document, s, c]) => {
         setDoc(document)
         setSectors(s)
         setCategories(c)
       })
+      .catch((err) => {
+        setDoc(null)
+        setLoadError(getErrorMessage(err, 'Erro ao carregar documento.'))
+      })
       .finally(() => setLoading(false))
   }, [id])
 
   if (loading) {
     return <p className="text-slate-500">Carregando documento...</p>
+  }
+
+  if (loadError) {
+    return (
+      <div>
+        <Link
+          to="/documentos"
+          className="mb-4 inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800"
+        >
+          <ArrowLeft size={16} /> Voltar à biblioteca
+        </Link>
+        <p className="text-sm text-red-600">{loadError}</p>
+      </div>
+    )
   }
 
   if (!doc) {
@@ -88,8 +109,8 @@ export function DocumentDetailPage() {
 
     try {
       await downloadDocumentFile(id, doc.fileName)
-    } catch {
-      setDownloadError('Não foi possível baixar o arquivo.')
+    } catch (err) {
+      setDownloadError(getErrorMessage(err, 'Não foi possível baixar o arquivo.'))
     } finally {
       setDownloading(false)
     }

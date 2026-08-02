@@ -4,6 +4,7 @@ import { ArrowLeft, Loader2 } from 'lucide-react'
 import { getDocumentById, processDocument, updateDocument, uploadDocumentFile } from '@/services/documentsService'
 import type { Document, DocumentFormData } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
+import { getErrorMessage } from '@/utils/apiError'
 import { Card } from '@/components/ui/Card'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { DocumentForm } from '@/components/documents/DocumentForm'
@@ -16,6 +17,7 @@ export function DocumentEditPage() {
   const { user } = useAuth()
   const [doc, setDoc] = useState<Document | null>(null)
   const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [processing, setProcessing] = useState(false)
@@ -35,8 +37,13 @@ export function DocumentEditPage() {
     if (!id) return
 
     setLoading(true)
+    setLoadError(null)
     void getDocumentById(id)
       .then(setDoc)
+      .catch((err) => {
+        setDoc(null)
+        setLoadError(getErrorMessage(err, 'Erro ao carregar documento.'))
+      })
       .finally(() => setLoading(false))
   }, [id])
 
@@ -60,9 +67,12 @@ export function DocumentEditPage() {
 
         try {
           await uploadDocumentFile(id, data.file)
-        } catch {
+        } catch (err) {
           setDoc(updated)
-          setFeedback({ type: 'error', message: 'Falha ao enviar arquivo.' })
+          setFeedback({
+            type: 'error',
+            message: getErrorMessage(err, 'Falha ao enviar arquivo.'),
+          })
           return
         } finally {
           setUploading(false)
@@ -83,11 +93,14 @@ export function DocumentEditPage() {
           window.setTimeout(() => {
             navigate(`/documentos/${id}`)
           }, 1500)
-        } catch {
+        } catch (err) {
           setDoc(updated)
           setFeedback({
             type: 'error',
-            message: 'Arquivo enviado, mas ocorreu erro no processamento.',
+            message: getErrorMessage(
+              err,
+              'Arquivo enviado, mas ocorreu erro no processamento.'
+            ),
           })
         } finally {
           setProcessing(false)
@@ -99,8 +112,11 @@ export function DocumentEditPage() {
       const refreshed = await getDocumentById(id)
       if (refreshed) setDoc(refreshed)
       navigate(`/documentos/${id}`)
-    } catch {
-      setFeedback({ type: 'error', message: 'Erro ao atualizar documento.' })
+    } catch (err) {
+      setFeedback({
+        type: 'error',
+        message: getErrorMessage(err, 'Erro ao atualizar documento.'),
+      })
     } finally {
       setSaving(false)
     }
@@ -108,6 +124,20 @@ export function DocumentEditPage() {
 
   if (loading) {
     return <p className="text-slate-500">Carregando documento...</p>
+  }
+
+  if (loadError) {
+    return (
+      <div>
+        <Link
+          to="/documentos"
+          className="mb-4 inline-flex items-center gap-1 text-sm text-slate-500 hover:text-slate-800"
+        >
+          <ArrowLeft size={16} /> Voltar à biblioteca
+        </Link>
+        <p className="text-sm text-red-600">{loadError}</p>
+      </div>
+    )
   }
 
   if (!doc) {

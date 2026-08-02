@@ -1,4 +1,5 @@
 import { ApiError, apiDelete, apiGet, apiPost, apiPut } from './api'
+import { expectArray } from '@/utils/expectArray'
 import type { Sector } from '@/types'
 
 function parseSector(data: unknown): Sector | null {
@@ -21,8 +22,7 @@ function parseSector(data: unknown): Sector | null {
 
 export async function getSectors(): Promise<Sector[]> {
   const data = await apiGet<unknown>('/webhook/sectors')
-  if (!Array.isArray(data)) return []
-  return data.filter((item): item is Sector => Boolean(parseSector(item)))
+  return expectArray(data, 'setores').filter((item): item is Sector => Boolean(parseSector(item)))
 }
 
 export async function createSector(

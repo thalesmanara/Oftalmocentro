@@ -219,8 +219,14 @@ export async function parseApiResponse<T>(response: Response): Promise<T> {
     return payload.data as T
   }
 
-  // Compatibilidade mínima: payload sem campo success (não deve ocorrer nos webhooks ativos).
-  return payload as T
+  // Resposta 2xx sem envelope padronizado — não tratar como dado válido.
+  throw new ApiError({
+    status: response.status || 500,
+    code: 'INVALID_RESPONSE',
+    message: 'Resposta da API em formato inesperado.',
+    requestId: response.headers.get('X-Request-Id') || undefined,
+    durationMs: parseDurationHeader(response),
+  })
 }
 
 function parseDurationHeader(response: Response): number | undefined {
@@ -431,25 +437,6 @@ export async function apiDownload(
     requestId,
     durationMs,
   }
-}
-
-/** @deprecated Preferir `apiRequest` / `apiGet` / … */
-export const request = apiRequest
-
-/** @deprecated Preferir `apiRequest(..., { public: true })` */
-export async function publicRequest<T>(endpoint: string, options?: RequestInit): Promise<T> {
-  return apiRequest<T>(endpoint, { ...options, public: true })
-}
-
-/** @deprecated Preferir `raw` via `apiDownload` / `apiUpload` / `apiRequest`. */
-export async function apiFetch(inputPath: string, options?: RequestInit): Promise<Response> {
-  return rawFetch(inputPath, options)
-}
-
-/** Delay apenas para mocks explícitos (ex.: audit local). Não usar como fallback de API. */
-export async function mockDelay<T>(data: T, ms = 300): Promise<T> {
-  await new Promise((resolve) => setTimeout(resolve, ms))
-  return data
 }
 
 export function buildDocumentFormData(

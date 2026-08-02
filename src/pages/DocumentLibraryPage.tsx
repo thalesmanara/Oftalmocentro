@@ -9,6 +9,7 @@ import type { Category, Document, Sector, Subcategory } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
 import { getCategoryNameById, getSectorNameById, getSubcategoryNameById } from '@/utils/entities'
 import { formatDate, formatFileSize, isDocumentExpired } from '@/utils/document'
+import { getErrorMessage } from '@/utils/apiError'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { Input } from '@/components/ui/Input'
 import { Select } from '@/components/ui/Select'
@@ -26,10 +27,12 @@ export function DocumentLibraryPage() {
   const { user, hasPermission } = useAuth()
   const [documents, setDocuments] = useState<Document[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [sectors, setSectors] = useState<Sector[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   const [subcategories, setSubcategories] = useState<Subcategory[]>([])
   const [loadingSubcategories, setLoadingSubcategories] = useState(false)
+  const [subcategoriesError, setSubcategoriesError] = useState<string | null>(null)
   const [viewMode, setViewMode] = useState<ViewMode>('cards')
   const [filterTitle, setFilterTitle] = useState('')
   const [filterSectorId, setFilterSectorId] = useState('')
@@ -41,9 +44,13 @@ export function DocumentLibraryPage() {
 
   const load = async () => {
     setLoading(true)
+    setError(null)
     try {
       const data = await getDocuments()
       setDocuments(data)
+    } catch (err) {
+      setDocuments([])
+      setError(getErrorMessage(err, 'Erro ao carregar documentos.'))
     } finally {
       setLoading(false)
     }
@@ -51,25 +58,37 @@ export function DocumentLibraryPage() {
 
   useEffect(() => {
     void load()
-    void Promise.all([getSectors(), getCategories()]).then(([s, c]) => {
-      setSectors(s)
-      setCategories(c)
-    })
+    void Promise.all([getSectors(), getCategories()])
+      .then(([s, c]) => {
+        setSectors(s)
+        setCategories(c)
+      })
+      .catch(() => {
+        setError((prev) => prev ?? 'Erro ao carregar filtros de setores/categorias.')
+      })
   }, [])
 
   useEffect(() => {
     if (!filterCategoryId) {
       setSubcategories([])
       setFilterSubcategoryId('')
+      setSubcategoriesError(null)
       return
     }
 
     let cancelled = false
     setLoadingSubcategories(true)
+    setSubcategoriesError(null)
 
     void getSubcategories(filterCategoryId)
       .then((items) => {
         if (!cancelled) setSubcategories(items.filter((item) => item.active))
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          setSubcategories([])
+          setSubcategoriesError(getErrorMessage(err, 'Erro ao carregar subcategorias.'))
+        }
       })
       .finally(() => {
         if (!cancelled) setLoadingSubcategories(false)
@@ -97,10 +116,12 @@ export function DocumentLibraryPage() {
     ? [{ value: '', label: 'Selecione uma categoria' }]
     : loadingSubcategories
       ? [{ value: '', label: 'Carregando...' }]
-      : [
-          { value: '', label: 'Todas as subcategorias' },
-          ...subcategories.map((x) => ({ value: x.id, label: x.name })),
-        ]
+      : subcategoriesError
+        ? [{ value: '', label: 'Erro ao carregar' }]
+        : [
+            { value: '', label: 'Todas as subcategorias' },
+            ...subcategories.map((x) => ({ value: x.id, label: x.name })),
+          ]
 
   const displaySector = (doc: Document) =>
     doc.sectorName ?? getSectorNameById(doc.sectorId, sectors)
@@ -139,8 +160,8 @@ export function DocumentLibraryPage() {
       await deleteDocument(deleteId)
       setDeleteId(null)
       await load()
-    } catch {
-      // Mantém o modal aberto para nova tentativa
+    } catch (err) {
+      setError(getErrorMessage(err, 'Erro ao excluir documento.'))
     } finally {
       setDeleting(false)
     }
@@ -148,6 +169,23 @@ export function DocumentLibraryPage() {
 
   if (loading) {
     return <p className="text-slate-500">Carregando documentos...</p>
+  }
+
+  if (error && documents.length === 0) {
+    return (
+      <div>
+        <PageHeader
+          title="Biblioteca de documentos"
+          description="Consulte e gerencie os documentos da clínica"
+        />
+        <Card>
+          <p className="text-sm text-red-600">{error}</p>
+          <Button className="mt-4" variant="secondary" onClick={() => void load()}>
+            Tentar novamente
+          </Button>
+        </Card>
+      </div>
+    )
   }
 
   return (
@@ -164,6 +202,11 @@ export function DocumentLibraryPage() {
           </PermissionGuard>
         }
       />
+
+      {error && <p className="mb-4 text-sm text-red-600">{error}</p>}
+      {subcategoriesError && (
+        <p className="mb-4 text-sm text-red-600">{subcategoriesError}</p>
+      )}
 
       <Card className="mb-6">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">

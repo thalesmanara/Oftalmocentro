@@ -1,4 +1,5 @@
 import { ApiError, apiDelete, apiGet, apiPost, apiPut } from './api'
+import { expectArray } from '@/utils/expectArray'
 import type { Category } from '@/types'
 
 function parseCategory(data: unknown): Category | null {
@@ -21,8 +22,9 @@ function parseCategory(data: unknown): Category | null {
 
 export async function getCategories(): Promise<Category[]> {
   const data = await apiGet<unknown>('/webhook/categories')
-  if (!Array.isArray(data)) return []
-  return data.filter((item): item is Category => Boolean(parseCategory(item)))
+  return expectArray(data, 'categorias').filter((item): item is Category =>
+    Boolean(parseCategory(item))
+  )
 }
 
 export async function createCategory(

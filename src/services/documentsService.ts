@@ -7,6 +7,7 @@ import {
   apiPut,
   apiUpload,
 } from './api'
+import { expectArray } from '@/utils/expectArray'
 import type { Document, DocumentFormData } from '@/types'
 
 export interface DocumentFileUploadResult {
@@ -188,8 +189,7 @@ async function resolveDocumentAfterUpdate(_result: unknown, id: string): Promise
 
 export async function getDocuments(): Promise<Document[]> {
   const data = await apiGet<unknown>('/webhook/documents')
-  if (!Array.isArray(data)) return []
-  return data.map((doc) => normalizeDocument(doc as Document))
+  return expectArray(data, 'documentos').map((doc) => normalizeDocument(doc as Document))
 }
 
 export async function getDocumentById(id: string): Promise<Document | null> {

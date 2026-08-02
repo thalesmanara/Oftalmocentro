@@ -12,7 +12,8 @@ type Feedback = { type: 'success' | 'error'; message: string }
 
 export function SettingsPage() {
   const { user } = useAuth()
-  const { settings, loading, updateSettings } = useSettings()
+  const { settings, settingsSource, loading, loadError, updateSettings, refreshSettings } =
+    useSettings()
   const [form, setForm] = useState<SystemSettings | null>(null)
   const [saving, setSaving] = useState(false)
   const [feedback, setFeedback] = useState<Feedback | null>(null)
@@ -47,6 +48,25 @@ export function SettingsPage() {
         title="Configurações"
         description="Personalização visual e identidade do sistema"
       />
+
+      {loadError && (
+        <div className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+          <p>
+            Não foi possível carregar as configurações da API. Exibindo valores padrão visuais
+            {settingsSource === 'default' ? '' : ' (última configuração conhecida)'}.
+          </p>
+          <p className="mt-1 text-amber-800">{loadError}</p>
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            className="mt-2"
+            onClick={() => void refreshSettings()}
+          >
+            Tentar novamente
+          </Button>
+        </div>
+      )}
 
       {feedback && (
         <p

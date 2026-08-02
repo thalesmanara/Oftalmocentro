@@ -24,6 +24,7 @@ import { Modal } from '@/components/ui/Modal'
 import { ModalConfirm } from '@/components/ui/Modal'
 import { Badge } from '@/components/ui/Badge'
 import { EmptyState } from '@/components/ui/EmptyState'
+import { getErrorMessage } from '@/utils/apiError'
 
 type Feedback = { type: 'success' | 'error'; message: string }
 
@@ -65,8 +66,12 @@ export function CategoriesPage() {
     try {
       const data = await getCategories()
       setCategories(data)
-    } catch {
-      showFeedback({ type: 'error', message: 'Erro ao carregar categorias do documento.' })
+    } catch (err) {
+      setCategories([])
+      showFeedback({
+        type: 'error',
+        message: getErrorMessage(err, 'Erro ao carregar categorias do documento.'),
+      })
     } finally {
       setLoading(false)
     }
@@ -88,8 +93,12 @@ export function CategoriesPage() {
         return merged
       })
       rememberSubcategories(merged)
-    } catch {
-      showFeedback({ type: 'error', message: 'Erro ao carregar subcategorias.' })
+    } catch (err) {
+      setSubcategories([])
+      showFeedback({
+        type: 'error',
+        message: getErrorMessage(err, 'Erro ao carregar subcategorias.'),
+      })
     } finally {
       setLoadingSubcategories(false)
     }
@@ -165,10 +174,15 @@ export function CategoriesPage() {
       }
       setModalOpen(false)
       await loadCategories()
-    } catch {
+    } catch (err) {
       showFeedback({
         type: 'error',
-        message: editing ? 'Erro ao atualizar categoria do documento.' : 'Erro ao criar categoria do documento.',
+        message: getErrorMessage(
+          err,
+          editing
+            ? 'Erro ao atualizar categoria do documento.'
+            : 'Erro ao criar categoria do documento.'
+        ),
       })
     } finally {
       setSaving(false)
@@ -184,8 +198,11 @@ export function CategoriesPage() {
       setDeleteId(null)
       showFeedback({ type: 'success', message: 'Categoria do documento inativada com sucesso.' })
       await loadCategories()
-    } catch {
-      showFeedback({ type: 'error', message: 'Erro ao inativar categoria do documento.' })
+    } catch (err) {
+      showFeedback({
+        type: 'error',
+        message: getErrorMessage(err, 'Erro ao inativar categoria do documento.'),
+      })
     } finally {
       setDeleting(false)
     }
@@ -233,10 +250,13 @@ export function CategoriesPage() {
       // Recarrega e mescla (o GET do n8n hoje pode devolver só 1 item)
       const refreshed = await getSubcategories(managingCategory.id)
       mergeSubcategories(refreshed)
-    } catch {
+    } catch (err) {
       showFeedback({
         type: 'error',
-        message: editingSubcategory ? 'Erro ao atualizar subcategoria.' : 'Erro ao criar subcategoria.',
+        message: getErrorMessage(
+          err,
+          editingSubcategory ? 'Erro ao atualizar subcategoria.' : 'Erro ao criar subcategoria.'
+        ),
       })
     } finally {
       setSavingSubcategory(false)
@@ -252,8 +272,11 @@ export function CategoriesPage() {
       setDeleteSubcategoryId(null)
       showFeedback({ type: 'success', message: 'Subcategoria inativada com sucesso.' })
       await loadSubcategories(managingCategory.id)
-    } catch {
-      showFeedback({ type: 'error', message: 'Erro ao inativar subcategoria.' })
+    } catch (err) {
+      showFeedback({
+        type: 'error',
+        message: getErrorMessage(err, 'Erro ao inativar subcategoria.'),
+      })
     } finally {
       setDeletingSubcategory(false)
     }

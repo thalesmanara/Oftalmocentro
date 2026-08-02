@@ -1,4 +1,5 @@
 import { ApiError, apiDelete, apiGet, apiPost, apiPut } from './api'
+import { expectArray } from '@/utils/expectArray'
 import type { User, UserFormData } from '@/types'
 
 function normalizePermissionCodes(permissions: unknown): string[] {
@@ -52,8 +53,9 @@ function parseUser(data: unknown): User | null {
 }
 
 function asUserList(data: unknown): User[] {
-  if (!Array.isArray(data)) return []
-  return data.map((item) => parseUser(item)).filter((user): user is User => user !== null)
+  return expectArray(data, 'usuários')
+    .map((item) => parseUser(item))
+    .filter((user): user is User => user !== null)
 }
 
 export async function getUsers(): Promise<User[]> {

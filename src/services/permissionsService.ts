@@ -1,4 +1,5 @@
 import { apiGet } from './api'
+import { expectArray } from '@/utils/expectArray'
 import type { Permission } from '@/types'
 
 function withoutLegacyTagPermission(permissions: Permission[]): Permission[] {
@@ -7,6 +8,5 @@ function withoutLegacyTagPermission(permissions: Permission[]): Permission[] {
 
 export async function getPermissions(): Promise<Permission[]> {
   const data = await apiGet<unknown>('/webhook/permissions')
-  if (!Array.isArray(data)) return []
-  return withoutLegacyTagPermission(data as Permission[])
+  return withoutLegacyTagPermission(expectArray(data, 'permissões') as Permission[])
 }
