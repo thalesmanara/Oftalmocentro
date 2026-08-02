@@ -1,33 +1,32 @@
-import { mockDelay } from './api'
-import { mockAuditLogs } from '@/data/mocks'
-import type { AuditLog } from '@/types'
+import { apiGet } from './api'
+import type { AuditFilters, AuditListResult, AuditLog } from '@/types'
 
-export async function getAuditLogs(): Promise<AuditLog[]> {
-  return mockDelay(
-    [...mockAuditLogs].sort(
-      (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-    )
-  )
-}
+function buildAuditQuery(filters: AuditFilters = {}): string {
+  const params = new URLSearchParams()
 
-export async function addAuditLog(
-  entry: Omit<AuditLog, 'id' | 'createdAt'>
-): Promise<AuditLog> {
-  const log: AuditLog = {
-    ...entry,
-    id: `audit-${Date.now()}`,
-    createdAt: new Date().toISOString(),
+  if (filters.page != null) params.set('page', String(filters.page))
+  if (filters.pageSize != null) params.set('pageSize', String(filters.pageSize))
+  if (filters.userId) params.set('userId', filters.userId)
+  if (filters.action) params.set('action', filters.action)
+  if (filters.resourceType) params.set('resourceType', filters.resourceType)
+  if (filters.resourceId) params.set('resourceId', filters.resourceId)
+  if (filters.success !== '' && filters.success !== undefined) {
+    params.set('success', String(filters.success))
   }
-  mockAuditLogs.unshift(log)
-  return mockDelay(log)
+  if (filters.requestId) params.set('requestId', filters.requestId)
+  if (filters.errorCode) params.set('errorCode', filters.errorCode)
+  if (filters.dateFrom) params.set('dateFrom', filters.dateFrom)
+  if (filters.dateTo) params.set('dateTo', filters.dateTo)
+  if (filters.search) params.set('search', filters.search)
+
+  const qs = params.toString()
+  return qs ? `?${qs}` : ''
 }
 
-export function logAction(
-  userName: string,
-  action: string,
-  entity: string,
-  details: string,
-  ipAddress = '127.0.0.1'
-): void {
-  void addAuditLog({ userName, action, entity, details, ipAddress })
+export async function getAuditLogs(filters: AuditFilters = {}): Promise<AuditListResult> {
+  return apiGet<AuditListResult>(`/webhook/audit${buildAuditQuery(filters)}`)
+}
+
+export async function getAuditLogById(id: string): Promise<AuditLog> {
+  return apiGet<AuditLog>(`/webhook/audit/detail?id=${encodeURIComponent(id)}`)
 }

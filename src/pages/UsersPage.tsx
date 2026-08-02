@@ -3,7 +3,6 @@ import { Plus, Pencil, Trash2 } from 'lucide-react'
 import { getUsers, createUser, updateUser, deleteUser } from '@/services/usersService'
 import { getSectors } from '@/services/sectorsService'
 import { getPermissions } from '@/services/permissionsService'
-import { logAction } from '@/services/auditService'
 import type { User, UserFormData, Permission, Sector } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
 import { getSectorNameById } from '@/utils/entities'
@@ -125,12 +124,6 @@ export function UsersPage() {
           isMaster: form.isMaster,
           permissions: form.permissions,
         })
-        if (currentUser) {
-          logAction(currentUser.name, 'Alteração de usuário', 'Usuário', `Usuário "${form.name}" atualizado`)
-          if (form.permissions.length !== editing.permissions.length) {
-            logAction(currentUser.name, 'Alteração de permissões', 'Usuário', `Permissões de ${form.name} alteradas`)
-          }
-        }
         showFeedback({ type: 'success', message: 'Usuário atualizado com sucesso.' })
       } else {
         await createUser({
@@ -138,9 +131,6 @@ export function UsersPage() {
           name: form.name.trim(),
           email: form.email.trim(),
         })
-        if (currentUser) {
-          logAction(currentUser.name, 'Cadastro', 'Usuário', `Usuário "${form.name}" cadastrado`)
-        }
         showFeedback({ type: 'success', message: 'Usuário criado com sucesso.' })
       }
 
@@ -165,9 +155,7 @@ export function UsersPage() {
 
     setDeleting(true)
     try {
-      const u = users.find((x) => x.id === deleteId)
       await deleteUser(deleteId)
-      if (u) logAction(currentUser.name, 'Exclusão', 'Usuário', `Usuário "${u.name}" inativado`)
       setDeleteId(null)
       showFeedback({ type: 'success', message: 'Usuário inativado com sucesso.' })
       await loadUsers(false)

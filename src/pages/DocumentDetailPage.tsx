@@ -4,7 +4,6 @@ import { Pencil, Trash2, FileIcon, ArrowLeft, Download } from 'lucide-react'
 import { getDocumentById, deleteDocument, downloadDocumentFile } from '@/services/documentsService'
 import { getSectors } from '@/services/sectorsService'
 import { getCategories } from '@/services/categoriesService'
-import { logAction } from '@/services/auditService'
 import type { Category, Document, Sector } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
 import { useSettings } from '@/hooks/useSettings'
@@ -102,7 +101,6 @@ export function DocumentDetailPage() {
     setDeleting(true)
     try {
       await deleteDocument(id)
-      logAction(user.name, 'Exclusão', 'Documento', `Documento "${doc.title}" excluído`)
       setConfirmDelete(false)
       navigate('/documentos')
     } catch {

@@ -1,0 +1,111 @@
+import { workflow, node, trigger, ifElse, expr } from '@n8n/workflow-sdk';
+
+const sanitizeJs = "const UUID_RE =\r\n  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;\r\n\r\nconst SENSITIVE_KEY_RE =\r\n  /^(password|passwordhash|password_hash|passwd|token|accesstoken|access_token|refreshtoken|refresh_token|authorization|jwt|secret|jwtsecret|jwt_hs256_secret|hash|chunks?|chunktexts?|extractedtext|extracted_text|filecontent|file_content|binary|sql|stack|stacktrace|filepath|file_path|content|rawtext|raw_text|context|prompt|answer|question)$/i;\r\n\r\nconst MAX_JSON_CHARS = 12000;\r\nconst MAX_STRING = 2000;\r\nconst MAX_ARRAY = 40;\r\nconst MAX_DEPTH = 6;\r\n\r\nfunction isUuid(v) {\r\n  return typeof v === 'string' && UUID_RE.test(v.trim());\r\n}\r\n\r\nfunction truncateString(s) {\r\n  const str = String(s);\r\n  if (str.length <= MAX_STRING) return str;\r\n  return str.slice(0, MAX_STRING) + '…';\r\n}\r\n\r\nfunction looksSecret(str) {\r\n  return /^\\$2[aby]\\$/.test(str) || /^eyJ[A-Za-z0-9_-]+\\./.test(str) || /^Bearer\\s+/i.test(str);\r\n}\r\n\r\nfunction sanitize(value, depth = 0) {\r\n  if (value == null) return value;\r\n  if (depth > MAX_DEPTH) return '[truncated]';\r\n  if (typeof value === 'string') {\r\n    if (looksSecret(value)) return '[redacted]';\r\n    return truncateString(value);\r\n  }\r\n  if (typeof value === 'number' || typeof value === 'boolean') return value;\r\n  if (Array.isArray(value)) {\r\n    return value.slice(0, MAX_ARRAY).map((v) => sanitize(v, depth + 1));\r\n  }\r\n  if (typeof value === 'object') {\r\n    const out = {};\r\n    for (const [k, v] of Object.entries(value)) {\r\n      if (SENSITIVE_KEY_RE.test(k) || /password|token|secret|authorization|hash|chunk/i.test(k)) {\r\n        continue;\r\n      }\r\n      out[k] = sanitize(v, depth + 1);\r\n    }\r\n    return out;\r\n  }\r\n  return null;\r\n}\r\n\r\nfunction limitJson(value) {\r\n  if (value == null) return null;\r\n  const sanitized = sanitize(value);\r\n  try {\r\n    const raw = JSON.stringify(sanitized);\r\n    if (raw.length <= MAX_JSON_CHARS) return sanitized;\r\n    return {\r\n      _truncated: true,\r\n      preview: raw.slice(0, MAX_JSON_CHARS),\r\n      originalChars: raw.length,\r\n    };\r\n  } catch {\r\n    return { _error: 'unserializable' };\r\n  }\r\n}\r\n\r\nfunction parseIp(headers, explicit) {\r\n  if (explicit && typeof explicit === 'string' && explicit.trim()) {\r\n    const first = explicit.split(',')[0].trim();\r\n    if (/^[0-9a-fA-F:.]+$/.test(first)) return first;\r\n  }\r\n  const h = headers || {};\r\n  const xf =\r\n    h['x-forwarded-for'] ||\r\n    h['X-Forwarded-For'] ||\r\n    h['x-real-ip'] ||\r\n    h['X-Real-Ip'] ||\r\n    h['x-real-ip'] ||\r\n    '';\r\n  const raw = String(xf || '').trim();\r\n  if (!raw) return null;\r\n  const first = raw.split(',')[0].trim();\r\n  if (!first || !/^[0-9a-fA-F:.]+$/.test(first)) return null;\r\n  return first;\r\n}\r\n\r\nconst inputItem = $input.first();\r\nconst item = inputItem.json || {};\r\nconst tracking = item.tracking && typeof item.tracking === 'object' ? item.tracking : {};\r\nconst headers = item.headers || {};\r\n\r\nconst requestIdRaw = String(item.requestId || tracking.requestId || '').trim();\r\nconst requestId = isUuid(requestIdRaw) ? requestIdRaw : null;\r\n\r\nconst action = String(item.action || '').trim().toUpperCase();\r\nconst resourceType = String(item.resourceType || item.resource_type || '').trim().toLowerCase();\r\n\r\nconst userIdRaw = item.userId != null && item.userId !== '' ? String(item.userId) : tracking.userId != null ? String(tracking.userId) : '';\r\nconst sessionIdRaw =\r\n  item.sessionId != null && item.sessionId !== ''\r\n    ? String(item.sessionId)\r\n    : tracking.sessionId != null\r\n      ? String(tracking.sessionId)\r\n      : '';\r\n\r\nconst success =\r\n  typeof item.success === 'boolean'\r\n    ? item.success\r\n    : typeof tracking.success === 'boolean'\r\n      ? tracking.success\r\n      : true;\r\n\r\nlet statusCode = Number(item.statusCode != null ? item.statusCode : tracking.statusCode);\r\nif (!Number.isFinite(statusCode)) statusCode = null;\r\n\r\nlet durationMs = Number(item.durationMs != null ? item.durationMs : tracking.durationMs);\r\nif (!Number.isFinite(durationMs) || durationMs < 0) durationMs = null;\r\nelse durationMs = Math.round(durationMs);\r\n\r\nconst method = String(item.method || tracking.method || '') || null;\r\nconst path = String(item.path || tracking.path || '') || null;\r\nconst errorCode =\r\n  item.errorCode != null && item.errorCode !== ''\r\n    ? String(item.errorCode)\r\n    : tracking.errorCode != null && tracking.errorCode !== ''\r\n      ? String(tracking.errorCode)\r\n      : null;\r\n\r\nlet occurredAt = item.occurredAt || tracking.requestStartedAt || new Date().toISOString();\r\ntry {\r\n  occurredAt = new Date(occurredAt).toISOString();\r\n} catch {\r\n  occurredAt = new Date().toISOString();\r\n}\r\n\r\nconst resourceIdRaw =\r\n  item.resourceId != null && item.resourceId !== ''\r\n    ? String(item.resourceId)\r\n    : item.entityId != null\r\n      ? String(item.entityId)\r\n      : '';\r\n\r\nconst ipAddress = parseIp(headers, item.ipAddress);\r\nconst userAgent = truncateString(\r\n  String(item.userAgent || headers['user-agent'] || headers['User-Agent'] || '') || ''\r\n) || null;\r\n\r\nconst beforeData = limitJson(item.beforeData === undefined ? null : item.beforeData);\r\nconst afterData = limitJson(item.afterData === undefined ? null : item.afterData);\r\nconst metadata = limitJson(item.metadata === undefined ? {} : item.metadata);\r\n\r\nconst skip = item.skipAudit === true;\r\nconst valid = !skip && !!requestId && !!action && !!resourceType;\r\n\r\nconst passthrough = {\r\n  statusCode: item.statusCode,\r\n  requestId: item.requestId || requestId,\r\n  durationMs: item.durationMs != null ? item.durationMs : durationMs,\r\n  response: item.response,\r\n  responseHeaders: item.responseHeaders,\r\n  tracking: item.tracking || tracking,\r\n};\r\n\r\nconst result = {\r\n  json: {\r\n    ...passthrough,\r\n    _auditInsert: valid\r\n      ? {\r\n          occurredAt,\r\n          userId: isUuid(userIdRaw) ? userIdRaw : null,\r\n          sessionId: isUuid(sessionIdRaw) ? sessionIdRaw : null,\r\n          action,\r\n          resourceType,\r\n          resourceId: isUuid(resourceIdRaw) ? resourceIdRaw : null,\r\n          success,\r\n          requestId,\r\n          method,\r\n          path,\r\n          statusCode,\r\n          durationMs,\r\n          ipAddress,\r\n          userAgent,\r\n          beforeData,\r\n          afterData,\r\n          metadata,\r\n          errorCode,\r\n          entity: resourceType,\r\n          entityId: isUuid(resourceIdRaw) ? resourceIdRaw : null,\r\n        }\r\n      : null,\r\n    audit: {\r\n      attempted: valid,\r\n      skipped: skip || !valid,\r\n      reason: skip ? 'skipAudit' : !requestId ? 'invalid_requestId' : !action ? 'missing_action' : !resourceType ? 'missing_resourceType' : null,\r\n    },\r\n  },\r\n};\r\n\r\nif (inputItem.binary) result.binary = inputItem.binary;\r\nreturn [result];\r\n";
+const finalizeJs = "const prep = $('Sanitizar').first();\nconst base = prep.json || {};\nconst insertRow = $input.first().json || {};\nconst auditId = insertRow.id || null;\nconst result = {\n  json: {\n    statusCode: base.statusCode,\n    requestId: base.requestId,\n    durationMs: base.durationMs,\n    response: base.response,\n    responseHeaders: base.responseHeaders,\n    tracking: base.tracking,\n    audit: { ...(base.audit || {}), ok: !!auditId, id: auditId },\n  },\n};\nif (prep.binary) result.binary = prep.binary;\nreturn [result];";
+const skipJs = "const prep = $('Sanitizar').first();\nconst base = prep.json || {};\nconst result = {\n  json: {\n    statusCode: base.statusCode,\n    requestId: base.requestId,\n    durationMs: base.durationMs,\n    response: base.response,\n    responseHeaders: base.responseHeaders,\n    tracking: base.tracking,\n    audit: { ...(base.audit || {}), ok: false, id: null },\n  },\n};\nif (prep.binary) result.binary = prep.binary;\nreturn [result];";
+
+const triggerNode = trigger({
+  type: 'n8n-nodes-base.executeWorkflowTrigger',
+  version: 1.2,
+  config: {
+    name: 'Trigger',
+    parameters: {
+      inputSource: 'workflowInputs',
+      workflowInputs: {
+        values: [
+          { name: 'requestId', type: 'string' },
+          { name: 'occurredAt', type: 'string' },
+          { name: 'userId', type: 'string' },
+          { name: 'sessionId', type: 'string' },
+          { name: 'action', type: 'string' },
+          { name: 'resourceType', type: 'string' },
+          { name: 'resourceId', type: 'string' },
+          { name: 'success', type: 'boolean' },
+          { name: 'method', type: 'string' },
+          { name: 'path', type: 'string' },
+          { name: 'statusCode', type: 'number' },
+          { name: 'durationMs', type: 'number' },
+          { name: 'ipAddress', type: 'string' },
+          { name: 'userAgent', type: 'string' },
+          { name: 'beforeData', type: 'object' },
+          { name: 'afterData', type: 'object' },
+          { name: 'metadata', type: 'object' },
+          { name: 'errorCode', type: 'string' },
+          { name: 'headers', type: 'object' },
+          { name: 'tracking', type: 'object' },
+          { name: 'response', type: 'object' },
+          { name: 'responseHeaders', type: 'object' },
+          { name: 'skipAudit', type: 'boolean' },
+        ],
+      },
+    },
+  },
+});
+
+const sanitize = node({
+  type: 'n8n-nodes-base.code',
+  version: 2,
+  config: {
+    name: 'Sanitizar',
+    parameters: { mode: 'runOnceForAllItems', language: 'javaScript', jsCode: sanitizeJs },
+  },
+});
+
+const shouldInsert = ifElse({
+  version: 2.3,
+  config: {
+    name: 'Deve gravar?',
+    parameters: {
+      conditions: {
+        combinator: 'and',
+        options: { caseSensitive: true, leftValue: '', typeValidation: 'loose', version: 2 },
+        conditions: [{
+          id: 'ins',
+          leftValue: expr('{{ $json._auditInsert != null }}'),
+          rightValue: true,
+          operator: { type: 'boolean', operation: 'true' },
+        }],
+      },
+      looseTypeValidation: true,
+    },
+  },
+});
+
+const insertQuery = "INSERT INTO audit_logs (\n  occurred_at, user_id, session_id, action, resource_type, resource_id,\n  success, request_id, method, path, status_code, duration_ms,\n  ip_address, user_agent, before_data, after_data, metadata, error_code,\n  entity, entity_id\n) VALUES (\n  '{{ $json._auditInsert.occurredAt }}'::timestamptz,\n  NULLIF('{{ $json._auditInsert.userId || \"\" }}', '')::uuid,\n  NULLIF('{{ $json._auditInsert.sessionId || \"\" }}', '')::uuid,\n  '{{ String($json._auditInsert.action || \"\").replace(/'/g, \"''\") }}',\n  '{{ String($json._auditInsert.resourceType || \"\").replace(/'/g, \"''\") }}',\n  NULLIF('{{ $json._auditInsert.resourceId || \"\" }}', '')::uuid,\n  {{ $json._auditInsert.success === true }},\n  '{{ $json._auditInsert.requestId }}'::uuid,\n  NULLIF('{{ String($json._auditInsert.method || \"\").replace(/'/g, \"''\") }}', ''),\n  NULLIF('{{ String($json._auditInsert.path || \"\").replace(/'/g, \"''\") }}', ''),\n  NULLIF('{{ $json._auditInsert.statusCode == null ? \"\" : String($json._auditInsert.statusCode) }}', '')::int,\n  NULLIF('{{ $json._auditInsert.durationMs == null ? \"\" : String($json._auditInsert.durationMs) }}', '')::int,\n  NULLIF('{{ $json._auditInsert.ipAddress || \"\" }}', '')::inet,\n  NULLIF('{{ String($json._auditInsert.userAgent || \"\").replace(/'/g, \"''\") }}', ''),\n  COALESCE(NULLIF('{{ JSON.stringify($json._auditInsert.beforeData ?? null).replace(/'/g, \"''\") }}', ''), 'null')::jsonb,\n  COALESCE(NULLIF('{{ JSON.stringify($json._auditInsert.afterData ?? null).replace(/'/g, \"''\") }}', ''), 'null')::jsonb,\n  COALESCE(NULLIF('{{ JSON.stringify($json._auditInsert.metadata ?? null).replace(/'/g, \"''\") }}', ''), 'null')::jsonb,\n  NULLIF('{{ String($json._auditInsert.errorCode || \"\").replace(/'/g, \"''\") }}', ''),\n  NULLIF('{{ String($json._auditInsert.entity || $json._auditInsert.resourceType || \"\").replace(/'/g, \"''\") }}', ''),\n  NULLIF('{{ $json._auditInsert.entityId || $json._auditInsert.resourceId || \"\" }}', '')::uuid\n)\nRETURNING id;";
+
+const insert = node({
+  type: 'n8n-nodes-base.postgres',
+  version: 2.6,
+  config: {
+    name: 'Inserir audit_logs',
+    credentials: { postgres: { id: 'XJtGZ5rpCR7BpN0X', name: 'Postgres account' } },
+    parameters: {
+      operation: 'executeQuery',
+      query: insertQuery,
+      options: {},
+    },
+  },
+});
+
+const finalizeOk = node({
+  type: 'n8n-nodes-base.code',
+  version: 2,
+  config: {
+    name: 'Finalizar',
+    parameters: { mode: 'runOnceForAllItems', language: 'javaScript', jsCode: finalizeJs },
+  },
+});
+
+const finalizeSkip = node({
+  type: 'n8n-nodes-base.code',
+  version: 2,
+  config: {
+    name: 'Finalizar skip',
+    parameters: { mode: 'runOnceForAllItems', language: 'javaScript', jsCode: skipJs },
+  },
+});
+
+export default workflow('auditoria-registrar', 'AUDITORIA - REGISTRAR')
+  .add(triggerNode)
+  .to(sanitize)
+  .to(shouldInsert.onTrue(insert.to(finalizeOk)).onFalse(finalizeSkip));

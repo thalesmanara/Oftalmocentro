@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { createDocument, processDocument, uploadDocumentFile } from '@/services/documentsService'
-import { logAction } from '@/services/auditService'
 import type { DocumentFormData } from '@/types'
 import { Card } from '@/components/ui/Card'
 import { PageHeader } from '@/components/ui/PageHeader'
@@ -102,8 +101,6 @@ export function DocumentUploadPage() {
 
     console.log('ID para navegação:', documentId)
     console.log('Navegando para:', `/documentos/${documentId}`)
-
-    logAction(user.name, 'Cadastro', 'Documento', `Documento "${data.title.trim()}" cadastrado`)
 
     navigate(`/documentos/${documentId}`, {
       replace: true,

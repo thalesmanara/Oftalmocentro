@@ -1,0 +1,81 @@
+{
+  "pass": 15,
+  "fail": 0,
+  "results": [
+    {
+      "name": "1.login-success-audited",
+      "ok": true,
+      "detail": "login=200 auditStatus=200 action=AUTH_LOGIN_SUCCESS dur=93"
+    },
+    {
+      "name": "2.login-failure-no-password",
+      "ok": true,
+      "detail": "action=AUTH_LOGIN_FAILURE err=INVALID_CREDENTIALS sens=false"
+    },
+    {
+      "name": "3.logout-audited",
+      "ok": true,
+      "detail": "action=AUTH_LOGOUT"
+    },
+    {
+      "name": "16.fail-400-audited",
+      "ok": true,
+      "detail": "status=400 action=DOCUMENT_CREATE success=false"
+    },
+    {
+      "name": "17.fail-403-relevant",
+      "ok": true,
+      "detail": "usersGET=403 create=403 auditAction=USER_CREATE auditSuccess=false"
+    },
+    {
+      "name": "18.fail-404-download",
+      "ok": true,
+      "detail": "status=404 action=DOCUMENT_DOWNLOAD"
+    },
+    {
+      "name": "14.consulta-ia-audited",
+      "ok": true,
+      "detail": "action=AI_QUERY metaKeys="
+    },
+    {
+      "name": "15.download-audited",
+      "ok": true,
+      "detail": "status=200 action=DOCUMENT_DOWNLOAD"
+    },
+    {
+      "name": "25.audit-requires-permission",
+      "ok": true,
+      "detail": "status=200 (403 or 200 expected depending on perms)"
+    },
+    {
+      "name": "26.pagination",
+      "ok": true,
+      "detail": "{\"page\":1,\"pageSize\":5,\"total\":14,\"totalPages\":3}"
+    },
+    {
+      "name": "27.filters",
+      "ok": true,
+      "detail": "count=3"
+    },
+    {
+      "name": "28.detail",
+      "ok": true,
+      "detail": "id=d3f030d7-3629-4fce-8bea-ef6cc27fe672 action=DOCUMENT_DOWNLOAD"
+    },
+    {
+      "name": "29.requestId-matches",
+      "ok": true,
+      "detail": "req=6b9705c6-ead8-4875-94e9-6748911df431"
+    },
+    {
+      "name": "30.durationMs-preserved",
+      "ok": true,
+      "detail": "durationMs=31"
+    },
+    {
+      "name": "21-24.no-sensitive-in-recent",
+      "ok": true,
+      "detail": "checked=16 bad=0"
+    }
+  ]
+}

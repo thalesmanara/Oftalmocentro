@@ -112,14 +112,51 @@ export interface SystemSettings {
 
 export interface AuditLog {
   id: string
-  userId?: string
-  userName?: string
+  occurredAt: string
+  userId?: string | null
+  userName?: string | null
   action: string
-  entity: string
-  entityId?: string
-  details?: string
-  ipAddress?: string
-  createdAt: string
+  resourceType: string
+  resourceId?: string | null
+  success: boolean
+  requestId: string
+  method?: string | null
+  path?: string | null
+  statusCode?: number | null
+  durationMs?: number | null
+  ipAddress?: string | null
+  userAgent?: string | null
+  beforeData?: Record<string, unknown> | null
+  afterData?: Record<string, unknown> | null
+  metadata?: Record<string, unknown> | null
+  errorCode?: string | null
+}
+
+export interface AuditPagination {
+  page: number
+  pageSize: number
+  total: number
+  totalPages: number
+}
+
+export interface AuditListResult {
+  items: AuditLog[]
+  pagination: AuditPagination
+}
+
+export interface AuditFilters {
+  page?: number
+  pageSize?: number
+  userId?: string
+  action?: string
+  resourceType?: string
+  resourceId?: string
+  success?: boolean | ''
+  requestId?: string
+  errorCode?: string
+  dateFrom?: string
+  dateTo?: string
+  search?: string
 }
 
 export interface DocumentFormData {

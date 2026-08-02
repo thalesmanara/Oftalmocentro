@@ -14,13 +14,13 @@
   {
     "id": "OJZNWxBCkVXaysmf",
     "name": "Document Download",
-    "activeVersionId": "e5ae0861-5b58-4a8b-a1d5-716a0083ce7f",
+    "activeVersionId": "95f7826f-2108-4d6a-90cb-360f63954209",
     "historyRowsUpdated": 1
   },
   {
     "id": "sofpi7zCHMCJkvfI",
     "name": "DELETE Documentos",
-    "activeVersionId": "37b1fcf6-c561-4804-8ae8-fd473f621ae7",
+    "activeVersionId": "d2bd27f1-e00d-4e76-882d-ccbd974bb4f5",
     "historyRowsUpdated": 1
   },
   {
@@ -32,19 +32,121 @@
   {
     "id": "vNDpCzOdR7ATnHDP",
     "name": "Processar documento",
-    "activeVersionId": "608784ba-e158-454c-bcd3-6c3f0084f7c6",
+    "activeVersionId": "b08bfcb6-20b5-4c35-a1db-4beb8a1722e4",
     "historyRowsUpdated": 1
   },
   {
     "id": "vymsco8fVdIvgW4b",
     "name": "Upload Arquivo",
-    "activeVersionId": "9d50e8cf-5d29-4649-8a4b-3bc56220b270",
+    "activeVersionId": "05c1f234-997d-4b0c-88e1-e0281e8cf21c",
     "historyRowsUpdated": 1
   },
   {
     "id": "gCEgRsZzch3l7mfD",
     "name": "POST Usuários",
     "activeVersionId": "37cab932-5023-42ed-b213-7f8183bdd465",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "jtQvQlqRZ5X5WF9I",
+    "name": "AUDITORIA - REGISTRAR",
+    "activeVersionId": "9c8e894a-770d-4504-876d-58c9c479a7b6",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "TBxcSoSPwcMUZQ6m",
+    "name": "GET Auditoria",
+    "activeVersionId": "f7468259-4537-4ceb-a2db-8861531d39bc",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "dDpiJOVqncw14Wtf",
+    "name": "GET Auditoria Detalhe",
+    "activeVersionId": "7642d728-60e9-4449-8983-e5cdb9895199",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "WLlD1eqbFmKDK9ow",
+    "name": "POST Documentos",
+    "activeVersionId": "eaf528d5-68a4-425d-b603-3299b1749325",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "Y0MuWEEdoMFts7ay",
+    "name": "PUT Documentos",
+    "activeVersionId": "49b45e48-b319-47bd-83a1-c0c88854f590",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "8EXk5RkFW5cxnenL",
+    "name": "Consulta IA",
+    "activeVersionId": "82b7e27b-d69b-49ec-9ff8-c400e2df4113",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "z63rJlQKqheFBw4u",
+    "name": "PUT Usuários",
+    "activeVersionId": "59aa3d75-bfd3-4355-a854-8a49958a100e",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "a7EsJH9zcj7SMEnM",
+    "name": "DELETE Usuários",
+    "activeVersionId": "7be5322a-8cd9-4bc2-8398-dad65181c1ed",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "oyTndr1NgGRbbsTt",
+    "name": "POST Setores",
+    "activeVersionId": "b61d5199-2c2d-4d9b-913e-008246635060",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "eyRMMc4qCzGf9naj",
+    "name": "PUT Setores",
+    "activeVersionId": "da881993-b05b-488f-8d5d-7022571295c5",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "WMj1pu9mllQsZk2x",
+    "name": "DELETE Setores",
+    "activeVersionId": "0379abae-5939-46bc-acd0-7ae7859bcbdc",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "6ZZlCncPKX4fGVmI",
+    "name": "POST Categorias",
+    "activeVersionId": "4dba7c1d-65db-4f2e-8e3c-eb7a6c6fc914",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "4BnWd26yROvl0Ots",
+    "name": "PUT Categorias",
+    "activeVersionId": "891cb63e-a1aa-49f6-82ac-0e217c55dec2",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "FaSIMuXIHeiVJe29",
+    "name": "DELETE Categorias",
+    "activeVersionId": "9d98560e-f5df-4654-ac07-905d290c2c43",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "ZckYIZpMtw6HEtIs",
+    "name": "CREATE subcategoria",
+    "activeVersionId": "2332938c-4046-4758-8d14-da6514ac5b68",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "T6CGZB4oxlzXlTQZ",
+    "name": "UPDATE Subcategory",
+    "activeVersionId": "32285f8c-7c37-4cc8-9f38-9560a8d55805",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "0ieW448wLfITZSlD",
+    "name": "DELETE Subcategory",
+    "activeVersionId": "bb560752-144f-4aa1-aea6-341530120edb",
     "historyRowsUpdated": 1
   }
 ]

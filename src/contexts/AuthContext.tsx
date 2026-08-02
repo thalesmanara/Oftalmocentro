@@ -17,7 +17,6 @@ import {
   validateSession,
 } from '@/services/authService'
 import { clearAuthToken, setUnauthorizedHandler } from '@/services/api'
-import { logAction } from '@/services/auditService'
 import { hasPermission as checkPermission } from '@/utils/permissions'
 
 export interface AuthContextValue {
@@ -79,7 +78,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const result = await authLogin(email, password)
       persistLoginSession(result)
       setUser(result.user)
-      logAction(result.user.name, 'Login', 'Sessão', 'Login realizado com sucesso')
       navigate('/dashboard', { replace: true })
     } finally {
       setLoading(false)
@@ -87,9 +85,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [navigate])
 
   const logout = useCallback(async () => {
-    if (user) {
-      logAction(user.name, 'Logout', 'Sessão', 'Logout realizado')
-    }
     await authLogout()
     setUser(null)
     navigate('/login', { replace: true })

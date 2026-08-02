@@ -8,6 +8,13 @@ import pg from 'pg';
 const IDS = [
   'WCwJqtFRROwoToik', 'XTEYFVPc26o3loMu', 'OJZNWxBCkVXaysmf', 'sofpi7zCHMCJkvfI',
   'ukDndCZDzemWsOMk', 'vNDpCzOdR7ATnHDP', 'vymsco8fVdIvgW4b', 'gCEgRsZzch3l7mfD',
+  'jtQvQlqRZ5X5WF9I', 'TBxcSoSPwcMUZQ6m', 'dDpiJOVqncw14Wtf',
+  // Document mutation workflows (audit instrumentation)
+  'WLlD1eqbFmKDK9ow', 'Y0MuWEEdoMFts7ay', '8EXk5RkFW5cxnenL',
+  // User/sector/category/settings mutation workflows (audit instrumentation)
+  'z63rJlQKqheFBw4u', 'a7EsJH9zcj7SMEnM', 'oyTndr1NgGRbbsTt', 'eyRMMc4qCzGf9naj',
+  'WMj1pu9mllQsZk2x', '6ZZlCncPKX4fGVmI', '4BnWd26yROvl0Ots', 'FaSIMuXIHeiVJe29',
+  'ZckYIZpMtw6HEtIs', 'T6CGZB4oxlzXlTQZ', '0ieW448wLfITZSlD',
 ];
 const conn = process.env.PGURL || 'postgresql://ZuOg8foF6iDUR8Y4:W8rAAeT4sJBTGB9ufVpYlvgcnZ0cHZ9L@2.24.89.199:5432/n8n';
 const client = new pg.Client({ connectionString: conn });

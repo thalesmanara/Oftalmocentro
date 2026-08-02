@@ -1,5 +1,4 @@
 import type {
-  AuditLog,
   Category,
   Document,
   Permission,
@@ -309,63 +308,6 @@ export let mockDocuments: Document[] = [
     updatedAt: '2025-05-12T13:00:00Z',
     createdBy: 'user-2',
     updatedBy: 'user-2',
-  },
-]
-
-export let mockAuditLogs: AuditLog[] = [
-  {
-    id: 'audit-1',
-    userName: 'MASTER',
-    action: 'Login',
-    entity: 'Sessão',
-    details: 'Login realizado com sucesso',
-    ipAddress: '192.168.1.10',
-    createdAt: '2025-06-01T08:00:00Z',
-  },
-  {
-    id: 'audit-2',
-    userName: 'Ana Silva',
-    action: 'Upload',
-    entity: 'Documento',
-    details: 'Documento "Fluxo de Teleatendimento" enviado',
-    ipAddress: '192.168.1.25',
-    createdAt: '2025-05-12T13:00:00Z',
-  },
-  {
-    id: 'audit-3',
-    userName: 'Carlos Mendes',
-    action: 'Cadastro',
-    entity: 'Documento',
-    details: 'Documento "Checklist Pré-Operatório" cadastrado',
-    ipAddress: '192.168.1.30',
-    createdAt: '2025-04-05T10:15:00Z',
-  },
-  {
-    id: 'audit-4',
-    userName: 'MASTER',
-    action: 'Edição',
-    entity: 'Documento',
-    details: 'Política de Privacidade e LGPD atualizada',
-    ipAddress: '192.168.1.10',
-    createdAt: '2025-02-28T16:45:00Z',
-  },
-  {
-    id: 'audit-5',
-    userName: 'MASTER',
-    action: 'Alteração de permissões',
-    entity: 'Usuário',
-    details: 'Permissões de Ana Silva atualizadas',
-    ipAddress: '192.168.1.10',
-    createdAt: '2025-02-15T11:30:00Z',
-  },
-  {
-    id: 'audit-6',
-    userName: 'MASTER',
-    action: 'Alteração de configurações',
-    entity: 'Sistema',
-    details: 'Cores do sistema atualizadas',
-    ipAddress: '192.168.1.10',
-    createdAt: '2025-01-20T09:00:00Z',
   },
 ]
 

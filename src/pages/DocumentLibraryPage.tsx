@@ -5,7 +5,6 @@ import { getDocuments, deleteDocument } from '@/services/documentsService'
 import { getSectors } from '@/services/sectorsService'
 import { getCategories } from '@/services/categoriesService'
 import { getSubcategories } from '@/services/subcategoriesService'
-import { logAction } from '@/services/auditService'
 import type { Category, Document, Sector, Subcategory } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
 import { getCategoryNameById, getSectorNameById, getSubcategoryNameById } from '@/utils/entities'
@@ -135,11 +134,9 @@ export function DocumentLibraryPage() {
   const handleDelete = async () => {
     if (!deleteId || !user) return
 
-    const doc = documents.find((d) => d.id === deleteId)
     setDeleting(true)
     try {
       await deleteDocument(deleteId)
-      if (doc) logAction(user.name, 'Exclusão', 'Documento', `Documento "${doc.title}" excluído`)
       setDeleteId(null)
       await load()
     } catch {

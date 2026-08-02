@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { logAction } from '@/services/auditService'
 import type { SystemSettings } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
 import { useSettings } from '@/hooks/useSettings'
@@ -31,7 +30,6 @@ export function SettingsPage() {
     setFeedback(null)
     try {
       await updateSettings(form)
-      logAction(user.name, 'Alteração de configurações', 'Sistema', 'Configurações do sistema atualizadas')
       setFeedback({ type: 'success', message: 'Configurações salvas com sucesso.' })
       setTimeout(() => setFeedback(null), 4000)
     } catch (err) {

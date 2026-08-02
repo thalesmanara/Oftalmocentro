@@ -1,0 +1,197 @@
+{
+  "workflowId": "eyRMMc4qCzGf9naj",
+  "operations": [
+    {
+      "type": "addNode",
+      "node": {
+        "id": "c6ddbc2b-b973-474a-bb5d-05d8e1ff0e9b",
+        "name": "Registrar auditoria",
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          1060,
+          -40
+        ],
+        "parameters": {
+          "source": "database",
+          "workflowId": {
+            "__rl": true,
+            "mode": "id",
+            "value": "jtQvQlqRZ5X5WF9I",
+            "cachedResultName": "AUDITORIA - REGISTRAR"
+          },
+          "mode": "once",
+          "options": {
+            "waitForSubWorkflow": true
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "requestId": "={{ $json.requestId }}",
+              "tracking": "={{ $json.tracking }}",
+              "response": "={{ $json.response }}",
+              "responseHeaders": "={{ $json.responseHeaders }}",
+              "headers": "={{ $('Normalizar request').first().json.headers || {} }}",
+              "action": "SECTOR_UPDATE",
+              "resourceType": "sector",
+              "resourceId": "={{ $json.response?.data?.id || $('Webhook').first().json.body?.id || '' }}",
+              "success": "={{ $json.tracking?.success !== false }}",
+              "userId": "={{ $json.tracking?.userId || '' }}",
+              "sessionId": "={{ $json.tracking?.sessionId || '' }}",
+              "method": "={{ $json.tracking?.method || $('Normalizar request').first().json.method }}",
+              "path": "={{ $json.tracking?.path || $('Normalizar request').first().json.path }}",
+              "statusCode": "={{ $json.statusCode }}",
+              "durationMs": "={{ $json.durationMs }}",
+              "errorCode": "={{ $json.tracking?.errorCode || ($json.response?.error?.code ?? null) }}",
+              "beforeData": "={{ (() => { const b = $('Webhook').first().json.body || {}; return { name: b.name, description: b.description, active: b.active }; })() }}",
+              "afterData": "={{ $json.response?.data ? { name: $json.response.data.name, description: $json.response.data.description, active: $json.response.data.active } : null }}",
+              "metadata": "={{ {} }}"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "addNode",
+      "node": {
+        "id": "42697e5a-7297-4dcc-b5c9-1b8060029e9f",
+        "name": "Repassar resposta",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1280,
+          -40
+        ],
+        "parameters": {
+          "mode": "runOnceForAllItems",
+          "language": "javaScript",
+          "jsCode": "const prep = $('Preparar sucesso').first().json || {};\nconst audit = $input.first().json || {};\nreturn [{ json: audit.response != null ? audit : prep }];"
+        }
+      }
+    },
+    {
+      "type": "setNodeSettings",
+      "nodeName": "Registrar auditoria",
+      "settings": {
+        "onError": "continueRegularOutput",
+        "alwaysOutputData": true
+      }
+    },
+    {
+      "type": "removeConnection",
+      "source": "Preparar sucesso",
+      "target": "Respond to Webhook"
+    },
+    {
+      "type": "addConnection",
+      "source": "Preparar sucesso",
+      "target": "Registrar auditoria"
+    },
+    {
+      "type": "addConnection",
+      "source": "Registrar auditoria",
+      "target": "Repassar resposta"
+    },
+    {
+      "type": "addConnection",
+      "source": "Repassar resposta",
+      "target": "Respond to Webhook"
+    },
+    {
+      "type": "addNode",
+      "node": {
+        "id": "07a8b8b2-1e66-44ea-8237-de872856058b",
+        "name": "Registrar auditoria 403",
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          1180,
+          120
+        ],
+        "parameters": {
+          "source": "database",
+          "workflowId": {
+            "__rl": true,
+            "mode": "id",
+            "value": "jtQvQlqRZ5X5WF9I",
+            "cachedResultName": "AUDITORIA - REGISTRAR"
+          },
+          "mode": "once",
+          "options": {
+            "waitForSubWorkflow": true
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "requestId": "={{ $json.requestId }}",
+              "tracking": "={{ $json.tracking }}",
+              "response": "={{ $json.response }}",
+              "responseHeaders": "={{ $json.responseHeaders }}",
+              "headers": "={{ $('Normalizar request').first().json.headers || {} }}",
+              "action": "SECTOR_UPDATE",
+              "resourceType": "sector",
+              "resourceId": "={{ $json.response?.data?.id || $('Webhook').first().json.body?.id || '' }}",
+              "success": false,
+              "userId": "={{ $json.tracking?.userId || '' }}",
+              "sessionId": "={{ $json.tracking?.sessionId || '' }}",
+              "method": "={{ $json.tracking?.method || $('Normalizar request').first().json.method }}",
+              "path": "={{ $json.tracking?.path || $('Normalizar request').first().json.path }}",
+              "statusCode": "={{ $json.statusCode }}",
+              "durationMs": "={{ $json.durationMs }}",
+              "errorCode": "={{ $json.tracking?.errorCode || ($json.response?.error?.code ?? null) }}",
+              "beforeData": "={{ (() => { const b = $('Webhook').first().json.body || {}; return { name: b.name, description: b.description, active: b.active }; })() }}",
+              "afterData": "={{ null }}",
+              "metadata": "={{ {} }}"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "addNode",
+      "node": {
+        "id": "1f453d25-0bb1-4f2b-9202-349d2707ea0c",
+        "name": "Repassar resposta 403",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1400,
+          120
+        ],
+        "parameters": {
+          "mode": "runOnceForAllItems",
+          "language": "javaScript",
+          "jsCode": "const prep = $('Preparar erro 403').first().json || {};\nconst audit = $input.first().json || {};\nreturn [{ json: audit.response != null ? audit : prep }];"
+        }
+      }
+    },
+    {
+      "type": "setNodeSettings",
+      "nodeName": "Registrar auditoria 403",
+      "settings": {
+        "onError": "continueRegularOutput",
+        "alwaysOutputData": true
+      }
+    },
+    {
+      "type": "removeConnection",
+      "source": "Preparar erro 403",
+      "target": "Respond 403"
+    },
+    {
+      "type": "addConnection",
+      "source": "Preparar erro 403",
+      "target": "Registrar auditoria 403"
+    },
+    {
+      "type": "addConnection",
+      "source": "Registrar auditoria 403",
+      "target": "Repassar resposta 403"
+    },
+    {
+      "type": "addConnection",
+      "source": "Repassar resposta 403",
+      "target": "Respond 403"
+    }
+  ]
+}

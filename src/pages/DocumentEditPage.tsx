@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft, Loader2 } from 'lucide-react'
 import { getDocumentById, processDocument, updateDocument, uploadDocumentFile } from '@/services/documentsService'
-import { logAction } from '@/services/auditService'
 import type { Document, DocumentFormData } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
 import { Card } from '@/components/ui/Card'
@@ -80,7 +79,6 @@ export function DocumentEditPage() {
             type: 'success',
             message: 'Documento enviado e processado com sucesso.',
           })
-          logAction(user.name, 'Edição', 'Documento', `Documento "${data.title}" editado e processado`)
 
           window.setTimeout(() => {
             navigate(`/documentos/${id}`)
@@ -100,7 +98,6 @@ export function DocumentEditPage() {
 
       const refreshed = await getDocumentById(id)
       if (refreshed) setDoc(refreshed)
-      logAction(user.name, 'Edição', 'Documento', `Documento "${data.title}" editado`)
       navigate(`/documentos/${id}`)
     } catch {
       setFeedback({ type: 'error', message: 'Erro ao atualizar documento.' })
