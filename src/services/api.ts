@@ -175,6 +175,11 @@ export async function parseApiResponse<T>(response: Response): Promise<T> {
   const payload = await parseJsonSafe(response)
 
   if (!response.ok) {
+    // Health/down: envelope de sucesso com HTTP 503 — devolver data sem tratar como erro de API.
+    if (isEnvelope(payload) && payload.success === true) {
+      return payload.data as T
+    }
+
     if (isEnvelope(payload) && payload.success === false) {
       throw new ApiError({
         status: response.status,

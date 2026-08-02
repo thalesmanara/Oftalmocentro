@@ -1,0 +1,236 @@
+{
+  "results": [
+    {
+      "name": "Login usuário de teste",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "1. Health público sem autenticação",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "2. Health público envelope mínimo",
+      "pass": true,
+      "detail": "{\"status\":\"ok\",\"service\":\"oftalmocentro-inteligente\",\"timestamp\":\"2026-08-02T02:11:58.385Z\"}"
+    },
+    {
+      "name": "2b. Health público sem detalhes sensíveis",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "3. Admin sem token → 401",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "4. Admin sem permissão → 403",
+      "pass": true,
+      "detail": "status=403"
+    },
+    {
+      "name": "Login com permissão editar_configuracoes",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "5. Autorizado → 200/503 com success",
+      "pass": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "6. PostgreSQL check",
+      "pass": true,
+      "detail": "ok"
+    },
+    {
+      "name": "7. Storage leitura",
+      "pass": true,
+      "detail": "ok"
+    },
+    {
+      "name": "8. Storage escrita (probe)",
+      "pass": true,
+      "detail": "{\"status\":\"ok\",\"durationMs\":63,\"storageAvailable\":true}"
+    },
+    {
+      "name": "9. Tika check",
+      "pass": true,
+      "detail": "ok"
+    },
+    {
+      "name": "10. Configuração essencial",
+      "pass": true,
+      "detail": "ok"
+    },
+    {
+      "name": "11. Sessões",
+      "pass": true,
+      "detail": "{\"status\":\"ok\",\"activeCount\":29}"
+    },
+    {
+      "name": "12. Auditoria acessível",
+      "pass": true,
+      "detail": "ok"
+    },
+    {
+      "name": "13. Estatísticas documentos",
+      "pass": true,
+      "detail": "{\"status\":\"ok\",\"total\":57,\"processing\":3,\"errors\":0,\"missingFiles\":1,\"processedWithoutChunks\":0}"
+    },
+    {
+      "name": "14. Status agregado coerente",
+      "pass": true,
+      "detail": "ok"
+    },
+    {
+      "name": "15. Simulação degraded (soft)",
+      "pass": true,
+      "detail": "não interromper serviços"
+    },
+    {
+      "name": "16. Simulação down (soft)",
+      "pass": true,
+      "detail": "não interromper produção"
+    },
+    {
+      "name": "17. requestId público",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "18. durationMs",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "19. Auditoria admin SYSTEM_HEALTH_CHECK",
+      "pass": true,
+      "detail": "encontrado"
+    },
+    {
+      "name": "20. Nenhum segredo na resposta admin",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "publicHealth": {
+    "success": true,
+    "data": {
+      "status": "ok",
+      "service": "oftalmocentro-inteligente",
+      "timestamp": "2026-08-02T02:11:58.385Z"
+    },
+    "meta": {
+      "requestId": "4b715980-c703-4774-90c6-b81d2b7d0fc5",
+      "timestamp": "2026-08-02T02:11:58.419Z",
+      "durationMs": 110
+    }
+  },
+  "admin": {
+    "success": true,
+    "data": {
+      "status": "ok",
+      "checkedAt": "2026-08-02T02:12:00.256Z",
+      "components": {
+        "n8n": {
+          "status": "ok",
+          "durationMs": 1
+        },
+        "database": {
+          "status": "ok",
+          "durationMs": 0
+        },
+        "storage": {
+          "status": "ok",
+          "durationMs": 63,
+          "storageAvailable": true
+        },
+        "tika": {
+          "status": "ok",
+          "durationMs": 63
+        },
+        "configuration": {
+          "status": "ok",
+          "openai": "unknown"
+        },
+        "sessions": {
+          "status": "ok",
+          "activeCount": 29
+        },
+        "audit": {
+          "status": "ok"
+        },
+        "documents": {
+          "status": "ok",
+          "total": 57,
+          "processing": 3,
+          "errors": 0,
+          "missingFiles": 1,
+          "processedWithoutChunks": 0
+        }
+      }
+    },
+    "meta": {
+      "requestId": "d5f3b255-9752-4bbc-901a-e01797f04754",
+      "timestamp": "2026-08-02T02:12:00.332Z",
+      "durationMs": 587
+    }
+  },
+  "auditCheck": {
+    "success": true,
+    "data": {
+      "items": [
+        {
+          "id": "6c42e246-c445-4df7-9093-6a52069e07f7",
+          "occurredAt": "2026-08-02T02:11:59.745Z",
+          "userId": "06e0915e-0f90-42b1-a32c-ae5e0f7de1c6",
+          "userName": "Livia Maria Vieira de Sousa",
+          "action": "SYSTEM_HEALTH_CHECK",
+          "resourceType": "system",
+          "resourceId": null,
+          "success": true,
+          "requestId": "d5f3b255-9752-4bbc-901a-e01797f04754",
+          "method": null,
+          "path": null,
+          "statusCode": 200,
+          "durationMs": 587,
+          "ipAddress": "177.106.121.54/32",
+          "errorCode": null,
+          "createdAt": "2026-08-02T02:12:00.483Z"
+        },
+        {
+          "id": "a67d108d-a599-42b5-8b5f-a2f6034b47d6",
+          "occurredAt": "2026-08-02T02:11:07.511Z",
+          "userId": "06e0915e-0f90-42b1-a32c-ae5e0f7de1c6",
+          "userName": "Livia Maria Vieira de Sousa",
+          "action": "SYSTEM_HEALTH_CHECK",
+          "resourceType": "system",
+          "resourceId": null,
+          "success": true,
+          "requestId": "0f80d899-9b87-48d8-ae6f-0ae23fcdddc2",
+          "method": null,
+          "path": null,
+          "statusCode": 200,
+          "durationMs": 271,
+          "ipAddress": "177.106.121.54/32",
+          "errorCode": null,
+          "createdAt": "2026-08-02T02:11:07.872Z"
+        }
+      ],
+      "pagination": {
+        "page": 1,
+        "pageSize": 5,
+        "total": 2,
+        "totalPages": 1
+      }
+    },
+    "meta": {
+      "requestId": "8cbaf903-dfad-47fc-8968-040f9d1ab5f2",
+      "timestamp": "2026-08-02T02:12:01.003Z",
+      "durationMs": 239
+    }
+  }
+}

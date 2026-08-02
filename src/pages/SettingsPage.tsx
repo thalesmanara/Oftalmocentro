@@ -6,6 +6,7 @@ import { PageHeader } from '@/components/ui/PageHeader'
 import { Card } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
+import { SystemHealthPanel } from '@/components/settings/SystemHealthPanel'
 import { getErrorMessage } from '@/utils/apiError'
 
 type Feedback = { type: 'success' | 'error'; message: string }
@@ -136,6 +137,8 @@ export function SettingsPage() {
           </div>
         </div>
       </Card>
+
+      <SystemHealthPanel />
     </div>
   )
 }

@@ -15,6 +15,8 @@ const IDS = [
   'z63rJlQKqheFBw4u', 'a7EsJH9zcj7SMEnM', 'oyTndr1NgGRbbsTt', 'eyRMMc4qCzGf9naj',
   'WMj1pu9mllQsZk2x', '6ZZlCncPKX4fGVmI', '4BnWd26yROvl0Ots', 'FaSIMuXIHeiVJe29',
   'ZckYIZpMtw6HEtIs', 'T6CGZB4oxlzXlTQZ', '0ieW448wLfITZSlD',
+  // Health checks (etapa 10)
+  'qAyYc9DrHIqe4L9i', 'eov4wXax0YMySu8E', '2UPHcxASp2PboC9M',
 ];
 const conn = process.env.PGURL || 'postgresql://ZuOg8foF6iDUR8Y4:W8rAAeT4sJBTGB9ufVpYlvgcnZ0cHZ9L@2.24.89.199:5432/n8n';
 const client = new pg.Client({ connectionString: conn });

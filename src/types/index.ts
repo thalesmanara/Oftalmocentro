@@ -110,6 +110,36 @@ export interface SystemSettings {
   updatedAt: string
 }
 
+export type HealthStatus = 'ok' | 'degraded' | 'down'
+
+export interface HealthComponent {
+  status: HealthStatus | 'unknown'
+  durationMs?: number
+  storageAvailable?: boolean
+  activeCount?: number
+  openai?: string
+  total?: number
+  processing?: number
+  errors?: number
+  missingFiles?: number
+  processedWithoutChunks?: number
+}
+
+export interface SystemHealth {
+  status: HealthStatus
+  checkedAt: string
+  components: {
+    n8n?: HealthComponent
+    database?: HealthComponent
+    storage?: HealthComponent
+    tika?: HealthComponent
+    configuration?: HealthComponent
+    sessions?: HealthComponent
+    audit?: HealthComponent
+    documents?: HealthComponent
+  }
+}
+
 export interface AuditLog {
   id: string
   occurredAt: string
