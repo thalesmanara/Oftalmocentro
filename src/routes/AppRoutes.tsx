@@ -14,6 +14,7 @@ import { AuditPage } from '@/pages/AuditPage'
 import { SettingsPage } from '@/pages/SettingsPage'
 import { MyAccountPage } from '@/pages/MyAccountPage'
 import { ConsultaIAPage } from '@/pages/ConsultaIAPage'
+import { AiValidationPage } from '@/pages/AiValidationPage'
 
 export function AppRoutes() {
   return (
@@ -49,6 +50,9 @@ export function AppRoutes() {
           </Route>
           <Route element={<ProtectedRoute permission="usar_consulta_ia" />}>
             <Route path="consulta-ia" element={<ConsultaIAPage />} />
+          </Route>
+          <Route element={<ProtectedRoute permission="editar_configuracoes" />}>
+            <Route path="ia/validacao" element={<AiValidationPage />} />
           </Route>
           <Route element={<ProtectedRoute permission="visualizar_auditoria" />}>
             <Route path="auditoria" element={<AuditPage />} />

@@ -1,0 +1,4 @@
+{
+  "backupExtraTables": "\n    'ai_test_cases', (SELECT COALESCE(json_agg(row_to_json(tc)), '[]'::json) FROM ai_test_cases tc),\n    'ai_test_runs', (SELECT COALESCE(json_agg(row_to_json(tr)), '[]'::json) FROM (SELECT * FROM ai_test_runs ORDER BY started_at DESC LIMIT 100) tr),\n    'ai_test_results', (SELECT COALESCE(json_agg(row_to_json(tres)), '[]'::json) FROM (SELECT * FROM ai_test_results ORDER BY created_at DESC LIMIT 5000) tres),\n    'ai_test_metrics', (SELECT COALESCE(json_agg(row_to_json(tm)), '[]'::json) FROM (SELECT * FROM ai_test_metrics ORDER BY created_at DESC LIMIT 100) tm),",
+  "backupExtraCounts": "\n    'ai_test_cases', (SELECT COUNT(*) FROM ai_test_cases),\n    'ai_test_runs', (SELECT COUNT(*) FROM ai_test_runs),\n    'ai_test_results', (SELECT COUNT(*) FROM ai_test_results),\n    'ai_test_metrics', (SELECT COUNT(*) FROM ai_test_metrics),"
+}

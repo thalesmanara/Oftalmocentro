@@ -152,7 +152,7 @@
   {
     "id": "qAyYc9DrHIqe4L9i",
     "name": "SYSTEM - HEALTH CHECK",
-    "activeVersionId": "1bfce9cc-6746-408d-864a-485d7895a5c1",
+    "activeVersionId": "6ff665dd-4bf2-4b3a-9dfb-98a9bab92547",
     "historyRowsUpdated": 1
   },
   {
@@ -164,7 +164,7 @@
   {
     "id": "2UPHcxASp2PboC9M",
     "name": "GET System Health",
-    "activeVersionId": "24ef5b26-0ee9-4f4f-b123-e3ef0167d714",
+    "activeVersionId": "676e237a-6aeb-4665-bc65-4994255c81f4",
     "historyRowsUpdated": 1
   },
   {
@@ -176,7 +176,7 @@
   {
     "id": "A16PhhWFr0Za9X3B",
     "name": "BACKUP - BANCO",
-    "activeVersionId": "f6083c8f-6fa4-4960-857e-68a7353f626b",
+    "activeVersionId": "1c7a02f1-9cd7-4b83-8d05-efd9ac54ba60",
     "historyRowsUpdated": 1
   },
   {
@@ -255,6 +255,78 @@
     "id": "QFZ2PRTlGV7umesd",
     "name": "POST Documento OCR",
     "activeVersionId": "e18fd987-7adf-4fde-881f-13d9b12d6fdd",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "WWVUnGLC3Ot1vh4x",
+    "name": "PLANILHAS - EXTRAIR ESTRUTURADO",
+    "activeVersionId": "fa64f60c-9e24-4375-b0fe-e3a401ef1763",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "S3xcC9hndv750kOa",
+    "name": "GET Documents Tabular Preview",
+    "activeVersionId": "a2fbe96a-8cf7-4e25-a92c-af25d8c06fc3",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "KdpEmEGHNlPICOa4",
+    "name": "IA - EXECUTAR TESTE",
+    "activeVersionId": "acd59b18-60e1-4ca9-bbd2-07dc45378a7a",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "1uITQcJ5jSNXErOM",
+    "name": "IA - CALCULAR MÉTRICAS",
+    "activeVersionId": "78c1e762-8030-4745-81bd-c402a35b3023",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "DoaDLe6P5BtJhDXb",
+    "name": "IA - GERAR RELATÓRIO",
+    "activeVersionId": "2f12d0ae-153d-48cf-9925-3c0d5c53066b",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "12t0Ol6zWQJgAKPC",
+    "name": "IA - EXECUTAR DATASET",
+    "activeVersionId": "f3ed4f05-7353-4583-a9fd-f234d2703a17",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "MTRkT5PyJUwbMwl7",
+    "name": "GET System AI Eval Cases",
+    "activeVersionId": "017d8c3c-03b0-4c29-8257-99e8eb5e2b32",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "RKhoSMKPfqdxrGNI",
+    "name": "GET System AI Eval Runs",
+    "activeVersionId": "c489209d-9028-4c0d-be87-e14fadd37b25",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "aL2tTx9V4zFJUfPx",
+    "name": "GET System AI Eval Run Detail",
+    "activeVersionId": "bc4691e9-a034-4366-b2f7-6413fce6a1ae",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "jqISJzbOGRjArLbz",
+    "name": "GET System AI Eval Export",
+    "activeVersionId": "a8257db3-5b96-4966-a090-ad3705d98b0a",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "qVH5qtBf8IY32uiH",
+    "name": "POST System AI Eval Run Case",
+    "activeVersionId": "b1c448a1-80a2-4221-a275-0c70672ac773",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "wTH2YV6pIlhzWDiY",
+    "name": "POST System AI Eval Run Dataset",
+    "activeVersionId": "521fdc7a-3368-44c3-9fa9-d785eccdc812",
     "historyRowsUpdated": 1
   }
 ]

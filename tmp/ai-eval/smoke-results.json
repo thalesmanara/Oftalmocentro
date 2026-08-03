@@ -1,0 +1,920 @@
+{
+  "startedAt": "2026-08-03T13:56:00.180Z",
+  "login": {
+    "status": 200,
+    "hasToken": true
+  },
+  "cases": {
+    "status": 200,
+    "itemsLength": 5,
+    "sample": {
+      "id": "70343f00-699a-41b1-a1b8-db4296b244ec",
+      "code": "TC-050",
+      "name": "Ambiguidade certidões COREN",
+      "groupName": "Casos ambíguos",
+      "testType": "ambiguous",
+      "categoryName": null,
+      "subcategoryName": null,
+      "expectedDocumentId": null,
+      "expectedDocumentIds": [],
+      "question": "Qual a certidão de regularidade COREN mais recente?",
+      "expectedAnswer": null,
+      "requiredWords": [
+        "COREN"
+      ],
+      "forbiddenWords": [],
+      "requiredSourceDocumentId": null,
+      "minScore": 50,
+      "expectNoAnswer": false,
+      "notes": "Várias certidões similares; valida presença temática",
+      "status": "active",
+      "version": 1,
+      "dependsOnMissingDocs": false,
+      "createdAt": "2026-08-03T13:02:05.965Z",
+      "updatedAt": "2026-08-03T13:02:05.965Z"
+    },
+    "raw": {
+      "success": true,
+      "data": {
+        "items": [
+          {
+            "id": "70343f00-699a-41b1-a1b8-db4296b244ec",
+            "code": "TC-050",
+            "name": "Ambiguidade certidões COREN",
+            "groupName": "Casos ambíguos",
+            "testType": "ambiguous",
+            "categoryName": null,
+            "subcategoryName": null,
+            "expectedDocumentId": null,
+            "expectedDocumentIds": [],
+            "question": "Qual a certidão de regularidade COREN mais recente?",
+            "expectedAnswer": null,
+            "requiredWords": [
+              "COREN"
+            ],
+            "forbiddenWords": [],
+            "requiredSourceDocumentId": null,
+            "minScore": 50,
+            "expectNoAnswer": false,
+            "notes": "Várias certidões similares; valida presença temática",
+            "status": "active",
+            "version": 1,
+            "dependsOnMissingDocs": false,
+            "createdAt": "2026-08-03T13:02:05.965Z",
+            "updatedAt": "2026-08-03T13:02:05.965Z"
+          },
+          {
+            "id": "4e24d768-77e7-4c7f-a5e7-55cde600f50f",
+            "code": "TC-051",
+            "name": "Conflito AVCB datas",
+            "groupName": "Casos conflitantes",
+            "testType": "conflicting",
+            "categoryName": null,
+            "subcategoryName": null,
+            "expectedDocumentId": null,
+            "expectedDocumentIds": [],
+            "question": "Quais AVCBs do Corpo de Bombeiros existem na base?",
+            "expectedAnswer": null,
+            "requiredWords": [
+              "Bombeiros"
+            ],
+            "forbiddenWords": [],
+            "requiredSourceDocumentId": null,
+            "minScore": 55,
+            "expectNoAnswer": false,
+            "notes": "Existem AVCB 2024 e 2029",
+            "status": "active",
+            "version": 1,
+            "dependsOnMissingDocs": false,
+            "createdAt": "2026-08-03T13:02:05.965Z",
+            "updatedAt": "2026-08-03T13:02:05.965Z"
+          },
+          {
+            "id": "b9a4e2c6-20d0-41d0-9e74-8cc550ff8635",
+            "code": "TC-047",
+            "name": "Documento inexistente unicórnio",
+            "groupName": "Casos negativos",
+            "testType": "no_answer",
+            "categoryName": null,
+            "subcategoryName": null,
+            "expectedDocumentId": null,
+            "expectedDocumentIds": [],
+            "question": "Qual o protocolo secreto de teletransporte ocular do setor unicorn?",
+            "expectedAnswer": null,
+            "requiredWords": [],
+            "forbiddenWords": [],
+            "requiredSourceDocumentId": null,
+            "minScore": 60,
+            "expectNoAnswer": true,
+            "notes": "Deve recusar — informação inexistente",
+            "status": "active",
+            "version": 1,
+            "dependsOnMissingDocs": false,
+            "createdAt": "2026-08-03T13:02:05.965Z",
+            "updatedAt": "2026-08-03T13:02:05.965Z"
+          },
+          {
+            "id": "1b89c77f-b6ba-44a0-a9b5-71a4ef592d39",
+            "code": "TC-048",
+            "name": "Preço exame inexistente XYZ999",
+            "groupName": "Casos negativos",
+            "testType": "no_answer",
+            "categoryName": null,
+            "subcategoryName": null,
+            "expectedDocumentId": null,
+            "expectedDocumentIds": [],
+            "question": "Qual o valor do procedimento XYZ999 no convênio Galáctico?",
+            "expectedAnswer": null,
+            "requiredWords": [],
+            "forbiddenWords": [],
+            "requiredSourceDocumentId": null,
+            "minScore": 60,
+            "expectNoAnswer": true,
+            "notes": "Não há tabela de convênios completa na base; espera-se recusa ou ausência de código XYZ999",
+            "status": "active",
+            "version": 1,
+            "dependsOnMissingDocs": true,
+            "createdAt": "2026-08-03T13:02:05.965Z",
+            "updatedAt": "2026-08-03T13:02:05.965Z"
+          },
+          {
+            "id": "25eb6ae8-d215-4878-9f5a-7b84b2278e7e",
+            "code": "TC-049",
+            "name": "POP inexistente laser espacial",
+            "groupName": "Casos negativos",
+            "testType": "no_answer",
+            "categoryName": null,
+            "subcategoryName": null,
+            "expectedDocumentId": null,
+            "expectedDocumentIds": [],
+            "question": "Qual o POP de calibragem do laser espacial modelo ZX-9000?",
+            "expectedAnswer": null,
+            "requiredWords": [],
+            "forbiddenWords": [],
+            "requiredSourceDocumentId": null,
+            "minScore": 60,
+            "expectNoAnswer": true,
+            "notes": null,
+            "status": "active",
+            "version": 1,
+            "dependsOnMissingDocs": false,
+            "createdAt": "2026-08-03T13:02:05.965Z",
+            "updatedAt": "2026-08-03T13:02:05.965Z"
+          }
+        ],
+        "pagination": {
+          "page": 1,
+          "pageSize": 5,
+          "total": 100,
+          "totalPages": 20
+        },
+        "summaryByGroup": {
+          "Casos ambíguos": {
+            "total": 1,
+            "active": 1,
+            "dependsOnMissingDocs": 0
+          },
+          "Casos conflitantes": {
+            "total": 1,
+            "active": 1,
+            "dependsOnMissingDocs": 0
+          },
+          "Casos negativos": {
+            "total": 4,
+            "active": 4,
+            "dependsOnMissingDocs": 1
+          },
+          "Casos vencidos": {
+            "total": 4,
+            "active": 4,
+            "dependsOnMissingDocs": 0
+          },
+          "Convênios": {
+            "total": 1,
+            "active": 1,
+            "dependsOnMissingDocs": 1
+          },
+          "Documentos": {
+            "total": 24,
+            "active": 24,
+            "dependsOnMissingDocs": 0
+          },
+          "Exames": {
+            "total": 6,
+            "active": 6,
+            "dependsOnMissingDocs": 0
+          },
+          "Financeiro": {
+            "total": 14,
+            "active": 14,
+            "dependsOnMissingDocs": 0
+          },
+          "Médicos": {
+            "total": 10,
+            "active": 10,
+            "dependsOnMissingDocs": 0
+          },
+          "Normas": {
+            "total": 8,
+            "active": 8,
+            "dependsOnMissingDocs": 0
+          },
+          "OCR": {
+            "total": 1,
+            "active": 1,
+            "dependsOnMissingDocs": 1
+          },
+          "POP": {
+            "total": 2,
+            "active": 2,
+            "dependsOnMissingDocs": 0
+          },
+          "Planilhas": {
+            "total": 2,
+            "active": 2,
+            "dependsOnMissingDocs": 1
+          },
+          "RH": {
+            "total": 22,
+            "active": 22,
+            "dependsOnMissingDocs": 0
+          }
+        }
+      },
+      "meta": {
+        "requestId": "ee1f1b59-6649-42a9-8b7c-ceb14eea8cb0",
+        "timestamp": "2026-08-03T13:56:04.892Z",
+        "durationMs": 157
+      }
+    }
+  },
+  "runCase": {
+    "status": 200,
+    "raw": {
+      "success": true,
+      "data": {
+        "run": {
+          "id": "d832aef5-45c3-49a6-83f3-0b65c73625f0",
+          "startedAt": "2026-08-03T13:56:05.292Z",
+          "finishedAt": "2026-08-03T13:56:10.089Z",
+          "durationMs": 4797,
+          "status": "SUCCESS",
+          "triggeredBy": "06e0915e-0f90-42b1-a32c-ae5e0f7de1c6",
+          "triggerMode": "single",
+          "totalCases": 1,
+          "passedCount": 1,
+          "failedCount": 0,
+          "errorCount": 0,
+          "skippedCount": 0,
+          "overallScore": 100,
+          "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+          "modelName": "gpt-4.1-mini",
+          "ocrEngineVersion": "n/a",
+          "tabularEngineVersion": "n/a",
+          "report": {
+            "total": 1,
+            "errors": 0,
+            "failed": 0,
+            "passed": 1,
+            "recall": 100,
+            "precision": 100,
+            "topErrors": [],
+            "generatedAt": "2026-08-03T13:56:10.061Z",
+            "overallScore": 100,
+            "scoreFormula": "Per-case: answerQuality40 + sources30 + document20 + latency10. Run overall = average(case scores). Precision = passed/total.",
+            "topDocuments": [
+              {
+                "count": 1,
+                "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+                "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+              },
+              {
+                "count": 1,
+                "title": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA",
+                "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad"
+              },
+              {
+                "count": 1,
+                "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+                "documentId": "dc44a492-d463-4028-b907-37117124163d"
+              },
+              {
+                "count": 1,
+                "title": "REGIMENTO INTERNO DO SERVIÇO DE ENFERMAGEM - ARQUIVO WORD",
+                "documentId": "9022fe88-4da1-43c6-87db-57ddc6e0270e"
+              },
+              {
+                "count": 1,
+                "title": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA MARIANA",
+                "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09"
+              },
+              {
+                "count": 1,
+                "title": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA",
+                "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207"
+              },
+              {
+                "count": 1,
+                "title": "REQUERIMENTO DE REGISTRO DE ANOTAÇÃO DE RESPONSABILIDADE TECNICA COREN - ARQUIVO WORD",
+                "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a"
+              }
+            ],
+            "avgDurationMs": 0,
+            "maxDurationMs": 0,
+            "minDurationMs": 0,
+            "categoryCoverage": {
+              "RH": {
+                "total": 1,
+                "passed": 1,
+                "precision": 100
+              }
+            },
+            "documentCoverage": 100
+          },
+          "metadata": {},
+          "createdAt": "2026-08-03T13:56:05.292Z"
+        },
+        "metrics": {
+          "id": "305f0123-8c4a-4647-99dd-d3814546ab0b",
+          "runId": "d832aef5-45c3-49a6-83f3-0b65c73625f0",
+          "precision": 100,
+          "recall": 100,
+          "documentCoverage": 100,
+          "categoryCoverage": {
+            "RH": {
+              "total": 1,
+              "passed": 1,
+              "precision": 100
+            }
+          },
+          "avgDurationMs": 0,
+          "minDurationMs": 0,
+          "maxDurationMs": 0,
+          "sourcesCorrectCount": 1,
+          "sourcesIncorrectCount": 0,
+          "documentCorrectCount": 1,
+          "categoryCorrectCount": 0,
+          "subcategoryCorrectCount": 0,
+          "hallucinationCount": 0,
+          "emptyAnswerCount": 0,
+          "internalErrorCount": 0,
+          "passedCount": 1,
+          "failedCount": 0,
+          "totalCount": 1,
+          "overallScore": 100,
+          "topErrors": [],
+          "topDocuments": [
+            {
+              "count": 1,
+              "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+              "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+            },
+            {
+              "count": 1,
+              "title": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA",
+              "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad"
+            },
+            {
+              "count": 1,
+              "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+              "documentId": "dc44a492-d463-4028-b907-37117124163d"
+            },
+            {
+              "count": 1,
+              "title": "REGIMENTO INTERNO DO SERVIÇO DE ENFERMAGEM - ARQUIVO WORD",
+              "documentId": "9022fe88-4da1-43c6-87db-57ddc6e0270e"
+            },
+            {
+              "count": 1,
+              "title": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA MARIANA",
+              "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09"
+            },
+            {
+              "count": 1,
+              "title": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA",
+              "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207"
+            },
+            {
+              "count": 1,
+              "title": "REQUERIMENTO DE REGISTRO DE ANOTAÇÃO DE RESPONSABILIDADE TECNICA COREN - ARQUIVO WORD",
+              "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a"
+            }
+          ],
+          "scoreFormula": "Per-case: answerQuality40 + sources30 + document20 + latency10. Run overall = average(case scores). Precision = passed/total.",
+          "createdAt": "2026-08-03T13:56:10.017Z"
+        },
+        "results": [
+          {
+            "id": "9f5aac79-a639-4130-a0e2-72e6a9e0573e",
+            "runId": "d832aef5-45c3-49a6-83f3-0b65c73625f0",
+            "caseId": "ebd70c06-4d0c-47bb-b7cf-754cd74f18eb",
+            "caseCode": "TC-001",
+            "question": "Qual o CPF da enfermeira Bianca na relação de funcionários?",
+            "answer": "O CPF da enfermeira Bianca na relação de funcionários é 099.446.406-11.\n\nFonte: RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL; CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA; RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+            "durationMs": null,
+            "sources": [
+              {
+                "index": 1,
+                "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+                "categoryName": "ALVARÁS - LICENÇAS - ART",
+                "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+                "subcategoryName": "COREN"
+              },
+              {
+                "index": 2,
+                "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad",
+                "categoryName": "ALVARÁS - LICENÇAS - ART",
+                "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA",
+                "subcategoryName": "COREN"
+              },
+              {
+                "index": 3,
+                "documentId": "dc44a492-d463-4028-b907-37117124163d",
+                "categoryName": "ALVARÁS - LICENÇAS - ART",
+                "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+                "subcategoryName": "COREN"
+              },
+              {
+                "index": 4,
+                "documentId": "9022fe88-4da1-43c6-87db-57ddc6e0270e",
+                "categoryName": "OFTALMOCENTRO INSTITUCIONAL",
+                "documentTitle": "REGIMENTO INTERNO DO SERVIÇO DE ENFERMAGEM - ARQUIVO WORD",
+                "subcategoryName": "Regulamento Interno"
+              },
+              {
+                "index": 5,
+                "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09",
+                "categoryName": "ALVARÁS - LICENÇAS - ART",
+                "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA MARIANA",
+                "subcategoryName": "COREN"
+              },
+              {
+                "index": 6,
+                "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207",
+                "categoryName": "ALVARÁS - LICENÇAS - ART",
+                "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA",
+                "subcategoryName": "COREN"
+              },
+              {
+                "index": 7,
+                "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a",
+                "categoryName": "ALVARÁS - LICENÇAS - ART",
+                "documentTitle": "REQUERIMENTO DE REGISTRO DE ANOTAÇÃO DE RESPONSABILIDADE TECNICA COREN - ARQUIVO WORD",
+                "subcategoryName": "COREN"
+              }
+            ],
+            "chunkRefs": [
+              {
+                "index": 1,
+                "chunkOrder": null,
+                "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+              },
+              {
+                "index": 2,
+                "chunkOrder": null,
+                "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad"
+              },
+              {
+                "index": 3,
+                "chunkOrder": null,
+                "documentId": "dc44a492-d463-4028-b907-37117124163d"
+              },
+              {
+                "index": 4,
+                "chunkOrder": null,
+                "documentId": "9022fe88-4da1-43c6-87db-57ddc6e0270e"
+              },
+              {
+                "index": 5,
+                "chunkOrder": null,
+                "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09"
+              },
+              {
+                "index": 6,
+                "chunkOrder": null,
+                "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207"
+              },
+              {
+                "index": 7,
+                "chunkOrder": null,
+                "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a"
+              }
+            ],
+            "classification": {
+              "categoryId": "c2a99325-1439-4f1d-bec7-6f6006a0822f",
+              "categoryName": "TABELAS DE PREÇOS",
+              "subcategoryId": "8ff31a51-8732-48b3-9f40-742d4abe9b3e",
+              "subcategoryName": "Lente Intraocular Particular",
+              "categoryDescription": "Tabelas contendo os valores vigentes para consultas médicas, exames oftalmológicos, procedimentos cirúrgicos e demais serviços prestados em regime particular, e convênios com cartões desconto, incluindo atualizações e históricos de preços.",
+              "subcategoryDescription": "Relação de preços das lentes intraoculares disponibilizadas para pacientes particulares, contemplando modelos, fabricantes, características técnicas e respectivos valores."
+            },
+            "matchedDocument": true,
+            "matchedCategory": false,
+            "matchedSubcategory": false,
+            "requiredWordsHit": 2,
+            "requiredWordsTotal": 2,
+            "forbiddenWordsHit": 0,
+            "sourcesCorrect": true,
+            "sourcesIncorrect": false,
+            "isHallucination": false,
+            "isEmptyAnswer": false,
+            "isInternalError": false,
+            "score": 100,
+            "verdict": "PASS",
+            "scoreBreakdown": {
+              "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+              "latency": 10,
+              "sources": 30,
+              "weights": {
+                "latency": 10,
+                "sources": 30,
+                "document": 20,
+                "answerQuality": 40
+              },
+              "document": 20,
+              "answerQuality": 40
+            },
+            "extractionMethod": "tabular",
+            "ocrQualityGrade": null,
+            "ocrUsed": false,
+            "sheetName": "Planilha1",
+            "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+            "modelName": "gpt-4.1-mini",
+            "createdAt": "2026-08-03T13:56:09.868Z"
+          }
+        ]
+      },
+      "meta": {
+        "requestId": "895850d8-9e7c-41a0-811c-d261073c6958",
+        "timestamp": "2026-08-03T13:56:10.149Z",
+        "durationMs": 5041
+      }
+    }
+  },
+  "health": {
+    "status": 200,
+    "aiEval": {
+      "status": "ok",
+      "casesCount": 100,
+      "lastScore": 100,
+      "lastRunAt": "2026-08-03T13:56:05.292Z",
+      "lastRunStatus": "SUCCESS",
+      "avgDurationMs": 0
+    },
+    "raw": {
+      "success": true,
+      "data": {
+        "status": "degraded",
+        "checkedAt": "2026-08-03T13:56:11.526Z",
+        "components": {
+          "n8n": {
+            "status": "ok",
+            "durationMs": 1
+          },
+          "database": {
+            "status": "ok",
+            "durationMs": 3
+          },
+          "storage": {
+            "status": "ok",
+            "durationMs": 30,
+            "storageAvailable": true
+          },
+          "tika": {
+            "status": "ok",
+            "durationMs": 384
+          },
+          "ocr": {
+            "status": "degraded",
+            "available": true,
+            "version": "ocrmypdf+tesseract",
+            "queue": 0,
+            "failures": 0,
+            "pending": 0,
+            "avgDurationMs": null,
+            "stuck": 0,
+            "avgQualityScore": 32,
+            "excellentCount": 0,
+            "goodCount": 0,
+            "acceptableCount": 0,
+            "poorCount": 0,
+            "manualReviewCount": 1,
+            "avgAttempts": 2
+          },
+          "tabular": {
+            "status": "ok",
+            "available": true,
+            "processedCount": 1,
+            "failCount": 0,
+            "avgDurationMs": 11,
+            "sheetCount": 1,
+            "rowCount": 8,
+            "chunkCount": 1
+          },
+          "configuration": {
+            "status": "ok",
+            "openai": "unknown"
+          },
+          "sessions": {
+            "status": "ok",
+            "activeCount": 4
+          },
+          "audit": {
+            "status": "ok"
+          },
+          "documents": {
+            "status": "ok",
+            "total": 57,
+            "processing": 3,
+            "errors": 1,
+            "missingFiles": 1,
+            "processedWithoutChunks": 0,
+            "versions": {
+              "status": "ok",
+              "versionsTotal": 60,
+              "orphanChunks": 0,
+              "multiCurrent": 0
+            },
+            "files": {
+              "status": "ok",
+              "maxUploadSizeBytes": 26214400,
+              "allowedExtensions": [
+                "pdf",
+                "doc",
+                "docx",
+                "xls",
+                "xlsx",
+                "csv",
+                "txt",
+                "tsv"
+              ],
+              "invalidRecent24h": 0,
+              "pendingValidating": 0,
+              "validUnprocessed": 3,
+              "stuckValidating": 0
+            }
+          },
+          "backup": {
+            "status": "ok",
+            "lastBackupAt": "2026-08-03T06:01:01.989Z",
+            "lastBackupStatus": "PARTIAL",
+            "lastBackupType": "FULL",
+            "ageHours": 7.9
+          },
+          "aiEval": {
+            "status": "ok",
+            "casesCount": 100,
+            "lastScore": 100,
+            "lastRunAt": "2026-08-03T13:56:05.292Z",
+            "lastRunStatus": "SUCCESS",
+            "avgDurationMs": 0
+          }
+        }
+      },
+      "meta": {
+        "requestId": "0c301e5c-b228-4abc-934c-0ef79ca74c68",
+        "timestamp": "2026-08-03T13:56:11.563Z",
+        "durationMs": 783
+      }
+    }
+  },
+  "results": [
+    {
+      "name": "Login",
+      "pass": true,
+      "detail": "status=200 email=compras@oftalmocentrouberaba.com.br"
+    },
+    {
+      "name": "1. GET ai-eval/cases pageSize=5 → items.length > 0",
+      "pass": true,
+      "detail": "status=200 items=5"
+    },
+    {
+      "name": "2. POST ai-eval/run-case TC-001 → run + result",
+      "pass": true,
+      "detail": "status=200 success=true"
+    },
+    {
+      "name": "3. GET system/health → components.aiEval with casesCount ~100",
+      "pass": true,
+      "detail": "status=200 aiEval={\"status\":\"ok\",\"casesCount\":100,\"lastScore\":100,\"lastRunAt\":\"2026-08-03T13:56:05.292Z\",\"lastRunStatus\":\"SUCCESS\",\"avgDurationMs\":0}"
+    }
+  ],
+  "finishedAt": "2026-08-03T13:56:12.093Z",
+  "runDataset": {
+    "status": 200,
+    "durationMs": 6754,
+    "raw": {
+      "success": true,
+      "data": {
+        "run": {
+          "id": "d269c658-8649-48fc-aed3-8d767ea5def4",
+          "startedAt": "2026-08-03T13:56:47.941Z",
+          "finishedAt": "2026-08-03T13:56:53.938Z",
+          "durationMs": 5997,
+          "status": "SUCCESS",
+          "triggeredBy": "06e0915e-0f90-42b1-a32c-ae5e0f7de1c6",
+          "triggerMode": "dataset",
+          "totalCases": 1,
+          "passedCount": 1,
+          "failedCount": 0,
+          "errorCount": 0,
+          "skippedCount": 0,
+          "overallScore": 100,
+          "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+          "modelName": "gpt-4.1-mini",
+          "ocrEngineVersion": "n/a",
+          "tabularEngineVersion": "n/a",
+          "report": {
+            "total": 1,
+            "errors": 0,
+            "failed": 0,
+            "passed": 1,
+            "recall": 100,
+            "precision": 100,
+            "topErrors": [],
+            "generatedAt": "2026-08-03T13:56:53.914Z",
+            "overallScore": 100,
+            "scoreFormula": "Per-case: answerQuality40 + sources30 + document20 + latency10. Run overall = average(case scores). Precision = passed/total.",
+            "topDocuments": [
+              {
+                "count": 1,
+                "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+                "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+              },
+              {
+                "count": 1,
+                "title": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+                "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+              },
+              {
+                "count": 1,
+                "title": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+                "documentId": "b533f80a-9b19-47c0-b4ab-210590846228"
+              }
+            ],
+            "avgDurationMs": 0,
+            "maxDurationMs": 0,
+            "minDurationMs": 0,
+            "categoryCoverage": {
+              "Planilhas": {
+                "total": 1,
+                "passed": 1,
+                "precision": 100
+              }
+            },
+            "documentCoverage": 100
+          },
+          "metadata": {},
+          "createdAt": "2026-08-03T13:56:47.941Z"
+        },
+        "metrics": {
+          "id": "e63c722e-7c97-48d9-8b80-54a5866893ab",
+          "runId": "d269c658-8649-48fc-aed3-8d767ea5def4",
+          "precision": 100,
+          "recall": 100,
+          "documentCoverage": 100,
+          "categoryCoverage": {
+            "Planilhas": {
+              "total": 1,
+              "passed": 1,
+              "precision": 100
+            }
+          },
+          "avgDurationMs": 0,
+          "minDurationMs": 0,
+          "maxDurationMs": 0,
+          "sourcesCorrectCount": 1,
+          "sourcesIncorrectCount": 0,
+          "documentCorrectCount": 1,
+          "categoryCorrectCount": 0,
+          "subcategoryCorrectCount": 0,
+          "hallucinationCount": 0,
+          "emptyAnswerCount": 0,
+          "internalErrorCount": 0,
+          "passedCount": 1,
+          "failedCount": 0,
+          "totalCount": 1,
+          "overallScore": 100,
+          "topErrors": [],
+          "topDocuments": [
+            {
+              "count": 1,
+              "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+              "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+            },
+            {
+              "count": 1,
+              "title": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+              "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+            },
+            {
+              "count": 1,
+              "title": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+              "documentId": "b533f80a-9b19-47c0-b4ab-210590846228"
+            }
+          ],
+          "scoreFormula": "Per-case: answerQuality40 + sources30 + document20 + latency10. Run overall = average(case scores). Precision = passed/total.",
+          "createdAt": "2026-08-03T13:56:53.839Z"
+        },
+        "results": [
+          {
+            "id": "961a2f74-1343-49d4-be65-f20bd2cd3488",
+            "runId": "d269c658-8649-48fc-aed3-8d767ea5def4",
+            "caseId": "1e040f78-0846-4bde-abbf-4a84694e9af5",
+            "caseCode": "TC-053",
+            "question": "Quem aparece na relação de funcionários em Excel?",
+            "answer": "Na relação de funcionários em Excel do quadro de enfermagem, aparecem os seguintes nomes com seus respectivos dados:\n\n| Nome                          | CPF            | Categoria Profissional | Nº Registro | Setor de Trabalho                    |\n|-------------------------------|----------------|-----------------------|-------------|------------------------------------|\n| BARBARA APARECIDA MUNIZ DE LIMA | 120.943.006-17 | TÉCNICA EM ENFERMAGEM | 2246508     | CENTRO CIRÚRGICO/ EXAMES/ CME      |\n| BIANCA KATHEREIN FREITAS SILVA  | 099.446.406-11 | ENFERMEIRA            | 795377      | CENTRO CIRÚRGICO/ EXAMES/ CME      |\n| DAYANA SENE VIEIRA AS SILVA     | 079.209.996-69 | TÉCNICA DE ENFERMAGEM | 646,173     | CENTRO CIRÚRGICO/ EXAMES/ CME      |\n| JORDANA BORGES                  | 075.482.896-42 | ENFERMEIRA            | 493,608     | RESPONSAVEL TÉCNICA                |\n| MARIANA PEREIRA OLIVEIRA        | 095.038.926-94 | ENFERMEIRA            | 271,377     | CENTRO CIRÚRGICO/ EXAMES/ CME      |\n\nFonte: RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "durationMs": null,
+            "sources": [
+              {
+                "index": 1,
+                "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+                "categoryName": "ALVARÁS - LICENÇAS - ART",
+                "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+                "subcategoryName": "COREN"
+              },
+              {
+                "index": 2,
+                "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a",
+                "categoryName": "ENGENHARIA CLÍNICA",
+                "documentTitle": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+                "subcategoryName": "CONTRATOS DE MANUTENÇÃO"
+              },
+              {
+                "index": 3,
+                "documentId": "b533f80a-9b19-47c0-b4ab-210590846228",
+                "categoryName": "INFORMAÇÕES GERAIS",
+                "documentTitle": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+                "subcategoryName": "Texto Livre"
+              }
+            ],
+            "chunkRefs": [
+              {
+                "index": 1,
+                "chunkOrder": null,
+                "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+              },
+              {
+                "index": 2,
+                "chunkOrder": null,
+                "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+              },
+              {
+                "index": 3,
+                "chunkOrder": null,
+                "documentId": "b533f80a-9b19-47c0-b4ab-210590846228"
+              }
+            ],
+            "classification": {
+              "categoryId": "c2a99325-1439-4f1d-bec7-6f6006a0822f",
+              "categoryName": "TABELAS DE PREÇOS",
+              "subcategoryId": "8ff31a51-8732-48b3-9f40-742d4abe9b3e",
+              "subcategoryName": "Lente Intraocular Particular",
+              "categoryDescription": "Tabelas contendo os valores vigentes para consultas médicas, exames oftalmológicos, procedimentos cirúrgicos e demais serviços prestados em regime particular, e convênios com cartões desconto, incluindo atualizações e históricos de preços.",
+              "subcategoryDescription": "Relação de preços das lentes intraoculares disponibilizadas para pacientes particulares, contemplando modelos, fabricantes, características técnicas e respectivos valores."
+            },
+            "matchedDocument": true,
+            "matchedCategory": null,
+            "matchedSubcategory": null,
+            "requiredWordsHit": 1,
+            "requiredWordsTotal": 1,
+            "forbiddenWordsHit": 0,
+            "sourcesCorrect": true,
+            "sourcesIncorrect": false,
+            "isHallucination": false,
+            "isEmptyAnswer": false,
+            "isInternalError": false,
+            "score": 100,
+            "verdict": "PASS",
+            "scoreBreakdown": {
+              "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+              "latency": 10,
+              "sources": 30,
+              "weights": {
+                "latency": 10,
+                "sources": 30,
+                "document": 20,
+                "answerQuality": 40
+              },
+              "document": 20,
+              "answerQuality": 40
+            },
+            "extractionMethod": "tabular",
+            "ocrQualityGrade": null,
+            "ocrUsed": false,
+            "sheetName": "Planilha1",
+            "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+            "modelName": "gpt-4.1-mini",
+            "createdAt": "2026-08-03T13:56:53.750Z"
+          }
+        ]
+      },
+      "meta": {
+        "requestId": "a0ba061e-6443-48da-bc18-6bcdc4931844",
+        "timestamp": "2026-08-03T13:56:54.060Z",
+        "durationMs": 6358
+      }
+    }
+  }
+}

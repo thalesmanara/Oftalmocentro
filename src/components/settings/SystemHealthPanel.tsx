@@ -16,6 +16,7 @@ const COMPONENT_LABELS: Record<string, string> = {
   audit: 'Auditoria',
   documents: 'Documentos',
   backup: 'Backup',
+  aiEval: 'Validação IA',
 }
 
 function statusLabel(status: UiState): string {
@@ -79,6 +80,12 @@ function componentDetails(key: string, component: HealthComponent): string {
     if (component.lastBackupType) parts.push(component.lastBackupType)
     if (component.lastBackupStatus) parts.push(component.lastBackupStatus)
     if (typeof component.ageHours === 'number') parts.push(`${component.ageHours}h`)
+  }
+  if (key === 'aiEval') {
+    if (typeof component.lastScore === 'number') parts.push(`score ${component.lastScore}`)
+    if (typeof component.casesCount === 'number') parts.push(`${component.casesCount} casos`)
+    if (typeof component.avgDurationMs === 'number') parts.push(`${component.avgDurationMs} ms`)
+    if (component.lastRunAt) parts.push(formatCheckedAt(component.lastRunAt))
   }
   return parts.join(' · ')
 }

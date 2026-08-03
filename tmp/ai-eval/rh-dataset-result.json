@@ -1,0 +1,3136 @@
+{
+  "success": true,
+  "data": {
+    "run": {
+      "id": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+      "startedAt": "2026-08-03T13:58:26.480Z",
+      "finishedAt": "2026-08-03T14:00:26.464Z",
+      "durationMs": 119984,
+      "status": "PARTIAL",
+      "triggeredBy": "06e0915e-0f90-42b1-a32c-ae5e0f7de1c6",
+      "triggerMode": "dataset",
+      "totalCases": 22,
+      "passedCount": 19,
+      "failedCount": 3,
+      "errorCount": 0,
+      "skippedCount": 0,
+      "overallScore": 89.55,
+      "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+      "modelName": "gpt-4.1-mini",
+      "ocrEngineVersion": "n/a",
+      "tabularEngineVersion": "n/a",
+      "report": {
+        "total": 22,
+        "errors": 0,
+        "failed": 3,
+        "passed": 19,
+        "recall": 86.36,
+        "precision": 86.36,
+        "topErrors": [
+          {
+            "score": 10,
+            "verdict": "FAIL",
+            "caseCode": "TC-002",
+            "question": "Em qual setor trabalha Barbara Aparecida Muniz de Lima?"
+          },
+          {
+            "score": 50,
+            "verdict": "FAIL",
+            "caseCode": "TC-054",
+            "question": "A relação de funcionários também existe em Word?"
+          },
+          {
+            "score": 10,
+            "verdict": "FAIL",
+            "caseCode": "TC-096",
+            "question": "Em qual setor trabalha Barbara Aparecida Muniz de Lima na base documental?"
+          }
+        ],
+        "generatedAt": "2026-08-03T14:00:26.423Z",
+        "overallScore": 89.55,
+        "scoreFormula": "Per-case: answerQuality40 + sources30 + document20 + latency10. Run overall = average(case scores). Precision = passed/total.",
+        "topDocuments": [
+          {
+            "count": 20,
+            "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+          },
+          {
+            "count": 17,
+            "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+            "documentId": "dc44a492-d463-4028-b907-37117124163d"
+          },
+          {
+            "count": 16,
+            "title": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA MARIANA",
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09"
+          },
+          {
+            "count": 16,
+            "title": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA",
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207"
+          },
+          {
+            "count": 16,
+            "title": "CERTIDÃO DE REGULARIDADE COREN - TÉCNICA DE ENFERMAGEM DAYANA",
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389"
+          },
+          {
+            "count": 15,
+            "title": "REQUERIMENTO DE REGISTRO DE ANOTAÇÃO DE RESPONSABILIDADE TECNICA COREN - ARQUIVO WORD",
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a"
+          },
+          {
+            "count": 14,
+            "title": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA",
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad"
+          },
+          {
+            "count": 13,
+            "title": "ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026",
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1"
+          },
+          {
+            "count": 2,
+            "title": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+            "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+          },
+          {
+            "count": 2,
+            "title": "ADITIVO CONSTRATUAL AO CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+            "documentId": "60a04d2a-7c93-423b-8c6d-721cf2b026bd"
+          },
+          {
+            "count": 2,
+            "title": "CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA - ARQUIVO WORD",
+            "documentId": "71e5029f-4881-4fe4-9dc9-048f178b1165"
+          },
+          {
+            "count": 1,
+            "title": "REGIMENTO INTERNO DO SERVIÇO DE ENFERMAGEM - ARQUIVO WORD",
+            "documentId": "9022fe88-4da1-43c6-87db-57ddc6e0270e"
+          },
+          {
+            "count": 1,
+            "title": "PROCEDIMENTO OPERACIONAL PADRA - ROTINA DE VERIFICAÇÃO NOBREAK - ARQUIVO WORD",
+            "documentId": "1a3520b6-a0db-4b96-8459-4ff825008337"
+          },
+          {
+            "count": 1,
+            "title": "TERMO DE CIENCIA - LENTE INTRA OCULAR",
+            "documentId": "a02d647e-6487-47ce-9b37-6ea7ee5e8c09"
+          },
+          {
+            "count": 1,
+            "title": "TABELA DE PREÇOS CONSULTAS E EXAMES PARTICULARES",
+            "documentId": "791232df-765c-412d-8bc2-2b2ecfd15f4f"
+          }
+        ],
+        "avgDurationMs": 0,
+        "maxDurationMs": 0,
+        "minDurationMs": 0,
+        "categoryCoverage": {
+          "RH": {
+            "total": 22,
+            "passed": 19,
+            "precision": 86.36
+          }
+        },
+        "documentCoverage": 100
+      },
+      "metadata": {},
+      "createdAt": "2026-08-03T13:58:26.480Z"
+    },
+    "metrics": {
+      "id": "f819719d-ff55-4b72-ba62-6817b5d37589",
+      "runId": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+      "precision": 86.36,
+      "recall": 86.36,
+      "documentCoverage": 100,
+      "categoryCoverage": {
+        "RH": {
+          "total": 22,
+          "passed": 19,
+          "precision": 86.36
+        }
+      },
+      "avgDurationMs": 0,
+      "minDurationMs": 0,
+      "maxDurationMs": 0,
+      "sourcesCorrectCount": 19,
+      "sourcesIncorrectCount": 3,
+      "documentCorrectCount": 19,
+      "categoryCorrectCount": 5,
+      "subcategoryCorrectCount": 5,
+      "hallucinationCount": 0,
+      "emptyAnswerCount": 0,
+      "internalErrorCount": 0,
+      "passedCount": 19,
+      "failedCount": 3,
+      "totalCount": 22,
+      "overallScore": 89.55,
+      "topErrors": [
+        {
+          "score": 10,
+          "verdict": "FAIL",
+          "caseCode": "TC-002",
+          "question": "Em qual setor trabalha Barbara Aparecida Muniz de Lima?"
+        },
+        {
+          "score": 50,
+          "verdict": "FAIL",
+          "caseCode": "TC-054",
+          "question": "A relação de funcionários também existe em Word?"
+        },
+        {
+          "score": 10,
+          "verdict": "FAIL",
+          "caseCode": "TC-096",
+          "question": "Em qual setor trabalha Barbara Aparecida Muniz de Lima na base documental?"
+        }
+      ],
+      "topDocuments": [
+        {
+          "count": 20,
+          "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+          "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+        },
+        {
+          "count": 17,
+          "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+          "documentId": "dc44a492-d463-4028-b907-37117124163d"
+        },
+        {
+          "count": 16,
+          "title": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA MARIANA",
+          "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09"
+        },
+        {
+          "count": 16,
+          "title": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA",
+          "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207"
+        },
+        {
+          "count": 16,
+          "title": "CERTIDÃO DE REGULARIDADE COREN - TÉCNICA DE ENFERMAGEM DAYANA",
+          "documentId": "7d995627-21ac-4607-b221-8ff59c15d389"
+        },
+        {
+          "count": 15,
+          "title": "REQUERIMENTO DE REGISTRO DE ANOTAÇÃO DE RESPONSABILIDADE TECNICA COREN - ARQUIVO WORD",
+          "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a"
+        },
+        {
+          "count": 14,
+          "title": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA",
+          "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad"
+        },
+        {
+          "count": 13,
+          "title": "ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026",
+          "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1"
+        },
+        {
+          "count": 2,
+          "title": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+          "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+        },
+        {
+          "count": 2,
+          "title": "ADITIVO CONSTRATUAL AO CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+          "documentId": "60a04d2a-7c93-423b-8c6d-721cf2b026bd"
+        },
+        {
+          "count": 2,
+          "title": "CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA - ARQUIVO WORD",
+          "documentId": "71e5029f-4881-4fe4-9dc9-048f178b1165"
+        },
+        {
+          "count": 1,
+          "title": "REGIMENTO INTERNO DO SERVIÇO DE ENFERMAGEM - ARQUIVO WORD",
+          "documentId": "9022fe88-4da1-43c6-87db-57ddc6e0270e"
+        },
+        {
+          "count": 1,
+          "title": "PROCEDIMENTO OPERACIONAL PADRA - ROTINA DE VERIFICAÇÃO NOBREAK - ARQUIVO WORD",
+          "documentId": "1a3520b6-a0db-4b96-8459-4ff825008337"
+        },
+        {
+          "count": 1,
+          "title": "TERMO DE CIENCIA - LENTE INTRA OCULAR",
+          "documentId": "a02d647e-6487-47ce-9b37-6ea7ee5e8c09"
+        },
+        {
+          "count": 1,
+          "title": "TABELA DE PREÇOS CONSULTAS E EXAMES PARTICULARES",
+          "documentId": "791232df-765c-412d-8bc2-2b2ecfd15f4f"
+        }
+      ],
+      "scoreFormula": "Per-case: answerQuality40 + sources30 + document20 + latency10. Run overall = average(case scores). Precision = passed/total.",
+      "createdAt": "2026-08-03T14:00:26.363Z"
+    },
+    "results": [
+      {
+        "id": "96c1cc4f-b455-4073-87dc-ef5bcc24c2a7",
+        "runId": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+        "caseId": "ebd70c06-4d0c-47bb-b7cf-754cd74f18eb",
+        "caseCode": "TC-001",
+        "question": "Qual o CPF da enfermeira Bianca na relação de funcionários?",
+        "answer": "O CPF da enfermeira Bianca na relação de funcionários é 099.446.406-11.\n\nFonte: RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL; CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA; RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+        "durationMs": null,
+        "sources": [
+          {
+            "index": 1,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 2,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 3,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 4,
+            "documentId": "9022fe88-4da1-43c6-87db-57ddc6e0270e",
+            "categoryName": "OFTALMOCENTRO INSTITUCIONAL",
+            "documentTitle": "REGIMENTO INTERNO DO SERVIÇO DE ENFERMAGEM - ARQUIVO WORD",
+            "subcategoryName": "Regulamento Interno"
+          },
+          {
+            "index": 5,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA MARIANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 6,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 7,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "REQUERIMENTO DE REGISTRO DE ANOTAÇÃO DE RESPONSABILIDADE TECNICA COREN - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          }
+        ],
+        "chunkRefs": [
+          {
+            "index": 1,
+            "chunkOrder": null,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+          },
+          {
+            "index": 2,
+            "chunkOrder": null,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad"
+          },
+          {
+            "index": 3,
+            "chunkOrder": null,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d"
+          },
+          {
+            "index": 4,
+            "chunkOrder": null,
+            "documentId": "9022fe88-4da1-43c6-87db-57ddc6e0270e"
+          },
+          {
+            "index": 5,
+            "chunkOrder": null,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09"
+          },
+          {
+            "index": 6,
+            "chunkOrder": null,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207"
+          },
+          {
+            "index": 7,
+            "chunkOrder": null,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a"
+          }
+        ],
+        "classification": {
+          "categoryId": "c2a99325-1439-4f1d-bec7-6f6006a0822f",
+          "categoryName": "TABELAS DE PREÇOS",
+          "subcategoryId": "8ff31a51-8732-48b3-9f40-742d4abe9b3e",
+          "subcategoryName": "Lente Intraocular Particular",
+          "categoryDescription": "Tabelas contendo os valores vigentes para consultas médicas, exames oftalmológicos, procedimentos cirúrgicos e demais serviços prestados em regime particular, e convênios com cartões desconto, incluindo atualizações e históricos de preços.",
+          "subcategoryDescription": "Relação de preços das lentes intraoculares disponibilizadas para pacientes particulares, contemplando modelos, fabricantes, características técnicas e respectivos valores."
+        },
+        "matchedDocument": true,
+        "matchedCategory": false,
+        "matchedSubcategory": false,
+        "requiredWordsHit": 2,
+        "requiredWordsTotal": 2,
+        "forbiddenWordsHit": 0,
+        "sourcesCorrect": true,
+        "sourcesIncorrect": false,
+        "isHallucination": false,
+        "isEmptyAnswer": false,
+        "isInternalError": false,
+        "score": 100,
+        "verdict": "PASS",
+        "scoreBreakdown": {
+          "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+          "latency": 10,
+          "sources": 30,
+          "weights": {
+            "latency": 10,
+            "sources": 30,
+            "document": 20,
+            "answerQuality": 40
+          },
+          "document": 20,
+          "answerQuality": 40
+        },
+        "extractionMethod": "tabular",
+        "ocrQualityGrade": null,
+        "ocrUsed": false,
+        "sheetName": "Planilha1",
+        "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+        "modelName": "gpt-4.1-mini",
+        "createdAt": "2026-08-03T13:58:29.632Z"
+      },
+      {
+        "id": "ebf713fb-de3e-47ef-a1a1-1fdcf0a55ade",
+        "runId": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+        "caseId": "5a2facc5-35c2-4333-828b-7db820611d5f",
+        "caseCode": "TC-002",
+        "question": "Em qual setor trabalha Barbara Aparecida Muniz de Lima?",
+        "answer": "Não encontrei essa informação na base documental disponível.\n\nFonte: CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS; ADITIVO CONSTRATUAL AO CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+        "durationMs": null,
+        "sources": [
+          {
+            "index": 1,
+            "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a",
+            "categoryName": "ENGENHARIA CLÍNICA",
+            "documentTitle": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+            "subcategoryName": "CONTRATOS DE MANUTENÇÃO"
+          },
+          {
+            "index": 2,
+            "documentId": "60a04d2a-7c93-423b-8c6d-721cf2b026bd",
+            "categoryName": "ENGENHARIA CLÍNICA",
+            "documentTitle": "ADITIVO CONSTRATUAL AO CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+            "subcategoryName": "CONTRATOS DE MANUTENÇÃO"
+          }
+        ],
+        "chunkRefs": [
+          {
+            "index": 1,
+            "chunkOrder": null,
+            "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+          },
+          {
+            "index": 2,
+            "chunkOrder": null,
+            "documentId": "60a04d2a-7c93-423b-8c6d-721cf2b026bd"
+          }
+        ],
+        "classification": {
+          "categoryId": "93585899-dd11-41dd-b59d-ecd966821196",
+          "categoryName": "ENGENHARIA CLÍNICA",
+          "subcategoryId": "eed78a5a-3492-4e04-bb8b-eea5a96f768b",
+          "subcategoryName": "CONTRATOS DE MANUTENÇÃO",
+          "categoryDescription": "Manuais técnicos de equipamentos contendo instruções de utilização, manutenção, configurações, calibração e especificações dos equipamentos.\nRegistro cadastral do equipamento contendo informações de propriedade, compra, valores, numeró de série e local/setor onde o equipamento se encontra e periodicidade das manutenções.\nRegistro de manutenções preditivas, preventivas e corretivas com data de realização para elaboração de relatórios de próximas manutenções.\nInformações sobre cada exame e ou procedimento realizado nos equipamentos, com registro das finalidade/indicções e procedimentos operacionais padrão (POP).\nContratos de Manutenções e cronogramas.",
+          "subcategoryDescription": "Contratos de manutenção firmados entre a Oftalmocentro e Fornecedores de Serviços e Peças, inglobando todo parque tecnológico da empresa, desde equipamentos clínicos e de diagnóstico, bem como equipamentos e instrumentais cirúrgicos, rede de gases medicinais, equipamentos de CME, equipamentos de climatização e geração de energia de backup a falha no sistema da concessionária."
+        },
+        "matchedDocument": false,
+        "matchedCategory": null,
+        "matchedSubcategory": null,
+        "requiredWordsHit": 0,
+        "requiredWordsTotal": 2,
+        "forbiddenWordsHit": 0,
+        "sourcesCorrect": false,
+        "sourcesIncorrect": true,
+        "isHallucination": false,
+        "isEmptyAnswer": false,
+        "isInternalError": false,
+        "score": 10,
+        "verdict": "FAIL",
+        "scoreBreakdown": {
+          "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+          "latency": 10,
+          "sources": 0,
+          "weights": {
+            "latency": 10,
+            "sources": 30,
+            "document": 20,
+            "answerQuality": 40
+          },
+          "document": 0,
+          "answerQuality": 0
+        },
+        "extractionMethod": "tabular",
+        "ocrQualityGrade": null,
+        "ocrUsed": false,
+        "sheetName": "Planilha1",
+        "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+        "modelName": "gpt-4.1-mini",
+        "createdAt": "2026-08-03T13:58:35.541Z"
+      },
+      {
+        "id": "206d1a1e-ff1b-4194-a21e-881a41d3f963",
+        "runId": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+        "caseId": "9bb5d9d5-638d-46dd-9ef2-1e5a6c6477a9",
+        "caseCode": "TC-003",
+        "question": "Qual o número de registro COREN da técnica Dayana?",
+        "answer": "O número de registro COREN da técnica Dayana Sene Vieira da Silva é 646173.\n\nFonte: RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL; CERTIDÃO DE REGULARIDADE COREN - TÉCNICA DE ENFERMAGEM DAYANA",
+        "durationMs": null,
+        "sources": [
+          {
+            "index": 1,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 2,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "REQUERIMENTO DE REGISTRO DE ANOTAÇÃO DE RESPONSABILIDADE TECNICA COREN - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 3,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 4,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - TÉCNICA DE ENFERMAGEM DAYANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 5,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026",
+            "subcategoryName": "COREN"
+          }
+        ],
+        "chunkRefs": [
+          {
+            "index": 1,
+            "chunkOrder": null,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+          },
+          {
+            "index": 2,
+            "chunkOrder": null,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a"
+          },
+          {
+            "index": 3,
+            "chunkOrder": null,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d"
+          },
+          {
+            "index": 4,
+            "chunkOrder": null,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389"
+          },
+          {
+            "index": 5,
+            "chunkOrder": null,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1"
+          }
+        ],
+        "classification": {
+          "categoryId": "1a1b4aa3-fd95-4751-b7b1-ec8066a7185c",
+          "categoryName": "ALVARÁS - LICENÇAS - ART",
+          "subcategoryId": "5fd457d4-7648-43dc-8136-00ed4a53bc84",
+          "subcategoryName": "COREN",
+          "categoryDescription": "Documentos referentes aos licenciamentos da instituição, incluindo alvarás, renovações, pareceres técnicos, inspeções, exigências da Vigilância Sanitária e do município, bem como exigências dos conselhos de classe CRM, CFM, CRF, COREN, demais documentos comprobatórios da regularidade com Corpo de Bombeiros e Ambiental.",
+          "subcategoryDescription": "Documentos relacionados à regularidade da instituição e dos profissionais de enfermagem junto ao Conselho Regional de Enfermagem, incluindo Certidão de Responsabilidade Técnica (CRT), registros, certidões, anuidades, nomeações e demais documentos pertinentes."
+        },
+        "matchedDocument": true,
+        "matchedCategory": null,
+        "matchedSubcategory": null,
+        "requiredWordsHit": 1,
+        "requiredWordsTotal": 1,
+        "forbiddenWordsHit": 0,
+        "sourcesCorrect": true,
+        "sourcesIncorrect": false,
+        "isHallucination": false,
+        "isEmptyAnswer": false,
+        "isInternalError": false,
+        "score": 100,
+        "verdict": "PASS",
+        "scoreBreakdown": {
+          "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+          "latency": 10,
+          "sources": 30,
+          "weights": {
+            "latency": 10,
+            "sources": 30,
+            "document": 20,
+            "answerQuality": 40
+          },
+          "document": 20,
+          "answerQuality": 40
+        },
+        "extractionMethod": "tabular",
+        "ocrQualityGrade": null,
+        "ocrUsed": false,
+        "sheetName": "Planilha1",
+        "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+        "modelName": "gpt-4.1-mini",
+        "createdAt": "2026-08-03T13:58:39.836Z"
+      },
+      {
+        "id": "7d875332-dc1c-40a9-aa8a-4861ee0807d7",
+        "runId": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+        "caseId": "2d3f363a-536f-4914-a219-f4fb898ced4f",
+        "caseCode": "TC-004",
+        "question": "Quem é a responsável técnica no quadro de enfermagem?",
+        "answer": "A responsável técnica no quadro de enfermagem é a enfermeira Jordana Borges, inscrita no COREN-MG sob o número 493808, designada para assumir as funções de responsabilidade técnica pelo serviço de enfermagem da instituição. Ela atua no setor identificado como \"RESPONSAVEL TÉCNICA\" e seu horário de trabalho é das 08:00 às 17:00, com carga horária semanal de 40 horas.\n\nEssa designação está formalizada no requerimento de registro de anotação de responsabilidade técnica junto ao COREN-MG, com validade de 16/06/2026 a 16/06/2027, conforme a Certidão de Responsabilidade Técnica (CRT) nº 3983/2026, que também indica sua atuação nos setores de Bloco Cirúrgico e CME.\n\nFonte:  \n- RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL  \n- RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD  \n- REQUERIMENTO DE REGISTRO DE ANOTAÇÃO DE RESPONSABILIDADE TECNICA COREN - ARQUIVO WORD  \n- ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026",
+        "durationMs": null,
+        "sources": [
+          {
+            "index": 1,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 2,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "REQUERIMENTO DE REGISTRO DE ANOTAÇÃO DE RESPONSABILIDADE TECNICA COREN - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 3,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 4,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - TÉCNICA DE ENFERMAGEM DAYANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 5,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA MARIANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 6,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 7,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 8,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026",
+            "subcategoryName": "COREN"
+          }
+        ],
+        "chunkRefs": [
+          {
+            "index": 1,
+            "chunkOrder": null,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+          },
+          {
+            "index": 2,
+            "chunkOrder": null,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a"
+          },
+          {
+            "index": 3,
+            "chunkOrder": null,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d"
+          },
+          {
+            "index": 4,
+            "chunkOrder": null,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389"
+          },
+          {
+            "index": 5,
+            "chunkOrder": null,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09"
+          },
+          {
+            "index": 6,
+            "chunkOrder": null,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad"
+          },
+          {
+            "index": 7,
+            "chunkOrder": null,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207"
+          },
+          {
+            "index": 8,
+            "chunkOrder": null,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1"
+          }
+        ],
+        "classification": {
+          "categoryId": "1a1b4aa3-fd95-4751-b7b1-ec8066a7185c",
+          "categoryName": "ALVARÁS - LICENÇAS - ART",
+          "subcategoryId": "5fd457d4-7648-43dc-8136-00ed4a53bc84",
+          "subcategoryName": "COREN",
+          "categoryDescription": "Documentos referentes aos licenciamentos da instituição, incluindo alvarás, renovações, pareceres técnicos, inspeções, exigências da Vigilância Sanitária e do município, bem como exigências dos conselhos de classe CRM, CFM, CRF, COREN, demais documentos comprobatórios da regularidade com Corpo de Bombeiros e Ambiental.",
+          "subcategoryDescription": "Documentos relacionados à regularidade da instituição e dos profissionais de enfermagem junto ao Conselho Regional de Enfermagem, incluindo Certidão de Responsabilidade Técnica (CRT), registros, certidões, anuidades, nomeações e demais documentos pertinentes."
+        },
+        "matchedDocument": true,
+        "matchedCategory": null,
+        "matchedSubcategory": null,
+        "requiredWordsHit": 1,
+        "requiredWordsTotal": 1,
+        "forbiddenWordsHit": 0,
+        "sourcesCorrect": true,
+        "sourcesIncorrect": false,
+        "isHallucination": false,
+        "isEmptyAnswer": false,
+        "isInternalError": false,
+        "score": 100,
+        "verdict": "PASS",
+        "scoreBreakdown": {
+          "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+          "latency": 10,
+          "sources": 30,
+          "weights": {
+            "latency": 10,
+            "sources": 30,
+            "document": 20,
+            "answerQuality": 40
+          },
+          "document": 20,
+          "answerQuality": 40
+        },
+        "extractionMethod": "tabular",
+        "ocrQualityGrade": null,
+        "ocrUsed": false,
+        "sheetName": "Planilha1",
+        "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+        "modelName": "gpt-4.1-mini",
+        "createdAt": "2026-08-03T13:58:43.840Z"
+      },
+      {
+        "id": "b9d8d5ca-8a84-4fb4-b2ae-ce4b2935d50d",
+        "runId": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+        "caseId": "f6e65c23-350d-4c1f-84bf-e8b574007204",
+        "caseCode": "TC-005",
+        "question": "Existe relação de funcionários do quadro de enfermagem em arquivo Word?",
+        "answer": "Sim, existe relação de funcionários do quadro de enfermagem em arquivo Word. O documento intitulado \"RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD\" contém a lista dos funcionários do serviço de enfermagem, incluindo nome completo, categoria profissional (Auxiliar de Enfermagem, Técnico de Enfermagem, Enfermeiro), número de registro COREN-MG, setor de trabalho e CPF. Essa relação está atualizada com data de 09/06/2026 e inclui profissionais como Barbara Aparecida Muniz de Lima, Bianca Katherein Freitas Silva, Dayana Sene Vieira As Silva, Jordana Borges e Mariana Pereira Oliveira.\n\nFonte: RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+        "durationMs": null,
+        "sources": [
+          {
+            "index": 1,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 2,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "REQUERIMENTO DE REGISTRO DE ANOTAÇÃO DE RESPONSABILIDADE TECNICA COREN - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 3,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 4,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - TÉCNICA DE ENFERMAGEM DAYANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 5,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA MARIANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 6,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 7,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 8,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026",
+            "subcategoryName": "COREN"
+          }
+        ],
+        "chunkRefs": [
+          {
+            "index": 1,
+            "chunkOrder": null,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+          },
+          {
+            "index": 2,
+            "chunkOrder": null,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a"
+          },
+          {
+            "index": 3,
+            "chunkOrder": null,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d"
+          },
+          {
+            "index": 4,
+            "chunkOrder": null,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389"
+          },
+          {
+            "index": 5,
+            "chunkOrder": null,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09"
+          },
+          {
+            "index": 6,
+            "chunkOrder": null,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad"
+          },
+          {
+            "index": 7,
+            "chunkOrder": null,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207"
+          },
+          {
+            "index": 8,
+            "chunkOrder": null,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1"
+          }
+        ],
+        "classification": {
+          "categoryId": "1a1b4aa3-fd95-4751-b7b1-ec8066a7185c",
+          "categoryName": "ALVARÁS - LICENÇAS - ART",
+          "subcategoryId": "5fd457d4-7648-43dc-8136-00ed4a53bc84",
+          "subcategoryName": "COREN",
+          "categoryDescription": "Documentos referentes aos licenciamentos da instituição, incluindo alvarás, renovações, pareceres técnicos, inspeções, exigências da Vigilância Sanitária e do município, bem como exigências dos conselhos de classe CRM, CFM, CRF, COREN, demais documentos comprobatórios da regularidade com Corpo de Bombeiros e Ambiental.",
+          "subcategoryDescription": "Documentos relacionados à regularidade da instituição e dos profissionais de enfermagem junto ao Conselho Regional de Enfermagem, incluindo Certidão de Responsabilidade Técnica (CRT), registros, certidões, anuidades, nomeações e demais documentos pertinentes."
+        },
+        "matchedDocument": true,
+        "matchedCategory": null,
+        "matchedSubcategory": null,
+        "requiredWordsHit": 1,
+        "requiredWordsTotal": 1,
+        "forbiddenWordsHit": 0,
+        "sourcesCorrect": true,
+        "sourcesIncorrect": false,
+        "isHallucination": false,
+        "isEmptyAnswer": false,
+        "isInternalError": false,
+        "score": 100,
+        "verdict": "PASS",
+        "scoreBreakdown": {
+          "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+          "latency": 10,
+          "sources": 30,
+          "weights": {
+            "latency": 10,
+            "sources": 30,
+            "document": 20,
+            "answerQuality": 40
+          },
+          "document": 20,
+          "answerQuality": 40
+        },
+        "extractionMethod": "tika",
+        "ocrQualityGrade": null,
+        "ocrUsed": false,
+        "sheetName": null,
+        "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+        "modelName": "gpt-4.1-mini",
+        "createdAt": "2026-08-03T13:58:49.225Z"
+      },
+      {
+        "id": "5202f5e0-4dfa-45c7-b483-77886f3cdf8e",
+        "runId": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+        "caseId": "20d6dfbf-aa35-44af-aa97-437c1487ce26",
+        "caseCode": "TC-006",
+        "question": "Existe certidão de regularidade COREN da enfermeira Bianca?",
+        "answer": "Sim, existe certidão de regularidade COREN da enfermeira Bianca Katherein Freitas Silva. \n\nA certidão foi emitida pelo Conselho Regional de Enfermagem de Minas Gerais (Coren-MG) e certifica que Bianca Katherein Freitas Silva, CPF 099.446.406-11, é enfermeira com inscrição definitiva nº 795377 no Coren-MG desde 14 de setembro de 2023. A certidão informa que não há anotações referentes a infrações disciplinares ou éticas em seu prontuário, que está regular com a situação eleitoral e sem pendências financeiras até o ano de 2026. A certidão tem validade de 60 dias a partir da emissão, datada de 27 de maio de 2026, e pode ser autenticada no site do Coren-MG com o código verificador 0044973568.\n\nFonte: CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA (Fontes 2 e 3)",
+        "durationMs": null,
+        "sources": [
+          {
+            "index": 1,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 2,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 3,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA MARIANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 4,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 5,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 6,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - TÉCNICA DE ENFERMAGEM DAYANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 7,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "REQUERIMENTO DE REGISTRO DE ANOTAÇÃO DE RESPONSABILIDADE TECNICA COREN - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          }
+        ],
+        "chunkRefs": [
+          {
+            "index": 1,
+            "chunkOrder": null,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+          },
+          {
+            "index": 2,
+            "chunkOrder": null,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad"
+          },
+          {
+            "index": 3,
+            "chunkOrder": null,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09"
+          },
+          {
+            "index": 4,
+            "chunkOrder": null,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207"
+          },
+          {
+            "index": 5,
+            "chunkOrder": null,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d"
+          },
+          {
+            "index": 6,
+            "chunkOrder": null,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389"
+          },
+          {
+            "index": 7,
+            "chunkOrder": null,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a"
+          }
+        ],
+        "classification": {
+          "categoryId": "1a1b4aa3-fd95-4751-b7b1-ec8066a7185c",
+          "categoryName": "ALVARÁS - LICENÇAS - ART",
+          "subcategoryId": "5fd457d4-7648-43dc-8136-00ed4a53bc84",
+          "subcategoryName": "COREN",
+          "categoryDescription": "Documentos referentes aos licenciamentos da instituição, incluindo alvarás, renovações, pareceres técnicos, inspeções, exigências da Vigilância Sanitária e do município, bem como exigências dos conselhos de classe CRM, CFM, CRF, COREN, demais documentos comprobatórios da regularidade com Corpo de Bombeiros e Ambiental.",
+          "subcategoryDescription": "Documentos relacionados à regularidade da instituição e dos profissionais de enfermagem junto ao Conselho Regional de Enfermagem, incluindo Certidão de Responsabilidade Técnica (CRT), registros, certidões, anuidades, nomeações e demais documentos pertinentes."
+        },
+        "matchedDocument": true,
+        "matchedCategory": true,
+        "matchedSubcategory": true,
+        "requiredWordsHit": 2,
+        "requiredWordsTotal": 2,
+        "forbiddenWordsHit": 0,
+        "sourcesCorrect": true,
+        "sourcesIncorrect": false,
+        "isHallucination": false,
+        "isEmptyAnswer": false,
+        "isInternalError": false,
+        "score": 100,
+        "verdict": "PASS",
+        "scoreBreakdown": {
+          "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+          "latency": 10,
+          "sources": 30,
+          "weights": {
+            "latency": 10,
+            "sources": 30,
+            "document": 20,
+            "answerQuality": 40
+          },
+          "document": 20,
+          "answerQuality": 40
+        },
+        "extractionMethod": "tika",
+        "ocrQualityGrade": null,
+        "ocrUsed": false,
+        "sheetName": null,
+        "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+        "modelName": "gpt-4.1-mini",
+        "createdAt": "2026-08-03T13:58:53.128Z"
+      },
+      {
+        "id": "71085827-dddc-4442-80aa-ec1d0c31d2f6",
+        "runId": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+        "caseId": "971927d3-3187-4a7c-beca-29360d567852",
+        "caseCode": "TC-007",
+        "question": "Existe certidão de regularidade COREN da enfermeira Jordana?",
+        "answer": "Sim, existe certidão de regularidade COREN da enfermeira Jordana Borges.\n\nDetalhes da certidão:\n- Nome: Jordana Borges\n- CPF: 075.482.896-42\n- Categoria Profissional: Enfermeira\n- Número de Registro COREN-MG: 493808-ENF\n- Inscrição definitiva desde 3 de novembro de 2016\n- Não consta qualquer anotação referente a infração disciplinar ou ética\n- Está regular com a situação eleitoral perante o Coren-MG até a presente data\n- Não constam pendências relativas às obrigações pecuniárias até o ano de 2026\n- Habilitada ao exercício da profissão na área da Enfermagem\n- Validade da certidão: 60 dias a partir da emissão em 26 de maio de 2026\n- Autenticidade pode ser conferida no site do Coren-MG com código verificador 0044963114\n\nAlém disso, há Anotação de Responsabilidade Técnica (CRT) válida para Jordana Borges no período de 16/06/2026 a 16/06/2027, designando-a como responsável técnica pelo OFTALMOCENTRO UBERABA LTDA, com atuação nos setores Bloco Cirúrgico e CME.\n\nFonte: CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA (Fontes 2 e 3), ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026 (Fontes 11 e 12), RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL (Fontes 1 e 8)",
+        "durationMs": null,
+        "sources": [
+          {
+            "index": 1,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 2,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 3,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA MARIANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 4,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 5,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "REQUERIMENTO DE REGISTRO DE ANOTAÇÃO DE RESPONSABILIDADE TECNICA COREN - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 6,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 7,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026",
+            "subcategoryName": "COREN"
+          }
+        ],
+        "chunkRefs": [
+          {
+            "index": 1,
+            "chunkOrder": null,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+          },
+          {
+            "index": 2,
+            "chunkOrder": null,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207"
+          },
+          {
+            "index": 3,
+            "chunkOrder": null,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09"
+          },
+          {
+            "index": 4,
+            "chunkOrder": null,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad"
+          },
+          {
+            "index": 5,
+            "chunkOrder": null,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a"
+          },
+          {
+            "index": 6,
+            "chunkOrder": null,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d"
+          },
+          {
+            "index": 7,
+            "chunkOrder": null,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1"
+          }
+        ],
+        "classification": {
+          "categoryId": "1a1b4aa3-fd95-4751-b7b1-ec8066a7185c",
+          "categoryName": "ALVARÁS - LICENÇAS - ART",
+          "subcategoryId": "5fd457d4-7648-43dc-8136-00ed4a53bc84",
+          "subcategoryName": "COREN",
+          "categoryDescription": "Documentos referentes aos licenciamentos da instituição, incluindo alvarás, renovações, pareceres técnicos, inspeções, exigências da Vigilância Sanitária e do município, bem como exigências dos conselhos de classe CRM, CFM, CRF, COREN, demais documentos comprobatórios da regularidade com Corpo de Bombeiros e Ambiental.",
+          "subcategoryDescription": "Documentos relacionados à regularidade da instituição e dos profissionais de enfermagem junto ao Conselho Regional de Enfermagem, incluindo Certidão de Responsabilidade Técnica (CRT), registros, certidões, anuidades, nomeações e demais documentos pertinentes."
+        },
+        "matchedDocument": true,
+        "matchedCategory": true,
+        "matchedSubcategory": true,
+        "requiredWordsHit": 2,
+        "requiredWordsTotal": 2,
+        "forbiddenWordsHit": 0,
+        "sourcesCorrect": true,
+        "sourcesIncorrect": false,
+        "isHallucination": false,
+        "isEmptyAnswer": false,
+        "isInternalError": false,
+        "score": 100,
+        "verdict": "PASS",
+        "scoreBreakdown": {
+          "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+          "latency": 10,
+          "sources": 30,
+          "weights": {
+            "latency": 10,
+            "sources": 30,
+            "document": 20,
+            "answerQuality": 40
+          },
+          "document": 20,
+          "answerQuality": 40
+        },
+        "extractionMethod": "tika",
+        "ocrQualityGrade": null,
+        "ocrUsed": false,
+        "sheetName": null,
+        "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+        "modelName": "gpt-4.1-mini",
+        "createdAt": "2026-08-03T13:59:00.196Z"
+      },
+      {
+        "id": "be7ee646-3e64-4cac-a941-c3573e5e6e34",
+        "runId": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+        "caseId": "544aa331-869d-4319-bf4f-b97837f7e345",
+        "caseCode": "TC-008",
+        "question": "Existe certidão de regularidade COREN da enfermeira Mariana?",
+        "answer": "Sim, existe certidão de regularidade COREN da enfermeira Mariana.\n\nA certidão nº 77663/2026, emitida pelo Conselho Regional de Enfermagem de Minas Gerais (Coren-MG), certifica que a profissional Mariana Oliveira Pereira Silva, CPF 095.038.926-94, é enfermeira com inscrição definitiva nº Coren-MG-271377-ENF desde 16 de janeiro de 2012, estando sua inscrição plenamente vigente. Não consta em seu prontuário qualquer anotação referente a infração disciplinar ou ética, e ela está regular com a situação eleitoral e sem pendências financeiras até o ano de 2026. A certidão tem validade de 60 dias a partir da emissão em 1º de junho de 2026.\n\nFonte: CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA MARIANA (Fontes 2 e 3)",
+        "durationMs": null,
+        "sources": [
+          {
+            "index": 1,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 2,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA MARIANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 3,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 4,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 5,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 6,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - TÉCNICA DE ENFERMAGEM DAYANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 7,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "REQUERIMENTO DE REGISTRO DE ANOTAÇÃO DE RESPONSABILIDADE TECNICA COREN - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          }
+        ],
+        "chunkRefs": [
+          {
+            "index": 1,
+            "chunkOrder": null,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+          },
+          {
+            "index": 2,
+            "chunkOrder": null,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09"
+          },
+          {
+            "index": 3,
+            "chunkOrder": null,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad"
+          },
+          {
+            "index": 4,
+            "chunkOrder": null,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207"
+          },
+          {
+            "index": 5,
+            "chunkOrder": null,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d"
+          },
+          {
+            "index": 6,
+            "chunkOrder": null,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389"
+          },
+          {
+            "index": 7,
+            "chunkOrder": null,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a"
+          }
+        ],
+        "classification": {
+          "categoryId": "1a1b4aa3-fd95-4751-b7b1-ec8066a7185c",
+          "categoryName": "ALVARÁS - LICENÇAS - ART",
+          "subcategoryId": "5fd457d4-7648-43dc-8136-00ed4a53bc84",
+          "subcategoryName": "COREN",
+          "categoryDescription": "Documentos referentes aos licenciamentos da instituição, incluindo alvarás, renovações, pareceres técnicos, inspeções, exigências da Vigilância Sanitária e do município, bem como exigências dos conselhos de classe CRM, CFM, CRF, COREN, demais documentos comprobatórios da regularidade com Corpo de Bombeiros e Ambiental.",
+          "subcategoryDescription": "Documentos relacionados à regularidade da instituição e dos profissionais de enfermagem junto ao Conselho Regional de Enfermagem, incluindo Certidão de Responsabilidade Técnica (CRT), registros, certidões, anuidades, nomeações e demais documentos pertinentes."
+        },
+        "matchedDocument": true,
+        "matchedCategory": true,
+        "matchedSubcategory": true,
+        "requiredWordsHit": 2,
+        "requiredWordsTotal": 2,
+        "forbiddenWordsHit": 0,
+        "sourcesCorrect": true,
+        "sourcesIncorrect": false,
+        "isHallucination": false,
+        "isEmptyAnswer": false,
+        "isInternalError": false,
+        "score": 100,
+        "verdict": "PASS",
+        "scoreBreakdown": {
+          "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+          "latency": 10,
+          "sources": 30,
+          "weights": {
+            "latency": 10,
+            "sources": 30,
+            "document": 20,
+            "answerQuality": 40
+          },
+          "document": 20,
+          "answerQuality": 40
+        },
+        "extractionMethod": "tika",
+        "ocrQualityGrade": null,
+        "ocrUsed": false,
+        "sheetName": null,
+        "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+        "modelName": "gpt-4.1-mini",
+        "createdAt": "2026-08-03T13:59:04.459Z"
+      },
+      {
+        "id": "a2b2d3e0-5f91-4a8d-b6be-c8319046a35e",
+        "runId": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+        "caseId": "d3c6b441-711f-4418-8f88-9712c12736c2",
+        "caseCode": "TC-009",
+        "question": "Existe certidão de regularidade COREN da técnica Dayana?",
+        "answer": "Sim, existe certidão de regularidade COREN da técnica Dayana Sene Vieira da Silva. \n\nA certidão, emitida pelo Conselho Regional de Enfermagem de Minas Gerais (Coren-MG), certifica que Dayana é Técnica em Enfermagem, com inscrição definitiva desde 19 de outubro de 2011, número Coren-MG-646173-TEC. Não consta em seu prontuário qualquer anotação referente a infração disciplinar ou ética, e ela está regular com a situação eleitoral perante o Coren-MG até a presente data. Também não há pendências relativas às obrigações pecuniárias até o ano de 2026. A certidão tem validade de 60 dias a partir da emissão em 1º de junho de 2026.\n\nFonte: CERTIDÃO DE REGULARIDADE COREN - TÉCNICA DE ENFERMAGEM DAYANA (Fontes 2 e 3) e RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM (Fontes 1 e 10)",
+        "durationMs": null,
+        "sources": [
+          {
+            "index": 1,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 2,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - TÉCNICA DE ENFERMAGEM DAYANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 3,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA MARIANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 4,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 5,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 6,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "REQUERIMENTO DE REGISTRO DE ANOTAÇÃO DE RESPONSABILIDADE TECNICA COREN - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          }
+        ],
+        "chunkRefs": [
+          {
+            "index": 1,
+            "chunkOrder": null,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+          },
+          {
+            "index": 2,
+            "chunkOrder": null,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389"
+          },
+          {
+            "index": 3,
+            "chunkOrder": null,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09"
+          },
+          {
+            "index": 4,
+            "chunkOrder": null,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad"
+          },
+          {
+            "index": 5,
+            "chunkOrder": null,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207"
+          },
+          {
+            "index": 6,
+            "chunkOrder": null,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a"
+          }
+        ],
+        "classification": {
+          "categoryId": "1a1b4aa3-fd95-4751-b7b1-ec8066a7185c",
+          "categoryName": "ALVARÁS - LICENÇAS - ART",
+          "subcategoryId": "5fd457d4-7648-43dc-8136-00ed4a53bc84",
+          "subcategoryName": "COREN",
+          "categoryDescription": "Documentos referentes aos licenciamentos da instituição, incluindo alvarás, renovações, pareceres técnicos, inspeções, exigências da Vigilância Sanitária e do município, bem como exigências dos conselhos de classe CRM, CFM, CRF, COREN, demais documentos comprobatórios da regularidade com Corpo de Bombeiros e Ambiental.",
+          "subcategoryDescription": "Documentos relacionados à regularidade da instituição e dos profissionais de enfermagem junto ao Conselho Regional de Enfermagem, incluindo Certidão de Responsabilidade Técnica (CRT), registros, certidões, anuidades, nomeações e demais documentos pertinentes."
+        },
+        "matchedDocument": true,
+        "matchedCategory": true,
+        "matchedSubcategory": true,
+        "requiredWordsHit": 2,
+        "requiredWordsTotal": 2,
+        "forbiddenWordsHit": 0,
+        "sourcesCorrect": true,
+        "sourcesIncorrect": false,
+        "isHallucination": false,
+        "isEmptyAnswer": false,
+        "isInternalError": false,
+        "score": 100,
+        "verdict": "PASS",
+        "scoreBreakdown": {
+          "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+          "latency": 10,
+          "sources": 30,
+          "weights": {
+            "latency": 10,
+            "sources": 30,
+            "document": 20,
+            "answerQuality": 40
+          },
+          "document": 20,
+          "answerQuality": 40
+        },
+        "extractionMethod": "tika",
+        "ocrQualityGrade": null,
+        "ocrUsed": false,
+        "sheetName": null,
+        "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+        "modelName": "gpt-4.1-mini",
+        "createdAt": "2026-08-03T13:59:08.182Z"
+      },
+      {
+        "id": "46b2c54e-35f2-4e17-bd2d-411f6f38160d",
+        "runId": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+        "caseId": "918d7c02-b245-4159-a73c-9a7b4c541d5b",
+        "caseCode": "TC-010",
+        "question": "Qual documento registra a anotação de responsabilidade técnica COREN de Jordana Borges 2026?",
+        "answer": "O documento que registra a anotação de responsabilidade técnica COREN de Jordana Borges 2026 é a \"ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026\". Este documento certifica a anotação no livro específico da designação de Jordana Borges como enfermeira responsável técnica pelo OFTALMOCENTRO UBERABA LTDA, com inscrição COREN-MG nº 493808-ENF, válida de 16/06/2026 a 16/06/2027, para os setores Bloco Cirúrgico e CME, com horário de trabalho das 08:00 às 17:00.\n\nFonte:  \n- ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026 (Fontes 2, 3, 4, 8)",
+        "durationMs": null,
+        "sources": [
+          {
+            "index": 1,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "REQUERIMENTO DE REGISTRO DE ANOTAÇÃO DE RESPONSABILIDADE TECNICA COREN - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 2,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 3,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 4,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 5,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - TÉCNICA DE ENFERMAGEM DAYANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 6,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA MARIANA",
+            "subcategoryName": "COREN"
+          }
+        ],
+        "chunkRefs": [
+          {
+            "index": 1,
+            "chunkOrder": null,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a"
+          },
+          {
+            "index": 2,
+            "chunkOrder": null,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1"
+          },
+          {
+            "index": 3,
+            "chunkOrder": null,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207"
+          },
+          {
+            "index": 4,
+            "chunkOrder": null,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+          },
+          {
+            "index": 5,
+            "chunkOrder": null,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389"
+          },
+          {
+            "index": 6,
+            "chunkOrder": null,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09"
+          }
+        ],
+        "classification": {
+          "categoryId": "1a1b4aa3-fd95-4751-b7b1-ec8066a7185c",
+          "categoryName": "ALVARÁS - LICENÇAS - ART",
+          "subcategoryId": "5fd457d4-7648-43dc-8136-00ed4a53bc84",
+          "subcategoryName": "COREN",
+          "categoryDescription": "Documentos referentes aos licenciamentos da instituição, incluindo alvarás, renovações, pareceres técnicos, inspeções, exigências da Vigilância Sanitária e do município, bem como exigências dos conselhos de classe CRM, CFM, CRF, COREN, demais documentos comprobatórios da regularidade com Corpo de Bombeiros e Ambiental.",
+          "subcategoryDescription": "Documentos relacionados à regularidade da instituição e dos profissionais de enfermagem junto ao Conselho Regional de Enfermagem, incluindo Certidão de Responsabilidade Técnica (CRT), registros, certidões, anuidades, nomeações e demais documentos pertinentes."
+        },
+        "matchedDocument": true,
+        "matchedCategory": null,
+        "matchedSubcategory": null,
+        "requiredWordsHit": 2,
+        "requiredWordsTotal": 2,
+        "forbiddenWordsHit": 0,
+        "sourcesCorrect": true,
+        "sourcesIncorrect": false,
+        "isHallucination": false,
+        "isEmptyAnswer": false,
+        "isInternalError": false,
+        "score": 100,
+        "verdict": "PASS",
+        "scoreBreakdown": {
+          "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+          "latency": 10,
+          "sources": 30,
+          "weights": {
+            "latency": 10,
+            "sources": 30,
+            "document": 20,
+            "answerQuality": 40
+          },
+          "document": 20,
+          "answerQuality": 40
+        },
+        "extractionMethod": "tika",
+        "ocrQualityGrade": null,
+        "ocrUsed": false,
+        "sheetName": null,
+        "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+        "modelName": "gpt-4.1-mini",
+        "createdAt": "2026-08-03T13:59:13.243Z"
+      },
+      {
+        "id": "62942a1c-5d4a-4411-ba2b-1185bac0fbe9",
+        "runId": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+        "caseId": "268826c3-e812-4508-8988-a86ecaf4d7d3",
+        "caseCode": "TC-054",
+        "question": "A relação de funcionários também existe em Word?",
+        "answer": "Não encontrei essa informação na base documental disponível.\n\nFonte: RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL; CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA - ARQUIVO WORD; PROCEDIMENTO OPERACIONAL PADRA - ROTINA DE VERIFICAÇÃO NOBREAK - ARQUIVO WORD",
+        "durationMs": null,
+        "sources": [
+          {
+            "index": 1,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 2,
+            "documentId": "71e5029f-4881-4fe4-9dc9-048f178b1165",
+            "categoryName": "OFTALMOCENTRO INSTITUCIONAL",
+            "documentTitle": "CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA - ARQUIVO WORD",
+            "subcategoryName": null
+          },
+          {
+            "index": 3,
+            "documentId": "1a3520b6-a0db-4b96-8459-4ff825008337",
+            "categoryName": "ENGENHARIA CLÍNICA",
+            "documentTitle": "PROCEDIMENTO OPERACIONAL PADRA - ROTINA DE VERIFICAÇÃO NOBREAK - ARQUIVO WORD",
+            "subcategoryName": "PROCEDIMENTOS OPERACIONAIS PADRÃO"
+          }
+        ],
+        "chunkRefs": [
+          {
+            "index": 1,
+            "chunkOrder": null,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+          },
+          {
+            "index": 2,
+            "chunkOrder": null,
+            "documentId": "71e5029f-4881-4fe4-9dc9-048f178b1165"
+          },
+          {
+            "index": 3,
+            "chunkOrder": null,
+            "documentId": "1a3520b6-a0db-4b96-8459-4ff825008337"
+          }
+        ],
+        "classification": {
+          "categoryId": "c2a99325-1439-4f1d-bec7-6f6006a0822f",
+          "categoryName": "TABELAS DE PREÇOS",
+          "subcategoryId": "8ff31a51-8732-48b3-9f40-742d4abe9b3e",
+          "subcategoryName": "Lente Intraocular Particular",
+          "categoryDescription": "Tabelas contendo os valores vigentes para consultas médicas, exames oftalmológicos, procedimentos cirúrgicos e demais serviços prestados em regime particular, e convênios com cartões desconto, incluindo atualizações e históricos de preços.",
+          "subcategoryDescription": "Relação de preços das lentes intraoculares disponibilizadas para pacientes particulares, contemplando modelos, fabricantes, características técnicas e respectivos valores."
+        },
+        "matchedDocument": false,
+        "matchedCategory": null,
+        "matchedSubcategory": null,
+        "requiredWordsHit": 2,
+        "requiredWordsTotal": 2,
+        "forbiddenWordsHit": 0,
+        "sourcesCorrect": false,
+        "sourcesIncorrect": true,
+        "isHallucination": false,
+        "isEmptyAnswer": false,
+        "isInternalError": false,
+        "score": 50,
+        "verdict": "FAIL",
+        "scoreBreakdown": {
+          "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+          "latency": 10,
+          "sources": 0,
+          "weights": {
+            "latency": 10,
+            "sources": 30,
+            "document": 20,
+            "answerQuality": 40
+          },
+          "document": 0,
+          "answerQuality": 40
+        },
+        "extractionMethod": "tika",
+        "ocrQualityGrade": null,
+        "ocrUsed": false,
+        "sheetName": null,
+        "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+        "modelName": "gpt-4.1-mini",
+        "createdAt": "2026-08-03T13:59:15.958Z"
+      },
+      {
+        "id": "7dfc18d0-0ae0-4d2c-a6aa-aeb5a3aedbd2",
+        "runId": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+        "caseId": "86e55810-9df7-4e96-a32b-fdf973f83b1d",
+        "caseCode": "TC-085",
+        "question": "ART COREN Jordana 2026 existe?",
+        "answer": "Sim, existe a ART (Anotação de Responsabilidade Técnica) COREN para Jordana Borges válida para o ano de 2026. \n\nDetalhes da ART COREN Jordana 2026:\n- Número da Anotação: 3983/2026\n- Data de emissão: 16/06/2026\n- Validade: de 16/06/2026 a 16/06/2027\n- Livro: 108\n- Folha: 56 V\n- Nome do estabelecimento: OFTALMOCENTRO\n- Nome do enfermeiro: Jordana Borges\n- Inscrição COREN-MG: 493808-ENF\n- Setores: Bloco Cirúrgico e CME\n- Horário de trabalho: 08:00 às 17:00\n\nAlém disso, Jordana Borges consta como enfermeira responsável técnica no quadro de funcionários com o registro COREN-MG 493,608 (493808).\n\nFonte: ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026 (Fontes 2, 3, 4, 5), RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM (Fontes 1, 8, 9)",
+        "durationMs": null,
+        "sources": [
+          {
+            "index": 1,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 2,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 3,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 4,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 5,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - TÉCNICA DE ENFERMAGEM DAYANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 6,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA MARIANA",
+            "subcategoryName": "COREN"
+          }
+        ],
+        "chunkRefs": [
+          {
+            "index": 1,
+            "chunkOrder": null,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+          },
+          {
+            "index": 2,
+            "chunkOrder": null,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1"
+          },
+          {
+            "index": 3,
+            "chunkOrder": null,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207"
+          },
+          {
+            "index": 4,
+            "chunkOrder": null,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d"
+          },
+          {
+            "index": 5,
+            "chunkOrder": null,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389"
+          },
+          {
+            "index": 6,
+            "chunkOrder": null,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09"
+          }
+        ],
+        "classification": {
+          "categoryId": "1a1b4aa3-fd95-4751-b7b1-ec8066a7185c",
+          "categoryName": "ALVARÁS - LICENÇAS - ART",
+          "subcategoryId": "5fd457d4-7648-43dc-8136-00ed4a53bc84",
+          "subcategoryName": "COREN",
+          "categoryDescription": "Documentos referentes aos licenciamentos da instituição, incluindo alvarás, renovações, pareceres técnicos, inspeções, exigências da Vigilância Sanitária e do município, bem como exigências dos conselhos de classe CRM, CFM, CRF, COREN, demais documentos comprobatórios da regularidade com Corpo de Bombeiros e Ambiental.",
+          "subcategoryDescription": "Documentos relacionados à regularidade da instituição e dos profissionais de enfermagem junto ao Conselho Regional de Enfermagem, incluindo Certidão de Responsabilidade Técnica (CRT), registros, certidões, anuidades, nomeações e demais documentos pertinentes."
+        },
+        "matchedDocument": true,
+        "matchedCategory": null,
+        "matchedSubcategory": null,
+        "requiredWordsHit": 2,
+        "requiredWordsTotal": 2,
+        "forbiddenWordsHit": 0,
+        "sourcesCorrect": true,
+        "sourcesIncorrect": false,
+        "isHallucination": false,
+        "isEmptyAnswer": false,
+        "isInternalError": false,
+        "score": 100,
+        "verdict": "PASS",
+        "scoreBreakdown": {
+          "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+          "latency": 10,
+          "sources": 30,
+          "weights": {
+            "latency": 10,
+            "sources": 30,
+            "document": 20,
+            "answerQuality": 40
+          },
+          "document": 20,
+          "answerQuality": 40
+        },
+        "extractionMethod": "tika",
+        "ocrQualityGrade": null,
+        "ocrUsed": false,
+        "sheetName": null,
+        "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+        "modelName": "gpt-4.1-mini",
+        "createdAt": "2026-08-03T13:59:20.968Z"
+      },
+      {
+        "id": "38f9f178-5f83-4785-8a87-124f17e801a1",
+        "runId": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+        "caseId": "2a57f5f9-a58b-4a93-9d18-6c1b7c9273bf",
+        "caseCode": "TC-086",
+        "question": "Certidão COREN Bianca está na base?",
+        "answer": "Sim, a Certidão COREN da enfermeira Bianca Katherein Freitas Silva está na base documental.\n\nDetalhes da certidão:\n- Nome: Bianca Katherein Freitas Silva\n- Categoria Profissional: Enfermeira\n- Nº Registro COREN-MG: 795377\n- Setor de Trabalho: Centro Cirúrgico/Exames/CME\n- Validade da certidão: 60 dias a partir da emissão em 27 de maio de 2026\n- Código verificador para conferência da autenticidade: 0044973568\n- Emitida pelo Conselho Regional de Enfermagem de Minas Gerais (Coren-MG)\n- Documento assinado pelo Presidente em Exercício Dr. Lucas Tavares Nogueira\n\nFonte: CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA",
+        "durationMs": null,
+        "sources": [
+          {
+            "index": 1,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 2,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 3,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 4,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 5,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - TÉCNICA DE ENFERMAGEM DAYANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 6,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA MARIANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 7,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA",
+            "subcategoryName": "COREN"
+          }
+        ],
+        "chunkRefs": [
+          {
+            "index": 1,
+            "chunkOrder": null,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+          },
+          {
+            "index": 2,
+            "chunkOrder": null,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad"
+          },
+          {
+            "index": 3,
+            "chunkOrder": null,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d"
+          },
+          {
+            "index": 4,
+            "chunkOrder": null,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1"
+          },
+          {
+            "index": 5,
+            "chunkOrder": null,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389"
+          },
+          {
+            "index": 6,
+            "chunkOrder": null,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09"
+          },
+          {
+            "index": 7,
+            "chunkOrder": null,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207"
+          }
+        ],
+        "classification": {
+          "categoryId": "1a1b4aa3-fd95-4751-b7b1-ec8066a7185c",
+          "categoryName": "ALVARÁS - LICENÇAS - ART",
+          "subcategoryId": "5fd457d4-7648-43dc-8136-00ed4a53bc84",
+          "subcategoryName": "COREN",
+          "categoryDescription": "Documentos referentes aos licenciamentos da instituição, incluindo alvarás, renovações, pareceres técnicos, inspeções, exigências da Vigilância Sanitária e do município, bem como exigências dos conselhos de classe CRM, CFM, CRF, COREN, demais documentos comprobatórios da regularidade com Corpo de Bombeiros e Ambiental.",
+          "subcategoryDescription": "Documentos relacionados à regularidade da instituição e dos profissionais de enfermagem junto ao Conselho Regional de Enfermagem, incluindo Certidão de Responsabilidade Técnica (CRT), registros, certidões, anuidades, nomeações e demais documentos pertinentes."
+        },
+        "matchedDocument": true,
+        "matchedCategory": null,
+        "matchedSubcategory": null,
+        "requiredWordsHit": 1,
+        "requiredWordsTotal": 1,
+        "forbiddenWordsHit": 0,
+        "sourcesCorrect": true,
+        "sourcesIncorrect": false,
+        "isHallucination": false,
+        "isEmptyAnswer": false,
+        "isInternalError": false,
+        "score": 100,
+        "verdict": "PASS",
+        "scoreBreakdown": {
+          "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+          "latency": 10,
+          "sources": 30,
+          "weights": {
+            "latency": 10,
+            "sources": 30,
+            "document": 20,
+            "answerQuality": 40
+          },
+          "document": 20,
+          "answerQuality": 40
+        },
+        "extractionMethod": "tika",
+        "ocrQualityGrade": null,
+        "ocrUsed": false,
+        "sheetName": null,
+        "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+        "modelName": "gpt-4.1-mini",
+        "createdAt": "2026-08-03T13:59:25.124Z"
+      },
+      {
+        "id": "1a25026a-d266-481e-a323-5cd4bf20af61",
+        "runId": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+        "caseId": "fa53b505-1c4d-4693-83dd-247a77121cb2",
+        "caseCode": "TC-087",
+        "question": "Certidão COREN Jordana está na base?",
+        "answer": "Sim, a Certidão COREN referente à Jordana Borges está na base documental disponível.\n\nEla consta como Enfermeira responsável técnica no OFTALMOCENTRO UBERABA LTDA, com inscrição COREN-MG nº 493808-ENF. A Certidão de Responsabilidade Técnica (CRT) tem validade de 16/06/2026 a 16/06/2027, conforme documento emitido pelo Conselho Regional de Enfermagem de Minas Gerais (COREN-MG). O documento indica que Jordana Borges está designada para a chefia do serviço/unidade nos setores Bloco Cirúrgico e CME, com horário de trabalho das 08:00 às 17:00.\n\nAlém disso, há registro da certidão de regularidade e do requerimento de registro de anotação de responsabilidade técnica com dados completos da profissional.\n\nFonte:  \n- RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL  \n- ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026  \n- CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA  \n- REQUERIMENTO DE REGISTRO DE ANOTAÇÃO DE RESPONSABILIDADE TECNICA COREN - ARQUIVO WORD",
+        "durationMs": null,
+        "sources": [
+          {
+            "index": 1,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 2,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 3,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 4,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "REQUERIMENTO DE REGISTRO DE ANOTAÇÃO DE RESPONSABILIDADE TECNICA COREN - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 5,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 6,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - TÉCNICA DE ENFERMAGEM DAYANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 7,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA MARIANA",
+            "subcategoryName": "COREN"
+          }
+        ],
+        "chunkRefs": [
+          {
+            "index": 1,
+            "chunkOrder": null,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+          },
+          {
+            "index": 2,
+            "chunkOrder": null,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1"
+          },
+          {
+            "index": 3,
+            "chunkOrder": null,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207"
+          },
+          {
+            "index": 4,
+            "chunkOrder": null,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a"
+          },
+          {
+            "index": 5,
+            "chunkOrder": null,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d"
+          },
+          {
+            "index": 6,
+            "chunkOrder": null,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389"
+          },
+          {
+            "index": 7,
+            "chunkOrder": null,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09"
+          }
+        ],
+        "classification": {
+          "categoryId": "1a1b4aa3-fd95-4751-b7b1-ec8066a7185c",
+          "categoryName": "ALVARÁS - LICENÇAS - ART",
+          "subcategoryId": "5fd457d4-7648-43dc-8136-00ed4a53bc84",
+          "subcategoryName": "COREN",
+          "categoryDescription": "Documentos referentes aos licenciamentos da instituição, incluindo alvarás, renovações, pareceres técnicos, inspeções, exigências da Vigilância Sanitária e do município, bem como exigências dos conselhos de classe CRM, CFM, CRF, COREN, demais documentos comprobatórios da regularidade com Corpo de Bombeiros e Ambiental.",
+          "subcategoryDescription": "Documentos relacionados à regularidade da instituição e dos profissionais de enfermagem junto ao Conselho Regional de Enfermagem, incluindo Certidão de Responsabilidade Técnica (CRT), registros, certidões, anuidades, nomeações e demais documentos pertinentes."
+        },
+        "matchedDocument": true,
+        "matchedCategory": null,
+        "matchedSubcategory": null,
+        "requiredWordsHit": 1,
+        "requiredWordsTotal": 1,
+        "forbiddenWordsHit": 0,
+        "sourcesCorrect": true,
+        "sourcesIncorrect": false,
+        "isHallucination": false,
+        "isEmptyAnswer": false,
+        "isInternalError": false,
+        "score": 100,
+        "verdict": "PASS",
+        "scoreBreakdown": {
+          "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+          "latency": 10,
+          "sources": 30,
+          "weights": {
+            "latency": 10,
+            "sources": 30,
+            "document": 20,
+            "answerQuality": 40
+          },
+          "document": 20,
+          "answerQuality": 40
+        },
+        "extractionMethod": "tika",
+        "ocrQualityGrade": null,
+        "ocrUsed": false,
+        "sheetName": null,
+        "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+        "modelName": "gpt-4.1-mini",
+        "createdAt": "2026-08-03T13:59:29.524Z"
+      },
+      {
+        "id": "72fc3e02-aa33-41a9-920a-bc9973d3c80a",
+        "runId": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+        "caseId": "e858c7dd-e807-413f-bab0-d3118f1f3495",
+        "caseCode": "TC-088",
+        "question": "Certidão COREN Mariana está na base?",
+        "answer": "Sim, a Certidão COREN da enfermeira Mariana está na base documental disponível.\n\nDetalhes da certidão encontrada:\n\n- Nome completo: Mariana Oliveira Pereira Silva\n- CPF: 095.038.926-94\n- Categoria profissional: Enfermeira\n- Número de registro COREN-MG: 271377-ENF\n- Situação: Inscrição definitiva e plenamente vigente desde 16 de janeiro de 2012\n- Certifica que não há infrações disciplinares ou éticas registradas\n- Regularidade eleitoral e ausência de pendências financeiras até o ano de 2026\n- Habilitação para o exercício da profissão na área de Enfermagem\n- Validade da certidão: 60 dias a partir da emissão (data da certidão: 1 de junho de 2026)\n- Documento assinado pelo Presidente em Exercício do COREN-MG, Dr. Lucas Tavares Nogueira\n- Código verificador para conferência da autenticidade disponível no site do COREN-MG\n\nAlém disso, Mariana Pereira Oliveira consta na relação de funcionários do quadro de enfermagem da instituição, com registro COREN ativo.\n\nFonte: CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA MARIANA (Fontes 2 e 3), RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM (Fontes 1, 4 e 5)",
+        "durationMs": null,
+        "sources": [
+          {
+            "index": 1,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 2,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA MARIANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 3,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 4,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 5,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - TÉCNICA DE ENFERMAGEM DAYANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 6,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 7,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 8,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "REQUERIMENTO DE REGISTRO DE ANOTAÇÃO DE RESPONSABILIDADE TECNICA COREN - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          }
+        ],
+        "chunkRefs": [
+          {
+            "index": 1,
+            "chunkOrder": null,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+          },
+          {
+            "index": 2,
+            "chunkOrder": null,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09"
+          },
+          {
+            "index": 3,
+            "chunkOrder": null,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d"
+          },
+          {
+            "index": 4,
+            "chunkOrder": null,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1"
+          },
+          {
+            "index": 5,
+            "chunkOrder": null,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389"
+          },
+          {
+            "index": 6,
+            "chunkOrder": null,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad"
+          },
+          {
+            "index": 7,
+            "chunkOrder": null,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207"
+          },
+          {
+            "index": 8,
+            "chunkOrder": null,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a"
+          }
+        ],
+        "classification": {
+          "categoryId": "1a1b4aa3-fd95-4751-b7b1-ec8066a7185c",
+          "categoryName": "ALVARÁS - LICENÇAS - ART",
+          "subcategoryId": "5fd457d4-7648-43dc-8136-00ed4a53bc84",
+          "subcategoryName": "COREN",
+          "categoryDescription": "Documentos referentes aos licenciamentos da instituição, incluindo alvarás, renovações, pareceres técnicos, inspeções, exigências da Vigilância Sanitária e do município, bem como exigências dos conselhos de classe CRM, CFM, CRF, COREN, demais documentos comprobatórios da regularidade com Corpo de Bombeiros e Ambiental.",
+          "subcategoryDescription": "Documentos relacionados à regularidade da instituição e dos profissionais de enfermagem junto ao Conselho Regional de Enfermagem, incluindo Certidão de Responsabilidade Técnica (CRT), registros, certidões, anuidades, nomeações e demais documentos pertinentes."
+        },
+        "matchedDocument": true,
+        "matchedCategory": null,
+        "matchedSubcategory": null,
+        "requiredWordsHit": 1,
+        "requiredWordsTotal": 1,
+        "forbiddenWordsHit": 0,
+        "sourcesCorrect": true,
+        "sourcesIncorrect": false,
+        "isHallucination": false,
+        "isEmptyAnswer": false,
+        "isInternalError": false,
+        "score": 100,
+        "verdict": "PASS",
+        "scoreBreakdown": {
+          "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+          "latency": 10,
+          "sources": 30,
+          "weights": {
+            "latency": 10,
+            "sources": 30,
+            "document": 20,
+            "answerQuality": 40
+          },
+          "document": 20,
+          "answerQuality": 40
+        },
+        "extractionMethod": "tika",
+        "ocrQualityGrade": null,
+        "ocrUsed": false,
+        "sheetName": null,
+        "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+        "modelName": "gpt-4.1-mini",
+        "createdAt": "2026-08-03T13:59:35.380Z"
+      },
+      {
+        "id": "5a70d672-2e71-408a-b619-d0151df711d3",
+        "runId": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+        "caseId": "c4fed898-e386-4756-8b50-b010b77fb348",
+        "caseCode": "TC-089",
+        "question": "Certidão COREN Dayana está na base?",
+        "answer": "Sim, a certidão COREN da técnica de enfermagem Dayana Sene Vieira da Silva está na base documental.\n\nEla consta como Técnica de Enfermagem com registro COREN-MG nº 646,173, vinculada ao setor Centro Cirúrgico/Exames/CME.\n\nA certidão de regularidade COREN para Dayana tem validade até agosto de 2026, certificando que ela está habilitada ao exercício da profissão, sem pendências pecuniárias até o ano de 2026, e sem anotações disciplinares ou éticas.\n\nDetalhes da certidão:\n\n- Nome: Dayana Sene Vieira da Silva  \n- CPF: 079.209.996-69  \n- Categoria Profissional: Técnica em Enfermagem  \n- Nº Registro COREN: 646,173  \n- Validade da certidão: 60 dias a partir da emissão em 01/06/2026  \n- Situação: Regular, sem pendências e habilitada para o exercício profissional  \n- Código verificador para autenticidade: 0045047123  \n- Emitente: Dr. Lucas Tavares Nogueira, Presidente em Exercício do COREN-MG  \n\nFonte: CERTIDÃO DE REGULARIDADE COREN - TÉCNICA DE ENFERMAGEM DAYANA (Fontes 2 e 8), RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM (Fontes 1, 3 e 4)",
+        "durationMs": null,
+        "sources": [
+          {
+            "index": 1,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 2,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - TÉCNICA DE ENFERMAGEM DAYANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 3,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 4,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 5,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA MARIANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 6,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 7,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA",
+            "subcategoryName": "COREN"
+          }
+        ],
+        "chunkRefs": [
+          {
+            "index": 1,
+            "chunkOrder": null,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+          },
+          {
+            "index": 2,
+            "chunkOrder": null,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389"
+          },
+          {
+            "index": 3,
+            "chunkOrder": null,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d"
+          },
+          {
+            "index": 4,
+            "chunkOrder": null,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1"
+          },
+          {
+            "index": 5,
+            "chunkOrder": null,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09"
+          },
+          {
+            "index": 6,
+            "chunkOrder": null,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad"
+          },
+          {
+            "index": 7,
+            "chunkOrder": null,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207"
+          }
+        ],
+        "classification": {
+          "categoryId": "1a1b4aa3-fd95-4751-b7b1-ec8066a7185c",
+          "categoryName": "ALVARÁS - LICENÇAS - ART",
+          "subcategoryId": "5fd457d4-7648-43dc-8136-00ed4a53bc84",
+          "subcategoryName": "COREN",
+          "categoryDescription": "Documentos referentes aos licenciamentos da instituição, incluindo alvarás, renovações, pareceres técnicos, inspeções, exigências da Vigilância Sanitária e do município, bem como exigências dos conselhos de classe CRM, CFM, CRF, COREN, demais documentos comprobatórios da regularidade com Corpo de Bombeiros e Ambiental.",
+          "subcategoryDescription": "Documentos relacionados à regularidade da instituição e dos profissionais de enfermagem junto ao Conselho Regional de Enfermagem, incluindo Certidão de Responsabilidade Técnica (CRT), registros, certidões, anuidades, nomeações e demais documentos pertinentes."
+        },
+        "matchedDocument": true,
+        "matchedCategory": null,
+        "matchedSubcategory": null,
+        "requiredWordsHit": 1,
+        "requiredWordsTotal": 1,
+        "forbiddenWordsHit": 0,
+        "sourcesCorrect": true,
+        "sourcesIncorrect": false,
+        "isHallucination": false,
+        "isEmptyAnswer": false,
+        "isInternalError": false,
+        "score": 100,
+        "verdict": "PASS",
+        "scoreBreakdown": {
+          "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+          "latency": 10,
+          "sources": 30,
+          "weights": {
+            "latency": 10,
+            "sources": 30,
+            "document": 20,
+            "answerQuality": 40
+          },
+          "document": 20,
+          "answerQuality": 40
+        },
+        "extractionMethod": "tika",
+        "ocrQualityGrade": null,
+        "ocrUsed": false,
+        "sheetName": null,
+        "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+        "modelName": "gpt-4.1-mini",
+        "createdAt": "2026-08-03T13:59:41.004Z"
+      },
+      {
+        "id": "dde8f6ec-9e0b-4f03-92a1-05234a675443",
+        "runId": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+        "caseId": "eec46af9-9c5d-4474-8668-d9959d48f9a4",
+        "caseCode": "TC-095",
+        "question": "Qual o CPF da enfermeira Bianca na relação de funcionários na base documental?",
+        "answer": "O CPF da enfermeira Bianca na relação de funcionários na base documental é 099.446.406-11.\n\nFonte: RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL; RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD; CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA",
+        "durationMs": null,
+        "sources": [
+          {
+            "index": 1,
+            "documentId": "a02d647e-6487-47ce-9b37-6ea7ee5e8c09",
+            "categoryName": "FORMULÁRIOS",
+            "documentTitle": "TERMO DE CIENCIA - LENTE INTRA OCULAR",
+            "subcategoryName": "Termo de Lente Intraocular"
+          },
+          {
+            "index": 2,
+            "documentId": "791232df-765c-412d-8bc2-2b2ecfd15f4f",
+            "categoryName": "FORMULÁRIOS",
+            "documentTitle": "TABELA DE PREÇOS CONSULTAS E EXAMES PARTICULARES",
+            "subcategoryName": "TERMO DE LENTE INTRA OCULAR"
+          },
+          {
+            "index": 3,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 4,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 5,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 6,
+            "documentId": "71e5029f-4881-4fe4-9dc9-048f178b1165",
+            "categoryName": "OFTALMOCENTRO INSTITUCIONAL",
+            "documentTitle": "CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA - ARQUIVO WORD",
+            "subcategoryName": null
+          }
+        ],
+        "chunkRefs": [
+          {
+            "index": 1,
+            "chunkOrder": null,
+            "documentId": "a02d647e-6487-47ce-9b37-6ea7ee5e8c09"
+          },
+          {
+            "index": 2,
+            "chunkOrder": null,
+            "documentId": "791232df-765c-412d-8bc2-2b2ecfd15f4f"
+          },
+          {
+            "index": 3,
+            "chunkOrder": null,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+          },
+          {
+            "index": 4,
+            "chunkOrder": null,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad"
+          },
+          {
+            "index": 5,
+            "chunkOrder": null,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d"
+          },
+          {
+            "index": 6,
+            "chunkOrder": null,
+            "documentId": "71e5029f-4881-4fe4-9dc9-048f178b1165"
+          }
+        ],
+        "classification": {
+          "categoryId": "c61d2ab0-b662-49cd-9cc7-eba801a81150",
+          "categoryName": "FORMULÁRIOS",
+          "subcategoryId": "92099772-32fa-4db4-bf44-6d5994d5cd26",
+          "subcategoryName": "Orçamento de Procedimentos",
+          "categoryDescription": "Documentos e formulários destinados à elaboração, registro, apresentação e acompanhamento de orçamentos referentes a procedimentos clínicos, exames, cirurgias e demais serviços oferecidos pela instituição. \nFormulários destinados a ao registro e formalização das informações relacionadas à escolha, indicação, fornecimento e utilização de lentes intraoculares (LIO) em procedimentos cirúrgicos oftalmológicos. Inclui termos de ciência, consentimento informado livre e esclarecido, opção por lentes premium ou convencionais, orientações sobre benefícios, limitações, riscos, custos, responsabilidade do paciente e autorização para implantação da lente intraocular indicada pelo médico e realização do procedimento cirúrgico e invasivo.\nDocumentos destinados ao registro do consentimento livre e esclarecido do paciente ou de seu representante legal para a realização de consultas, exames, procedimentos, cirurgias ou tratamentos. Contêm informações sobre a finalidade do procedimento, benefícios esperados, riscos, possíveis complicações, alternativas terapêuticas, orientações, cuidados pré e pós-procedimento, além da manifestação formal de ciência e concordância do paciente.\nDocumentos destinados ao registro do consentimento livre e esclarecido do paciente ou de seu representante legal para a realização de consultas, exames, procedimentos, cirurgias ou tratamentos. Contêm informações sobre a finalidade do procedimento, benefícios esperados, riscos, possíveis complicações, alternativas terapêuticas, orientações, cuidados pré e pós-procedimento, além da manifestação formal de ciência e concordância do paciente.\nDocumentos destinados à emissão, registro e arquivamento de atestados médicos, de comparecimento, afastamento, saúde ocupacional ou outras declarações emitidas por profissionais habilitados.\nFormulários destinados à prescrição de medicamentos sujeitos a controle especial, conforme legislação sanitária vigente, incluindo receituários específicos, notificações de receita e documentos correlatos.",
+          "subcategoryDescription": "Documentos e formulários destinados à elaboração, registro, apresentação e acompanhamento de orçamentos referentes a procedimentos clínicos, exames, cirurgias e demais serviços oferecidos pela instituição. Inclui informações sobre valores, materiais, honorários, taxas, validade da proposta, condições de pagamento, autorizações e identificação do paciente, servindo como base para a formalização da proposta comercial e orientação do paciente antes da realização do procedimento."
+        },
+        "matchedDocument": true,
+        "matchedCategory": false,
+        "matchedSubcategory": false,
+        "requiredWordsHit": 2,
+        "requiredWordsTotal": 2,
+        "forbiddenWordsHit": 0,
+        "sourcesCorrect": true,
+        "sourcesIncorrect": false,
+        "isHallucination": false,
+        "isEmptyAnswer": false,
+        "isInternalError": false,
+        "score": 100,
+        "verdict": "PASS",
+        "scoreBreakdown": {
+          "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+          "latency": 10,
+          "sources": 30,
+          "weights": {
+            "latency": 10,
+            "sources": 30,
+            "document": 20,
+            "answerQuality": 40
+          },
+          "document": 20,
+          "answerQuality": 40
+        },
+        "extractionMethod": "tabular",
+        "ocrQualityGrade": null,
+        "ocrUsed": false,
+        "sheetName": "Planilha1",
+        "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+        "modelName": "gpt-4.1-mini",
+        "createdAt": "2026-08-03T13:59:45.476Z"
+      },
+      {
+        "id": "f3c431a3-e029-41ed-b6e8-343dea311a6e",
+        "runId": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+        "caseId": "e53bf10d-7c31-449a-b4f8-eee30d9c59ee",
+        "caseCode": "TC-096",
+        "question": "Em qual setor trabalha Barbara Aparecida Muniz de Lima na base documental?",
+        "answer": "Não encontrei essa informação na base documental disponível.\n\nFonte: CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS; CONTRATO DE MANUTENÇÃO APARELHOS DE AR CONDICIONADO; ADITIVO CONSTRATUAL AO CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+        "durationMs": null,
+        "sources": [
+          {
+            "index": 1,
+            "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a",
+            "categoryName": "ENGENHARIA CLÍNICA",
+            "documentTitle": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+            "subcategoryName": "CONTRATOS DE MANUTENÇÃO"
+          },
+          {
+            "index": 2,
+            "documentId": "c9428c52-8d23-492a-bd95-537e04856498",
+            "categoryName": "ENGENHARIA CLÍNICA",
+            "documentTitle": "CONTRATO DE MANUTENÇÃO APARELHOS DE AR CONDICIONADO",
+            "subcategoryName": "CONTRATOS DE MANUTENÇÃO"
+          },
+          {
+            "index": 3,
+            "documentId": "4e5633c0-9739-45eb-a9b1-0c1615ff7bdd",
+            "categoryName": "ENGENHARIA CLÍNICA",
+            "documentTitle": "CONTRATO DE MANUTENÇÃO APARELHOS DE AR CONDICIONADO - ARQUIVO WORD",
+            "subcategoryName": "CONTRATOS DE MANUTENÇÃO"
+          },
+          {
+            "index": 4,
+            "documentId": "60a04d2a-7c93-423b-8c6d-721cf2b026bd",
+            "categoryName": "ENGENHARIA CLÍNICA",
+            "documentTitle": "ADITIVO CONSTRATUAL AO CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+            "subcategoryName": "CONTRATOS DE MANUTENÇÃO"
+          }
+        ],
+        "chunkRefs": [
+          {
+            "index": 1,
+            "chunkOrder": null,
+            "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+          },
+          {
+            "index": 2,
+            "chunkOrder": null,
+            "documentId": "c9428c52-8d23-492a-bd95-537e04856498"
+          },
+          {
+            "index": 3,
+            "chunkOrder": null,
+            "documentId": "4e5633c0-9739-45eb-a9b1-0c1615ff7bdd"
+          },
+          {
+            "index": 4,
+            "chunkOrder": null,
+            "documentId": "60a04d2a-7c93-423b-8c6d-721cf2b026bd"
+          }
+        ],
+        "classification": {
+          "categoryId": "93585899-dd11-41dd-b59d-ecd966821196",
+          "categoryName": "ENGENHARIA CLÍNICA",
+          "subcategoryId": "eed78a5a-3492-4e04-bb8b-eea5a96f768b",
+          "subcategoryName": "CONTRATOS DE MANUTENÇÃO",
+          "categoryDescription": "Manuais técnicos de equipamentos contendo instruções de utilização, manutenção, configurações, calibração e especificações dos equipamentos.\nRegistro cadastral do equipamento contendo informações de propriedade, compra, valores, numeró de série e local/setor onde o equipamento se encontra e periodicidade das manutenções.\nRegistro de manutenções preditivas, preventivas e corretivas com data de realização para elaboração de relatórios de próximas manutenções.\nInformações sobre cada exame e ou procedimento realizado nos equipamentos, com registro das finalidade/indicções e procedimentos operacionais padrão (POP).\nContratos de Manutenções e cronogramas.",
+          "subcategoryDescription": "Contratos de manutenção firmados entre a Oftalmocentro e Fornecedores de Serviços e Peças, inglobando todo parque tecnológico da empresa, desde equipamentos clínicos e de diagnóstico, bem como equipamentos e instrumentais cirúrgicos, rede de gases medicinais, equipamentos de CME, equipamentos de climatização e geração de energia de backup a falha no sistema da concessionária."
+        },
+        "matchedDocument": false,
+        "matchedCategory": null,
+        "matchedSubcategory": null,
+        "requiredWordsHit": 0,
+        "requiredWordsTotal": 2,
+        "forbiddenWordsHit": 0,
+        "sourcesCorrect": false,
+        "sourcesIncorrect": true,
+        "isHallucination": false,
+        "isEmptyAnswer": false,
+        "isInternalError": false,
+        "score": 10,
+        "verdict": "FAIL",
+        "scoreBreakdown": {
+          "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+          "latency": 10,
+          "sources": 0,
+          "weights": {
+            "latency": 10,
+            "sources": 30,
+            "document": 20,
+            "answerQuality": 40
+          },
+          "document": 0,
+          "answerQuality": 0
+        },
+        "extractionMethod": "tabular",
+        "ocrQualityGrade": null,
+        "ocrUsed": false,
+        "sheetName": "Planilha1",
+        "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+        "modelName": "gpt-4.1-mini",
+        "createdAt": "2026-08-03T13:59:47.860Z"
+      },
+      {
+        "id": "9d0ad1b6-5020-4c29-8da9-cc799af384a0",
+        "runId": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+        "caseId": "2269143b-09c8-4aea-81ba-6f3e41aef4c1",
+        "caseCode": "TC-097",
+        "question": "Qual o número de registro COREN da técnica Dayana na base documental?",
+        "answer": "O número de registro COREN da técnica Dayana na base documental é 646,173.\n\nFonte: RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL; CERTIDÃO DE REGULARIDADE COREN - TÉCNICA DE ENFERMAGEM DAYANA",
+        "durationMs": null,
+        "sources": [
+          {
+            "index": 1,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 2,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "REQUERIMENTO DE REGISTRO DE ANOTAÇÃO DE RESPONSABILIDADE TECNICA COREN - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 3,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 4,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - TÉCNICA DE ENFERMAGEM DAYANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 5,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026",
+            "subcategoryName": "COREN"
+          }
+        ],
+        "chunkRefs": [
+          {
+            "index": 1,
+            "chunkOrder": null,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+          },
+          {
+            "index": 2,
+            "chunkOrder": null,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a"
+          },
+          {
+            "index": 3,
+            "chunkOrder": null,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d"
+          },
+          {
+            "index": 4,
+            "chunkOrder": null,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389"
+          },
+          {
+            "index": 5,
+            "chunkOrder": null,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1"
+          }
+        ],
+        "classification": {
+          "categoryId": "1a1b4aa3-fd95-4751-b7b1-ec8066a7185c",
+          "categoryName": "ALVARÁS - LICENÇAS - ART",
+          "subcategoryId": "5fd457d4-7648-43dc-8136-00ed4a53bc84",
+          "subcategoryName": "COREN",
+          "categoryDescription": "Documentos referentes aos licenciamentos da instituição, incluindo alvarás, renovações, pareceres técnicos, inspeções, exigências da Vigilância Sanitária e do município, bem como exigências dos conselhos de classe CRM, CFM, CRF, COREN, demais documentos comprobatórios da regularidade com Corpo de Bombeiros e Ambiental.",
+          "subcategoryDescription": "Documentos relacionados à regularidade da instituição e dos profissionais de enfermagem junto ao Conselho Regional de Enfermagem, incluindo Certidão de Responsabilidade Técnica (CRT), registros, certidões, anuidades, nomeações e demais documentos pertinentes."
+        },
+        "matchedDocument": true,
+        "matchedCategory": null,
+        "matchedSubcategory": null,
+        "requiredWordsHit": 1,
+        "requiredWordsTotal": 1,
+        "forbiddenWordsHit": 0,
+        "sourcesCorrect": true,
+        "sourcesIncorrect": false,
+        "isHallucination": false,
+        "isEmptyAnswer": false,
+        "isInternalError": false,
+        "score": 100,
+        "verdict": "PASS",
+        "scoreBreakdown": {
+          "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+          "latency": 10,
+          "sources": 30,
+          "weights": {
+            "latency": 10,
+            "sources": 30,
+            "document": 20,
+            "answerQuality": 40
+          },
+          "document": 20,
+          "answerQuality": 40
+        },
+        "extractionMethod": "tabular",
+        "ocrQualityGrade": null,
+        "ocrUsed": false,
+        "sheetName": "Planilha1",
+        "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+        "modelName": "gpt-4.1-mini",
+        "createdAt": "2026-08-03T13:59:50.109Z"
+      },
+      {
+        "id": "e0707d50-15b9-4508-9d35-da91b6db47e3",
+        "runId": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+        "caseId": "76cf1f97-e40e-4f24-b0cf-e0590a1ce85a",
+        "caseCode": "TC-098",
+        "question": "Quem é a responsável técnica no quadro de enfermagem na base documental?",
+        "answer": "A responsável técnica no quadro de enfermagem, conforme a base documental disponível, é a enfermeira Jordana Borges, inscrita no COREN-MG sob o número 493808. Ela está designada para assumir as funções de responsabilidade técnica pelo serviço de enfermagem da instituição, com carga horária semanal de 40 horas, atuando de segunda a sexta-feira, das 08:00 às 17:00, nos setores de Bloco Cirúrgico e CME.\n\nDetalhes extraídos dos documentos:\n\n- Nome: Jordana Borges  \n- Categoria Profissional: Enfermeira  \n- Nº Registro COREN-MG: 493808  \n- Setor de Trabalho: Responsável Técnica / Bloco Cirúrgico e CME  \n- Horário de Trabalho: 08:00 às 17:00, de segunda a sexta-feira  \n- Designação formalizada por ato do representante legal da instituição, Wellington Passos de Menezes  \n- Certidão de Responsabilidade Técnica (CRT) válida de 16/06/2026 a 16/06/2027\n\nFonte: RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL; RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD; REQUERIMENTO DE REGISTRO DE ANOTAÇÃO DE RESPONSABILIDADE TECNICA COREN - ARQUIVO WORD; ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026",
+        "durationMs": null,
+        "sources": [
+          {
+            "index": 1,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 2,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "REQUERIMENTO DE REGISTRO DE ANOTAÇÃO DE RESPONSABILIDADE TECNICA COREN - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 3,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 4,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - TÉCNICA DE ENFERMAGEM DAYANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 5,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA MARIANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 6,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 7,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 8,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026",
+            "subcategoryName": "COREN"
+          }
+        ],
+        "chunkRefs": [
+          {
+            "index": 1,
+            "chunkOrder": null,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+          },
+          {
+            "index": 2,
+            "chunkOrder": null,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a"
+          },
+          {
+            "index": 3,
+            "chunkOrder": null,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d"
+          },
+          {
+            "index": 4,
+            "chunkOrder": null,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389"
+          },
+          {
+            "index": 5,
+            "chunkOrder": null,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09"
+          },
+          {
+            "index": 6,
+            "chunkOrder": null,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad"
+          },
+          {
+            "index": 7,
+            "chunkOrder": null,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207"
+          },
+          {
+            "index": 8,
+            "chunkOrder": null,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1"
+          }
+        ],
+        "classification": {
+          "categoryId": "1a1b4aa3-fd95-4751-b7b1-ec8066a7185c",
+          "categoryName": "ALVARÁS - LICENÇAS - ART",
+          "subcategoryId": "5fd457d4-7648-43dc-8136-00ed4a53bc84",
+          "subcategoryName": "COREN",
+          "categoryDescription": "Documentos referentes aos licenciamentos da instituição, incluindo alvarás, renovações, pareceres técnicos, inspeções, exigências da Vigilância Sanitária e do município, bem como exigências dos conselhos de classe CRM, CFM, CRF, COREN, demais documentos comprobatórios da regularidade com Corpo de Bombeiros e Ambiental.",
+          "subcategoryDescription": "Documentos relacionados à regularidade da instituição e dos profissionais de enfermagem junto ao Conselho Regional de Enfermagem, incluindo Certidão de Responsabilidade Técnica (CRT), registros, certidões, anuidades, nomeações e demais documentos pertinentes."
+        },
+        "matchedDocument": true,
+        "matchedCategory": null,
+        "matchedSubcategory": null,
+        "requiredWordsHit": 1,
+        "requiredWordsTotal": 1,
+        "forbiddenWordsHit": 0,
+        "sourcesCorrect": true,
+        "sourcesIncorrect": false,
+        "isHallucination": false,
+        "isEmptyAnswer": false,
+        "isInternalError": false,
+        "score": 100,
+        "verdict": "PASS",
+        "scoreBreakdown": {
+          "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+          "latency": 10,
+          "sources": 30,
+          "weights": {
+            "latency": 10,
+            "sources": 30,
+            "document": 20,
+            "answerQuality": 40
+          },
+          "document": 20,
+          "answerQuality": 40
+        },
+        "extractionMethod": "tabular",
+        "ocrQualityGrade": null,
+        "ocrUsed": false,
+        "sheetName": "Planilha1",
+        "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+        "modelName": "gpt-4.1-mini",
+        "createdAt": "2026-08-03T13:59:54.899Z"
+      },
+      {
+        "id": "0ed542c5-19eb-45e9-9e68-ce7cff305616",
+        "runId": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+        "caseId": "8c89c782-c43f-4e9d-ae77-e1361ad42a5c",
+        "caseCode": "TC-099",
+        "question": "Existe relação de funcionários do quadro de enfermagem em arquivo Word na base documental?",
+        "answer": "Sim, existe relação de funcionários do quadro de enfermagem em arquivo Word na base documental. O documento intitulado \"RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD\" contém a lista dos profissionais de enfermagem, incluindo nome completo, categoria profissional, número de registro no COREN-MG, setor de trabalho e CPF. Essa relação está atualizada com dados como:\n\n- BARBARA APARECIDA MUNIZ DE LIMA, Técnica em Enfermagem, registro 2246508, setor Centro Cirúrgico/Exames/CME, CPF 120.943.006-17\n- BIANCA KATHEREIN FREITAS SILVA, Enfermeira, registro 795377, setor Centro Cirúrgico/Exames/CME, CPF 099.446.406-11\n- DAYANA SENE VIEIRA AS SILVA, Técnica de Enfermagem, registro 646.173, setor Centro Cirúrgico/Exames/CME, CPF 079.209.996-69\n- JORDANA BORGES, Enfermeira, registro 493.608, setor Responsável Técnica, CPF 075.482.896-42\n- MARIANA PEREIRA OLIVEIRA, Enfermeira, registro 271.377, setor Centro Cirúrgico/Exames/CME, CPF 095.038.926-94\n\nPortanto, há sim um arquivo Word contendo a relação dos funcionários do quadro de enfermagem.\n\nFonte: RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+        "durationMs": null,
+        "sources": [
+          {
+            "index": 1,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 2,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "REQUERIMENTO DE REGISTRO DE ANOTAÇÃO DE RESPONSABILIDADE TECNICA COREN - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 3,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 4,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - TÉCNICA DE ENFERMAGEM DAYANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 5,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA MARIANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 6,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 7,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 8,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026",
+            "subcategoryName": "COREN"
+          }
+        ],
+        "chunkRefs": [
+          {
+            "index": 1,
+            "chunkOrder": null,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+          },
+          {
+            "index": 2,
+            "chunkOrder": null,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a"
+          },
+          {
+            "index": 3,
+            "chunkOrder": null,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d"
+          },
+          {
+            "index": 4,
+            "chunkOrder": null,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389"
+          },
+          {
+            "index": 5,
+            "chunkOrder": null,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09"
+          },
+          {
+            "index": 6,
+            "chunkOrder": null,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad"
+          },
+          {
+            "index": 7,
+            "chunkOrder": null,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207"
+          },
+          {
+            "index": 8,
+            "chunkOrder": null,
+            "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1"
+          }
+        ],
+        "classification": {
+          "categoryId": "1a1b4aa3-fd95-4751-b7b1-ec8066a7185c",
+          "categoryName": "ALVARÁS - LICENÇAS - ART",
+          "subcategoryId": "5fd457d4-7648-43dc-8136-00ed4a53bc84",
+          "subcategoryName": "COREN",
+          "categoryDescription": "Documentos referentes aos licenciamentos da instituição, incluindo alvarás, renovações, pareceres técnicos, inspeções, exigências da Vigilância Sanitária e do município, bem como exigências dos conselhos de classe CRM, CFM, CRF, COREN, demais documentos comprobatórios da regularidade com Corpo de Bombeiros e Ambiental.",
+          "subcategoryDescription": "Documentos relacionados à regularidade da instituição e dos profissionais de enfermagem junto ao Conselho Regional de Enfermagem, incluindo Certidão de Responsabilidade Técnica (CRT), registros, certidões, anuidades, nomeações e demais documentos pertinentes."
+        },
+        "matchedDocument": true,
+        "matchedCategory": null,
+        "matchedSubcategory": null,
+        "requiredWordsHit": 1,
+        "requiredWordsTotal": 1,
+        "forbiddenWordsHit": 0,
+        "sourcesCorrect": true,
+        "sourcesIncorrect": false,
+        "isHallucination": false,
+        "isEmptyAnswer": false,
+        "isInternalError": false,
+        "score": 100,
+        "verdict": "PASS",
+        "scoreBreakdown": {
+          "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+          "latency": 10,
+          "sources": 30,
+          "weights": {
+            "latency": 10,
+            "sources": 30,
+            "document": 20,
+            "answerQuality": 40
+          },
+          "document": 20,
+          "answerQuality": 40
+        },
+        "extractionMethod": "tika",
+        "ocrQualityGrade": null,
+        "ocrUsed": false,
+        "sheetName": null,
+        "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+        "modelName": "gpt-4.1-mini",
+        "createdAt": "2026-08-03T14:00:03.153Z"
+      },
+      {
+        "id": "9a037028-8a35-46c2-a17f-27e6f2b71137",
+        "runId": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+        "caseId": "a4b8185a-2bf5-45a4-8c95-b90c35556408",
+        "caseCode": "TC-100",
+        "question": "Existe certidão de regularidade COREN da enfermeira Bianca na base documental?",
+        "answer": "Sim, existe certidão de regularidade COREN da enfermeira Bianca Katherein Freitas Silva na base documental.\n\nDetalhes da certidão:\n- Nome: Bianca Katherein Freitas Silva\n- CPF: 099.446.406-11\n- Categoria Profissional: Enfermeira\n- Nº Registro COREN-MG: 795377\n- Inscrição definitiva no Coren-MG desde 14 de setembro de 2023\n- Não consta qualquer anotação referente a infração disciplinar ou ética\n- Profissional está regular com a situação eleitoral perante o Coren-MG até a presente data\n- Não constam pendências relativas às obrigações pecuniárias até o ano de 2026\n- Profissional está habilitada ao exercício da profissão na área da Enfermagem\n- Validade da certidão: 60 dias a partir da emissão (emitida em 27 de maio de 2026)\n- Autenticidade conferível no site do Coren-MG com código verificador 0044973568\n\nFonte: CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA (Fontes 2 e 3) e RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM (Fontes 1, 8 e 9)",
+        "durationMs": null,
+        "sources": [
+          {
+            "index": 1,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 2,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 3,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA MARIANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 4,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 5,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 6,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "CERTIDÃO DE REGULARIDADE COREN - TÉCNICA DE ENFERMAGEM DAYANA",
+            "subcategoryName": "COREN"
+          },
+          {
+            "index": 7,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a",
+            "categoryName": "ALVARÁS - LICENÇAS - ART",
+            "documentTitle": "REQUERIMENTO DE REGISTRO DE ANOTAÇÃO DE RESPONSABILIDADE TECNICA COREN - ARQUIVO WORD",
+            "subcategoryName": "COREN"
+          }
+        ],
+        "chunkRefs": [
+          {
+            "index": 1,
+            "chunkOrder": null,
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+          },
+          {
+            "index": 2,
+            "chunkOrder": null,
+            "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad"
+          },
+          {
+            "index": 3,
+            "chunkOrder": null,
+            "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09"
+          },
+          {
+            "index": 4,
+            "chunkOrder": null,
+            "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207"
+          },
+          {
+            "index": 5,
+            "chunkOrder": null,
+            "documentId": "dc44a492-d463-4028-b907-37117124163d"
+          },
+          {
+            "index": 6,
+            "chunkOrder": null,
+            "documentId": "7d995627-21ac-4607-b221-8ff59c15d389"
+          },
+          {
+            "index": 7,
+            "chunkOrder": null,
+            "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a"
+          }
+        ],
+        "classification": {
+          "categoryId": "1a1b4aa3-fd95-4751-b7b1-ec8066a7185c",
+          "categoryName": "ALVARÁS - LICENÇAS - ART",
+          "subcategoryId": "5fd457d4-7648-43dc-8136-00ed4a53bc84",
+          "subcategoryName": "COREN",
+          "categoryDescription": "Documentos referentes aos licenciamentos da instituição, incluindo alvarás, renovações, pareceres técnicos, inspeções, exigências da Vigilância Sanitária e do município, bem como exigências dos conselhos de classe CRM, CFM, CRF, COREN, demais documentos comprobatórios da regularidade com Corpo de Bombeiros e Ambiental.",
+          "subcategoryDescription": "Documentos relacionados à regularidade da instituição e dos profissionais de enfermagem junto ao Conselho Regional de Enfermagem, incluindo Certidão de Responsabilidade Técnica (CRT), registros, certidões, anuidades, nomeações e demais documentos pertinentes."
+        },
+        "matchedDocument": true,
+        "matchedCategory": true,
+        "matchedSubcategory": true,
+        "requiredWordsHit": 2,
+        "requiredWordsTotal": 2,
+        "forbiddenWordsHit": 0,
+        "sourcesCorrect": true,
+        "sourcesIncorrect": false,
+        "isHallucination": false,
+        "isEmptyAnswer": false,
+        "isInternalError": false,
+        "score": 100,
+        "verdict": "PASS",
+        "scoreBreakdown": {
+          "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+          "latency": 10,
+          "sources": 30,
+          "weights": {
+            "latency": 10,
+            "sources": 30,
+            "document": 20,
+            "answerQuality": 40
+          },
+          "document": 20,
+          "answerQuality": 40
+        },
+        "extractionMethod": "tika",
+        "ocrQualityGrade": null,
+        "ocrUsed": false,
+        "sheetName": null,
+        "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+        "modelName": "gpt-4.1-mini",
+        "createdAt": "2026-08-03T14:00:26.286Z"
+      }
+    ]
+  },
+  "meta": {
+    "requestId": "748e2fd5-419d-41a6-b4e5-e2b97212f764",
+    "timestamp": "2026-08-03T14:00:26.571Z",
+    "durationMs": 120247
+  }
+}

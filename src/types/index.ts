@@ -282,6 +282,9 @@ export interface HealthComponent {
   poorCount?: number
   manualReviewCount?: number
   avgAttempts?: number
+  lastRunAt?: string
+  lastScore?: number
+  casesCount?: number
 }
 
 export interface SystemHealth {
@@ -299,6 +302,7 @@ export interface SystemHealth {
     audit?: HealthComponent
     documents?: HealthComponent
     backup?: HealthComponent
+    aiEval?: HealthComponent
   }
 }
 

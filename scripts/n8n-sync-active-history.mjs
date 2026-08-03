@@ -26,6 +26,12 @@ const IDS = [
   'xSEbtkxFXCxlHO2s',
   // OCR corporativo (etapa 14)
   'LNrJ5VDUttKJe0Nr', 'QFZ2PRTlGV7umesd',
+  // Tabular / spreadsheets (etapa 15)
+  'WWVUnGLC3Ot1vh4x', 'S3xcC9hndv750kOa',
+  // AI Eval (etapa 16)
+  'KdpEmEGHNlPICOa4', '1uITQcJ5jSNXErOM', 'DoaDLe6P5BtJhDXb', '12t0Ol6zWQJgAKPC',
+  'MTRkT5PyJUwbMwl7', 'RKhoSMKPfqdxrGNI', 'aL2tTx9V4zFJUfPx', 'jqISJzbOGRjArLbz',
+  'qVH5qtBf8IY32uiH', 'wTH2YV6pIlhzWDiY',
 ];
 const conn = process.env.PGURL || 'postgresql://ZuOg8foF6iDUR8Y4:W8rAAeT4sJBTGB9ufVpYlvgcnZ0cHZ9L@2.24.89.199:5432/n8n';
 const client = new pg.Client({ connectionString: conn });

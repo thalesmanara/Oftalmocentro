@@ -9,6 +9,7 @@ import {
   Bot,
   ClipboardList,
   Settings,
+  FlaskConical,
 } from 'lucide-react'
 import { useSettings } from '@/hooks/useSettings'
 import { useAuth } from '@/hooks/useAuth'
@@ -49,6 +50,12 @@ const navGroups: NavGroup[] = [
     title: 'SISTEMA',
     items: [
       { to: '/consulta-ia', label: 'Consulta IA', icon: Bot, permission: 'usar_consulta_ia' },
+      {
+        to: '/ia/validacao',
+        label: 'Validação IA',
+        icon: FlaskConical,
+        permission: 'editar_configuracoes',
+      },
       { to: '/auditoria', label: 'Auditoria', icon: ClipboardList, permission: 'visualizar_auditoria' },
       { to: '/configuracoes', label: 'Configurações', icon: Settings, permission: 'editar_configuracoes' },
     ],

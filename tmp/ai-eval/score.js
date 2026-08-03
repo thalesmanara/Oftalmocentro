@@ -1,0 +1,271 @@
+/**
+ * Avaliação determinística de respostas da Consulta IA.
+ * Sem OpenAI. Reprodutível.
+ *
+ * SCORE 0–100 por caso:
+ *  - answerQuality  40  (palavras obrigatórias / recusa esperada / proibidas)
+ *  - sources        30  (fonte obrigatória presente)
+ *  - document       20  (documento esperado nas fontes)
+ *  - latency        10  (<=15s=10, <=30s=5, else 0)
+ *
+ * PASS se score >= minScore e !hallucination e !internalError
+ */
+function normalizeText(s) {
+  return String(s ?? '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function includesWord(haystack, word) {
+  const h = normalizeText(haystack);
+  const w = normalizeText(word);
+  if (!w) return true;
+  return h.includes(w);
+}
+
+function scoreCase(input) {
+  const {
+    answer = '',
+    sources = [],
+    classification = {},
+    durationMs = null,
+    caseDef,
+    refusalPhrase = 'Não encontrei essa informação na base documental disponível.',
+    maxLatencyMs = 30000,
+  } = input;
+
+  const requiredWords = Array.isArray(caseDef.required_words || caseDef.requiredWords)
+    ? caseDef.required_words || caseDef.requiredWords
+    : [];
+  const forbiddenWords = Array.isArray(caseDef.forbidden_words || caseDef.forbiddenWords)
+    ? caseDef.forbidden_words || caseDef.forbiddenWords
+    : [];
+  const minScore = Number(caseDef.min_score ?? caseDef.minScore ?? 70);
+  const expectNoAnswer = !!(caseDef.expect_no_answer ?? caseDef.expectNoAnswer);
+  const expectedDocId = caseDef.expected_document_id || caseDef.expectedDocumentId || null;
+  const requiredSourceId =
+    caseDef.required_source_document_id || caseDef.requiredSourceDocumentId || expectedDocId;
+  const expectedCategory = caseDef.category_name || caseDef.categoryName || null;
+  const expectedSubcategory = caseDef.subcategory_name || caseDef.subcategoryName || null;
+
+  const isEmpty = !String(answer || '').trim();
+  const isInternalError = false; // set by caller if HTTP failed
+  const refused = includesWord(answer, refusalPhrase) || normalizeText(answer) === normalizeText(refusalPhrase);
+
+  let requiredHit = 0;
+  for (const w of requiredWords) {
+    if (includesWord(answer, w)) requiredHit += 1;
+  }
+  let forbiddenHit = 0;
+  for (const w of forbiddenWords) {
+    if (includesWord(answer, w)) forbiddenHit += 1;
+  }
+
+  const sourceIds = (sources || [])
+    .map((s) => String(s.documentId || s.document_id || ''))
+    .filter(Boolean);
+  const hasRequiredSource = requiredSourceId
+    ? sourceIds.includes(String(requiredSourceId))
+    : sourceIds.length > 0 || expectNoAnswer;
+  const hasExpectedDoc = expectedDocId
+    ? sourceIds.includes(String(expectedDocId))
+    : true;
+
+  const matchedCategory = expectedCategory
+    ? normalizeText(classification.categoryName || classification.category_name) ===
+      normalizeText(expectedCategory)
+    : null;
+  const matchedSubcategory = expectedSubcategory
+    ? normalizeText(classification.subcategoryName || classification.subcategory_name) ===
+      normalizeText(expectedSubcategory)
+    : null;
+
+  // --- components ---
+  let answerQuality = 0;
+  if (expectNoAnswer) {
+    answerQuality = refused ? 40 : isEmpty ? 20 : 0;
+  } else if (requiredWords.length) {
+    answerQuality = (requiredHit / requiredWords.length) * 40;
+  } else if (!isEmpty && !refused) {
+    answerQuality = 28;
+  } else if (!isEmpty) {
+    answerQuality = 10;
+  }
+  if (forbiddenWords.length && forbiddenHit > 0) {
+    answerQuality = Math.max(0, answerQuality - (forbiddenHit / forbiddenWords.length) * 40);
+  }
+
+  let sourcesScore = 0;
+  if (expectNoAnswer) {
+    sourcesScore = refused ? 30 : 0;
+  } else if (requiredSourceId) {
+    sourcesScore = hasRequiredSource ? 30 : 0;
+  } else {
+    sourcesScore = sourceIds.length > 0 ? 25 : 10;
+  }
+
+  let documentScore = 0;
+  if (expectNoAnswer) {
+    documentScore = refused ? 20 : 0;
+  } else if (expectedDocId) {
+    documentScore = hasExpectedDoc ? 20 : 0;
+  } else {
+    documentScore = 15;
+  }
+
+  let latencyScore = 0;
+  const d = Number(durationMs);
+  if (Number.isFinite(d)) {
+    if (d <= 15000) latencyScore = 10;
+    else if (d <= maxLatencyMs) latencyScore = 5;
+    else latencyScore = 0;
+  }
+
+  let score = Math.round(Math.max(0, Math.min(100, answerQuality + sourcesScore + documentScore + latencyScore)));
+
+  // hallucination: answered with content but required source missing when expected
+  const isHallucination =
+    !expectNoAnswer &&
+    !isEmpty &&
+    !refused &&
+    !!requiredSourceId &&
+    !hasRequiredSource &&
+    requiredWords.length > 0 &&
+    requiredHit === 0;
+
+  if (isHallucination) score = Math.min(score, 25);
+
+  const verdict =
+    isInternalError
+      ? 'ERROR'
+      : score >= minScore && !isHallucination
+        ? 'PASS'
+        : 'FAIL';
+
+  return {
+    score,
+    verdict,
+    scoreBreakdown: {
+      answerQuality: Math.round(answerQuality * 100) / 100,
+      sources: sourcesScore,
+      document: documentScore,
+      latency: latencyScore,
+      weights: { answerQuality: 40, sources: 30, document: 20, latency: 10 },
+      formula:
+        'score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination',
+    },
+    requiredWordsHit: requiredHit,
+    requiredWordsTotal: requiredWords.length,
+    forbiddenWordsHit: forbiddenHit,
+    sourcesCorrect: !!hasRequiredSource,
+    sourcesIncorrect: !!(requiredSourceId && !hasRequiredSource && sourceIds.length > 0),
+    matchedDocument: hasExpectedDoc,
+    matchedCategory,
+    matchedSubcategory,
+    isHallucination,
+    isEmptyAnswer: isEmpty,
+    isInternalError,
+  };
+}
+
+function aggregateMetrics(results) {
+  const total = results.length;
+  const passed = results.filter((r) => r.verdict === 'PASS').length;
+  const failed = results.filter((r) => r.verdict === 'FAIL').length;
+  const errors = results.filter((r) => r.verdict === 'ERROR').length;
+  const durations = results.map((r) => Number(r.durationMs)).filter((n) => Number.isFinite(n));
+  const scores = results.map((r) => Number(r.score)).filter((n) => Number.isFinite(n));
+
+  const precision = total ? Math.round((passed / total) * 10000) / 100 : 0;
+  // recall: among cases that expect an answer (not no_answer), how many PASS
+  const answerable = results.filter((r) => !r.expectNoAnswer);
+  const recall = answerable.length
+    ? Math.round((answerable.filter((r) => r.verdict === 'PASS').length / answerable.length) * 10000) / 100
+    : 0;
+
+  const docsExpected = new Set(
+    results.map((r) => r.expectedDocumentId).filter(Boolean).map(String),
+  );
+  const docsHit = new Set(
+    results.filter((r) => r.matchedDocument && r.expectedDocumentId).map((r) => String(r.expectedDocumentId)),
+  );
+  const documentCoverage = docsExpected.size
+    ? Math.round((docsHit.size / docsExpected.size) * 10000) / 100
+    : null;
+
+  const byCat = {};
+  for (const r of results) {
+    const cat = r.groupName || r.categoryName || 'OUTROS';
+    if (!byCat[cat]) byCat[cat] = { total: 0, passed: 0 };
+    byCat[cat].total += 1;
+    if (r.verdict === 'PASS') byCat[cat].passed += 1;
+  }
+  const categoryCoverage = {};
+  for (const [k, v] of Object.entries(byCat)) {
+    categoryCoverage[k] = {
+      total: v.total,
+      passed: v.passed,
+      precision: Math.round((v.passed / v.total) * 10000) / 100,
+    };
+  }
+
+  const topErrors = results
+    .filter((r) => r.verdict !== 'PASS')
+    .slice(0, 20)
+    .map((r) => ({
+      caseCode: r.caseCode,
+      verdict: r.verdict,
+      score: r.score,
+      question: (r.question || '').slice(0, 120),
+    }));
+
+  const docCounts = {};
+  for (const r of results) {
+    for (const s of r.sources || []) {
+      const id = s.documentId || s.document_id;
+      if (!id) continue;
+      if (!docCounts[id]) docCounts[id] = { documentId: id, title: s.documentTitle || s.document_title, count: 0 };
+      docCounts[id].count += 1;
+    }
+  }
+  const topDocuments = Object.values(docCounts)
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 15);
+
+  const overallScore = scores.length
+    ? Math.round((scores.reduce((a, b) => a + b, 0) / scores.length) * 100) / 100
+    : 0;
+
+  return {
+    precision,
+    recall,
+    documentCoverage,
+    categoryCoverage,
+    avgDurationMs: durations.length
+      ? Math.round((durations.reduce((a, b) => a + b, 0) / durations.length) * 100) / 100
+      : null,
+    minDurationMs: durations.length ? Math.min(...durations) : null,
+    maxDurationMs: durations.length ? Math.max(...durations) : null,
+    sourcesCorrectCount: results.filter((r) => r.sourcesCorrect).length,
+    sourcesIncorrectCount: results.filter((r) => r.sourcesIncorrect).length,
+    documentCorrectCount: results.filter((r) => r.matchedDocument).length,
+    categoryCorrectCount: results.filter((r) => r.matchedCategory === true).length,
+    subcategoryCorrectCount: results.filter((r) => r.matchedSubcategory === true).length,
+    hallucinationCount: results.filter((r) => r.isHallucination).length,
+    emptyAnswerCount: results.filter((r) => r.isEmptyAnswer).length,
+    internalErrorCount: errors,
+    passedCount: passed,
+    failedCount: failed,
+    totalCount: total,
+    overallScore,
+    topErrors,
+    topDocuments,
+    scoreFormula:
+      'Per-case: answerQuality40 + sources30 + document20 + latency10. Run overall = average(case scores). Precision = passed/total.',
+  };
+}
+
+module.exports = { normalizeText, scoreCase, aggregateMetrics };

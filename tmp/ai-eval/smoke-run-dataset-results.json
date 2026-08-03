@@ -1,0 +1,223 @@
+{
+  "startedAt": "2026-08-03T13:56:45.068Z",
+  "login": {
+    "status": 200,
+    "hasToken": true
+  },
+  "runDataset": {
+    "status": 200,
+    "durationMs": 6754,
+    "raw": {
+      "success": true,
+      "data": {
+        "run": {
+          "id": "d269c658-8649-48fc-aed3-8d767ea5def4",
+          "startedAt": "2026-08-03T13:56:47.941Z",
+          "finishedAt": "2026-08-03T13:56:53.938Z",
+          "durationMs": 5997,
+          "status": "SUCCESS",
+          "triggeredBy": "06e0915e-0f90-42b1-a32c-ae5e0f7de1c6",
+          "triggerMode": "dataset",
+          "totalCases": 1,
+          "passedCount": 1,
+          "failedCount": 0,
+          "errorCount": 0,
+          "skippedCount": 0,
+          "overallScore": 100,
+          "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+          "modelName": "gpt-4.1-mini",
+          "ocrEngineVersion": "n/a",
+          "tabularEngineVersion": "n/a",
+          "report": {
+            "total": 1,
+            "errors": 0,
+            "failed": 0,
+            "passed": 1,
+            "recall": 100,
+            "precision": 100,
+            "topErrors": [],
+            "generatedAt": "2026-08-03T13:56:53.914Z",
+            "overallScore": 100,
+            "scoreFormula": "Per-case: answerQuality40 + sources30 + document20 + latency10. Run overall = average(case scores). Precision = passed/total.",
+            "topDocuments": [
+              {
+                "count": 1,
+                "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+                "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+              },
+              {
+                "count": 1,
+                "title": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+                "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+              },
+              {
+                "count": 1,
+                "title": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+                "documentId": "b533f80a-9b19-47c0-b4ab-210590846228"
+              }
+            ],
+            "avgDurationMs": 0,
+            "maxDurationMs": 0,
+            "minDurationMs": 0,
+            "categoryCoverage": {
+              "Planilhas": {
+                "total": 1,
+                "passed": 1,
+                "precision": 100
+              }
+            },
+            "documentCoverage": 100
+          },
+          "metadata": {},
+          "createdAt": "2026-08-03T13:56:47.941Z"
+        },
+        "metrics": {
+          "id": "e63c722e-7c97-48d9-8b80-54a5866893ab",
+          "runId": "d269c658-8649-48fc-aed3-8d767ea5def4",
+          "precision": 100,
+          "recall": 100,
+          "documentCoverage": 100,
+          "categoryCoverage": {
+            "Planilhas": {
+              "total": 1,
+              "passed": 1,
+              "precision": 100
+            }
+          },
+          "avgDurationMs": 0,
+          "minDurationMs": 0,
+          "maxDurationMs": 0,
+          "sourcesCorrectCount": 1,
+          "sourcesIncorrectCount": 0,
+          "documentCorrectCount": 1,
+          "categoryCorrectCount": 0,
+          "subcategoryCorrectCount": 0,
+          "hallucinationCount": 0,
+          "emptyAnswerCount": 0,
+          "internalErrorCount": 0,
+          "passedCount": 1,
+          "failedCount": 0,
+          "totalCount": 1,
+          "overallScore": 100,
+          "topErrors": [],
+          "topDocuments": [
+            {
+              "count": 1,
+              "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+              "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+            },
+            {
+              "count": 1,
+              "title": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+              "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+            },
+            {
+              "count": 1,
+              "title": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+              "documentId": "b533f80a-9b19-47c0-b4ab-210590846228"
+            }
+          ],
+          "scoreFormula": "Per-case: answerQuality40 + sources30 + document20 + latency10. Run overall = average(case scores). Precision = passed/total.",
+          "createdAt": "2026-08-03T13:56:53.839Z"
+        },
+        "results": [
+          {
+            "id": "961a2f74-1343-49d4-be65-f20bd2cd3488",
+            "runId": "d269c658-8649-48fc-aed3-8d767ea5def4",
+            "caseId": "1e040f78-0846-4bde-abbf-4a84694e9af5",
+            "caseCode": "TC-053",
+            "question": "Quem aparece na relação de funcionários em Excel?",
+            "answer": "Na relação de funcionários em Excel do quadro de enfermagem, aparecem os seguintes nomes com seus respectivos dados:\n\n| Nome                          | CPF            | Categoria Profissional | Nº Registro | Setor de Trabalho                    |\n|-------------------------------|----------------|-----------------------|-------------|------------------------------------|\n| BARBARA APARECIDA MUNIZ DE LIMA | 120.943.006-17 | TÉCNICA EM ENFERMAGEM | 2246508     | CENTRO CIRÚRGICO/ EXAMES/ CME      |\n| BIANCA KATHEREIN FREITAS SILVA  | 099.446.406-11 | ENFERMEIRA            | 795377      | CENTRO CIRÚRGICO/ EXAMES/ CME      |\n| DAYANA SENE VIEIRA AS SILVA     | 079.209.996-69 | TÉCNICA DE ENFERMAGEM | 646,173     | CENTRO CIRÚRGICO/ EXAMES/ CME      |\n| JORDANA BORGES                  | 075.482.896-42 | ENFERMEIRA            | 493,608     | RESPONSAVEL TÉCNICA                |\n| MARIANA PEREIRA OLIVEIRA        | 095.038.926-94 | ENFERMEIRA            | 271,377     | CENTRO CIRÚRGICO/ EXAMES/ CME      |\n\nFonte: RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "durationMs": null,
+            "sources": [
+              {
+                "index": 1,
+                "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+                "categoryName": "ALVARÁS - LICENÇAS - ART",
+                "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+                "subcategoryName": "COREN"
+              },
+              {
+                "index": 2,
+                "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a",
+                "categoryName": "ENGENHARIA CLÍNICA",
+                "documentTitle": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+                "subcategoryName": "CONTRATOS DE MANUTENÇÃO"
+              },
+              {
+                "index": 3,
+                "documentId": "b533f80a-9b19-47c0-b4ab-210590846228",
+                "categoryName": "INFORMAÇÕES GERAIS",
+                "documentTitle": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+                "subcategoryName": "Texto Livre"
+              }
+            ],
+            "chunkRefs": [
+              {
+                "index": 1,
+                "chunkOrder": null,
+                "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+              },
+              {
+                "index": 2,
+                "chunkOrder": null,
+                "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+              },
+              {
+                "index": 3,
+                "chunkOrder": null,
+                "documentId": "b533f80a-9b19-47c0-b4ab-210590846228"
+              }
+            ],
+            "classification": {
+              "categoryId": "c2a99325-1439-4f1d-bec7-6f6006a0822f",
+              "categoryName": "TABELAS DE PREÇOS",
+              "subcategoryId": "8ff31a51-8732-48b3-9f40-742d4abe9b3e",
+              "subcategoryName": "Lente Intraocular Particular",
+              "categoryDescription": "Tabelas contendo os valores vigentes para consultas médicas, exames oftalmológicos, procedimentos cirúrgicos e demais serviços prestados em regime particular, e convênios com cartões desconto, incluindo atualizações e históricos de preços.",
+              "subcategoryDescription": "Relação de preços das lentes intraoculares disponibilizadas para pacientes particulares, contemplando modelos, fabricantes, características técnicas e respectivos valores."
+            },
+            "matchedDocument": true,
+            "matchedCategory": null,
+            "matchedSubcategory": null,
+            "requiredWordsHit": 1,
+            "requiredWordsTotal": 1,
+            "forbiddenWordsHit": 0,
+            "sourcesCorrect": true,
+            "sourcesIncorrect": false,
+            "isHallucination": false,
+            "isEmptyAnswer": false,
+            "isInternalError": false,
+            "score": 100,
+            "verdict": "PASS",
+            "scoreBreakdown": {
+              "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+              "latency": 10,
+              "sources": 30,
+              "weights": {
+                "latency": 10,
+                "sources": 30,
+                "document": 20,
+                "answerQuality": 40
+              },
+              "document": 20,
+              "answerQuality": 40
+            },
+            "extractionMethod": "tabular",
+            "ocrQualityGrade": null,
+            "ocrUsed": false,
+            "sheetName": "Planilha1",
+            "promptVersion": "consulta-ia-v1-inline-2026-08-03",
+            "modelName": "gpt-4.1-mini",
+            "createdAt": "2026-08-03T13:56:53.750Z"
+          }
+        ]
+      },
+      "meta": {
+        "requestId": "a0ba061e-6443-48da-bc18-6bcdc4931844",
+        "timestamp": "2026-08-03T13:56:54.060Z",
+        "durationMs": 6358
+      }
+    }
+  }
+}
