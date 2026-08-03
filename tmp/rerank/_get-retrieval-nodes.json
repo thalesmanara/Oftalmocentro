@@ -1,0 +1,66 @@
+[
+  {
+    "name": "Webhook",
+    "type": "n8n-nodes-base.webhook",
+    "path": "system/ai-retrieval"
+  },
+  {
+    "name": "Normalizar request",
+    "type": "n8n-nodes-base.executeWorkflow"
+  },
+  {
+    "name": "Validar auth",
+    "type": "n8n-nodes-base.executeWorkflow"
+  },
+  {
+    "name": "Auth ok?",
+    "type": "n8n-nodes-base.if"
+  },
+  {
+    "name": "Validar permissão",
+    "type": "n8n-nodes-base.executeWorkflow"
+  },
+  {
+    "name": "Permissão ok?",
+    "type": "n8n-nodes-base.if"
+  },
+  {
+    "name": "Restaurar request",
+    "type": "n8n-nodes-base.code",
+    "js": "return [$('Normalizar request').first()];"
+  },
+  {
+    "name": "Listar retrieval configs",
+    "type": "n8n-nodes-base.postgres",
+    "query": "SELECT\n  c.id AS \"id\",\n  c.code AS \"code\",\n  c.purpose AS \"purpose\",\n  c.description AS \"description\",\n  c.active AS \"active\",\n  c.created_at AS \"createdAt\",\n  c.updated_at AS \"updatedAt\",\n  pub.id AS"
+  },
+  {
+    "name": "Coletar lista",
+    "type": "n8n-nodes-base.code",
+    "js": "const rows=$input.all().map(i=>i.json).filter(j=>j&&j.id);\nconst norm=$('Normalizar request').first().json;\nconst items=rows.map(r=>({\n  id:r.id, code"
+  },
+  {
+    "name": "Preparar sucesso",
+    "type": "n8n-nodes-base.executeWorkflow"
+  },
+  {
+    "name": "Respond to Webhook",
+    "type": "n8n-nodes-base.respondToWebhook"
+  },
+  {
+    "name": "Preparar erro 403",
+    "type": "n8n-nodes-base.executeWorkflow"
+  },
+  {
+    "name": "Respond 403",
+    "type": "n8n-nodes-base.respondToWebhook"
+  },
+  {
+    "name": "Preparar erro 401",
+    "type": "n8n-nodes-base.executeWorkflow"
+  },
+  {
+    "name": "Respond 401",
+    "type": "n8n-nodes-base.respondToWebhook"
+  }
+]

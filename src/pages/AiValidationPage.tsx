@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { FlaskConical, PlayCircle, Download } from 'lucide-react'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { Card } from '@/components/ui/Card'
@@ -273,6 +274,12 @@ export function AiValidationPage() {
         description="Framework de avaliação automatizada da Consulta IA"
         actions={
           <>
+            <Link
+              to="/ia/retrieval"
+              className="mr-2 inline-flex items-center rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+            >
+              Retrieval / Re-ranking
+            </Link>
             <label className="mr-1 flex items-center gap-2 text-sm text-slate-600">
               <input
                 type="checkbox"

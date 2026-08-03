@@ -1,0 +1,37 @@
+[
+  {
+    "id": "SxDfJMFCQbytHHL6",
+    "name": "GET System AI Retrieval",
+    "active": true
+  },
+  {
+    "id": "EdG14rWgluDHiOtt",
+    "name": "GET System AI Retrieval Detail",
+    "active": true
+  },
+  {
+    "id": "RjQDc5gcWFYyBQJO",
+    "name": "POST System AI Retrieval Create",
+    "active": true
+  },
+  {
+    "id": "BAHKNoJM7VdYU8UE",
+    "name": "POST System AI Retrieval Publish",
+    "active": true
+  },
+  {
+    "id": "FdaMsXY4nXEO0xV8",
+    "name": "POST System AI Retrieval Rollback",
+    "active": true
+  },
+  {
+    "id": "DesGIYYOTdv0ws9J",
+    "name": "POST System AI Retrieval Validate",
+    "active": true
+  },
+  {
+    "id": "Ci5BcAlkZCxOxdyA",
+    "name": "PUT System AI Retrieval Update",
+    "active": true
+  }
+]

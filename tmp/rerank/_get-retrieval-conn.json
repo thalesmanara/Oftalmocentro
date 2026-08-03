@@ -1,0 +1,298 @@
+{
+  "prompts": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalizar request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalizar request": {
+      "main": [
+        [
+          {
+            "node": "Validar auth",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar auth": {
+      "main": [
+        [
+          {
+            "node": "Auth ok?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auth ok?": {
+      "main": [
+        [
+          {
+            "node": "Validar permissão",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar erro 401",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar permissão": {
+      "main": [
+        [
+          {
+            "node": "Permissão ok?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Permissão ok?": {
+      "main": [
+        [
+          {
+            "node": "Restaurar request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar erro 403",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Restaurar request": {
+      "main": [
+        [
+          {
+            "node": "Listar prompts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Listar prompts": {
+      "main": [
+        [
+          {
+            "node": "Coletar lista",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Coletar lista": {
+      "main": [
+        [
+          {
+            "node": "Preparar sucesso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar sucesso": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar erro 403": {
+      "main": [
+        [
+          {
+            "node": "Respond 403",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar erro 401": {
+      "main": [
+        [
+          {
+            "node": "Respond 401",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "retrieval": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalizar request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalizar request": {
+      "main": [
+        [
+          {
+            "node": "Validar auth",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar auth": {
+      "main": [
+        [
+          {
+            "node": "Auth ok?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auth ok?": {
+      "main": [
+        [
+          {
+            "node": "Validar permissão",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar erro 401",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar permissão": {
+      "main": [
+        [
+          {
+            "node": "Permissão ok?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Permissão ok?": {
+      "main": [
+        [
+          {
+            "node": "Restaurar request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar erro 403",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Restaurar request": {
+      "main": [
+        [
+          {
+            "node": "Listar prompts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Listar prompts": {
+      "main": [
+        [
+          {
+            "node": "Coletar lista",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Coletar lista": {
+      "main": [
+        [
+          {
+            "node": "Preparar sucesso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar sucesso": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar erro 403": {
+      "main": [
+        [
+          {
+            "node": "Respond 403",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar erro 401": {
+      "main": [
+        [
+          {
+            "node": "Respond 401",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,82 @@
+[
+  {
+    "id": "nivEQHAqHWIwP8P8",
+    "name": "IA - RE-RANQUEAR CANDIDATOS",
+    "active": true,
+    "activeVersionId": "d7060be2-7463-4b05-92bd-3e05f1789b9c",
+    "nodeCount": 10,
+    "names": [
+      "Trigger",
+      "Validar entrada",
+      "Entrada ok?",
+      "Erro entrada",
+      "Audit START",
+      "Re-ranquear",
+      "Rerank ok?",
+      "Audit SUCCESS",
+      "Audit FAILED",
+      "Retorno"
+    ],
+    "hasStub": false
+  },
+  {
+    "id": "sClDEVNVS0TGG2uq",
+    "name": "IA - CARREGAR RETRIEVAL CONFIG",
+    "active": true,
+    "activeVersionId": "a2741824-35bb-467c-a655-e0932b50fa85",
+    "nodeCount": 3,
+    "names": [
+      "Trigger",
+      "Buscar config publicada",
+      "Normalizar config"
+    ],
+    "hasStub": false
+  },
+  {
+    "id": "8EXk5RkFW5cxnenL",
+    "name": "Consulta IA",
+    "active": true,
+    "activeVersionId": "a6957f72-0e75-480f-9b93-9235ec07cf52",
+    "nodeCount": 37,
+    "names": [
+      "Webhook",
+      "Classificar pergunta",
+      "Buscar chunks relevantes",
+      "Montar contexto",
+      "Message a model",
+      "Respond to Webhook",
+      "Buscar categorias e subcategorias",
+      "Validar auth",
+      "Auth ok?",
+      "Respond 401",
+      "Validar permissão",
+      "Permissão ok?",
+      "Respond 403",
+      "Restaurar request",
+      "Normalizar request",
+      "Montar resposta",
+      "Preparar sucesso",
+      "Preparar erro 401",
+      "Preparar erro 403",
+      "Registrar auditoria sucesso",
+      "Registrar auditoria 401",
+      "Registrar auditoria 403",
+      "Carregar prompt ativo",
+      "Aplicar prompt carregado",
+      "Preparar embedding pergunta",
+      "Embed pergunta",
+      "Extrair vetor pergunta",
+      "Busca vetorial Qdrant",
+      "Restaurar classificação p/ texto",
+      "Merge híbrido",
+      "Aguardar recuperações",
+      "Carregar retrieval config",
+      "Preparar seleção retrieval",
+      "Usar re-ranking?",
+      "Chamar RE-RANQUEAR",
+      "Resolver ranking final",
+      "Corte hybrid padrão"
+    ],
+    "hasStub": false
+  }
+]

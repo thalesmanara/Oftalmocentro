@@ -20,6 +20,7 @@ const COMPONENT_LABELS: Record<string, string> = {
   aiPrompts: 'Prompts da IA',
   embeddings: 'Embeddings',
   qdrant: 'Qdrant',
+  retrieval: 'Retrieval / Re-ranking',
 }
 
 function statusLabel(status: UiState): string {

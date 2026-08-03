@@ -1,0 +1,261 @@
+{
+  "startedAt": "2026-08-03T20:53:39.312Z",
+  "tests": [
+    {
+      "name": "login",
+      "pass": true,
+      "detail": "status=200"
+    },
+    {
+      "name": "401 retrieval sem token",
+      "pass": true,
+      "detail": "status=401"
+    },
+    {
+      "name": "GET ai-retrieval",
+      "pass": true,
+      "detail": "status=200 items=1"
+    },
+    {
+      "name": "GET ai-retrieval/detail",
+      "pass": true,
+      "detail": "status=200 versions=2"
+    },
+    {
+      "name": "health retrieval component",
+      "pass": true,
+      "detail": "{\"status\":\"ok\"}"
+    },
+    {
+      "name": "baseline dataset Planilhas HYBRID",
+      "pass": true,
+      "detail": "status=200 durationMs=9890 score=100 mode=undefined version=undefined"
+    },
+    {
+      "name": "Consulta IA contrato",
+      "pass": true,
+      "detail": "status=200 hasAnswer=true sources=1"
+    },
+    {
+      "name": "validate retrieval",
+      "pass": true,
+      "detail": "status=200"
+    },
+    {
+      "name": "validate rejects bad",
+      "pass": false,
+      "detail": "status=200"
+    }
+  ],
+  "baseline": {
+    "status": 200,
+    "durationMs": 9890,
+    "data": {
+      "run": {
+        "id": "11d65bda-2226-47a9-8d79-d0e105ff7fac",
+        "startedAt": "2026-08-03T20:53:44.308Z",
+        "finishedAt": "2026-08-03T20:53:53.248Z",
+        "durationMs": 8940,
+        "status": "SUCCESS",
+        "triggeredBy": "06e0915e-0f90-42b1-a32c-ae5e0f7de1c6",
+        "triggerMode": "dataset",
+        "totalCases": 1,
+        "passedCount": 1,
+        "failedCount": 0,
+        "errorCount": 0,
+        "skippedCount": 0,
+        "overallScore": 100,
+        "promptVersion": "AI_QUERY_MAIN@v1:9faa2e456571",
+        "promptVersionId": null,
+        "modelName": "gpt-4.1-mini",
+        "ocrEngineVersion": "n/a",
+        "tabularEngineVersion": "n/a",
+        "report": {
+          "total": 1,
+          "errors": 0,
+          "failed": 0,
+          "passed": 1,
+          "recall": 100,
+          "precision": 100,
+          "topErrors": [],
+          "generatedAt": "2026-08-03T20:53:53.219Z",
+          "overallScore": 100,
+          "scoreFormula": "Per-case: answerQuality40 + sources30 + document20 + latency10. Run overall = average(case scores). Precision = passed/total.",
+          "topDocuments": [
+            {
+              "count": 1,
+              "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+              "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+            },
+            {
+              "count": 1,
+              "title": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+              "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+            },
+            {
+              "count": 1,
+              "title": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+              "documentId": "b533f80a-9b19-47c0-b4ab-210590846228"
+            }
+          ],
+          "avgDurationMs": 0,
+          "maxDurationMs": 0,
+          "minDurationMs": 0,
+          "categoryCoverage": {
+            "Planilhas": {
+              "total": 1,
+              "passed": 1,
+              "precision": 100
+            }
+          },
+          "documentCoverage": 100
+        },
+        "metadata": {},
+        "createdAt": "2026-08-03T20:53:44.308Z"
+      },
+      "metrics": {
+        "id": "dca36115-e577-4a8d-925a-bca0ba913e4d",
+        "runId": "11d65bda-2226-47a9-8d79-d0e105ff7fac",
+        "precision": 100,
+        "recall": 100,
+        "documentCoverage": 100,
+        "categoryCoverage": {
+          "Planilhas": {
+            "total": 1,
+            "passed": 1,
+            "precision": 100
+          }
+        },
+        "avgDurationMs": 0,
+        "minDurationMs": 0,
+        "maxDurationMs": 0,
+        "sourcesCorrectCount": 1,
+        "sourcesIncorrectCount": 0,
+        "documentCorrectCount": 1,
+        "categoryCorrectCount": 0,
+        "subcategoryCorrectCount": 0,
+        "hallucinationCount": 0,
+        "emptyAnswerCount": 0,
+        "internalErrorCount": 0,
+        "passedCount": 1,
+        "failedCount": 0,
+        "totalCount": 1,
+        "overallScore": 100,
+        "topErrors": [],
+        "topDocuments": [
+          {
+            "count": 1,
+            "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+          },
+          {
+            "count": 1,
+            "title": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+            "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+          },
+          {
+            "count": 1,
+            "title": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+            "documentId": "b533f80a-9b19-47c0-b4ab-210590846228"
+          }
+        ],
+        "scoreFormula": "Per-case: answerQuality40 + sources30 + document20 + latency10. Run overall = average(case scores). Precision = passed/total.",
+        "createdAt": "2026-08-03T20:53:53.175Z"
+      },
+      "results": [
+        {
+          "id": "c5b3835d-7909-4990-bbfa-4bf6a1365a45",
+          "runId": "11d65bda-2226-47a9-8d79-d0e105ff7fac",
+          "caseId": "1e040f78-0846-4bde-abbf-4a84694e9af5",
+          "caseCode": "TC-053",
+          "question": "Quem aparece na relação de funcionários em Excel?",
+          "answer": "Na relação de funcionários em Excel do Serviço de Enfermagem do Oftalmocentro Uberaba aparecem os seguintes profissionais:\n\n- BARBARA APARECIDA MUNIZ DE LIMA, Técnica em Enfermagem, COREN-MG 2246508, setor Centro Cirúrgico/Exames/CME\n- BIANCA KATHEREIN FREITAS SILVA, Enfermeira, COREN-MG 795377, setor Centro Cirúrgico/Exames/CME\n- DAYANA SENE VIEIRA AS SILVA, Técnica de Enfermagem, COREN-MG 646,173, setor Centro Cirúrgico/Exames/CME\n- JORDANA BORGES, Enfermeira, COREN-MG 493,608, responsável técnica\n- MARIANA PEREIRA OLIVEIRA, Enfermeira, COREN-MG 271,377, setor Centro Cirúrgico/Exames/CME\n\nFonte: RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+          "durationMs": null,
+          "sources": [
+            {
+              "index": 1,
+              "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+              "categoryName": "ALVARÁS - LICENÇAS - ART",
+              "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+              "subcategoryName": "COREN"
+            },
+            {
+              "index": 2,
+              "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a",
+              "categoryName": "ENGENHARIA CLÍNICA",
+              "documentTitle": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+              "subcategoryName": "CONTRATOS DE MANUTENÇÃO"
+            },
+            {
+              "index": 3,
+              "documentId": "b533f80a-9b19-47c0-b4ab-210590846228",
+              "categoryName": "INFORMAÇÕES GERAIS",
+              "documentTitle": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+              "subcategoryName": "Texto Livre"
+            }
+          ],
+          "chunkRefs": [
+            {
+              "index": 1,
+              "chunkOrder": null,
+              "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+            },
+            {
+              "index": 2,
+              "chunkOrder": null,
+              "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+            },
+            {
+              "index": 3,
+              "chunkOrder": null,
+              "documentId": "b533f80a-9b19-47c0-b4ab-210590846228"
+            }
+          ],
+          "classification": {
+            "categoryId": "c2a99325-1439-4f1d-bec7-6f6006a0822f",
+            "categoryName": "TABELAS DE PREÇOS",
+            "subcategoryId": "8ff31a51-8732-48b3-9f40-742d4abe9b3e",
+            "subcategoryName": "Lente Intraocular Particular",
+            "categoryDescription": "Tabelas contendo os valores vigentes para consultas médicas, exames oftalmológicos, procedimentos cirúrgicos e demais serviços prestados em regime particular, e convênios com cartões desconto, incluindo atualizações e históricos de preços.",
+            "subcategoryDescription": "Relação de preços das lentes intraoculares disponibilizadas para pacientes particulares, contemplando modelos, fabricantes, características técnicas e respectivos valores."
+          },
+          "matchedDocument": true,
+          "matchedCategory": null,
+          "matchedSubcategory": null,
+          "requiredWordsHit": 1,
+          "requiredWordsTotal": 1,
+          "forbiddenWordsHit": 0,
+          "sourcesCorrect": true,
+          "sourcesIncorrect": false,
+          "isHallucination": false,
+          "isEmptyAnswer": false,
+          "isInternalError": false,
+          "score": 100,
+          "verdict": "PASS",
+          "scoreBreakdown": {
+            "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+            "latency": 10,
+            "sources": 30,
+            "weights": {
+              "latency": 10,
+              "sources": 30,
+              "document": 20,
+              "answerQuality": 40
+            },
+            "document": 20,
+            "answerQuality": 40
+          },
+          "extractionMethod": "tabular",
+          "ocrQualityGrade": null,
+          "ocrUsed": false,
+          "sheetName": "Planilha1",
+          "promptVersion": "AI_QUERY_MAIN@v1:9faa2e456571",
+          "promptVersionId": null,
+          "modelName": "gpt-4.1-mini",
+          "createdAt": "2026-08-03T20:53:53.114Z"
+        }
+      ]
+    }
+  },
+  "finishedAt": "2026-08-03T20:53:59.117Z"
+}

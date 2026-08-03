@@ -1,0 +1,140 @@
+{
+  "connections": {
+    "Trigger": {
+      "main": [
+        [
+          {
+            "node": "Probe database",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Probe database": {
+      "main": [
+        [
+          {
+            "node": "Prepare checks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare checks": {
+      "main": [
+        [
+          {
+            "node": "Convert probe to file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert probe to file": {
+      "main": [
+        [
+          {
+            "node": "Write probe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write probe": {
+      "main": [
+        [
+          {
+            "node": "Read probe",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Finalize storage": {
+      "main": [
+        [
+          {
+            "node": "Probe Tika",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read probe": {
+      "main": [
+        [
+          {
+            "node": "Finalize storage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Probe Tika": {
+      "main": [
+        [
+          {
+            "node": "Probe OCR",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Probe OCR": {
+      "main": [
+        [
+          {
+            "node": "Probe Qdrant",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Probe tabular": {
+      "main": [
+        [
+          {
+            "node": "Aggregate health",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Probe Qdrant": {
+      "main": [
+        [
+          {
+            "node": "Probe tabular",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "dangling": [],
+  "names": [
+    "Trigger",
+    "Probe database",
+    "Prepare checks",
+    "Convert probe to file",
+    "Write probe",
+    "Read probe",
+    "Finalize storage",
+    "Probe Tika",
+    "Aggregate health",
+    "Probe OCR",
+    "Probe tabular",
+    "Probe Qdrant"
+  ]
+}

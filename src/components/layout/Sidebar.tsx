@@ -12,6 +12,7 @@ import {
   FlaskConical,
   ScrollText,
   Database,
+  SlidersHorizontal,
 } from 'lucide-react'
 import { useSettings } from '@/hooks/useSettings'
 import { useAuth } from '@/hooks/useAuth'
@@ -62,6 +63,12 @@ const navGroups: NavGroup[] = [
         to: '/ia/prompts',
         label: 'Prompts da IA',
         icon: ScrollText,
+        permission: 'editar_configuracoes',
+      },
+      {
+        to: '/ia/retrieval',
+        label: 'Retrieval / Re-ranking',
+        icon: SlidersHorizontal,
         permission: 'editar_configuracoes',
       },
       {

@@ -1,0 +1,45 @@
+{
+  "health": {
+    "id": "qAyYc9DrHIqe4L9i",
+    "name": "SYSTEM - HEALTH CHECK",
+    "changed": [
+      "probe",
+      "prep",
+      "agg"
+    ]
+  },
+  "healthGet": {
+    "id": "2UPHcxASp2PboC9M",
+    "name": "GET System Health",
+    "skipped": true,
+    "nodes": [
+      "Webhook",
+      "Normalizar request",
+      "Validar auth",
+      "Auth ok?",
+      "Validar permissão",
+      "Permissão ok?",
+      "Restaurar request",
+      "Executar health check",
+      "Montar resposta admin",
+      "Preparar sucesso",
+      "Registrar auditoria",
+      "Repassar resposta",
+      "Respond to Webhook",
+      "Preparar erro 403",
+      "Respond 403",
+      "Preparar erro 401",
+      "Respond 401"
+    ]
+  },
+  "backup": {
+    "id": "A16PhhWFr0Za9X3B",
+    "name": "BACKUP - BANCO",
+    "changed": true
+  },
+  "dataset": {
+    "id": "12t0Ol6zWQJgAKPC",
+    "name": "IA - EXECUTAR DATASET",
+    "changed": true
+  }
+}

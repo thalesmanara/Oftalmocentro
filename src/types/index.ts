@@ -339,6 +339,7 @@ export interface SystemHealth {
     aiPrompts?: HealthComponent
     embeddings?: HealthComponent
     qdrant?: HealthComponent
+    retrieval?: HealthComponent
   }
 }
 

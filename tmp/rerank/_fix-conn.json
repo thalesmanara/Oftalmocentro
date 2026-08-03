@@ -1,0 +1,126 @@
+[
+  {
+    "id": "SxDfJMFCQbytHHL6",
+    "name": "GET System AI Retrieval",
+    "restoreTargets": [
+      "Listar prompts"
+    ],
+    "fixed": true,
+    "danglingBefore": [
+      {
+        "type": "to",
+        "from": "Restaurar request",
+        "name": "Listar prompts"
+      },
+      {
+        "type": "from",
+        "name": "Listar prompts"
+      }
+    ]
+  },
+  {
+    "id": "EdG14rWgluDHiOtt",
+    "name": "GET System AI Retrieval Detail",
+    "pg": "Buscar retrieval detail",
+    "code": "Coletar detalhe",
+    "danglingBefore": [
+      {
+        "type": "to",
+        "from": "Restaurar request",
+        "name": "Carregar definição"
+      },
+      {
+        "type": "from",
+        "name": "Carregar definição"
+      },
+      {
+        "type": "to",
+        "from": "Carregar definição",
+        "name": "Carregar versões"
+      },
+      {
+        "type": "from",
+        "name": "Carregar versões"
+      }
+    ]
+  },
+  {
+    "id": "RjQDc5gcWFYyBQJO",
+    "name": "POST System AI Retrieval Create",
+    "danglingBefore": [],
+    "business": [
+      "Montar SQL de contexto",
+      "Carregar contexto",
+      "Avaliar criação",
+      "Criação válida?",
+      "Montar SQL de criação",
+      "Executar criação",
+      "Montar resultado",
+      "Auditar criação",
+      "Repassar resposta"
+    ]
+  },
+  {
+    "id": "BAHKNoJM7VdYU8UE",
+    "name": "POST System AI Retrieval Publish",
+    "danglingBefore": [],
+    "business": [
+      "Preparar inputs",
+      "Inputs ok?",
+      "Chamar PUBLICAR",
+      "Avaliar publicação",
+      "Publicação ok?",
+      "Auditar publicação",
+      "Repassar resposta"
+    ]
+  },
+  {
+    "id": "FdaMsXY4nXEO0xV8",
+    "name": "POST System AI Retrieval Rollback",
+    "danglingBefore": [],
+    "business": [
+      "Preparar inputs",
+      "Inputs ok?",
+      "Chamar ROLLBACK",
+      "Avaliar rollback",
+      "Rollback ok?",
+      "Auditar rollback",
+      "Repassar resposta"
+    ]
+  },
+  {
+    "id": "Ci5BcAlkZCxOxdyA",
+    "name": "PUT System AI Retrieval Update",
+    "danglingBefore": [],
+    "business": [
+      "Montar SQL de contexto",
+      "Carregar contexto",
+      "Avaliar atualização",
+      "Atualização válida?",
+      "Montar SQL de atualização",
+      "Executar atualização",
+      "Montar resultado",
+      "Auditar atualização",
+      "Repassar resposta"
+    ]
+  },
+  {
+    "id": "DesGIYYOTdv0ws9J",
+    "name": "POST System AI Retrieval Validate",
+    "danglingBefore": [],
+    "business": [
+      "Montar SQL de contexto",
+      "Carregar contexto",
+      "Avaliar contexto",
+      "Contexto ok?",
+      "Marcar VALIDATING",
+      "Chamar VALIDAR",
+      "Finalizar status",
+      "Atualizar status final",
+      "Montar resultado",
+      "Auditar START",
+      "Auditar FINISH",
+      "Repassar resposta"
+    ]
+  }
+]

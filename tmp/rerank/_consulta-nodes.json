@@ -1,0 +1,583 @@
+{
+  "updatedAt": "2026-08-03T20:17:51.206Z",
+  "activeVersionId": "a6957f72-0e75-480f-9b93-9235ec07cf52",
+  "names": [
+    {
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "pos": [
+        0,
+        0
+      ]
+    },
+    {
+      "name": "Classificar pergunta",
+      "type": "n8n-nodes-base.code",
+      "pos": [
+        416,
+        0
+      ]
+    },
+    {
+      "name": "Buscar chunks relevantes",
+      "type": "n8n-nodes-base.postgres",
+      "pos": [
+        624,
+        0
+      ]
+    },
+    {
+      "name": "Montar contexto",
+      "type": "n8n-nodes-base.code",
+      "pos": [
+        832,
+        0
+      ]
+    },
+    {
+      "name": "Message a model",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "pos": [
+        1040,
+        0
+      ]
+    },
+    {
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "pos": [
+        1552,
+        0
+      ]
+    },
+    {
+      "name": "Buscar categorias e subcategorias",
+      "type": "n8n-nodes-base.postgres",
+      "pos": [
+        208,
+        0
+      ]
+    },
+    {
+      "name": "Validar auth",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "pos": [
+        120,
+        0
+      ]
+    },
+    {
+      "name": "Auth ok?",
+      "type": "n8n-nodes-base.if",
+      "pos": [
+        320,
+        0
+      ]
+    },
+    {
+      "name": "Respond 401",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "pos": [
+        560,
+        120
+      ]
+    },
+    {
+      "name": "Validar permissão",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "pos": [
+        440,
+        -40
+      ]
+    },
+    {
+      "name": "Permissão ok?",
+      "type": "n8n-nodes-base.if",
+      "pos": [
+        620,
+        -40
+      ]
+    },
+    {
+      "name": "Respond 403",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "pos": [
+        820,
+        120
+      ]
+    },
+    {
+      "name": "Restaurar request",
+      "type": "n8n-nodes-base.code",
+      "pos": [
+        820,
+        -40
+      ]
+    },
+    {
+      "name": "Normalizar request",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "pos": [
+        120,
+        0
+      ]
+    },
+    {
+      "name": "Montar resposta",
+      "type": "n8n-nodes-base.code",
+      "pos": [
+        1360,
+        0
+      ]
+    },
+    {
+      "name": "Preparar sucesso",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "pos": [
+        1552,
+        0
+      ]
+    },
+    {
+      "name": "Preparar erro 401",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "pos": [
+        660,
+        120
+      ]
+    },
+    {
+      "name": "Preparar erro 403",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "pos": [
+        960,
+        120
+      ]
+    },
+    {
+      "name": "Registrar auditoria sucesso",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "pos": [
+        1672,
+        0
+      ]
+    },
+    {
+      "name": "Registrar auditoria 401",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "pos": [
+        780,
+        120
+      ]
+    },
+    {
+      "name": "Registrar auditoria 403",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "pos": [
+        1080,
+        120
+      ]
+    },
+    {
+      "name": "Carregar prompt ativo",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "pos": [
+        900,
+        160
+      ]
+    },
+    {
+      "name": "Aplicar prompt carregado",
+      "type": "n8n-nodes-base.code",
+      "pos": [
+        980,
+        160
+      ]
+    },
+    {
+      "name": "Preparar embedding pergunta",
+      "type": "n8n-nodes-base.code",
+      "pos": [
+        1400,
+        100
+      ]
+    },
+    {
+      "name": "Embed pergunta",
+      "type": "n8n-nodes-base.httpRequest",
+      "pos": [
+        1620,
+        100
+      ]
+    },
+    {
+      "name": "Extrair vetor pergunta",
+      "type": "n8n-nodes-base.code",
+      "pos": [
+        1840,
+        100
+      ]
+    },
+    {
+      "name": "Busca vetorial Qdrant",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "pos": [
+        2060,
+        40
+      ]
+    },
+    {
+      "name": "Restaurar classificação p/ texto",
+      "type": "n8n-nodes-base.code",
+      "pos": [
+        2060,
+        200
+      ]
+    },
+    {
+      "name": "Merge híbrido",
+      "type": "n8n-nodes-base.code",
+      "pos": [
+        2500,
+        100
+      ]
+    },
+    {
+      "name": "Aguardar recuperações",
+      "type": "n8n-nodes-base.merge",
+      "pos": [
+        2300,
+        100
+      ]
+    }
+  ],
+  "connections": {
+    "Classificar pergunta": {
+      "main": [
+        [
+          {
+            "node": "Preparar embedding pergunta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar chunks relevantes": {
+      "main": [
+        [
+          {
+            "node": "Aguardar recuperações",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar categorias e subcategorias": {
+      "main": [
+        [
+          {
+            "node": "Classificar pergunta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar auth": {
+      "main": [
+        [
+          {
+            "node": "Auth ok?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auth ok?": {
+      "main": [
+        [
+          {
+            "node": "Validar permissão",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar erro 401",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar permissão": {
+      "main": [
+        [
+          {
+            "node": "Permissão ok?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Permissão ok?": {
+      "main": [
+        [
+          {
+            "node": "Restaurar request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar erro 403",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Restaurar request": {
+      "main": [
+        [
+          {
+            "node": "Buscar categorias e subcategorias",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalizar request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalizar request": {
+      "main": [
+        [
+          {
+            "node": "Validar auth",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Montar resposta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Montar resposta": {
+      "main": [
+        [
+          {
+            "node": "Preparar sucesso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar sucesso": {
+      "main": [
+        [
+          {
+            "node": "Registrar auditoria sucesso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registrar auditoria sucesso": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar erro 401": {
+      "main": [
+        [
+          {
+            "node": "Registrar auditoria 401",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registrar auditoria 401": {
+      "main": [
+        [
+          {
+            "node": "Respond 401",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar erro 403": {
+      "main": [
+        [
+          {
+            "node": "Registrar auditoria 403",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registrar auditoria 403": {
+      "main": [
+        [
+          {
+            "node": "Respond 403",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Montar contexto": {
+      "main": [
+        [
+          {
+            "node": "Carregar prompt ativo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Carregar prompt ativo": {
+      "main": [
+        [
+          {
+            "node": "Aplicar prompt carregado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aplicar prompt carregado": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar embedding pergunta": {
+      "main": [
+        [
+          {
+            "node": "Embed pergunta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embed pergunta": {
+      "main": [
+        [
+          {
+            "node": "Extrair vetor pergunta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extrair vetor pergunta": {
+      "main": [
+        [
+          {
+            "node": "Busca vetorial Qdrant",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Restaurar classificação p/ texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Restaurar classificação p/ texto": {
+      "main": [
+        [
+          {
+            "node": "Buscar chunks relevantes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Busca vetorial Qdrant": {
+      "main": [
+        [
+          {
+            "node": "Aguardar recuperações",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aguardar recuperações": {
+      "main": [
+        [
+          {
+            "node": "Merge híbrido",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge híbrido": {
+      "main": [
+        [
+          {
+            "node": "Montar contexto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

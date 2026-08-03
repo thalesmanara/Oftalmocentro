@@ -52,6 +52,11 @@ export interface AiTestRun {
   tabularEngineVersion?: string | null
   embeddingModel?: string | null
   embeddingVersion?: string | null
+  retrievalMode?: string | null
+  retrievalConfigVersion?: string | null
+  retrievalLatencyMs?: number | null
+  rerankLatencyMs?: number | null
+  fallbackUsed?: boolean | null
   report?: Record<string, unknown>
   metadata?: Record<string, unknown>
   createdAt: string

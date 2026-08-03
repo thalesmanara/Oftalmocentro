@@ -1,0 +1,202 @@
+[
+  {
+    "table_name": "ai_test_metrics",
+    "column_name": "overall_score"
+  },
+  {
+    "table_name": "ai_test_metrics",
+    "column_name": "score_formula"
+  },
+  {
+    "table_name": "ai_test_results",
+    "column_name": "chunk_refs"
+  },
+  {
+    "table_name": "ai_test_results",
+    "column_name": "headers_json"
+  },
+  {
+    "table_name": "ai_test_results",
+    "column_name": "merged_score"
+  },
+  {
+    "table_name": "ai_test_results",
+    "column_name": "ocr_quality_grade"
+  },
+  {
+    "table_name": "ai_test_results",
+    "column_name": "ocr_used"
+  },
+  {
+    "table_name": "ai_test_results",
+    "column_name": "retrieval_mode"
+  },
+  {
+    "table_name": "ai_test_results",
+    "column_name": "score"
+  },
+  {
+    "table_name": "ai_test_results",
+    "column_name": "score_breakdown"
+  },
+  {
+    "table_name": "ai_test_results",
+    "column_name": "sheet_name"
+  },
+  {
+    "table_name": "ai_test_results",
+    "column_name": "text_score"
+  },
+  {
+    "table_name": "ai_test_results",
+    "column_name": "vector_score"
+  },
+  {
+    "table_name": "ai_test_runs",
+    "column_name": "ocr_engine_version"
+  },
+  {
+    "table_name": "ai_test_runs",
+    "column_name": "overall_score"
+  },
+  {
+    "table_name": "ai_test_runs",
+    "column_name": "retrieval_mode"
+  },
+  {
+    "table_name": "document_chunks",
+    "column_name": "chunk_index"
+  },
+  {
+    "table_name": "document_chunks",
+    "column_name": "chunk_kind"
+  },
+  {
+    "table_name": "document_chunks",
+    "column_name": "chunk_order"
+  },
+  {
+    "table_name": "document_chunks",
+    "column_name": "chunk_text"
+  },
+  {
+    "table_name": "document_chunks",
+    "column_name": "content_hash"
+  },
+  {
+    "table_name": "document_chunks",
+    "column_name": "embedding_hash"
+  },
+  {
+    "table_name": "document_chunks",
+    "column_name": "embedding_vector"
+  },
+  {
+    "table_name": "document_chunks",
+    "column_name": "headers_json"
+  },
+  {
+    "table_name": "document_chunks",
+    "column_name": "sheet_name"
+  },
+  {
+    "table_name": "document_versions",
+    "column_name": "expiration_date"
+  },
+  {
+    "table_name": "document_versions",
+    "column_name": "ocr_attempts"
+  },
+  {
+    "table_name": "document_versions",
+    "column_name": "ocr_character_count"
+  },
+  {
+    "table_name": "document_versions",
+    "column_name": "ocr_characters_per_page"
+  },
+  {
+    "table_name": "document_versions",
+    "column_name": "ocr_derived_checksum"
+  },
+  {
+    "table_name": "document_versions",
+    "column_name": "ocr_derived_file_name"
+  },
+  {
+    "table_name": "document_versions",
+    "column_name": "ocr_derived_file_path"
+  },
+  {
+    "table_name": "document_versions",
+    "column_name": "ocr_duration_ms"
+  },
+  {
+    "table_name": "document_versions",
+    "column_name": "ocr_engine"
+  },
+  {
+    "table_name": "document_versions",
+    "column_name": "ocr_error_code"
+  },
+  {
+    "table_name": "document_versions",
+    "column_name": "ocr_finished_at"
+  },
+  {
+    "table_name": "document_versions",
+    "column_name": "ocr_languages"
+  },
+  {
+    "table_name": "document_versions",
+    "column_name": "ocr_mode"
+  },
+  {
+    "table_name": "document_versions",
+    "column_name": "ocr_page_count"
+  },
+  {
+    "table_name": "document_versions",
+    "column_name": "ocr_quality_grade"
+  },
+  {
+    "table_name": "document_versions",
+    "column_name": "ocr_quality_metrics"
+  },
+  {
+    "table_name": "document_versions",
+    "column_name": "ocr_quality_reason"
+  },
+  {
+    "table_name": "document_versions",
+    "column_name": "ocr_quality_score"
+  },
+  {
+    "table_name": "document_versions",
+    "column_name": "ocr_review_reason"
+  },
+  {
+    "table_name": "document_versions",
+    "column_name": "ocr_started_at"
+  },
+  {
+    "table_name": "document_versions",
+    "column_name": "ocr_status"
+  },
+  {
+    "table_name": "document_versions",
+    "column_name": "ocr_unique_word_count"
+  },
+  {
+    "table_name": "document_versions",
+    "column_name": "ocr_word_count"
+  },
+  {
+    "table_name": "document_versions",
+    "column_name": "sheet_count"
+  },
+  {
+    "table_name": "documents",
+    "column_name": "expiration_date"
+  }
+]
