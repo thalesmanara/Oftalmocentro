@@ -1,0 +1,871 @@
+{
+  "id": "post-ai-prompts-publish",
+  "name": "POST System AI Prompts Publish",
+  "nodes": [
+    {
+      "id": "e00b8abb-40bc-4d16-aafa-1b1d71c557ba",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        100,
+        300
+      ],
+      "parameters": {
+        "path": "system/ai-prompts/publish",
+        "httpMethod": "POST",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "webhookId": "4222c1df-457d-4ebe-925a-135ece1b6d9e"
+    },
+    {
+      "id": "b910cb52-426e-49e9-a117-4019f8f70dd8",
+      "name": "Normalizar request",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        300,
+        300
+      ],
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "SYSTEM - NORMALIZAR REQUEST",
+          "mode": "id",
+          "value": "N3zLpj7Dij4n5p5p"
+        }
+      }
+    },
+    {
+      "id": "ba8be90c-9813-4396-ad64-02f6852e35bb",
+      "name": "Validar auth",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        500,
+        300
+      ],
+      "parameters": {
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "P5E43ZXSJiI9wFYD",
+          "cachedResultName": "AUTH - VALIDAR TOKEN"
+        },
+        "mode": "once",
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "authorization": "={{ $json.authorization || $json.headers.authorization || $json.headers.Authorization || '' }}",
+            "requestId": "={{ $json.requestId || '' }}"
+          }
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      }
+    },
+    {
+      "id": "c5f1d24c-4d1b-4279-bd5d-832e86593958",
+      "name": "Auth ok?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        700,
+        300
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a1",
+              "leftValue": "={{ $json.ok }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true
+      }
+    },
+    {
+      "id": "9a513658-336e-40f1-941b-7c7fe5df46eb",
+      "name": "Validar permissão",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        900,
+        300
+      ],
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "AUTH - VALIDAR PERMISSÃO",
+          "mode": "id",
+          "value": "yXW3rW8EbHXuprRJ"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "isMaster": "={{ $json.user ? $json.user.isMaster === true : false }}",
+            "permissions": "={{ $json.permissions || ($json.user && $json.user.permissions) || [] }}",
+            "requiredAnyOf": "={{ [] }}",
+            "requiredPermission": "editar_configuracoes",
+            "sessionId": "={{ $json.sessionId || '' }}",
+            "user": "={{ $json.user || null }}",
+            "userId": "={{ $json.userId || ($json.user && $json.user.id) || '' }}",
+            "requestId": "={{ $json.requestId || $('Normalizar request').first().json.requestId || '' }}"
+          }
+        }
+      }
+    },
+    {
+      "id": "7a119c02-8780-4fb7-bc54-16d985af85cc",
+      "name": "Permissão ok?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1100,
+        300
+      ],
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "p1",
+              "leftValue": "={{ $json.ok }}",
+              "operator": {
+                "operation": "true",
+                "type": "boolean"
+              },
+              "rightValue": true
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          }
+        },
+        "looseTypeValidation": true
+      }
+    },
+    {
+      "id": "bbd063cd-c6ae-40f3-bbfd-076f9517e4e3",
+      "name": "Restaurar request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1300,
+        300
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "return [$('Normalizar request').first()];"
+      }
+    },
+    {
+      "id": "ef09ba23-d103-49a7-bf4c-eeda9b346a8e",
+      "name": "Preparar inputs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1500,
+        300
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const norm = $('Normalizar request').first().json || {};\nconst body = norm.body || {};\nlet userId = '';\ntry { userId = $('Validar auth').first().json.userId || ''; } catch (e) {}\nconst versionId = String(body.versionId || '').trim();\nif (!versionId) {\n  return [{ json: { ok: false, httpStatus: 400, code: 'VERSION_ID_REQUIRED', message: 'versionId é obrigatório.' } }];\n}\nreturn [{ json: {\n  ok: true,\n  promptVersionId: versionId,\n  userId,\n  requestId: norm.requestId || '',\n  forceOverride: !!body.forceOverride,\n  overrideReason: String(body.overrideReason || '').trim(),\n  validationRunId: String(body.validationRunId || '').trim(),\n} }];"
+      }
+    },
+    {
+      "id": "5af9e713-cc8b-44a7-bae2-7eb11101e2a7",
+      "name": "Inputs ok?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1700,
+        300
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "i1",
+              "leftValue": "={{ $json.ok }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true
+      }
+    },
+    {
+      "id": "c40f37e9-3e39-454c-8bc8-8d0425bc3426",
+      "name": "Chamar PUBLICAR",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1900,
+        300
+      ],
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "L8FL9uMkcqiVpskV",
+          "cachedResultName": "IA - PUBLICAR PROMPT"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "promptVersionId": "={{ $json.promptVersionId }}",
+            "userId": "={{ $json.userId }}",
+            "requestId": "={{ $json.requestId }}",
+            "forceOverride": "={{ $json.forceOverride }}",
+            "overrideReason": "={{ $json.overrideReason }}",
+            "validationRunId": "={{ $json.validationRunId }}"
+          }
+        }
+      }
+    },
+    {
+      "id": "62fd7283-13f7-4458-87a5-42c7c848ad8e",
+      "name": "Avaliar publicação",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2100,
+        300
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const pub = $input.first().json || {};\nconst norm = $('Normalizar request').first().json || {};\nlet sessionId = '';\ntry { sessionId = $('Validar auth').first().json.sessionId || ''; } catch (e) {}\nif (!pub.ok) {\n  return [{ json: {\n    ok: false,\n    httpStatus: 400,\n    code: pub.code || 'PUBLISH_FAILED',\n    message: pub.message || 'Falha ao publicar prompt.',\n  } }];\n}\nconst version = {\n  id: pub.promptVersionId,\n  promptDefinitionId: pub.promptDefinitionId,\n  promptCode: pub.promptCode,\n  purpose: pub.purpose,\n  versionNumber: pub.versionNumber != null ? Number(pub.versionNumber) : null,\n  status: pub.status,\n  environment: pub.environment,\n  contentHash: pub.contentHash,\n  publishedAt: pub.publishedAt,\n  modelName: pub.modelName,\n  validationRunId: pub.validationRunId || null,\n};\nconst definition = {\n  id: pub.promptDefinitionId,\n  code: pub.promptCode,\n  purpose: pub.purpose,\n};\nreturn [{ json: {\n  ok: true,\n  data: { definition, version },\n  asList: false,\n  statusCode: 200,\n  requestId: norm.requestId,\n  requestStartedAtMs: norm.requestStartedAtMs,\n  method: norm.method,\n  path: norm.path,\n  userId: '',\n  sessionId,\n  auditVersionId: version.id,\n  auditVersionNumber: version.versionNumber,\n  auditModelName: version.modelName,\n  auditContentHash: version.contentHash,\n  auditPromptDefinitionId: version.promptDefinitionId,\n  auditPromptCode: version.promptCode,\n  auditOverrideUsed: !!pub.overrideUsed,\n  auditOverrideReason: pub.overrideReason || null,\n  auditValidationRunId: version.validationRunId,\n} }];"
+      }
+    },
+    {
+      "id": "48055a3c-2e1b-49f8-82c9-618bd87d1df5",
+      "name": "Publicação ok?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2300,
+        300
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "p1",
+              "leftValue": "={{ $json.ok }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true
+      }
+    },
+    {
+      "id": "624b7ddf-7126-40d7-8788-cbec430651b3",
+      "name": "Preparar sucesso",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2500,
+        300
+      ],
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "SYSTEM - PREPARAR SUCESSO",
+          "mode": "id",
+          "value": "zE5LRjZfbXw8Ymll"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "asList": "={{ $json.asList }}",
+            "data": "={{ $json.data }}",
+            "requestId": "={{ $json.requestId || $('Normalizar request').first().json.requestId }}",
+            "statusCode": "={{ $json.statusCode }}",
+            "requestStartedAtMs": "={{ $('Normalizar request').first().json.requestStartedAtMs }}",
+            "method": "={{ $('Normalizar request').first().json.method }}",
+            "path": "={{ $('Normalizar request').first().json.path }}",
+            "userId": "={{ $('Validar auth').first().json.userId || '' }}",
+            "sessionId": "={{ $('Validar auth').first().json.sessionId || '' }}"
+          }
+        }
+      }
+    },
+    {
+      "id": "8fcdce50-db19-46f8-8248-0ba70a472ad9",
+      "name": "Auditar publicação",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2700,
+        300
+      ],
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "AUDITORIA - REGISTRAR",
+          "mode": "id",
+          "value": "jtQvQlqRZ5X5WF9I"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "action": "={{ $('Avaliar publicação').first().json.auditOverrideUsed ? 'AI_PROMPT_PUBLISH_OVERRIDE' : 'AI_PROMPT_PUBLISH' }}",
+            "resourceType": "ai_prompt_version",
+            "resourceId": "={{ $('Avaliar publicação').first().json.auditVersionId || '' }}",
+            "success": "={{ true }}",
+            "requestId": "={{ $json.requestId }}",
+            "tracking": "={{ $json.tracking }}",
+            "response": "={{ $json.response }}",
+            "responseHeaders": "={{ $json.responseHeaders }}",
+            "headers": "={{ $('Normalizar request').first().json.headers || {} }}",
+            "method": "={{ $('Normalizar request').first().json.method }}",
+            "path": "={{ $('Normalizar request').first().json.path }}",
+            "statusCode": "={{ $json.statusCode }}",
+            "durationMs": "={{ $json.durationMs }}",
+            "userId": "={{ $('Validar auth').first().json.userId || '' }}",
+            "sessionId": "={{ $('Validar auth').first().json.sessionId || '' }}",
+            "metadata": "={{ { promptDefinitionId: $('Avaliar publicação').first().json.auditPromptDefinitionId, promptCode: $('Avaliar publicação').first().json.auditPromptCode, versionNumber: $('Avaliar publicação').first().json.auditVersionNumber, modelName: $('Avaliar publicação').first().json.auditModelName, contentHash: $('Avaliar publicação').first().json.auditContentHash, validationRunId: $('Avaliar publicação').first().json.auditValidationRunId, overrideReason: $('Avaliar publicação').first().json.auditOverrideReason } }}"
+          }
+        }
+      },
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "id": "91deaff6-fc14-4ba9-92ed-adf10eb5bab9",
+      "name": "Repassar resposta",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2900,
+        300
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const prep = $('Preparar sucesso').first().json || {};\nconst audit = $input.first().json || {};\nreturn [{ json: audit.response != null ? audit : prep }];"
+      }
+    },
+    {
+      "id": "52fa5a5a-8b10-4bf0-8839-7ccd88a10735",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        3100,
+        300
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json.response }}",
+        "options": {
+          "responseCode": "={{ $json.statusCode }}",
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "X-Request-Id",
+                "value": "={{ $json.responseHeaders && $json.responseHeaders[\"X-Request-Id\"] ? $json.responseHeaders[\"X-Request-Id\"] : ($json.requestId || \"\") }}"
+              },
+              {
+                "name": "X-Response-Time-Ms",
+                "value": "={{ $json.responseHeaders && $json.responseHeaders[\"X-Response-Time-Ms\"] ? $json.responseHeaders[\"X-Response-Time-Ms\"] : String($json.durationMs || 0) }}"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "f2f0e531-d880-416b-8fc4-31444103df03",
+      "name": "Preparar erro negócio",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1900,
+        450
+      ],
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "SYSTEM - PREPARAR ERRO",
+          "mode": "id",
+          "value": "r3iSBV1ClKOxS2UI"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "code": "={{ $json.code }}",
+            "message": "={{ $json.message }}",
+            "requestId": "={{ $('Normalizar request').first().json.requestId }}",
+            "statusCode": "={{ $json.httpStatus }}",
+            "requestStartedAtMs": "={{ $('Normalizar request').first().json.requestStartedAtMs }}",
+            "method": "={{ $('Normalizar request').first().json.method }}",
+            "path": "={{ $('Normalizar request').first().json.path }}"
+          }
+        }
+      }
+    },
+    {
+      "id": "718b02ca-5a51-4bf4-84b6-99cfe5fce421",
+      "name": "Respond erro negócio",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        2100,
+        450
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json.response }}",
+        "options": {
+          "responseCode": "={{ $json.statusCode }}",
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "X-Request-Id",
+                "value": "={{ $json.responseHeaders && $json.responseHeaders[\"X-Request-Id\"] ? $json.responseHeaders[\"X-Request-Id\"] : ($json.requestId || \"\") }}"
+              },
+              {
+                "name": "X-Response-Time-Ms",
+                "value": "={{ $json.responseHeaders && $json.responseHeaders[\"X-Response-Time-Ms\"] ? $json.responseHeaders[\"X-Response-Time-Ms\"] : String($json.durationMs || 0) }}"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "e8d256ef-83b4-4ce7-8077-8fa0ddf790ed",
+      "name": "Preparar erro 403",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1300,
+        450
+      ],
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "SYSTEM - PREPARAR ERRO",
+          "mode": "id",
+          "value": "r3iSBV1ClKOxS2UI"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "code": "={{ $json.error && $json.error.code ? $json.error.code : 'FORBIDDEN' }}",
+            "message": "={{ $json.error && $json.error.message ? $json.error.message : 'Você não possui permissão para executar esta ação.' }}",
+            "requestId": "={{ $('Normalizar request').first().json.requestId }}",
+            "statusCode": 403,
+            "requestStartedAtMs": "={{ $('Normalizar request').first().json.requestStartedAtMs }}",
+            "method": "={{ $('Normalizar request').first().json.method }}",
+            "path": "={{ $('Normalizar request').first().json.path }}"
+          }
+        }
+      }
+    },
+    {
+      "id": "fcab4594-6b23-4277-ae75-4be650a0e473",
+      "name": "Respond 403",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1500,
+        450
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json.response }}",
+        "options": {
+          "responseCode": 403,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "X-Request-Id",
+                "value": "={{ $json.responseHeaders && $json.responseHeaders[\"X-Request-Id\"] ? $json.responseHeaders[\"X-Request-Id\"] : ($json.requestId || \"\") }}"
+              },
+              {
+                "name": "X-Response-Time-Ms",
+                "value": "={{ $json.responseHeaders && $json.responseHeaders[\"X-Response-Time-Ms\"] ? $json.responseHeaders[\"X-Response-Time-Ms\"] : String($json.durationMs || 0) }}"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "106492fc-2a3d-422d-9f16-2ced6412c86c",
+      "name": "Preparar erro 401",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        900,
+        450
+      ],
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "SYSTEM - PREPARAR ERRO",
+          "mode": "id",
+          "value": "r3iSBV1ClKOxS2UI"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "code": "={{ $json.error && $json.error.code ? $json.error.code : 'UNAUTHORIZED' }}",
+            "message": "={{ $json.error && $json.error.message ? $json.error.message : 'Autenticação obrigatória.' }}",
+            "requestId": "={{ $('Normalizar request').first().json.requestId }}",
+            "statusCode": 401,
+            "requestStartedAtMs": "={{ $('Normalizar request').first().json.requestStartedAtMs }}",
+            "method": "={{ $('Normalizar request').first().json.method }}",
+            "path": "={{ $('Normalizar request').first().json.path }}"
+          }
+        }
+      }
+    },
+    {
+      "id": "cdf19f8a-41a9-4cfc-a8df-3b85a276ca43",
+      "name": "Respond 401",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1100,
+        450
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json.response }}",
+        "options": {
+          "responseCode": 401,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "X-Request-Id",
+                "value": "={{ $json.responseHeaders && $json.responseHeaders[\"X-Request-Id\"] ? $json.responseHeaders[\"X-Request-Id\"] : ($json.requestId || \"\") }}"
+              },
+              {
+                "name": "X-Response-Time-Ms",
+                "value": "={{ $json.responseHeaders && $json.responseHeaders[\"X-Response-Time-Ms\"] ? $json.responseHeaders[\"X-Response-Time-Ms\"] : String($json.durationMs || 0) }}"
+              }
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalizar request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalizar request": {
+      "main": [
+        [
+          {
+            "node": "Validar auth",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar auth": {
+      "main": [
+        [
+          {
+            "node": "Auth ok?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auth ok?": {
+      "main": [
+        [
+          {
+            "node": "Validar permissão",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar erro 401",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar permissão": {
+      "main": [
+        [
+          {
+            "node": "Permissão ok?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Permissão ok?": {
+      "main": [
+        [
+          {
+            "node": "Restaurar request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar erro 403",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Restaurar request": {
+      "main": [
+        [
+          {
+            "node": "Preparar inputs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar inputs": {
+      "main": [
+        [
+          {
+            "node": "Inputs ok?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Inputs ok?": {
+      "main": [
+        [
+          {
+            "node": "Chamar PUBLICAR",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar erro negócio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chamar PUBLICAR": {
+      "main": [
+        [
+          {
+            "node": "Avaliar publicação",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Avaliar publicação": {
+      "main": [
+        [
+          {
+            "node": "Publicação ok?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Publicação ok?": {
+      "main": [
+        [
+          {
+            "node": "Preparar sucesso",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar erro negócio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar sucesso": {
+      "main": [
+        [
+          {
+            "node": "Auditar publicação",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auditar publicação": {
+      "main": [
+        [
+          {
+            "node": "Repassar resposta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Repassar resposta": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar erro negócio": {
+      "main": [
+        [
+          {
+            "node": "Respond erro negócio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar erro 403": {
+      "main": [
+        [
+          {
+            "node": "Respond 403",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar erro 401": {
+      "main": [
+        [
+          {
+            "node": "Respond 401",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {}
+}

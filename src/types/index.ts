@@ -136,6 +136,14 @@ export interface Document {
   tableColumnCount?: number | null
   tableSummary?: TableSummary | null
   hasTablePreview?: boolean | null
+  embeddingStatus?: string | null
+  embeddingModel?: string | null
+  embeddingDimensions?: number | null
+  embeddingPendingCount?: number | null
+  embeddingValidCount?: number | null
+  embeddingFailedCount?: number | null
+  embeddingCompletedAt?: string | null
+  embeddingAvgMs?: number | null
 }
 
 export interface TableSheetSummary {
@@ -237,6 +245,14 @@ export interface DocumentVersion {
   tableColumnCount?: number | null
   tableSummary?: TableSummary | null
   hasTablePreview?: boolean | null
+  embeddingStatus?: string | null
+  embeddingModel?: string | null
+  embeddingDimensions?: number | null
+  embeddingPendingCount?: number | null
+  embeddingValidCount?: number | null
+  embeddingFailedCount?: number | null
+  embeddingCompletedAt?: string | null
+  embeddingAvgMs?: number | null
 }
 
 export interface SystemSettings {
@@ -285,6 +301,9 @@ export interface HealthComponent {
   lastRunAt?: string
   lastScore?: number
   casesCount?: number
+  activeVersion?: string
+  model?: string
+  draftsCount?: number
 }
 
 export interface SystemHealth {
@@ -303,6 +322,8 @@ export interface SystemHealth {
     documents?: HealthComponent
     backup?: HealthComponent
     aiEval?: HealthComponent
+    aiPrompts?: HealthComponent
+    embeddings?: HealthComponent
   }
 }
 

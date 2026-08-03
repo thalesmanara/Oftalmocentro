@@ -1,0 +1,126 @@
+{
+  "v1": {
+    "id": "745b957c-451c-41c5-8e69-73931c33f490",
+    "startedAt": "2026-08-03T16:20:11.436Z",
+    "finishedAt": "2026-08-03T16:20:18.242Z",
+    "durationMs": 6806,
+    "status": "SUCCESS",
+    "triggeredBy": "06e0915e-0f90-42b1-a32c-ae5e0f7de1c6",
+    "triggerMode": "dataset",
+    "totalCases": 1,
+    "passedCount": 1,
+    "failedCount": 0,
+    "errorCount": 0,
+    "skippedCount": 0,
+    "overallScore": 100,
+    "promptVersion": "AI_QUERY_MAIN@v1:9faa2e456571",
+    "promptVersionId": "a23741ae-2cef-46c6-8690-f603fc3fe569",
+    "modelName": "gpt-4.1-mini",
+    "ocrEngineVersion": "n/a",
+    "tabularEngineVersion": "n/a",
+    "report": {
+      "total": 1,
+      "errors": 0,
+      "failed": 0,
+      "passed": 1,
+      "recall": 100,
+      "precision": 100,
+      "topErrors": [],
+      "generatedAt": "2026-08-03T16:20:18.213Z",
+      "overallScore": 100,
+      "scoreFormula": "Per-case: answerQuality40 + sources30 + document20 + latency10. Run overall = average(case scores). Precision = passed/total.",
+      "topDocuments": [
+        {
+          "count": 1,
+          "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+          "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+        },
+        {
+          "count": 1,
+          "title": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+          "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+        },
+        {
+          "count": 1,
+          "title": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+          "documentId": "b533f80a-9b19-47c0-b4ab-210590846228"
+        }
+      ],
+      "avgDurationMs": 0,
+      "maxDurationMs": 0,
+      "minDurationMs": 0,
+      "categoryCoverage": {
+        "Planilhas": {
+          "total": 1,
+          "passed": 1,
+          "precision": 100
+        }
+      },
+      "documentCoverage": 100
+    },
+    "metadata": {},
+    "createdAt": "2026-08-03T16:20:11.436Z"
+  },
+  "v2": {
+    "id": "5e9b8e74-59fe-47e7-bcaa-a0303a08ffad",
+    "startedAt": "2026-08-03T16:20:18.843Z",
+    "finishedAt": "2026-08-03T16:20:26.728Z",
+    "durationMs": 7885,
+    "status": "SUCCESS",
+    "triggeredBy": "06e0915e-0f90-42b1-a32c-ae5e0f7de1c6",
+    "triggerMode": "dataset",
+    "totalCases": 1,
+    "passedCount": 1,
+    "failedCount": 0,
+    "errorCount": 0,
+    "skippedCount": 0,
+    "overallScore": 100,
+    "promptVersion": "AI_QUERY_MAIN@v2:c1d977dcc6b6",
+    "promptVersionId": "279a2ddd-9b80-4661-9a07-4cdf5066e886",
+    "modelName": "gpt-4.1-mini",
+    "ocrEngineVersion": "n/a",
+    "tabularEngineVersion": "n/a",
+    "report": {
+      "total": 1,
+      "errors": 0,
+      "failed": 0,
+      "passed": 1,
+      "recall": 100,
+      "precision": 100,
+      "topErrors": [],
+      "generatedAt": "2026-08-03T16:20:26.702Z",
+      "overallScore": 100,
+      "scoreFormula": "Per-case: answerQuality40 + sources30 + document20 + latency10. Run overall = average(case scores). Precision = passed/total.",
+      "topDocuments": [
+        {
+          "count": 1,
+          "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+          "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+        },
+        {
+          "count": 1,
+          "title": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+          "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+        },
+        {
+          "count": 1,
+          "title": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+          "documentId": "b533f80a-9b19-47c0-b4ab-210590846228"
+        }
+      ],
+      "avgDurationMs": 0,
+      "maxDurationMs": 0,
+      "minDurationMs": 0,
+      "categoryCoverage": {
+        "Planilhas": {
+          "total": 1,
+          "passed": 1,
+          "precision": 100
+        }
+      },
+      "documentCoverage": 100
+    },
+    "metadata": {},
+    "createdAt": "2026-08-03T16:20:18.843Z"
+  }
+}

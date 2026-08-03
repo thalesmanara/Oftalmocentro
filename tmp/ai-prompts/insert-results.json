@@ -1,0 +1,57 @@
+[
+  {
+    "file": "post-ai-prompts-create.workflow.js",
+    "name": "POST System AI Prompts Create",
+    "status": "inserted",
+    "workflowId": "q9U9E1gz8LbjrbBE",
+    "versionId": "27ae475d-f302-4914-adcc-3933678248eb",
+    "nodeCount": 24,
+    "pgNodes": [
+      "Carregar contexto",
+      "Executar criação"
+    ]
+  },
+  {
+    "file": "put-ai-prompts-update.workflow.js",
+    "name": "PUT System AI Prompts Update",
+    "status": "inserted",
+    "workflowId": "JZxiFaHPoH8Sn2M0",
+    "versionId": "1741c11d-43cb-49c2-a5dd-0efa0502f3a6",
+    "nodeCount": 24,
+    "pgNodes": [
+      "Carregar contexto",
+      "Executar atualização"
+    ]
+  },
+  {
+    "file": "post-ai-prompts-validate.workflow.js",
+    "name": "POST System AI Prompts Validate",
+    "status": "inserted",
+    "workflowId": "1dNNsNKevnH6RRiR",
+    "versionId": "dc5343e9-1354-4544-bf29-80006630bc56",
+    "nodeCount": 27,
+    "pgNodes": [
+      "Carregar contexto",
+      "Marcar VALIDATING",
+      "Atualizar status final"
+    ]
+  },
+  {
+    "file": "post-ai-prompts-publish.workflow.js",
+    "name": "POST System AI Prompts Publish",
+    "status": "inserted",
+    "workflowId": "sHlvvNBw1uTCtS3P",
+    "versionId": "c27e798a-1855-4cdf-b448-374db7f9aeee",
+    "nodeCount": 22,
+    "pgNodes": []
+  },
+  {
+    "file": "post-ai-prompts-rollback.workflow.js",
+    "name": "POST System AI Prompts Rollback",
+    "status": "inserted",
+    "workflowId": "lWMX8ESUgPOuPd8T",
+    "versionId": "478f25ea-2468-4813-86cf-07081cf3315a",
+    "nodeCount": 22,
+    "pgNodes": []
+  }
+]

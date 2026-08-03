@@ -80,7 +80,7 @@
   {
     "id": "8EXk5RkFW5cxnenL",
     "name": "Consulta IA",
-    "activeVersionId": "931b9daa-4227-4eda-bf52-45e9c9813cb3",
+    "activeVersionId": "a6957f72-0e75-480f-9b93-9235ec07cf52",
     "historyRowsUpdated": 1
   },
   {
@@ -272,7 +272,7 @@
   {
     "id": "KdpEmEGHNlPICOa4",
     "name": "IA - EXECUTAR TESTE",
-    "activeVersionId": "acd59b18-60e1-4ca9-bbd2-07dc45378a7a",
+    "activeVersionId": "cf853c27-7f7e-481c-9fe8-8490e6c637a4",
     "historyRowsUpdated": 1
   },
   {
@@ -290,7 +290,7 @@
   {
     "id": "12t0Ol6zWQJgAKPC",
     "name": "IA - EXECUTAR DATASET",
-    "activeVersionId": "f3ed4f05-7353-4583-a9fd-f234d2703a17",
+    "activeVersionId": "96c73175-194e-4545-a2bb-2a30f32aff55",
     "historyRowsUpdated": 1
   },
   {
@@ -320,13 +320,187 @@
   {
     "id": "qVH5qtBf8IY32uiH",
     "name": "POST System AI Eval Run Case",
-    "activeVersionId": "b1c448a1-80a2-4221-a275-0c70672ac773",
+    "activeVersionId": "432d00b4-b7cb-47d1-89b5-f0da573dd8c1",
     "historyRowsUpdated": 1
   },
   {
     "id": "wTH2YV6pIlhzWDiY",
     "name": "POST System AI Eval Run Dataset",
-    "activeVersionId": "521fdc7a-3368-44c3-9fa9-d785eccdc812",
+    "activeVersionId": "b9357c12-64bd-4ccc-881a-2aca89aad9cf",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "OSopSf635RVwD65J",
+    "name": "IA - CARREGAR PROMPT ATIVO",
+    "activeVersionId": "8183c897-2c40-481c-9620-79c9b8b12ebc",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "HT0aD7hn73HybpFT",
+    "name": "IA - VALIDAR CONFIGURAÇÃO DO PROMPT",
+    "activeVersionId": "d6c8dfc0-95db-4871-b11c-0f177f82f789",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "L8FL9uMkcqiVpskV",
+    "name": "IA - PUBLICAR PROMPT",
+    "activeVersionId": "5dd2d14c-7413-4bc6-bc86-143f9672a317",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "dziymkwKvfYJmBUp",
+    "name": "IA - ROLLBACK DE PROMPT",
+    "activeVersionId": "53866912-4211-4d2a-a403-fee7babf7ff8",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "YvAfAD0LSYFEqCqp",
+    "name": "IA - COMPARAR PROMPTS",
+    "activeVersionId": "f0ae9340-d65f-4adf-ae45-61445e0f99b7",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "CkX6dJ0bYtow2nU6",
+    "name": "GET System AI Prompts",
+    "activeVersionId": "7757f744-0adb-4247-a3fd-8600151e6197",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "gXQKbCaCpXSoIq08",
+    "name": "GET System AI Prompts Detail",
+    "activeVersionId": "4d19bd92-2097-4e82-8bd8-114655ec0d2c",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "q9U9E1gz8LbjrbBE",
+    "name": "POST System AI Prompts Create",
+    "activeVersionId": "9355a1f1-4830-47c0-95ba-c0d26a542242",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "JZxiFaHPoH8Sn2M0",
+    "name": "PUT System AI Prompts Update",
+    "activeVersionId": "72fd8cf5-a235-4d14-90de-9ac83afeebd8",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "1dNNsNKevnH6RRiR",
+    "name": "POST System AI Prompts Validate",
+    "activeVersionId": "2b4d375a-9a5b-47b6-b458-10c280282155",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "sHlvvNBw1uTCtS3P",
+    "name": "POST System AI Prompts Publish",
+    "activeVersionId": "c27e798a-1855-4cdf-b448-374db7f9aeee",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "lWMX8ESUgPOuPd8T",
+    "name": "POST System AI Prompts Rollback",
+    "activeVersionId": "478f25ea-2468-4813-86cf-07081cf3315a",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "57LavvypSSuZvoHb",
+    "name": "GET System AI Prompts Compare",
+    "activeVersionId": "b5890999-ed4b-4b83-aa3c-38e5186b2255",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "qAyYc9DrHIqe4L9i",
+    "name": "SYSTEM - HEALTH CHECK",
+    "activeVersionId": "6ff665dd-4bf2-4b3a-9dfb-98a9bab92547",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "2UPHcxASp2PboC9M",
+    "name": "GET System Health",
+    "activeVersionId": "676e237a-6aeb-4665-bc65-4994255c81f4",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "A16PhhWFr0Za9X3B",
+    "name": "BACKUP - BANCO",
+    "activeVersionId": "1c7a02f1-9cd7-4b83-8d05-efd9ac54ba60",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "8EXk5RkFW5cxnenL",
+    "name": "Consulta IA",
+    "activeVersionId": "a6957f72-0e75-480f-9b93-9235ec07cf52",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "D1bbCBEdKuNQc9F5",
+    "name": "EMBEDDING - GERAR",
+    "activeVersionId": "44289b21-2260-4c29-95c3-c08ce4d28806",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "Feli8ssd2KggST6N",
+    "name": "EMBEDDING - VALIDAR",
+    "activeVersionId": "d7f8438b-955a-438b-9849-7ff45289c476",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "LJQZ2HrG6qJGN0Q2",
+    "name": "EMBEDDING - ORQUESTRAR",
+    "activeVersionId": "0d4bcb60-a384-4173-bc8f-05c584b27363",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "x4bw9IQ5vwJSFh0y",
+    "name": "EMBEDDING - REPROCESSAR",
+    "activeVersionId": "402eb74c-4fbf-41a4-b76b-9348de383b6a",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "3BkmtrasXs1lORtL",
+    "name": "EMBEDDING - FILA",
+    "activeVersionId": "2a10a262-da0a-49af-9eb4-3562569defd5",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "HympisbYzMo0mQYP",
+    "name": "Schedule - Embeddings Fila",
+    "activeVersionId": "2da17f3a-48ba-4141-809a-250a5a98441e",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "A3ps15dPHWoN2LZf",
+    "name": "POST System Embeddings Reprocess",
+    "activeVersionId": "45bb9464-b342-4358-93ff-6ee7d44b292f",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "vNDpCzOdR7ATnHDP",
+    "name": "Processar documento",
+    "activeVersionId": "cdc8c907-c13d-4184-a7b0-204e857fed85",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "qAyYc9DrHIqe4L9i",
+    "name": "SYSTEM - HEALTH CHECK",
+    "activeVersionId": "6ff665dd-4bf2-4b3a-9dfb-98a9bab92547",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "2UPHcxASp2PboC9M",
+    "name": "GET System Health",
+    "activeVersionId": "676e237a-6aeb-4665-bc65-4994255c81f4",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "A16PhhWFr0Za9X3B",
+    "name": "BACKUP - BANCO",
+    "activeVersionId": "1c7a02f1-9cd7-4b83-8d05-efd9ac54ba60",
+    "historyRowsUpdated": 1
+  },
+  {
+    "id": "12t0Ol6zWQJgAKPC",
+    "name": "IA - EXECUTAR DATASET",
+    "activeVersionId": "96c73175-194e-4545-a2bb-2a30f32aff55",
     "historyRowsUpdated": 1
   }
 ]

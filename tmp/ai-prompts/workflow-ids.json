@@ -1,0 +1,27 @@
+{
+  "subworkflows": {
+    "IA - CARREGAR PROMPT ATIVO": "OSopSf635RVwD65J",
+    "IA - VALIDAR CONFIGURAÇÃO DO PROMPT": "HT0aD7hn73HybpFT",
+    "IA - PUBLICAR PROMPT": "L8FL9uMkcqiVpskV",
+    "IA - ROLLBACK DE PROMPT": "dziymkwKvfYJmBUp",
+    "IA - COMPARAR PROMPTS": "YvAfAD0LSYFEqCqp"
+  },
+  "webhooks": {
+    "GET System AI Prompts": "CkX6dJ0bYtow2nU6",
+    "GET System AI Prompts Detail": "gXQKbCaCpXSoIq08",
+    "POST System AI Prompts Create": "q9U9E1gz8LbjrbBE",
+    "PUT System AI Prompts Update": "JZxiFaHPoH8Sn2M0",
+    "POST System AI Prompts Validate": "1dNNsNKevnH6RRiR",
+    "POST System AI Prompts Publish": "sHlvvNBw1uTCtS3P",
+    "POST System AI Prompts Rollback": "lWMX8ESUgPOuPd8T",
+    "GET System AI Prompts Compare": "57LavvypSSuZvoHb"
+  },
+  "patched": {
+    "Consulta IA": "8EXk5RkFW5cxnenL",
+    "IA - EXECUTAR DATASET": "12t0Ol6zWQJgAKPC",
+    "IA - EXECUTAR TESTE": "KdpEmEGHNlPICOa4",
+    "SYSTEM - HEALTH CHECK": "qAyYc9DrHIqe4L9i",
+    "GET System Health": "2UPHcxASp2PboC9M",
+    "BACKUP - BANCO": "A16PhhWFr0Za9X3B"
+  }
+}

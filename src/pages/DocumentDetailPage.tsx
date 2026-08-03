@@ -21,6 +21,8 @@ import {
   ocrModeLabel,
   ocrQualityGradeLabel,
   ocrQualityGradeVariant,
+  embeddingStatusLabel,
+  embeddingStatusVariant,
   ocrStatusLabel,
   ocrStatusVariant,
   validationStatusLabel,
@@ -321,6 +323,50 @@ export function DocumentDetailPage() {
                       )}
                     </dd>
                   </div>
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                    <dt className="text-slate-500">Embedding</dt>
+                    <dd>
+                      {doc.embeddingStatus ? (
+                        <Badge variant={embeddingStatusVariant(doc.embeddingStatus)}>
+                          {embeddingStatusLabel(doc.embeddingStatus)}
+                        </Badge>
+                      ) : (
+                        <span className="text-slate-700">—</span>
+                      )}
+                    </dd>
+                  </div>
+                  {doc.embeddingModel && (
+                    <div className="flex flex-wrap gap-x-2">
+                      <dt className="text-slate-500">Modelo embedding</dt>
+                      <dd className="text-slate-700">{doc.embeddingModel}</dd>
+                    </div>
+                  )}
+                  {(doc.embeddingValidCount != null || doc.embeddingPendingCount != null) && (
+                    <div className="flex flex-wrap gap-x-2">
+                      <dt className="text-slate-500">Chunks embedding</dt>
+                      <dd className="text-slate-700">
+                        {doc.embeddingValidCount ?? 0} válidos
+                        {(doc.embeddingPendingCount ?? 0) > 0
+                          ? ` · ${doc.embeddingPendingCount} pendentes`
+                          : ''}
+                        {(doc.embeddingFailedCount ?? 0) > 0
+                          ? ` · ${doc.embeddingFailedCount} falhas`
+                          : ''}
+                      </dd>
+                    </div>
+                  )}
+                  {doc.embeddingAvgMs != null && (
+                    <div className="flex flex-wrap gap-x-2">
+                      <dt className="text-slate-500">Tempo embedding</dt>
+                      <dd className="text-slate-700">{formatDurationMs(doc.embeddingAvgMs)}</dd>
+                    </div>
+                  )}
+                  {doc.embeddingCompletedAt && (
+                    <div className="flex flex-wrap gap-x-2">
+                      <dt className="text-slate-500">Embedding em</dt>
+                      <dd className="text-slate-700">{formatDateTime(doc.embeddingCompletedAt)}</dd>
+                    </div>
+                  )}
                   <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
                     <dt className="text-slate-500">Qualidade OCR</dt>
                     <dd className="flex flex-wrap items-center gap-2">

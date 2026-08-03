@@ -1,0 +1,56 @@
+{
+  "updatedAt": "2026-08-03T19:22:00.000Z",
+  "status": "DONE",
+  "start": {
+    "pending": 465,
+    "valid": 0,
+    "failed": 0
+  },
+  "end": {
+    "allChunks": {
+      "PENDING": 0,
+      "VALID": 465,
+      "FAILED": 0,
+      "PROCESSING": 0,
+      "INVALID": 0,
+      "SKIPPED": 0
+    },
+    "currentVersions": {
+      "PENDING": 0,
+      "VALID": 449,
+      "FAILED": 0
+    }
+  },
+  "runs": [
+    {
+      "executionId": "8753",
+      "workflowId": "HympisbYzMo0mQYP",
+      "note": "Fixed IF wiring on ORQUESTRAR; first successful FILA (3 small versions → 20 VALID)"
+    },
+    {
+      "executionId": "8770",
+      "workflowId": "HympisbYzMo0mQYP",
+      "note": "+4 VALID"
+    },
+    {
+      "executionId": "8787",
+      "workflowId": "HympisbYzMo0mQYP",
+      "note": "Temporary FILA LIMIT=25; VALID 24→305 CURRENT"
+    },
+    {
+      "executionId": "8926",
+      "workflowId": "HympisbYzMo0mQYP",
+      "note": "Remaining CURRENT → 449 VALID; all chunks 465 VALID"
+    }
+  ],
+  "filaLimitRestored": 3,
+  "model": "text-embedding-3-small",
+  "dimensions": 1536,
+  "sampleChunk": {
+    "id": "845646e8-aae0-4bf8-92bc-1ad437fd67bc",
+    "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad",
+    "versionId": "fe32fffb-bf03-441a-aba5-80160e4a5f82",
+    "embedding_status": "VALID",
+    "dims": 1536
+  }
+}

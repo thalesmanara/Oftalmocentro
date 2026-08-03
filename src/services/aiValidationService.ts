@@ -50,6 +50,8 @@ export interface AiTestRun {
   modelName?: string | null
   ocrEngineVersion?: string | null
   tabularEngineVersion?: string | null
+  embeddingModel?: string | null
+  embeddingVersion?: string | null
   report?: Record<string, unknown>
   metadata?: Record<string, unknown>
   createdAt: string
@@ -191,6 +193,8 @@ export interface AiRunDetailResult {
 export interface AiRunCaseInput {
   caseId?: string
   caseCode?: string
+  /** Etapa 17 — executa o caso usando uma versão específica de prompt (governança). */
+  promptVersionId?: string
 }
 
 export interface AiRunCaseResult {
@@ -201,6 +205,8 @@ export interface AiRunCaseResult {
 export interface AiRunDatasetInput {
   groupName?: string
   includeMissingDocs?: boolean
+  /** Etapa 17 — executa o dataset usando uma versão específica de prompt (governança). */
+  promptVersionId?: string
 }
 
 export interface AiRunDatasetResult {

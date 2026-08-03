@@ -1,0 +1,38 @@
+[
+  {
+    "file": "post-ai-prompts-create.workflow.js",
+    "name": "POST System AI Prompts Create",
+    "status": "error",
+    "error": "MCP HTTP 401: {\"message\":\"Unauthorized: Authorization header not sent\"}"
+  },
+  {
+    "file": "put-ai-prompts-update.workflow.js",
+    "name": "PUT System AI Prompts Update",
+    "status": "error",
+    "error": "MCP HTTP 401: {\"message\":\"Unauthorized: Authorization header not sent\"}"
+  },
+  {
+    "file": "post-ai-prompts-validate.workflow.js",
+    "name": "POST System AI Prompts Validate",
+    "status": "error",
+    "error": "MCP HTTP 401: {\"message\":\"Unauthorized: Authorization header not sent\"}"
+  },
+  {
+    "file": "post-ai-prompts-publish.workflow.js",
+    "name": "POST System AI Prompts Publish",
+    "status": "error",
+    "error": "MCP HTTP 401: {\"message\":\"Unauthorized: Authorization header not sent\"}"
+  },
+  {
+    "file": "post-ai-prompts-rollback.workflow.js",
+    "name": "POST System AI Prompts Rollback",
+    "status": "error",
+    "error": "MCP HTTP 401: {\"message\":\"Unauthorized: Authorization header not sent\"}"
+  },
+  {
+    "file": "get-ai-prompts-compare.workflow.js",
+    "name": "GET System AI Prompts Compare",
+    "status": "error",
+    "error": "MCP HTTP 401: {\"message\":\"Unauthorized: Authorization header not sent\"}"
+  }
+]

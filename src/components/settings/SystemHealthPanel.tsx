@@ -17,6 +17,8 @@ const COMPONENT_LABELS: Record<string, string> = {
   documents: 'Documentos',
   backup: 'Backup',
   aiEval: 'Validação IA',
+  aiPrompts: 'Prompts da IA',
+  embeddings: 'Embeddings',
 }
 
 function statusLabel(status: UiState): string {
@@ -84,6 +86,22 @@ function componentDetails(key: string, component: HealthComponent): string {
   if (key === 'aiEval') {
     if (typeof component.lastScore === 'number') parts.push(`score ${component.lastScore}`)
     if (typeof component.casesCount === 'number') parts.push(`${component.casesCount} casos`)
+    if (typeof component.avgDurationMs === 'number') parts.push(`${component.avgDurationMs} ms`)
+    if (component.lastRunAt) parts.push(formatCheckedAt(component.lastRunAt))
+  }
+  if (key === 'aiPrompts') {
+    // Nunca exibir o conteúdo do prompt aqui — apenas metadados de versão.
+    if (component.activeVersion) parts.push(`versão ativa ${component.activeVersion}`)
+    if (component.model) parts.push(component.model)
+    if (typeof component.draftsCount === 'number') parts.push(`${component.draftsCount} rascunho(s)`)
+  }
+  if (key === 'embeddings') {
+    // Nunca exibir vetores aqui — apenas contagens e metadados.
+    if (component.model) parts.push(component.model)
+    if (typeof component.pending === 'number') parts.push(`${component.pending} pendentes`)
+    if (typeof component.total === 'number') parts.push(`${component.total} válidos`)
+    if (typeof component.failures === 'number') parts.push(`${component.failures} falhas`)
+    if (typeof component.queue === 'number') parts.push(`fila ${component.queue}`)
     if (typeof component.avgDurationMs === 'number') parts.push(`${component.avgDurationMs} ms`)
     if (component.lastRunAt) parts.push(formatCheckedAt(component.lastRunAt))
   }

@@ -1,0 +1,25 @@
+{
+  "id": "D1bbCBEdKuNQc9F5",
+  "nodeCount": 16,
+  "nodeNames": [
+    "Trigger",
+    "Normalizar entrada",
+    "Entrada vazia?",
+    "Finalizar vazio",
+    "Carregar secrets",
+    "Carregar chunks",
+    "Classificar chunks",
+    "Marcar SKIPPED",
+    "Tem trabalho?",
+    "Finalizar sem trabalho",
+    "Marcar PROCESSING",
+    "OpenAI Embeddings",
+    "Processar resposta",
+    "Persistir VALID",
+    "Persistir falhas",
+    "Finalizar com trabalho"
+  ],
+  "entityUpdated": 1,
+  "historyUpdated": 0,
+  "activeVersionId": null
+}

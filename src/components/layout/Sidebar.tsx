@@ -10,6 +10,7 @@ import {
   ClipboardList,
   Settings,
   FlaskConical,
+  ScrollText,
 } from 'lucide-react'
 import { useSettings } from '@/hooks/useSettings'
 import { useAuth } from '@/hooks/useAuth'
@@ -54,6 +55,12 @@ const navGroups: NavGroup[] = [
         to: '/ia/validacao',
         label: 'Validação IA',
         icon: FlaskConical,
+        permission: 'editar_configuracoes',
+      },
+      {
+        to: '/ia/prompts',
+        label: 'Prompts da IA',
+        icon: ScrollText,
         permission: 'editar_configuracoes',
       },
       { to: '/auditoria', label: 'Auditoria', icon: ClipboardList, permission: 'visualizar_auditoria' },

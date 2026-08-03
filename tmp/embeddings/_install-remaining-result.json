@@ -1,0 +1,22 @@
+{
+  "ORQUESTRAR": {
+    "id": "LJQZ2HrG6qJGN0Q2",
+    "name": "EMBEDDING - ORQUESTRAR",
+    "nodeCount": 17
+  },
+  "REPROCESSAR": {
+    "id": "x4bw9IQ5vwJSFh0y",
+    "name": "EMBEDDING - REPROCESSAR",
+    "nodeCount": 10
+  },
+  "FILA": {
+    "id": "3BkmtrasXs1lORtL",
+    "name": "EMBEDDING - FILA",
+    "nodeCount": 9
+  },
+  "SCHEDULE": {
+    "id": "HympisbYzMo0mQYP",
+    "name": "Schedule - Embeddings Fila",
+    "nodeCount": 3
+  }
+}

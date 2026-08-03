@@ -32,6 +32,15 @@ const IDS = [
   'KdpEmEGHNlPICOa4', '1uITQcJ5jSNXErOM', 'DoaDLe6P5BtJhDXb', '12t0Ol6zWQJgAKPC',
   'MTRkT5PyJUwbMwl7', 'RKhoSMKPfqdxrGNI', 'aL2tTx9V4zFJUfPx', 'jqISJzbOGRjArLbz',
   'qVH5qtBf8IY32uiH', 'wTH2YV6pIlhzWDiY',
+  // AI Prompt governance (etapa 17)
+  'OSopSf635RVwD65J', 'HT0aD7hn73HybpFT', 'L8FL9uMkcqiVpskV', 'dziymkwKvfYJmBUp', 'YvAfAD0LSYFEqCqp',
+  'CkX6dJ0bYtow2nU6', 'gXQKbCaCpXSoIq08',
+  'q9U9E1gz8LbjrbBE', 'JZxiFaHPoH8Sn2M0', '1dNNsNKevnH6RRiR', 'sHlvvNBw1uTCtS3P', 'lWMX8ESUgPOuPd8T', '57LavvypSSuZvoHb',
+  'qAyYc9DrHIqe4L9i', '2UPHcxASp2PboC9M', 'A16PhhWFr0Za9X3B', '8EXk5RkFW5cxnenL',
+  // Embeddings corporativos (etapa 18)
+  'D1bbCBEdKuNQc9F5', 'Feli8ssd2KggST6N', 'LJQZ2HrG6qJGN0Q2', 'x4bw9IQ5vwJSFh0y',
+  '3BkmtrasXs1lORtL', 'HympisbYzMo0mQYP', 'A3ps15dPHWoN2LZf',
+  'vNDpCzOdR7ATnHDP', 'qAyYc9DrHIqe4L9i', '2UPHcxASp2PboC9M', 'A16PhhWFr0Za9X3B', '12t0Ol6zWQJgAKPC',
 ];
 const conn = process.env.PGURL || 'postgresql://ZuOg8foF6iDUR8Y4:W8rAAeT4sJBTGB9ufVpYlvgcnZ0cHZ9L@2.24.89.199:5432/n8n';
 const client = new pg.Client({ connectionString: conn });

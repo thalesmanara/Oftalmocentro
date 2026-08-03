@@ -16,6 +16,8 @@ import {
   extractionMethodLabel,
   ocrQualityGradeLabel,
   ocrQualityGradeVariant,
+  embeddingStatusLabel,
+  embeddingStatusVariant,
   ocrStatusLabel,
   ocrStatusVariant,
   validationStatusLabel,
@@ -170,6 +172,7 @@ export function DocumentVersionsPanel({
                 <th className="py-2 pr-3 font-medium">Checksum</th>
                 <th className="py-2 pr-3 font-medium">Validação</th>
                 <th className="py-2 pr-3 font-medium">OCR</th>
+                <th className="py-2 pr-3 font-medium">Embedding</th>
                 <th className="py-2 pr-3 font-medium">Extração</th>
                 <th className="py-2 pr-3 font-medium">Status</th>
                 <th className="py-2 pr-3 font-medium text-right">Ações</th>
@@ -245,6 +248,40 @@ export function DocumentVersionsPanel({
                       )}
                       {version.ocrEngine && (
                         <p className="text-xs text-slate-500">{version.ocrEngine}</p>
+                      )}
+                    </div>
+                  </td>
+                  <td className="py-3 pr-3">
+                    <div className="space-y-1">
+                      {version.embeddingStatus ? (
+                        <Badge variant={embeddingStatusVariant(version.embeddingStatus)}>
+                          {embeddingStatusLabel(version.embeddingStatus)}
+                        </Badge>
+                      ) : (
+                        <span className="text-slate-500">—</span>
+                      )}
+                      {version.embeddingModel && (
+                        <p className="text-xs text-slate-500">{version.embeddingModel}</p>
+                      )}
+                      {(version.embeddingValidCount != null ||
+                        version.embeddingPendingCount != null) && (
+                        <p className="text-xs text-slate-500">
+                          {version.embeddingValidCount ?? 0} válidos
+                          {(version.embeddingPendingCount ?? 0) > 0
+                            ? ` · ${version.embeddingPendingCount} pend.`
+                            : ''}
+                          {(version.embeddingFailedCount ?? 0) > 0
+                            ? ` · ${version.embeddingFailedCount} falha`
+                            : ''}
+                        </p>
+                      )}
+                      {version.embeddingAvgMs != null && (
+                        <p className="text-xs text-slate-500">
+                          {formatDurationMs(version.embeddingAvgMs)}
+                          {version.embeddingCompletedAt
+                            ? ` · ${formatDateTime(version.embeddingCompletedAt)}`
+                            : ''}
+                        </p>
                       )}
                     </div>
                   </td>

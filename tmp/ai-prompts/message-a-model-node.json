@@ -1,0 +1,34 @@
+{
+  "parameters": {
+    "modelId": {
+      "__rl": true,
+      "value": "gpt-4.1-mini",
+      "mode": "list",
+      "cachedResultName": "GPT-4.1-MINI"
+    },
+    "responses": {
+      "values": [
+        {
+          "role": "system",
+          "content": "Você é a IA interna da Oftalmocentro.\n\nSua função é responder perguntas usando exclusivamente os trechos documentais fornecidos no contexto.\n\nA categoria e a subcategoria identificadas são orientações de busca. Elas não constituem, por si só, evidência para a resposta.\n\nNunca responda usando apenas o nome ou a descrição da categoria ou da subcategoria.\n\nToda informação factual da resposta deve estar claramente presente nos trechos documentais fornecidos.\n\nSe a informação solicitada não estiver claramente presente no contexto, responda exatamente:\n\n\"Não encontrei essa informação na base documental disponível.\"\n\nNunca invente, complete, estime ou deduza dados ausentes.\n\nNão misture informações de exames, procedimentos, convênios ou documentos diferentes.\n\nQuando a pergunta envolver exames, convênios, códigos ou valores, responda em formato de tabela.\n\nUse esta estrutura:\n\nExame: [nome do exame]\n\n| Convênio | Código | Valor |\n|---|---|---|\n\nInclua apenas registros diretamente relacionados ao exame perguntado.\n\nIgnore outros exames presentes nos mesmos documentos.\n\nSe houver múltiplos códigos ou valores para o mesmo convênio, liste todos os registros encontrados.\n\nNão elimine registros distintos apenas porque possuem o mesmo convênio.\n\nQuando houver documentos equivalentes com datas de vigência diferentes, priorize as informações do documento com a data de vigência mais recente.\n\nSe houver conflito entre documentos e não for possível identificar qual informação está vigente, informe que foram encontrados dados conflitantes na base documental.\n\nNo final da resposta, cite apenas os nomes dos documentos efetivamente utilizados:\n\nFonte: [nome do documento ou nomes dos documentos]\n\nNão cite números de chunks, índices, identificadores internos ou níveis de relevância."
+        },
+        {
+          "content": "=Pergunta do usuário:\n\n{{ $json.question }}\n\nCategoria identificada:\n\n{{ $json.classification.categoryName || \"Não identificada\" }}\n\nDescrição da categoria:\n\n{{ $json.classification.categoryDescription || \"Não informada\" }}\n\nSubcategoria identificada:\n\n{{ $json.classification.subcategoryName || \"Não identificada\" }}\n\nDescrição da subcategoria:\n\n{{ $json.classification.subcategoryDescription || \"Não informada\" }}\n\nContexto documental recuperado:\n\n{{ $json.context }}\n\nResponda exclusivamente com base no contexto documental acima."
+        }
+      ]
+    },
+    "builtInTools": {},
+    "options": {
+      "maxTokens": 800,
+      "temperature": 0.1
+    }
+  },
+  "type": "@n8n/n8n-nodes-langchain.openAi",
+  "typeVersion": 2.3,
+  "position": [
+    1040,
+    0
+  ],
+  "id": "59d5e391-c3e1-4a64-9f6c-a3912a02d584",
+  "name": "Message a model"
+}

@@ -210,6 +210,39 @@ export function ocrStatusVariant(
   }
 }
 
+const EMBEDDING_STATUS_LABELS: Record<string, string> = {
+  PENDING: 'Pendente',
+  PROCESSING: 'Processando',
+  VALID: 'Válido',
+  INVALID: 'Inválido',
+  FAILED: 'Falhou',
+  SKIPPED: 'Ignorado',
+}
+
+export function embeddingStatusLabel(status?: string | null): string {
+  if (!status) return '—'
+  return EMBEDDING_STATUS_LABELS[status.toUpperCase()] ?? status
+}
+
+export function embeddingStatusVariant(
+  status?: string | null
+): 'default' | 'success' | 'warning' | 'danger' | 'info' {
+  switch ((status ?? '').toUpperCase()) {
+    case 'VALID':
+      return 'success'
+    case 'PENDING':
+    case 'PROCESSING':
+      return 'warning'
+    case 'INVALID':
+    case 'FAILED':
+      return 'danger'
+    case 'SKIPPED':
+      return 'info'
+    default:
+      return 'default'
+  }
+}
+
 export function extractionMethodLabel(method?: string | null): string {
   if (!method) return '—'
   return EXTRACTION_METHOD_LABELS[method.toLowerCase()] ?? method

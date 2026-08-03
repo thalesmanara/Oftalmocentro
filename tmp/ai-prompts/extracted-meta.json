@@ -1,0 +1,127 @@
+{
+  "extractedAt": "2026-08-03T14:04:00.000Z",
+  "source": {
+    "dumpPath": "C:\\Users\\thale\\.cursor\\projects\\c-Revita-Oftalmocentro\\agent-tools\\278b3328-a3e0-4b1b-a884-6755c06dd681.txt",
+    "workflowId": "8EXk5RkFW5cxnenL",
+    "workflowName": "Consulta IA",
+    "versionId": "931b9daa-4227-4eda-bf52-45e9c9813cb3",
+    "activeVersionId": "931b9daa-4227-4eda-bf52-45e9c9813cb3",
+    "updatedAt": "2026-08-03T11:56:21.656Z",
+    "description": "Consulta IA usa apenas chunks da versão CURRENT (is_current=true)."
+  },
+  "llm": {
+    "nodeName": "Message a model",
+    "nodeId": "59d5e391-c3e1-4a64-9f6c-a3912a02d584",
+    "nodeType": "@n8n/n8n-nodes-langchain.openAi",
+    "typeVersion": 2.3,
+    "model": "gpt-4.1-mini",
+    "modelCachedName": "GPT-4.1-MINI",
+    "temperature": 0.1,
+    "maxTokens": 800,
+    "otherOptions": {},
+    "builtInTools": {},
+    "credentialHint": "OpenAI account (from sibling dumps)"
+  },
+  "prompts": {
+    "structure": "single_openai_call_system_plus_user",
+    "classificationIsSeparateLlmPrompt": false,
+    "classificationMechanism": "deterministic_code_scoring_against_categories_table",
+    "systemPromptExact": "Você é a IA interna da Oftalmocentro.\n\nSua função é responder perguntas usando exclusivamente os trechos documentais fornecidos no contexto.\n\nA categoria e a subcategoria identificadas são orientações de busca. Elas não constituem, por si só, evidência para a resposta.\n\nNunca responda usando apenas o nome ou a descrição da categoria ou da subcategoria.\n\nToda informação factual da resposta deve estar claramente presente nos trechos documentais fornecidos.\n\nSe a informação solicitada não estiver claramente presente no contexto, responda exatamente:\n\n\"Não encontrei essa informação na base documental disponível.\"\n\nNunca invente, complete, estime ou deduza dados ausentes.\n\nNão misture informações de exames, procedimentos, convênios ou documentos diferentes.\n\nQuando a pergunta envolver exames, convênios, códigos ou valores, responda em formato de tabela.\n\nUse esta estrutura:\n\nExame: [nome do exame]\n\n| Convênio | Código | Valor |\n|---|---|---|\n\nInclua apenas registros diretamente relacionados ao exame perguntado.\n\nIgnore outros exames presentes nos mesmos documentos.\n\nSe houver múltiplos códigos ou valores para o mesmo convênio, liste todos os registros encontrados.\n\nNão elimine registros distintos apenas porque possuem o mesmo convênio.\n\nQuando houver documentos equivalentes com datas de vigência diferentes, priorize as informações do documento com a data de vigência mais recente.\n\nSe houver conflito entre documentos e não for possível identificar qual informação está vigente, informe que foram encontrados dados conflitantes na base documental.\n\nNo final da resposta, cite apenas os nomes dos documentos efetivamente utilizados:\n\nFonte: [nome do documento ou nomes dos documentos]\n\nNão cite números de chunks, índices, identificadores internos ou níveis de relevância.",
+    "userPromptTemplateExact": "=Pergunta do usuário:\n\n{{ $json.question }}\n\nCategoria identificada:\n\n{{ $json.classification.categoryName || \"Não identificada\" }}\n\nDescrição da categoria:\n\n{{ $json.classification.categoryDescription || \"Não informada\" }}\n\nSubcategoria identificada:\n\n{{ $json.classification.subcategoryName || \"Não identificada\" }}\n\nDescrição da subcategoria:\n\n{{ $json.classification.subcategoryDescription || \"Não informada\" }}\n\nContexto documental recuperado:\n\n{{ $json.context }}\n\nResponda exclusivamente com base no contexto documental acima.",
+    "abstentionPhrase": "Não encontrei essa informação na base documental disponível.",
+    "contextInjection": {
+      "node": "Montar contexto",
+      "field": "context",
+      "chunkLimitFromSql": 12,
+      "chunkTemplateFields": [
+        "index",
+        "documentTitle",
+        "sectorName",
+        "categoryName",
+        "subcategoryName",
+        "vigencyDate",
+        "chunkOrder",
+        "relevance",
+        "text"
+      ],
+      "separator": "\n\n------------------------------\n\n",
+      "alsoInjectedInUserPrompt": [
+        "question",
+        "classification.categoryName",
+        "classification.categoryDescription",
+        "classification.subcategoryName",
+        "classification.subcategoryDescription"
+      ]
+    }
+  },
+  "pipeline": [
+    "Webhook",
+    "Normalizar request",
+    "Validar auth",
+    "Validar permissão",
+    "Buscar categorias e subcategorias",
+    "Classificar pergunta (Code — NOT LLM)",
+    "Buscar chunks relevantes (Postgres ranked LIMIT 12)",
+    "Montar contexto (Code — builds context string + sources)",
+    "Message a model (OpenAI — ONLY LLM)",
+    "Montar resposta"
+  ],
+  "recommendedPurposeCodes": {
+    "recommendation": "AI_QUERY_MAIN_alone",
+    "rationale": "Classification is not an LLM prompt; only one OpenAI call with system+user. Split only if future LLM classification is added.",
+    "codes": [
+      {
+        "code": "AI_QUERY_MAIN",
+        "mapsTo": [
+          "system prompt",
+          "user prompt template",
+          "context chunk template"
+        ],
+        "publishAs": "PUBLISHED v1"
+      },
+      {
+        "code": "AI_QUERY_CLASSIFY",
+        "mapsTo": null,
+        "note": "Do NOT create — Classificar pergunta is rule-based Code, not LLM"
+      },
+      {
+        "code": "AI_QUERY_RESPONSE",
+        "mapsTo": null,
+        "note": "Unnecessary split — response instructions already inside system prompt of AI_QUERY_MAIN"
+      }
+    ]
+  },
+  "promptVersionToday": {
+    "appSecretKey": "ai_eval_prompt_version",
+    "seededValue": "consulta-ia-v1-inline-2026-08-03",
+    "seedFile": "tmp/ai-eval/migration.sql",
+    "datasetRunInsert": "COALESCE((SELECT value FROM app_secrets WHERE key='ai_eval_prompt_version' LIMIT 1), 'unknown')",
+    "singleCaseCoalesce": "COALESCE(NULLIF(input.promptVersion,''), app_secrets.ai_eval_prompt_version, 'unknown')",
+    "observedInSmokeResults": "consulta-ia-v1-inline-2026-08-03"
+  },
+  "otherWorkflowsWithLlmPrompts": [],
+  "relatedNonLlmWorkflowsScanned": [
+    {
+      "name": "IA - Executar Dataset / Run Case / etc (tmp/ai-eval/*.workflow.js)",
+      "brief": "HTTP client to Consulta IA + deterministic scoring; stamps prompt_version from app_secrets; no OpenAI nodes"
+    },
+    {
+      "name": "OCR webhook / orquestrar (tmp/ocr/*.workflow.js)",
+      "brief": "Tika + ocrmypdf/tesseract quality gates; no LLM prompts"
+    },
+    {
+      "name": "tabular service (tmp/tabular/server.js)",
+      "brief": "Spreadsheet parse/chunk service; no LLM prompts"
+    },
+    {
+      "name": "SYSTEM HEALTH CHECK",
+      "brief": "Reports configuration.openai as unknown placeholder; no LLM call"
+    }
+  ],
+  "notes": [
+    "OCR / tabular pipelines in tmp/ocr and tmp/tabular use Tika/ocrmypdf/deterministic quality eval — no OpenAI prompts found.",
+    "ai-eval workflows call Consulta IA via HTTP and score deterministically — no LLM judge prompts.",
+    "Only LLM node in Consulta IA dump (and n8n-db-export.json) is Message a model.",
+    "n8n-db-export.json contains the same Consulta IA system prompt only once."
+  ]
+}

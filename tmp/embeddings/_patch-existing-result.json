@@ -1,0 +1,22 @@
+{
+  "processar": {
+    "id": "vNDpCzOdR7ATnHDP",
+    "nodes": 54
+  },
+  "backup": {
+    "id": "A16PhhWFr0Za9X3B",
+    "patched": true
+  },
+  "dataset": {
+    "id": "12t0Ol6zWQJgAKPC",
+    "hasEmbedding": true
+  },
+  "health": {
+    "id": "qAyYc9DrHIqe4L9i",
+    "probeHasEmbedding": true
+  },
+  "getHealth": {
+    "id": "2UPHcxASp2PboC9M",
+    "hasEmbeddings": true
+  }
+}

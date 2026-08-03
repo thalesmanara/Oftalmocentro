@@ -116,6 +116,14 @@ function normalizeOcrFields(record: Record<string, unknown>) {
       record.has_table_preview === true ||
       Boolean(record.tableSummary ?? record.table_summary) ||
       null,
+    embeddingStatus: pickString(record, 'embeddingStatus', 'embedding_status'),
+    embeddingModel: pickString(record, 'embeddingModel', 'embedding_model'),
+    embeddingDimensions: pickNumber(record, 'embeddingDimensions', 'embedding_dimensions'),
+    embeddingPendingCount: pickNumber(record, 'embeddingPendingCount', 'embedding_pending_count'),
+    embeddingValidCount: pickNumber(record, 'embeddingValidCount', 'embedding_valid_count'),
+    embeddingFailedCount: pickNumber(record, 'embeddingFailedCount', 'embedding_failed_count'),
+    embeddingCompletedAt: pickString(record, 'embeddingCompletedAt', 'embedding_completed_at'),
+    embeddingAvgMs: pickNumber(record, 'embeddingAvgMs', 'embedding_avg_ms'),
   }
 }
 

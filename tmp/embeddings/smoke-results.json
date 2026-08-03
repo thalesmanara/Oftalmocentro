@@ -1,0 +1,48 @@
+{
+  "updatedAt": "2026-08-03T19:25:00.000Z",
+  "embeddings": {
+    "allChunksValid": true,
+    "valid": 465,
+    "pending": 0,
+    "failed": 0,
+    "mismatched": 0,
+    "avgGenerationMs": 967,
+    "model": "text-embedding-3-small",
+    "dimensions": 1536,
+    "sampleDocumentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad",
+    "sampleVersionId": "fe32fffb-bf03-441a-aba5-80160e4a5f82"
+  },
+  "health": {
+    "probeSql": {
+      "pending": 0,
+      "processing": 0,
+      "valid": 465,
+      "failed": 0,
+      "invalid": 0,
+      "skipped": 0,
+      "mismatched": 0,
+      "avg_ms": 967
+    },
+    "workflowHasComponentsEmbeddings": true,
+    "getSystemHealthAllowlistsEmbeddings": true
+  },
+  "filaIdleSmoke": {
+    "executionId": "9051",
+    "ok": true,
+    "processed": 0,
+    "status": "IDLE"
+  },
+  "consultaIa": {
+    "workflowId": "8EXk5RkFW5cxnenL",
+    "untouched": true,
+    "updatedAt": "2026-08-03T14:31:37.407Z",
+    "activeVersionId": "a6957f72-0e75-480f-9b93-9235ec07cf52",
+    "lastSuccessExecutionId": "8601",
+    "lastSuccessAt": "2026-08-03T16:41:03.051Z",
+    "note": "Not modified in Etapa 18; prior webhook successes remain"
+  },
+  "audit": {
+    "actionsSeen": ["EMBEDDING_STARTED", "EMBEDDING_SUCCESS"],
+    "noVectorsOrChunkText": true
+  }
+}

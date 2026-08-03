@@ -1,0 +1,77 @@
+{
+  "startedAt": "2026-08-03T16:19:10.882Z",
+  "steps": [
+    {
+      "name": "db_versions",
+      "ok": true,
+      "detail": {
+        "v1": "a23741ae-2cef-46c6-8690-f603fc3fe569",
+        "v2": "279a2ddd-9b80-4661-9a07-4cdf5066e886",
+        "statuses": [
+          {
+            "n": 1,
+            "s": "PUBLISHED"
+          },
+          {
+            "n": 2,
+            "s": "DRAFT"
+          }
+        ]
+      }
+    },
+    {
+      "name": "login",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "hasToken": true
+      }
+    },
+    {
+      "name": "get_prompts",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "count": 1,
+        "publishedVersionNumber": 1
+      }
+    },
+    {
+      "name": "get_compare",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "ok": true,
+        "changedLines": 19
+      }
+    },
+    {
+      "name": "post_validate_v2",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "ok": true,
+        "errors": [],
+        "warnings": []
+      }
+    },
+    {
+      "name": "consulta_ia",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "answerLen": 743,
+        "leaksPrompt": false
+      }
+    },
+    {
+      "name": "v2_still_draft",
+      "ok": true,
+      "detail": {
+        "status": "DRAFT"
+      }
+    }
+  ],
+  "pass": true,
+  "finishedAt": "2026-08-03T16:19:25.747Z"
+}

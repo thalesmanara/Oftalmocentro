@@ -588,6 +588,17 @@ export function AiValidationPage() {
           ) : runDetail ? (
             <>
               <Card title="Métricas da execução" className="mb-4">
+                {(runDetail.run?.embeddingModel || runDetail.run?.embeddingVersion) && (
+                  <p className="mb-4 text-xs text-slate-500">
+                    Embedding:{' '}
+                    <span className="font-medium text-slate-700">
+                      {runDetail.run.embeddingModel ?? '—'}
+                    </span>
+                    {runDetail.run.embeddingVersion
+                      ? ` · versão ${runDetail.run.embeddingVersion}`
+                      : ''}
+                  </p>
+                )}
                 <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-6">
                   <div>
                     <p className="text-xs text-slate-500">Precisão</p>
