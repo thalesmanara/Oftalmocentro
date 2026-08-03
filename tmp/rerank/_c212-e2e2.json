@@ -1,0 +1,247 @@
+{
+  "at": "2026-08-03T23:08:26.411Z",
+  "tests": [
+    {
+      "name": "fallback Consulta 200",
+      "pass": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "fallbackUsed",
+      "pass": false,
+      "detail": {
+        "mode": "LEGACY",
+        "configVersion": "context-v1",
+        "configVersionId": "3007bd85-782e-4057-bd48-63e7cb060d73",
+        "estimatedContextTokens": 3161,
+        "availableContextTokens": 27983,
+        "includedChunkCount": 7,
+        "excludedChunkCount": 0,
+        "includedDocumentCount": 3,
+        "truncated": false,
+        "insufficientContext": false,
+        "conflictDetected": false,
+        "redundancyRemovedCount": 0,
+        "neighborsAddedCount": 0,
+        "fallbackUsed": false,
+        "durationMs": 7,
+        "modelName": "gpt-4.1-mini"
+      }
+    },
+    {
+      "name": "fallbackReason code",
+      "pass": false,
+      "detail": {}
+    },
+    {
+      "name": "fallback run-case HTTP",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "runStatus": "SUCCESS"
+      }
+    },
+    {
+      "name": "fallback result flag",
+      "pass": false,
+      "detail": {
+        "context_fallback_used": false,
+        "context_mode": "LEGACY",
+        "verdict": "PASS"
+      }
+    },
+    {
+      "name": "audit has fallback or later publish",
+      "pass": true,
+      "detail": []
+    },
+    {
+      "name": "create temp",
+      "pass": true,
+      "detail": {
+        "id": "f2af478d-d51a-4af5-ae9d-111ba2338cc7",
+        "label": "context-e2e-temp-1785798522745"
+      }
+    },
+    {
+      "name": "validation run",
+      "pass": true,
+      "detail": {
+        "status": "SUCCESS",
+        "runId": "ac360ee9-c462-45fe-8181-025c59f21afd",
+        "contextOverride": {
+          "context_config_version_id": "f2af478d-d51a-4af5-ae9d-111ba2338cc7"
+        }
+      }
+    },
+    {
+      "name": "publish temp",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "data": {
+          "ok": true,
+          "version": {
+            "id": "f2af478d-d51a-4af5-ae9d-111ba2338cc7",
+            "versionLabel": "context-e2e-temp-1785798522745",
+            "mode": "LEGACY",
+            "status": "PUBLISHED",
+            "publishedAt": "2026-08-03T23:08:48.549Z",
+            "versionNumber": 5
+          },
+          "overrideUsed": true
+        }
+      }
+    },
+    {
+      "name": "published is temp",
+      "pass": true,
+      "detail": [
+        {
+          "version_label": "context-e2e-temp-1785798522745",
+          "status": "PUBLISHED"
+        }
+      ]
+    },
+    {
+      "name": "health temp",
+      "pass": false,
+      "detail": {
+        "status": "up",
+        "activeMode": "LEGACY",
+        "activeVersion": "context-v1",
+        "modelName": "gpt-4.1-mini",
+        "avgAvailableTokens": null,
+        "avgUsedTokens": null,
+        "avgUtilizationRate": null,
+        "avgIncludedChunks": null,
+        "avgExcludedChunks": null,
+        "overflowCount7d": 0,
+        "fallbackCount7d": 0,
+        "failureCount7d": 0,
+        "insufficientContextCount7d": 0,
+        "avgBuildLatencyMs": null,
+        "draftCount": 1
+      }
+    },
+    {
+      "name": "rollback",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "data": {
+          "ok": true,
+          "version": {
+            "id": "3007bd85-782e-4057-bd48-63e7cb060d73",
+            "versionLabel": "context-v1",
+            "mode": "LEGACY",
+            "status": "PUBLISHED",
+            "publishedAt": "2026-08-03T23:08:50.007Z",
+            "versionNumber": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "published is context-v1",
+      "pass": true,
+      "detail": [
+        {
+          "version_label": "context-v1",
+          "status": "PUBLISHED"
+        }
+      ]
+    },
+    {
+      "name": "temp archived",
+      "pass": true,
+      "detail": {
+        "status": "ARCHIVED"
+      }
+    },
+    {
+      "name": "budget still DRAFT",
+      "pass": true,
+      "detail": {
+        "status": "DRAFT"
+      }
+    },
+    {
+      "name": "health final v1",
+      "pass": true,
+      "detail": {
+        "status": "up",
+        "activeMode": "LEGACY",
+        "activeVersion": "context-v1",
+        "modelName": "gpt-4.1-mini",
+        "avgAvailableTokens": null,
+        "avgUsedTokens": null,
+        "avgUtilizationRate": null,
+        "avgIncludedChunks": null,
+        "avgExcludedChunks": null,
+        "overflowCount7d": 0,
+        "fallbackCount7d": 0,
+        "failureCount7d": 0,
+        "insufficientContextCount7d": 0,
+        "avgBuildLatencyMs": null,
+        "draftCount": 1
+      }
+    },
+    {
+      "name": "audit publish/rollback/fallback",
+      "pass": true,
+      "detail": [
+        {
+          "action": "AI_CONTEXT_CONFIG_ROLLBACK"
+        },
+        {
+          "action": "AI_CONTEXT_CONFIG_PUBLISHED"
+        }
+      ]
+    }
+  ],
+  "publish": {
+    "during": [
+      {
+        "version_label": "context-e2e-temp-1785798522745",
+        "status": "PUBLISHED"
+      }
+    ],
+    "audit": [
+      {
+        "action": "AI_CONTEXT_CONFIG_ROLLBACK"
+      },
+      {
+        "action": "AI_CONTEXT_CONFIG_PUBLISHED"
+      }
+    ]
+  },
+  "fallback": {
+    "consulta": {
+      "mode": "LEGACY",
+      "configVersion": "context-v1",
+      "configVersionId": "3007bd85-782e-4057-bd48-63e7cb060d73",
+      "estimatedContextTokens": 3161,
+      "availableContextTokens": 27983,
+      "includedChunkCount": 7,
+      "excludedChunkCount": 0,
+      "includedDocumentCount": 3,
+      "truncated": false,
+      "insufficientContext": false,
+      "conflictDetected": false,
+      "redundancyRemovedCount": 0,
+      "neighborsAddedCount": 0,
+      "fallbackUsed": false,
+      "durationMs": 7,
+      "modelName": "gpt-4.1-mini"
+    },
+    "case": {
+      "context_fallback_used": false,
+      "context_mode": "LEGACY",
+      "verdict": "PASS"
+    },
+    "audit": []
+  }
+}

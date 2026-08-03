@@ -1,0 +1,10 @@
+=SELECT r.id AS run_id, r.status AS run_status, r.total_cases, r.passed_count AS run_passed_count,
+  r.failed_count AS run_failed_count, r.error_count AS run_error_count, r.overall_score AS run_overall_score,
+  m.precision, m.recall, m.document_coverage, m.category_coverage, m.avg_duration_ms, m.min_duration_ms,
+  m.max_duration_ms, m.top_errors, m.top_documents, m.score_formula, m.overall_score AS metrics_overall_score,
+  m.total_count, m.passed_count AS metrics_passed_count, m.failed_count AS metrics_failed_count,
+  m.internal_error_count
+FROM ai_test_runs r
+LEFT JOIN ai_test_metrics m ON m.run_id = r.id
+WHERE r.id = '{{ $json.runId }}'::uuid
+LIMIT 1;

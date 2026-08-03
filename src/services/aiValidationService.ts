@@ -3,9 +3,17 @@ import { apiGet, apiPost } from './api'
 /** Etapa 16 — Framework de validação da IA (Consulta IA). */
 
 export type AiCaseStatus = 'active' | 'inactive' | string
-export type AiRunStatus = 'STARTED' | 'SUCCESS' | 'PARTIAL' | 'FAILED' | 'ERROR' | string
+export type AiRunStatus =
+  | 'STARTED'
+  | 'RUNNING'
+  | 'SUCCESS'
+  | 'PARTIAL'
+  | 'FAILED'
+  | 'CANCELLED'
+  | 'ERROR'
+  | string
 export type AiRunTriggerMode = 'dataset' | 'single' | string
-export type AiVerdict = 'PASS' | 'FAIL' | 'ERROR' | string
+export type AiVerdict = 'PASS' | 'FAIL' | 'ERROR' | 'SKIPPED' | 'BLOCKED' | string
 
 export interface AiTestCase {
   id: string
@@ -121,6 +129,16 @@ export interface AiTestResult {
   fallbackUsed?: boolean | null
   sourcePrecision?: number | null
   sourceRecall?: number | null
+  contextFallbackUsed?: boolean | null
+  /** Código sanitizado quando CWM usou fallback (ex.: TEST_INJECTED_CONTEXT_FAILURE). */
+  contextFallbackReason?: string | null
+  contextMode?: string | null
+  estimatedContextTokens?: number | null
+  contextUtilizationRate?: number | null
+  overflowDetected?: boolean | null
+  insufficientContext?: boolean | null
+  conflictDetected?: boolean | null
+  conflictType?: string | null
   createdAt: string
 }
 
@@ -235,6 +253,8 @@ export interface AiRunCaseInput {
   /** Laboratório: override isolado da janela de contexto. */
   contextConfigVersionId?: string
   contextConfigOverrideAllowed?: boolean
+  /** Laboratório interno: falha controlada do CWM. */
+  forceContextFailureForTest?: boolean
 }
 
 export interface AiRunCaseResult {
@@ -252,6 +272,8 @@ export interface AiRunDatasetInput {
   /** Laboratório: override isolado da janela de contexto. */
   contextConfigVersionId?: string
   contextConfigOverrideAllowed?: boolean
+  /** Laboratório interno: falha controlada do CWM. */
+  forceContextFailureForTest?: boolean
 }
 
 export interface AiRunDatasetResult {

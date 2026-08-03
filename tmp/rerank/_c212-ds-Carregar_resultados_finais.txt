@@ -1,0 +1,1 @@
+=SELECT * FROM ai_test_results WHERE run_id = '{{ $('Inserir run').first().json.id }}'::uuid ORDER BY created_at ASC;

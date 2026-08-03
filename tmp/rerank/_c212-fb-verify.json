@@ -1,0 +1,167 @@
+{
+  "at": "2026-08-03T23:14:59.814Z",
+  "tests": [
+    {
+      "name": "CWM trigger has force",
+      "pass": true,
+      "detail": {
+        "versionId": "380989a2-4096-4c16-b5f2-802a1f6dd582",
+        "names": [
+          "question",
+          "classificationJson",
+          "selectedChunksJson",
+          "retrievalMetaJson",
+          "promptConfigurationJson",
+          "legacyContext",
+          "sourcesJson",
+          "contextConfigVersionId",
+          "contextConfigOverrideAllowed",
+          "requestId",
+          "userId",
+          "sessionId",
+          "forceContextFailureForTest"
+        ]
+      }
+    },
+    {
+      "name": "normal 200",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "fb": false
+      }
+    },
+    {
+      "name": "fallback 200",
+      "pass": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "fallbackUsed",
+      "pass": true,
+      "detail": {
+        "mode": "LEGACY",
+        "configVersion": null,
+        "configVersionId": null,
+        "estimatedContextTokens": 3313,
+        "availableContextTokens": 0,
+        "includedChunkCount": 0,
+        "excludedChunkCount": 0,
+        "includedDocumentCount": 3,
+        "truncated": false,
+        "insufficientContext": false,
+        "conflictDetected": false,
+        "redundancyRemovedCount": 0,
+        "neighborsAddedCount": 0,
+        "fallbackUsed": true,
+        "durationMs": 1,
+        "modelName": null
+      }
+    },
+    {
+      "name": "fallbackReason",
+      "pass": false,
+      "detail": {}
+    },
+    {
+      "name": "no stack exposed",
+      "pass": true,
+      "detail": {
+        "sample": "{\"success\":true,\"data\":{\"question\":\"Quem aparece na relação de funcionários em Excel?\",\"answer\":\"Na relação de funcionários em Excel do Serviço de Enfermagem do Oftalmocentro Uberaba Ltda, aparecem os seguintes nomes:\\n\\n- Barbara Aparecida Muniz de Lima, Técnica em Enfermagem, CPF 120.943.006-17, r"
+      }
+    },
+    {
+      "name": "force ignored without override",
+      "pass": true,
+      "detail": {
+        "mode": "LEGACY",
+        "configVersion": "context-v1",
+        "configVersionId": "3007bd85-782e-4057-bd48-63e7cb060d73",
+        "estimatedContextTokens": 3161,
+        "availableContextTokens": 27983,
+        "includedChunkCount": 7,
+        "excludedChunkCount": 0,
+        "includedDocumentCount": 3,
+        "truncated": false,
+        "insufficientContext": false,
+        "conflictDetected": false,
+        "redundancyRemovedCount": 0,
+        "neighborsAddedCount": 0,
+        "fallbackUsed": false,
+        "durationMs": 5,
+        "modelName": "gpt-4.1-mini"
+      }
+    },
+    {
+      "name": "run-case http",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "runStatus": "SUCCESS"
+      }
+    },
+    {
+      "name": "result context_fallback_used",
+      "pass": false,
+      "detail": {
+        "context_fallback_used": false,
+        "context_mode": "LEGACY",
+        "verdict": "PASS"
+      }
+    },
+    {
+      "name": "audit fallback",
+      "pass": true,
+      "detail": [
+        {
+          "action": "AI_CONTEXT_BUILD_FALLBACK",
+          "created_at": "2026-08-03T23:15:13.103Z"
+        }
+      ]
+    },
+    {
+      "name": "health contextWindow version",
+      "pass": false,
+      "detail": null
+    },
+    {
+      "name": "health secretsMatch",
+      "pass": false,
+      "detail": {}
+    },
+    {
+      "name": "health multiplePublished",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "health fallbackCount present",
+      "pass": false,
+      "detail": {}
+    },
+    {
+      "name": "secrets correct",
+      "pass": true,
+      "detail": [
+        {
+          "key": "context_active_mode",
+          "value": "LEGACY"
+        },
+        {
+          "key": "context_active_version",
+          "value": "context-v1"
+        },
+        {
+          "key": "retrieval_active_mode",
+          "value": "HYBRID"
+        },
+        {
+          "key": "retrieval_active_version",
+          "value": "hybrid-v1"
+        }
+      ]
+    }
+  ]
+}

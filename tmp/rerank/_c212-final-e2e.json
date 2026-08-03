@@ -1,0 +1,554 @@
+{
+  "at": "2026-08-03T23:19:10.199Z",
+  "tests": [
+    {
+      "name": "401 consulta",
+      "pass": true,
+      "detail": {
+        "status": 401
+      }
+    },
+    {
+      "name": "fallback textual 200",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "fallbackUsed",
+      "pass": true,
+      "detail": {
+        "mode": "LEGACY",
+        "configVersion": null,
+        "configVersionId": null,
+        "estimatedContextTokens": 3313,
+        "availableContextTokens": 0,
+        "includedChunkCount": 0,
+        "excludedChunkCount": 0,
+        "includedDocumentCount": 3,
+        "truncated": false,
+        "insufficientContext": false,
+        "conflictDetected": false,
+        "redundancyRemovedCount": 0,
+        "neighborsAddedCount": 0,
+        "fallbackUsed": true,
+        "fallbackReason": "TEST_INJECTED_CONTEXT_FAILURE",
+        "durationMs": 0,
+        "modelName": null
+      }
+    },
+    {
+      "name": "fallbackReason",
+      "pass": true,
+      "detail": {
+        "reason": "TEST_INJECTED_CONTEXT_FAILURE"
+      }
+    },
+    {
+      "name": "fallback negativo 200",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "fallback negativo used",
+      "pass": true,
+      "detail": {
+        "mode": "LEGACY",
+        "configVersion": null,
+        "configVersionId": null,
+        "estimatedContextTokens": 4042,
+        "availableContextTokens": 0,
+        "includedChunkCount": 0,
+        "excludedChunkCount": 0,
+        "includedDocumentCount": 3,
+        "truncated": false,
+        "insufficientContext": false,
+        "conflictDetected": false,
+        "redundancyRemovedCount": 0,
+        "neighborsAddedCount": 0,
+        "fallbackUsed": true,
+        "fallbackReason": "TEST_INJECTED_CONTEXT_FAILURE",
+        "durationMs": 0,
+        "modelName": null
+      }
+    },
+    {
+      "name": "force ignored public",
+      "pass": true,
+      "detail": {
+        "mode": "LEGACY",
+        "configVersion": "context-v1",
+        "configVersionId": "3007bd85-782e-4057-bd48-63e7cb060d73",
+        "estimatedContextTokens": 1795,
+        "availableContextTokens": 27992,
+        "includedChunkCount": 4,
+        "excludedChunkCount": 0,
+        "includedDocumentCount": 1,
+        "truncated": false,
+        "insufficientContext": false,
+        "conflictDetected": false,
+        "redundancyRemovedCount": 0,
+        "neighborsAddedCount": 0,
+        "fallbackUsed": false,
+        "fallbackReason": null,
+        "durationMs": 12,
+        "modelName": "gpt-4.1-mini"
+      }
+    },
+    {
+      "name": "lab tabular fallback",
+      "pass": false,
+      "detail": {
+        "code": "TC-053",
+        "group": "Planilhas",
+        "status": 200,
+        "runStatus": "SUCCESS",
+        "runId": "a7adab17-23e1-48fe-a0af-db6d540c9375",
+        "result": {
+          "context_fallback_used": false,
+          "context_mode": "LEGACY",
+          "verdict": "PASS"
+        }
+      }
+    },
+    {
+      "name": "lab ocr/doc fallback",
+      "pass": false,
+      "detail": {
+        "code": "TC-011",
+        "group": "Documentos",
+        "status": 200,
+        "runStatus": "SUCCESS",
+        "runId": "f2016d6b-f391-4b76-8e89-ab36f150c2ff",
+        "result": {
+          "context_fallback_used": false,
+          "context_mode": "LEGACY",
+          "verdict": "PASS"
+        }
+      }
+    },
+    {
+      "name": "audit fallback exists",
+      "pass": true,
+      "detail": [
+        {
+          "action": "AI_CONTEXT_BUILD_FALLBACK",
+          "created_at": "2026-08-03T23:19:21.497Z"
+        },
+        {
+          "action": "AI_CONTEXT_BUILD_FALLBACK",
+          "created_at": "2026-08-03T23:19:14.802Z"
+        },
+        {
+          "action": "AI_CONTEXT_BUILD_FALLBACK",
+          "created_at": "2026-08-03T23:15:13.103Z"
+        }
+      ]
+    },
+    {
+      "name": "create temp",
+      "pass": true,
+      "detail": {
+        "id": "0d4ac40e-595a-4aad-bc9e-f97d61b0a87f",
+        "label": "context-e2e-temp-20260803231940",
+        "status": 201
+      }
+    },
+    {
+      "name": "validation run ok",
+      "pass": true,
+      "detail": {
+        "status": "SUCCESS",
+        "runId": "a076e574-57c0-49d1-8777-df8290db4911"
+      }
+    },
+    {
+      "name": "publish temp",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "data": {
+          "ok": true,
+          "version": {
+            "id": "0d4ac40e-595a-4aad-bc9e-f97d61b0a87f",
+            "versionLabel": "context-e2e-temp-20260803231940",
+            "mode": "LEGACY",
+            "status": "PUBLISHED",
+            "publishedAt": "2026-08-03T23:19:45.122Z",
+            "versionNumber": 6
+          },
+          "overrideUsed": true
+        }
+      }
+    },
+    {
+      "name": "unique published during",
+      "pass": true,
+      "detail": [
+        {
+          "version_label": "context-e2e-temp-20260803231940",
+          "status": "PUBLISHED"
+        }
+      ]
+    },
+    {
+      "name": "secrets during: context=temp retrieval=hybrid",
+      "pass": true,
+      "detail": [
+        {
+          "key": "context_active_version",
+          "value": "context-e2e-temp-20260803231940"
+        },
+        {
+          "key": "retrieval_active_version",
+          "value": "hybrid-v1"
+        }
+      ]
+    },
+    {
+      "name": "health during temp",
+      "pass": true,
+      "detail": {
+        "status": "ok",
+        "activeMode": "LEGACY",
+        "activeVersion": "context-e2e-temp-20260803231940",
+        "modelName": "gpt-4.1-mini",
+        "avgAvailableTokens": null,
+        "avgUsedTokens": null,
+        "avgUtilizationRate": null,
+        "avgIncludedChunks": null,
+        "avgExcludedChunks": null,
+        "overflowCount7d": 0,
+        "fallbackCount7d": 3,
+        "failureCount7d": 0,
+        "insufficientContextCount7d": 0,
+        "avgBuildLatencyMs": null,
+        "draftCount": 1,
+        "lastDatasetValidation": "2026-08-03T23:19:44.111Z",
+        "lastValidationRun": "2026-08-03T23:19:44.111Z",
+        "lastValidationScore": 100,
+        "secretsMatchPublished": true,
+        "multiplePublishedCount": 0,
+        "invalidConfigCount": 0
+      }
+    },
+    {
+      "name": "rollback",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "data": {
+          "ok": true,
+          "version": {
+            "id": "3007bd85-782e-4057-bd48-63e7cb060d73",
+            "versionLabel": "context-v1",
+            "mode": "LEGACY",
+            "status": "PUBLISHED",
+            "publishedAt": "2026-08-03T23:19:46.638Z",
+            "versionNumber": 1
+          }
+        }
+      }
+    },
+    {
+      "name": "published after = context-v1",
+      "pass": true,
+      "detail": [
+        {
+          "version_label": "context-v1",
+          "status": "PUBLISHED"
+        }
+      ]
+    },
+    {
+      "name": "temp not published",
+      "pass": true,
+      "detail": {
+        "version_label": "context-e2e-temp-20260803231940",
+        "status": "ARCHIVED"
+      }
+    },
+    {
+      "name": "budget still DRAFT",
+      "pass": true,
+      "detail": {
+        "status": "DRAFT",
+        "version_label": "context-budget-v1"
+      }
+    },
+    {
+      "name": "final secrets",
+      "pass": true,
+      "detail": [
+        {
+          "key": "context_active_mode",
+          "value": "LEGACY"
+        },
+        {
+          "key": "context_active_version",
+          "value": "context-v1"
+        },
+        {
+          "key": "retrieval_active_mode",
+          "value": "HYBRID"
+        },
+        {
+          "key": "retrieval_active_version",
+          "value": "hybrid-v1"
+        }
+      ]
+    },
+    {
+      "name": "rerank DRAFT",
+      "pass": true,
+      "detail": {
+        "version_label": "hybrid-rerank-v1",
+        "status": "DRAFT"
+      }
+    },
+    {
+      "name": "health activeVersion context-v1",
+      "pass": true,
+      "detail": {
+        "status": "ok",
+        "activeMode": "LEGACY",
+        "activeVersion": "context-v1",
+        "modelName": "gpt-4.1-mini",
+        "avgAvailableTokens": null,
+        "avgUsedTokens": null,
+        "avgUtilizationRate": null,
+        "avgIncludedChunks": null,
+        "avgExcludedChunks": null,
+        "overflowCount7d": 0,
+        "fallbackCount7d": 3,
+        "failureCount7d": 0,
+        "insufficientContextCount7d": 0,
+        "avgBuildLatencyMs": null,
+        "draftCount": 1,
+        "lastDatasetValidation": "2026-08-03T23:19:44.111Z",
+        "lastValidationRun": "2026-08-03T23:19:44.111Z",
+        "lastValidationScore": 100,
+        "secretsMatchPublished": true,
+        "multiplePublishedCount": 0,
+        "invalidConfigCount": 0
+      }
+    },
+    {
+      "name": "health secretsMatch",
+      "pass": true,
+      "detail": {
+        "secretsMatchPublished": true
+      }
+    },
+    {
+      "name": "health multiplePublished 0",
+      "pass": true,
+      "detail": {
+        "multiplePublishedCount": 0
+      }
+    },
+    {
+      "name": "health fallbackCount number",
+      "pass": true,
+      "detail": {
+        "fallbackCount7d": 3
+      }
+    },
+    {
+      "name": "audit publish/rollback",
+      "pass": true,
+      "detail": [
+        {
+          "action": "AI_CONTEXT_CONFIG_ROLLBACK"
+        },
+        {
+          "action": "AI_CONTEXT_CONFIG_PUBLISHED"
+        },
+        {
+          "action": "AI_CONTEXT_CONFIG_ROLLBACK"
+        },
+        {
+          "action": "AI_CONTEXT_CONFIG_PUBLISHED"
+        }
+      ]
+    }
+  ],
+  "fallback": {
+    "textual": {
+      "mode": "LEGACY",
+      "configVersion": null,
+      "configVersionId": null,
+      "estimatedContextTokens": 3313,
+      "availableContextTokens": 0,
+      "includedChunkCount": 0,
+      "excludedChunkCount": 0,
+      "includedDocumentCount": 3,
+      "truncated": false,
+      "insufficientContext": false,
+      "conflictDetected": false,
+      "redundancyRemovedCount": 0,
+      "neighborsAddedCount": 0,
+      "fallbackUsed": true,
+      "fallbackReason": "TEST_INJECTED_CONTEXT_FAILURE",
+      "durationMs": 0,
+      "modelName": null
+    },
+    "negative": {
+      "mode": "LEGACY",
+      "configVersion": null,
+      "configVersionId": null,
+      "estimatedContextTokens": 4042,
+      "availableContextTokens": 0,
+      "includedChunkCount": 0,
+      "excludedChunkCount": 0,
+      "includedDocumentCount": 3,
+      "truncated": false,
+      "insufficientContext": false,
+      "conflictDetected": false,
+      "redundancyRemovedCount": 0,
+      "neighborsAddedCount": 0,
+      "fallbackUsed": true,
+      "fallbackReason": "TEST_INJECTED_CONTEXT_FAILURE",
+      "durationMs": 0,
+      "modelName": null
+    },
+    "tabular": {
+      "code": "TC-053",
+      "group": "Planilhas",
+      "status": 200,
+      "runStatus": "SUCCESS",
+      "runId": "a7adab17-23e1-48fe-a0af-db6d540c9375",
+      "result": {
+        "context_fallback_used": false,
+        "context_mode": "LEGACY",
+        "verdict": "PASS"
+      }
+    },
+    "ocr": {
+      "code": "TC-011",
+      "group": "Documentos",
+      "status": 200,
+      "runStatus": "SUCCESS",
+      "runId": "f2016d6b-f391-4b76-8e89-ab36f150c2ff",
+      "result": {
+        "context_fallback_used": false,
+        "context_mode": "LEGACY",
+        "verdict": "PASS"
+      }
+    },
+    "audit": [
+      {
+        "action": "AI_CONTEXT_BUILD_FALLBACK",
+        "created_at": "2026-08-03T23:19:21.497Z"
+      },
+      {
+        "action": "AI_CONTEXT_BUILD_FALLBACK",
+        "created_at": "2026-08-03T23:19:14.802Z"
+      },
+      {
+        "action": "AI_CONTEXT_BUILD_FALLBACK",
+        "created_at": "2026-08-03T23:15:13.103Z"
+      }
+    ]
+  },
+  "publish": {
+    "during": [
+      {
+        "version_label": "context-e2e-temp-20260803231940",
+        "status": "PUBLISHED"
+      }
+    ],
+    "healthDuring": {
+      "status": "ok",
+      "activeMode": "LEGACY",
+      "activeVersion": "context-e2e-temp-20260803231940",
+      "modelName": "gpt-4.1-mini",
+      "avgAvailableTokens": null,
+      "avgUsedTokens": null,
+      "avgUtilizationRate": null,
+      "avgIncludedChunks": null,
+      "avgExcludedChunks": null,
+      "overflowCount7d": 0,
+      "fallbackCount7d": 3,
+      "failureCount7d": 0,
+      "insufficientContextCount7d": 0,
+      "avgBuildLatencyMs": null,
+      "draftCount": 1,
+      "lastDatasetValidation": "2026-08-03T23:19:44.111Z",
+      "lastValidationRun": "2026-08-03T23:19:44.111Z",
+      "lastValidationScore": 100,
+      "secretsMatchPublished": true,
+      "multiplePublishedCount": 0,
+      "invalidConfigCount": 0
+    }
+  },
+  "production": {
+    "secrets": [
+      {
+        "key": "context_active_mode",
+        "value": "LEGACY"
+      },
+      {
+        "key": "context_active_version",
+        "value": "context-v1"
+      },
+      {
+        "key": "retrieval_active_mode",
+        "value": "HYBRID"
+      },
+      {
+        "key": "retrieval_active_version",
+        "value": "hybrid-v1"
+      }
+    ],
+    "versions": [
+      {
+        "version_label": "context-budget-v1",
+        "status": "DRAFT",
+        "mode": "BUDGETED"
+      },
+      {
+        "version_label": "context-e2e-temp-1785798522745",
+        "status": "ARCHIVED",
+        "mode": "LEGACY"
+      },
+      {
+        "version_label": "context-e2e-temp-20260803230544",
+        "status": "ARCHIVED",
+        "mode": "LEGACY"
+      },
+      {
+        "version_label": "context-e2e-temp-20260803231940",
+        "status": "ARCHIVED",
+        "mode": "LEGACY"
+      },
+      {
+        "version_label": "context-v1",
+        "status": "PUBLISHED",
+        "mode": "LEGACY"
+      }
+    ]
+  },
+  "health": {
+    "status": "ok",
+    "activeMode": "LEGACY",
+    "activeVersion": "context-v1",
+    "modelName": "gpt-4.1-mini",
+    "avgAvailableTokens": null,
+    "avgUsedTokens": null,
+    "avgUtilizationRate": null,
+    "avgIncludedChunks": null,
+    "avgExcludedChunks": null,
+    "overflowCount7d": 0,
+    "fallbackCount7d": 3,
+    "failureCount7d": 0,
+    "insufficientContextCount7d": 0,
+    "avgBuildLatencyMs": null,
+    "draftCount": 1,
+    "lastDatasetValidation": "2026-08-03T23:19:44.111Z",
+    "lastValidationRun": "2026-08-03T23:19:44.111Z",
+    "lastValidationScore": 100,
+    "secretsMatchPublished": true,
+    "multiplePublishedCount": 0,
+    "invalidConfigCount": 0
+  }
+}

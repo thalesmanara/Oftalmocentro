@@ -1,0 +1,9 @@
+UPDATE ai_context_config_versions v
+SET status='ARCHIVED'
+WHERE v.status='PUBLISHED'
+  AND v.context_config_id = (
+    SELECT context_config_id FROM ai_context_config_versions
+    WHERE id = NULLIF('{{ $('Avaliar run').first().json.versionId }}','')::uuid
+  )
+  AND v.id <> NULLIF('{{ $('Avaliar run').first().json.versionId }}','')::uuid
+RETURNING v.id;

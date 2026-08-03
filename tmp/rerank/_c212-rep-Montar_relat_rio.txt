@@ -1,0 +1,26 @@
+const row = $input.first().json || {};
+const total = Number(row.total_count ?? row.total_cases ?? 0);
+const passed = Number(row.metrics_passed_count ?? row.run_passed_count ?? 0);
+const failed = Number(row.metrics_failed_count ?? row.run_failed_count ?? 0);
+const errors = Number(row.internal_error_count ?? row.run_error_count ?? 0);
+const report = {
+  total,
+  passed,
+  failed,
+  errors,
+  precision: row.precision != null ? Number(row.precision) : null,
+  recall: row.recall != null ? Number(row.recall) : null,
+  documentCoverage: row.document_coverage != null ? Number(row.document_coverage) : null,
+  categoryCoverage: row.category_coverage || {},
+  topErrors: row.top_errors || [],
+  topDocuments: row.top_documents || [],
+  avgDurationMs: row.avg_duration_ms != null ? Number(row.avg_duration_ms) : null,
+  minDurationMs: row.min_duration_ms != null ? Number(row.min_duration_ms) : null,
+  maxDurationMs: row.max_duration_ms != null ? Number(row.max_duration_ms) : null,
+  overallScore: row.metrics_overall_score != null ? Number(row.metrics_overall_score) : (row.run_overall_score != null ? Number(row.run_overall_score) : null),
+  scoreFormula: row.score_formula || 'Per-case: answerQuality40 + sources30 + document20 + latency10. Run overall = average(case scores). Precision = passed/total.',
+  generatedAt: new Date().toISOString(),
+};
+function esc(s) { return String(s ?? '').replace(/'/g, "''"); }
+const sql = "UPDATE ai_test_runs SET report = '" + esc(JSON.stringify(report)) + "'::jsonb WHERE id = '" + esc(row.run_id) + "'::uuid RETURNING report;";
+return [{ json: { sql, report, runId: row.run_id } }];

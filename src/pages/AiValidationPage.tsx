@@ -51,11 +51,29 @@ function statusTone(status?: string): string {
     case 'FAILED':
     case 'FAIL':
     case 'ERROR':
+    case 'CANCELLED':
       return 'bg-red-50 text-red-800 border-red-200'
     case 'STARTED':
+    case 'RUNNING':
       return 'bg-slate-50 text-slate-600 border-slate-200'
     default:
       return 'bg-slate-50 text-slate-600 border-slate-200'
+  }
+}
+
+function runStatusHint(status?: string): string {
+  switch (status) {
+    case 'SUCCESS':
+      return 'Run técnico concluído sem erros; todos os casos avaliados passaram.'
+    case 'PARTIAL':
+      return 'Run técnico concluído; há falhas funcionais, skips ou erros de caso (não é falha fatal).'
+    case 'FAILED':
+      return 'Falha técnica do run (erro fatal ou nenhum caso válido).'
+    case 'STARTED':
+    case 'RUNNING':
+      return 'Execução em andamento.'
+    default:
+      return ''
   }
 }
 
@@ -618,9 +636,15 @@ export function AiValidationPage() {
                       <td className="px-4 py-3">
                         <span
                           className={`inline-flex rounded-md border px-2 py-0.5 text-xs font-medium ${statusTone(run.status)}`}
+                          title={runStatusHint(run.status)}
                         >
                           {run.status}
                         </span>
+                        {(run.failedCount > 0 || run.errorCount > 0) && run.status === 'PARTIAL' && (
+                          <div className="mt-1 text-[11px] text-amber-700">
+                            {run.failedCount} FAIL funcional · {run.errorCount} erro técnico
+                          </div>
+                        )}
                       </td>
                       <td className="px-4 py-3">{run.totalCases}</td>
                       <td className="px-4 py-3">
@@ -781,6 +805,16 @@ export function AiValidationPage() {
                     Tokens / utilização / overflow / fallback / conflito aparecem por caso no detalhe
                     exportado. Valores sem referência suficiente permanecem n/d.
                   </p>
+                  {runDetail.results?.some((r) => r.contextFallbackUsed) && (
+                    <p className="mt-2 text-xs font-medium text-amber-800">
+                      Fallback CWM detectado em{' '}
+                      {runDetail.results.filter((r) => r.contextFallbackUsed).length} caso(s) desta
+                      execução.
+                    </p>
+                  )}
+                  {runStatusHint(runDetail.run?.status) && (
+                    <p className="mt-2 text-xs text-slate-600">{runStatusHint(runDetail.run?.status)}</p>
+                  )}
                 </div>
 
                 {scoreBreakdownAvg && (

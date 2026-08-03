@@ -1,0 +1,65 @@
+{
+  "id": "a88e0a8d-37e3-4a28-827d-314ca4da60fd",
+  "name": "Trigger",
+  "type": "n8n-nodes-base.executeWorkflowTrigger",
+  "typeVersion": 1.2,
+  "position": [
+    0,
+    0
+  ],
+  "parameters": {
+    "inputSource": "workflowInputs",
+    "workflowInputs": {
+      "values": [
+        {
+          "name": "question",
+          "type": "string"
+        },
+        {
+          "name": "classificationJson",
+          "type": "string"
+        },
+        {
+          "name": "selectedChunksJson",
+          "type": "string"
+        },
+        {
+          "name": "retrievalMetaJson",
+          "type": "string"
+        },
+        {
+          "name": "promptConfigurationJson",
+          "type": "string"
+        },
+        {
+          "name": "legacyContext",
+          "type": "string"
+        },
+        {
+          "name": "sourcesJson",
+          "type": "string"
+        },
+        {
+          "name": "contextConfigVersionId",
+          "type": "string"
+        },
+        {
+          "name": "contextConfigOverrideAllowed",
+          "type": "string"
+        },
+        {
+          "name": "requestId",
+          "type": "string"
+        },
+        {
+          "name": "userId",
+          "type": "string"
+        },
+        {
+          "name": "sessionId",
+          "type": "string"
+        }
+      ]
+    }
+  }
+}

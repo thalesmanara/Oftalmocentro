@@ -1,0 +1,55 @@
+const startedRow = $('Inserir run').first().json;
+const metrics = $('Calcular métricas').first().json || {};
+const rows = $('Carregar resultados finais').all().map((i) => i.json).filter((r) => r && r.id);
+const totalCount = Number(metrics.totalCount || 0);
+const passedCount = Number(metrics.passedCount || 0);
+const failedCount = Number(metrics.failedCount || 0);
+const internalErrorCount = Number(metrics.internalErrorCount || 0);
+let status;
+if (totalCount === 0) status = 'FAILED';
+else if (failedCount === 0 && internalErrorCount === 0) status = 'SUCCESS';
+else if (passedCount > 0) status = 'PARTIAL';
+else status = 'FAILED';
+const startedAt = new Date(startedRow.started_at);
+const finishedAt = new Date();
+const durationMs = Math.max(0, finishedAt.getTime() - startedAt.getTime());
+function esc(s) { return String(s ?? '').replace(/'/g, "''"); }
+const sql = "UPDATE ai_test_runs SET status = '" + esc(status) + "', finished_at = '" + finishedAt.toISOString() + "'::timestamp, duration_ms = " + durationMs + " WHERE id = '" + esc(startedRow.id) + "'::uuid RETURNING id, started_at, finished_at, duration_ms, status, triggered_by, trigger_mode, total_cases, passed_count, failed_count, error_count, skipped_count, overall_score, prompt_version, model_name, ocr_engine_version, tabular_engine_version, report, metadata, created_at, prompt_version_id;";
+function camelResult(r) {
+  return {
+    id: r.id,
+    runId: r.run_id,
+    caseId: r.case_id,
+    caseCode: r.case_code,
+    question: r.question,
+    answer: r.answer,
+    durationMs: r.duration_ms != null ? Number(r.duration_ms) : null,
+    sources: r.sources || [],
+    chunkRefs: r.chunk_refs || [],
+    classification: r.classification || null,
+    matchedDocument: r.matched_document,
+    matchedCategory: r.matched_category,
+    matchedSubcategory: r.matched_subcategory,
+    requiredWordsHit: Number(r.required_words_hit || 0),
+    requiredWordsTotal: Number(r.required_words_total || 0),
+    forbiddenWordsHit: Number(r.forbidden_words_hit || 0),
+    sourcesCorrect: r.sources_correct,
+    sourcesIncorrect: r.sources_incorrect,
+    isHallucination: !!r.is_hallucination,
+    isEmptyAnswer: !!r.is_empty_answer,
+    isInternalError: !!r.is_internal_error,
+    score: r.score != null ? Number(r.score) : null,
+    verdict: r.verdict,
+    scoreBreakdown: r.score_breakdown || null,
+    extractionMethod: r.extraction_method || null,
+    ocrQualityGrade: r.ocr_quality_grade || null,
+    ocrUsed: r.ocr_used,
+    sheetName: r.sheet_name || null,
+    promptVersion: r.prompt_version || null,
+    promptVersionId: r.prompt_version_id || null,
+    modelName: r.model_name || null,
+    createdAt: r.created_at,
+  };
+}
+const results = rows.map(camelResult);
+return [{ json: { sql, results, metrics } }];

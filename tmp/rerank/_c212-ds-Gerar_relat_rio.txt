@@ -1,0 +1,19 @@
+{
+  "mode": "once",
+  "options": {
+    "waitForSubWorkflow": true
+  },
+  "source": "database",
+  "workflowId": {
+    "__rl": true,
+    "mode": "id",
+    "value": "DoaDLe6P5BtJhDXb",
+    "cachedResultName": "IA - GERAR RELATÓRIO"
+  },
+  "workflowInputs": {
+    "mappingMode": "defineBelow",
+    "value": {
+      "runId": "={{ $('Inserir run').first().json.id }}"
+    }
+  }
+}

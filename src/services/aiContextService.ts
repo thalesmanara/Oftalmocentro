@@ -124,13 +124,32 @@ export async function validateAiContextVersion(input: {
 export async function publishAiContextVersion(input: {
   versionId: string
   override?: boolean
+  forceOverride?: boolean
   reason?: string
+  overrideReason?: string
+  validationRunId?: string
 }) {
-  return apiPost('/webhook/system/ai-context/publish', input)
+  return apiPost('/webhook/system/ai-context/publish', {
+    versionId: input.versionId,
+    override: input.override,
+    forceOverride: input.forceOverride ?? input.override,
+    reason: input.reason,
+    overrideReason: input.overrideReason ?? input.reason,
+    validationRunId: input.validationRunId,
+  })
 }
 
-export async function rollbackAiContextVersion(input: { versionId: string; reason?: string }) {
-  return apiPost('/webhook/system/ai-context/rollback', input)
+export async function rollbackAiContextVersion(input: {
+  versionId?: string
+  targetVersionId?: string
+  reason?: string
+}) {
+  const targetVersionId = input.targetVersionId || input.versionId
+  return apiPost('/webhook/system/ai-context/rollback', {
+    targetVersionId,
+    versionId: targetVersionId,
+    reason: input.reason,
+  })
 }
 
 export interface AiContextCompareResult {

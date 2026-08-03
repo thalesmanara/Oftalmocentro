@@ -1,0 +1,386 @@
+{
+  "at": "2026-08-03T22:56:05.873Z",
+  "workflows": {
+    "list": [
+      {
+        "id": "8EXk5RkFW5cxnenL",
+        "name": "Consulta IA",
+        "active": true,
+        "activeVersionId": "a6957f72-0e75-480f-9b93-9235ec07cf52",
+        "versionId": "a6957f72-0e75-480f-9b93-9235ec07cf52"
+      },
+      {
+        "id": "1uITQcJ5jSNXErOM",
+        "name": "IA - CALCULAR MÉTRICAS",
+        "active": true,
+        "activeVersionId": "78c1e762-8030-4745-81bd-c402a35b3023",
+        "versionId": "78c1e762-8030-4745-81bd-c402a35b3023"
+      },
+      {
+        "id": "12t0Ol6zWQJgAKPC",
+        "name": "IA - EXECUTAR DATASET",
+        "active": true,
+        "activeVersionId": "96c73175-194e-4545-a2bb-2a30f32aff55",
+        "versionId": "96c73175-194e-4545-a2bb-2a30f32aff55"
+      },
+      {
+        "id": "KdpEmEGHNlPICOa4",
+        "name": "IA - EXECUTAR TESTE",
+        "active": true,
+        "activeVersionId": "de10a78d-f009-4232-bc0d-0aaad79262b6",
+        "versionId": "de10a78d-f009-4232-bc0d-0aaad79262b6"
+      },
+      {
+        "id": "e95a92295d7c4deb",
+        "name": "IA - GERENCIAR JANELA DE CONTEXTO",
+        "active": true,
+        "activeVersionId": "d48ca64f-b0c4-4279-8b00-18da84dd2677",
+        "versionId": "d48ca64f-b0c4-4279-8b00-18da84dd2677"
+      },
+      {
+        "id": "f83073bfb4154115",
+        "name": "SYSTEM - AI CONTEXT PUBLISH",
+        "active": true,
+        "activeVersionId": "8e25ea0c-69d8-4d41-9100-c6659bf93463",
+        "versionId": "8e25ea0c-69d8-4d41-9100-c6659bf93463"
+      },
+      {
+        "id": "708bf587fb73467f",
+        "name": "SYSTEM - AI CONTEXT ROLLBACK",
+        "active": true,
+        "activeVersionId": "a0cd0651-0a5a-4e99-b154-22f1a71d7c6a",
+        "versionId": "a0cd0651-0a5a-4e99-b154-22f1a71d7c6a"
+      }
+    ],
+    "executarTeste": {
+      "id": "KdpEmEGHNlPICOa4",
+      "name": "IA - EXECUTAR TESTE",
+      "active": true,
+      "activeVersionId": "de10a78d-f009-4232-bc0d-0aaad79262b6"
+    },
+    "executarDataset": {
+      "id": "12t0Ol6zWQJgAKPC",
+      "name": "IA - EXECUTAR DATASET",
+      "active": true,
+      "activeVersionId": "96c73175-194e-4545-a2bb-2a30f32aff55"
+    },
+    "cwm": {
+      "id": "e95a92295d7c4deb",
+      "name": "IA - GERENCIAR JANELA DE CONTEXTO",
+      "active": true,
+      "activeVersionId": "d48ca64f-b0c4-4279-8b00-18da84dd2677"
+    },
+    "consulta": {
+      "id": "8EXk5RkFW5cxnenL",
+      "name": "Consulta IA",
+      "active": true,
+      "activeVersionId": "a6957f72-0e75-480f-9b93-9235ec07cf52"
+    },
+    "publish": {
+      "id": "f83073bfb4154115",
+      "name": "SYSTEM - AI CONTEXT PUBLISH",
+      "active": true,
+      "activeVersionId": "8e25ea0c-69d8-4d41-9100-c6659bf93463"
+    },
+    "rollback": {
+      "id": "708bf587fb73467f",
+      "name": "SYSTEM - AI CONTEXT ROLLBACK",
+      "active": true,
+      "activeVersionId": "a0cd0651-0a5a-4e99-b154-22f1a71d7c6a"
+    },
+    "datasetStatusNodes": [
+      {
+        "name": "Calcular métricas",
+        "type": "n8n-nodes-base.executeWorkflow",
+        "hasQuery": false,
+        "codeLen": 0
+      },
+      {
+        "name": "Montar atualização do run",
+        "type": "n8n-nodes-base.code",
+        "hasQuery": false,
+        "codeLen": 2763
+      },
+      {
+        "name": "Atualizar run",
+        "type": "n8n-nodes-base.postgres",
+        "hasQuery": true,
+        "codeLen": 0
+      }
+    ],
+    "testeStatusNodes": [],
+    "calcCandidates": []
+  },
+  "inconsistentRuns": [
+    {
+      "id": "0f51aaa3-1456-4dd7-b3f0-facc05733cf7",
+      "status": "FAILED",
+      "total_cases": 14,
+      "passed_count": 13,
+      "failed_count": 1,
+      "error_count": 0,
+      "skipped_count": 0,
+      "overall_score": "96.43",
+      "trigger_mode": "dataset",
+      "started_at": "2026-08-04T01:46:43.274Z",
+      "finished_at": "2026-08-04T01:48:02.249Z",
+      "result_count": 14,
+      "metrics_count": 1,
+      "pass_results": 13,
+      "fail_results": 1,
+      "error_results": 0
+    },
+    {
+      "id": "ead73797-8fbb-45d9-8109-59a00ef0b3f2",
+      "status": "FAILED",
+      "total_cases": 14,
+      "passed_count": 13,
+      "failed_count": 1,
+      "error_count": 0,
+      "skipped_count": 0,
+      "overall_score": "96.43",
+      "trigger_mode": "dataset",
+      "started_at": "2026-08-04T01:45:16.912Z",
+      "finished_at": "2026-08-04T01:46:42.698Z",
+      "result_count": 14,
+      "metrics_count": 1,
+      "pass_results": 13,
+      "fail_results": 1,
+      "error_results": 0
+    },
+    {
+      "id": "aefda2a4-bee3-4e4f-9005-6f8200d4083b",
+      "status": "FAILED",
+      "total_cases": 3,
+      "passed_count": 3,
+      "failed_count": 0,
+      "error_count": 0,
+      "skipped_count": 0,
+      "overall_score": "100.00",
+      "trigger_mode": "dataset",
+      "started_at": "2026-08-04T01:45:01.010Z",
+      "finished_at": "2026-08-04T01:45:15.137Z",
+      "result_count": 3,
+      "metrics_count": 1,
+      "pass_results": 3,
+      "fail_results": 0,
+      "error_results": 0
+    },
+    {
+      "id": "775b9aed-a57e-4923-9e12-add9d9693036",
+      "status": "FAILED",
+      "total_cases": 3,
+      "passed_count": 3,
+      "failed_count": 0,
+      "error_count": 0,
+      "skipped_count": 0,
+      "overall_score": "100.00",
+      "trigger_mode": "dataset",
+      "started_at": "2026-08-04T01:44:50.058Z",
+      "finished_at": "2026-08-04T01:45:00.024Z",
+      "result_count": 3,
+      "metrics_count": 1,
+      "pass_results": 3,
+      "fail_results": 0,
+      "error_results": 0
+    },
+    {
+      "id": "65f45dc5-fe61-4299-9d07-733f1f3ba3e7",
+      "status": "FAILED",
+      "total_cases": 1,
+      "passed_count": 1,
+      "failed_count": 0,
+      "error_count": 0,
+      "skipped_count": 0,
+      "overall_score": "100.00",
+      "trigger_mode": "dataset",
+      "started_at": "2026-08-04T01:44:44.742Z",
+      "finished_at": "2026-08-04T01:44:49.620Z",
+      "result_count": 1,
+      "metrics_count": 1,
+      "pass_results": 1,
+      "fail_results": 0,
+      "error_results": 0
+    },
+    {
+      "id": "27cf2f00-e523-4e52-afb4-9d50384a31be",
+      "status": "FAILED",
+      "total_cases": 1,
+      "passed_count": 1,
+      "failed_count": 0,
+      "error_count": 0,
+      "skipped_count": 0,
+      "overall_score": "100.00",
+      "trigger_mode": "dataset",
+      "started_at": "2026-08-04T01:44:37.791Z",
+      "finished_at": "2026-08-04T01:44:44.259Z",
+      "result_count": 1,
+      "metrics_count": 1,
+      "pass_results": 1,
+      "fail_results": 0,
+      "error_results": 0
+    },
+    {
+      "id": "3f1dec37-0442-4ed9-bf9e-59645a1e470f",
+      "status": "FAILED",
+      "total_cases": 22,
+      "passed_count": 19,
+      "failed_count": 3,
+      "error_count": 0,
+      "skipped_count": 0,
+      "overall_score": "89.55",
+      "trigger_mode": "dataset",
+      "started_at": "2026-08-04T01:43:02.135Z",
+      "finished_at": "2026-08-04T01:44:37.209Z",
+      "result_count": 22,
+      "metrics_count": 1,
+      "pass_results": 19,
+      "fail_results": 3,
+      "error_results": 0
+    },
+    {
+      "id": "d1b6f719-6524-45d1-a007-e4c4c316bcb8",
+      "status": "FAILED",
+      "total_cases": 22,
+      "passed_count": 19,
+      "failed_count": 3,
+      "error_count": 0,
+      "skipped_count": 0,
+      "overall_score": "89.55",
+      "trigger_mode": "dataset",
+      "started_at": "2026-08-04T01:41:24.252Z",
+      "finished_at": "2026-08-04T01:43:00.614Z",
+      "result_count": 22,
+      "metrics_count": 1,
+      "pass_results": 19,
+      "fail_results": 3,
+      "error_results": 0
+    },
+    {
+      "id": "6337b795-15ea-4bbf-b909-4831568e867b",
+      "status": "FAILED",
+      "total_cases": 1,
+      "passed_count": 1,
+      "failed_count": 0,
+      "error_count": 0,
+      "skipped_count": 0,
+      "overall_score": "100.00",
+      "trigger_mode": "single",
+      "started_at": "2026-08-04T01:41:17.238Z",
+      "finished_at": "2026-08-04T01:41:23.166Z",
+      "result_count": 1,
+      "metrics_count": 1,
+      "pass_results": 1,
+      "fail_results": 0,
+      "error_results": 0
+    },
+    {
+      "id": "884ae130-d060-4100-a52e-64cf9710a0b8",
+      "status": "FAILED",
+      "total_cases": 1,
+      "passed_count": 1,
+      "failed_count": 0,
+      "error_count": 0,
+      "skipped_count": 0,
+      "overall_score": "100.00",
+      "trigger_mode": "single",
+      "started_at": "2026-08-04T01:41:10.867Z",
+      "finished_at": "2026-08-04T01:41:16.412Z",
+      "result_count": 1,
+      "metrics_count": 1,
+      "pass_results": 1,
+      "fail_results": 0,
+      "error_results": 0
+    },
+    {
+      "id": "4fb2148c-fa72-4332-a4e6-a225809ade51",
+      "status": "FAILED",
+      "total_cases": 1,
+      "passed_count": 1,
+      "failed_count": 0,
+      "error_count": 0,
+      "skipped_count": 0,
+      "overall_score": "100.00",
+      "trigger_mode": "dataset",
+      "started_at": "2026-08-04T00:17:28.866Z",
+      "finished_at": "2026-08-04T00:17:34.736Z",
+      "result_count": 1,
+      "metrics_count": 1,
+      "pass_results": 1,
+      "fail_results": 0,
+      "error_results": 0
+    },
+    {
+      "id": "a4117044-46ea-471e-b8b6-bc635cf0ee3d",
+      "status": "FAILED",
+      "total_cases": 1,
+      "passed_count": 1,
+      "failed_count": 0,
+      "error_count": 0,
+      "skipped_count": 0,
+      "overall_score": "100.00",
+      "trigger_mode": "dataset",
+      "started_at": "2026-08-04T00:17:22.169Z",
+      "finished_at": "2026-08-04T00:17:28.206Z",
+      "result_count": 1,
+      "metrics_count": 1,
+      "pass_results": 1,
+      "fail_results": 0,
+      "error_results": 0
+    }
+  ],
+  "production": {
+    "context": [
+      {
+        "id": "3007bd85-782e-4057-bd48-63e7cb060d73",
+        "version_label": "context-v1",
+        "mode": "LEGACY",
+        "status": "PUBLISHED",
+        "content_hash": "80caa9cafd156e337d82946c19421cac",
+        "published_at": "2026-08-03T22:12:14.804Z"
+      },
+      {
+        "id": "7587c86b-8db3-44c0-9881-1e996abda89a",
+        "version_label": "context-budget-v1",
+        "mode": "BUDGETED",
+        "status": "DRAFT",
+        "content_hash": "9e7ec642420d2209915d6794bc2c50fa",
+        "published_at": null
+      },
+      {
+        "id": "6ffb78bd-8820-40d1-b185-704cc07b8b3c",
+        "version_label": "ok-1785797490573",
+        "mode": "BUDGETED",
+        "status": "ARCHIVED",
+        "content_hash": "8ca9ec53963a6a9d98a0c683283f09ce",
+        "published_at": null
+      }
+    ],
+    "retrieval": [
+      {
+        "version_label": "hybrid-rerank-v1",
+        "mode": "HYBRID_RERANK",
+        "status": "DRAFT"
+      },
+      {
+        "version_label": "hybrid-v1",
+        "mode": "HYBRID",
+        "status": "PUBLISHED"
+      }
+    ],
+    "secrets": [
+      {
+        "key": "retrieval_active_mode",
+        "value": "HYBRID"
+      },
+      {
+        "key": "retrieval_active_version",
+        "value": "hybrid-v1"
+      },
+      {
+        "key": "retrieval_config_code",
+        "value": "AI_QUERY_RETRIEVAL"
+      }
+    ]
+  }
+}

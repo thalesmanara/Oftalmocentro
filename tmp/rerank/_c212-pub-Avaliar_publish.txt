@@ -1,0 +1,5 @@
+const prep=$('Preparar publish').first().json; const row=$input.first().json||{};
+if(!row.id) return [{json:{...prep, blocked:true, data:{ok:false,code:'NOT_FOUND'}, statusCode:404}}];
+if(!['DRAFT','VALIDATING'].includes(row.status) && !prep.forceOverride) return [{json:{...prep, blocked:true, data:{ok:false,code:'INVALID_STATUS',message:'Somente DRAFT/VALIDATING',status:row.status}, statusCode:400}}];
+if(!prep.validationRunId && !prep.forceOverride) return [{json:{...prep, blocked:true, data:{ok:false,code:'VALIDATION_RUN_REQUIRED',message:'validationRunId obrigatório (ou forceOverride com motivo)'}, statusCode:400}}];
+return [{json:{...prep, blocked:false, versionLabel:row.version_label, mode:row.mode, retrievalConfigId:row.context_config_id}}];

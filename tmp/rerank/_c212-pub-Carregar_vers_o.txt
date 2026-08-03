@@ -1,0 +1,1 @@
+SELECT v.*, c.code FROM ai_context_config_versions v JOIN ai_context_configs c ON c.id=v.context_config_id WHERE v.id=NULLIF('{{ $('Preparar publish').first().json.versionId }}','')::uuid

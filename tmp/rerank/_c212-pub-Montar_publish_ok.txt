@@ -1,0 +1,5 @@
+const prep=$('Avaliar run').first().json; const row=$input.first().json||{};
+const action=prep.overrideUsed?'AI_CONTEXT_CONFIG_PUBLISHED':'AI_CONTEXT_CONFIG_PUBLISHED';
+return [{json:{data:{ok:true,version:{id:row.id,versionLabel:row.version_label,mode:row.mode,status:row.status,publishedAt:row.published_at,versionNumber:Number(row.version_number)},overrideUsed:!!prep.overrideUsed},
+statusCode:200,requestId:prep.requestId,requestStartedAtMs:prep.requestStartedAtMs,method:prep.method,path:prep.path,userId:prep.userId,sessionId:prep.sessionId,
+auditAction:action, auditResourceId:row.id}}];

@@ -1,0 +1,90 @@
+{
+  "Trigger": {
+    "main": [
+      [
+        {
+          "node": "Preparar entrada",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Preparar entrada": {
+    "main": [
+      [
+        {
+          "node": "Auditar START",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Auditar START": {
+    "main": [
+      [
+        {
+          "node": "Após audit start",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Após audit start": {
+    "main": [
+      [
+        {
+          "node": "Carregar context config",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Carregar context config": {
+    "main": [
+      [
+        {
+          "node": "Após carregar config",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Após carregar config": {
+    "main": [
+      [
+        {
+          "node": "Montar janela",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Montar janela": {
+    "main": [
+      [
+        {
+          "node": "Auditar SUCCESS",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Auditar SUCCESS": {
+    "main": [
+      [
+        {
+          "node": "Retorno",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  }
+}

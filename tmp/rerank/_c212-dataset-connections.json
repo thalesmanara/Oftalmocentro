@@ -1,0 +1,130 @@
+{
+  "Trigger": {
+    "main": [
+      [
+        {
+          "node": "Inserir run",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Inserir run": {
+    "main": [
+      [
+        {
+          "node": "Montar filtro de casos",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Montar filtro de casos": {
+    "main": [
+      [
+        {
+          "node": "Carregar casos",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Carregar casos": {
+    "main": [
+      [
+        {
+          "node": "Loop casos",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Calcular métricas": {
+    "main": [
+      [
+        {
+          "node": "Gerar relatório",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Gerar relatório": {
+    "main": [
+      [
+        {
+          "node": "Carregar resultados finais",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Carregar resultados finais": {
+    "main": [
+      [
+        {
+          "node": "Montar atualização do run",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Montar atualização do run": {
+    "main": [
+      [
+        {
+          "node": "Atualizar run",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Atualizar run": {
+    "main": [
+      [
+        {
+          "node": "Montar resposta",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Executar caso": {
+    "main": [
+      [
+        {
+          "node": "Loop casos",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Loop casos": {
+    "main": [
+      [
+        {
+          "node": "Calcular métricas",
+          "type": "main",
+          "index": 0
+        }
+      ],
+      [
+        {
+          "node": "Executar caso",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  }
+}

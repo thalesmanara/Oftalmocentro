@@ -1,0 +1,4 @@
+SELECT id, status, retrieval_config_version, finished_at
+FROM ai_test_runs
+WHERE id = NULLIF('{{ $('Avaliar publish').first().json.validationRunId || "" }}','')::uuid
+LIMIT 1;

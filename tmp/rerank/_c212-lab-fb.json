@@ -1,0 +1,32 @@
+{
+  "tests": [
+    {
+      "name": "TC-053 fallback",
+      "pass": true,
+      "detail": {
+        "code": "TC-053",
+        "group": "Planilhas",
+        "runStatus": "SUCCESS",
+        "result": {
+          "context_fallback_used": true,
+          "verdict": "PASS"
+        },
+        "runId": "89eecbc3-724a-4449-b185-52dece8efd63"
+      }
+    },
+    {
+      "name": "TC-011 fallback",
+      "pass": true,
+      "detail": {
+        "code": "TC-011",
+        "group": "Documentos",
+        "runStatus": "SUCCESS",
+        "result": {
+          "context_fallback_used": true,
+          "verdict": "PASS"
+        },
+        "runId": "79c73de0-43dd-4bb8-aa6c-c75411570af8"
+      }
+    }
+  ]
+}

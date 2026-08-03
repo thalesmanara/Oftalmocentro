@@ -1,0 +1,86 @@
+[
+  {
+    "id": "a4117044-46ea-471e-b8b6-bc635cf0ee3d",
+    "status": "SUCCESS",
+    "total_cases": 1,
+    "passed_count": 1,
+    "failed_count": 0
+  },
+  {
+    "id": "4fb2148c-fa72-4332-a4e6-a225809ade51",
+    "status": "SUCCESS",
+    "total_cases": 1,
+    "passed_count": 1,
+    "failed_count": 0
+  },
+  {
+    "id": "884ae130-d060-4100-a52e-64cf9710a0b8",
+    "status": "SUCCESS",
+    "total_cases": 1,
+    "passed_count": 1,
+    "failed_count": 0
+  },
+  {
+    "id": "3f1dec37-0442-4ed9-bf9e-59645a1e470f",
+    "status": "PARTIAL",
+    "total_cases": 22,
+    "passed_count": 19,
+    "failed_count": 3
+  },
+  {
+    "id": "6337b795-15ea-4bbf-b909-4831568e867b",
+    "status": "SUCCESS",
+    "total_cases": 1,
+    "passed_count": 1,
+    "failed_count": 0
+  },
+  {
+    "id": "d1b6f719-6524-45d1-a007-e4c4c316bcb8",
+    "status": "PARTIAL",
+    "total_cases": 22,
+    "passed_count": 19,
+    "failed_count": 3
+  },
+  {
+    "id": "65f45dc5-fe61-4299-9d07-733f1f3ba3e7",
+    "status": "SUCCESS",
+    "total_cases": 1,
+    "passed_count": 1,
+    "failed_count": 0
+  },
+  {
+    "id": "27cf2f00-e523-4e52-afb4-9d50384a31be",
+    "status": "SUCCESS",
+    "total_cases": 1,
+    "passed_count": 1,
+    "failed_count": 0
+  },
+  {
+    "id": "775b9aed-a57e-4923-9e12-add9d9693036",
+    "status": "SUCCESS",
+    "total_cases": 3,
+    "passed_count": 3,
+    "failed_count": 0
+  },
+  {
+    "id": "aefda2a4-bee3-4e4f-9005-6f8200d4083b",
+    "status": "SUCCESS",
+    "total_cases": 3,
+    "passed_count": 3,
+    "failed_count": 0
+  },
+  {
+    "id": "ead73797-8fbb-45d9-8109-59a00ef0b3f2",
+    "status": "PARTIAL",
+    "total_cases": 14,
+    "passed_count": 13,
+    "failed_count": 1
+  },
+  {
+    "id": "0f51aaa3-1456-4dd7-b3f0-facc05733cf7",
+    "status": "PARTIAL",
+    "total_cases": 14,
+    "passed_count": 13,
+    "failed_count": 1
+  }
+]

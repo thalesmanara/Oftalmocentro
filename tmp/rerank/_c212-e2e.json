@@ -1,0 +1,592 @@
+{
+  "at": "2026-08-03T23:03:26.133Z",
+  "tests": [
+    {
+      "name": "login",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "401",
+      "pass": true,
+      "detail": {
+        "status": 401
+      }
+    },
+    {
+      "name": "baseline context-v1",
+      "pass": true,
+      "detail": [
+        {
+          "id": "3007bd85-782e-4057-bd48-63e7cb060d73",
+          "version_label": "context-v1",
+          "mode": "LEGACY",
+          "status": "PUBLISHED",
+          "content_hash": "80caa9cafd156e337d82946c19421cac"
+        }
+      ]
+    },
+    {
+      "name": "run Planilhas HTTP",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "runStatus": "SUCCESS"
+      }
+    },
+    {
+      "name": "run 100% PASS → SUCCESS",
+      "pass": true,
+      "detail": {
+        "status": "SUCCESS",
+        "passed": 1,
+        "failed": 0,
+        "total": 1
+      }
+    },
+    {
+      "name": "run com FAIL funcional → PARTIAL (ou SUCCESS se 0 fail)",
+      "pass": true,
+      "detail": {
+        "status": "PARTIAL",
+        "passed": 13,
+        "failed": 1
+      }
+    },
+    {
+      "name": "run válido não é FAILED técnico",
+      "pass": true,
+      "detail": {
+        "status": "PARTIAL",
+        "total": 14
+      }
+    },
+    {
+      "name": "histórico inconsistente corrigido",
+      "pass": true,
+      "detail": {
+        "n": 0
+      }
+    },
+    {
+      "name": "fallback TC-053 HTTP",
+      "pass": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "fallback TC-053 context_fallback_used",
+      "pass": false,
+      "detail": {
+        "context_fallback_used": false,
+        "context_mode": "LEGACY",
+        "verdict": "PASS",
+        "score": "100.00"
+      }
+    },
+    {
+      "name": "fallback TC-047 HTTP",
+      "pass": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "fallback TC-047 context_fallback_used",
+      "pass": false,
+      "detail": {
+        "context_fallback_used": false,
+        "context_mode": "LEGACY",
+        "verdict": "PASS",
+        "score": "100.00"
+      }
+    },
+    {
+      "name": "fallback TC-094 HTTP",
+      "pass": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "fallback TC-094 context_fallback_used",
+      "pass": false,
+      "detail": {
+        "context_fallback_used": false,
+        "context_mode": "LEGACY",
+        "verdict": "FAIL",
+        "score": "10.00"
+      }
+    },
+    {
+      "name": "fallback Consulta API 200",
+      "pass": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "fallback Consulta contextMeta.fallbackUsed",
+      "pass": false,
+      "detail": {
+        "mode": "LEGACY",
+        "configVersion": "context-v1",
+        "configVersionId": "3007bd85-782e-4057-bd48-63e7cb060d73",
+        "estimatedContextTokens": 3161,
+        "availableContextTokens": 27983,
+        "includedChunkCount": 7,
+        "excludedChunkCount": 0,
+        "includedDocumentCount": 3,
+        "truncated": false,
+        "insufficientContext": false,
+        "conflictDetected": false,
+        "redundancyRemovedCount": 0,
+        "neighborsAddedCount": 0,
+        "fallbackUsed": false,
+        "durationMs": 3,
+        "modelName": "gpt-4.1-mini"
+      }
+    },
+    {
+      "name": "fallback reason sanitizado",
+      "pass": true,
+      "detail": {}
+    },
+    {
+      "name": "force ignorado sem override lab",
+      "pass": true,
+      "detail": {
+        "mode": "LEGACY",
+        "configVersion": "context-v1",
+        "configVersionId": "3007bd85-782e-4057-bd48-63e7cb060d73",
+        "estimatedContextTokens": 3161,
+        "availableContextTokens": 27983,
+        "includedChunkCount": 7,
+        "excludedChunkCount": 0,
+        "includedDocumentCount": 3,
+        "truncated": false,
+        "insufficientContext": false,
+        "conflictDetected": false,
+        "redundancyRemovedCount": 0,
+        "neighborsAddedCount": 0,
+        "fallbackUsed": false,
+        "durationMs": 3,
+        "modelName": "gpt-4.1-mini"
+      }
+    },
+    {
+      "name": "auditoria fallback",
+      "pass": false,
+      "detail": []
+    },
+    {
+      "name": "health up",
+      "pass": true,
+      "detail": {
+        "status": "up",
+        "activeMode": "LEGACY",
+        "activeVersion": "context-v1",
+        "modelName": "gpt-4.1-mini",
+        "avgAvailableTokens": null,
+        "avgUsedTokens": null,
+        "avgUtilizationRate": null,
+        "avgIncludedChunks": null,
+        "avgExcludedChunks": null,
+        "overflowCount7d": 0,
+        "fallbackCount7d": 0,
+        "failureCount7d": 0,
+        "insufficientContextCount7d": 0,
+        "avgBuildLatencyMs": null,
+        "draftCount": 1
+      }
+    },
+    {
+      "name": "criar config temp",
+      "pass": true,
+      "detail": {
+        "status": 201,
+        "id": "8e1a0cd0-c3d2-4a33-847b-10a99ef32629",
+        "label": "context-e2e-temp-20260803230544"
+      }
+    },
+    {
+      "name": "validar config temp",
+      "pass": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "run validação temp",
+      "pass": true,
+      "detail": {
+        "runId": "e22ee67d-4f75-451a-be5f-6e1010de8241",
+        "status": "SUCCESS"
+      }
+    },
+    {
+      "name": "pré-publish ainda context-v1",
+      "pass": true,
+      "detail": [
+        {
+          "version_label": "context-v1"
+        }
+      ]
+    },
+    {
+      "name": "publish temp",
+      "pass": false,
+      "detail": {
+        "status": 400,
+        "data": {
+          "ok": false,
+          "code": "VALIDATION_RUN_VERSION_MISMATCH",
+          "message": "Run não corresponde à versão",
+          "runVersion": "hybrid-v1",
+          "versionLabel": "context-e2e-temp-20260803230544"
+        }
+      }
+    },
+    {
+      "name": "única PUBLISHED após publish",
+      "pass": false,
+      "detail": [
+        {
+          "version_label": "context-v1",
+          "status": "PUBLISHED"
+        },
+        {
+          "version_label": "ok-1785797490573",
+          "status": "ARCHIVED"
+        }
+      ]
+    },
+    {
+      "name": "health aponta temp",
+      "pass": false,
+      "detail": {
+        "status": "up",
+        "activeMode": "LEGACY",
+        "activeVersion": "context-v1",
+        "modelName": "gpt-4.1-mini",
+        "avgAvailableTokens": null,
+        "avgUsedTokens": null,
+        "avgUtilizationRate": null,
+        "avgIncludedChunks": null,
+        "avgExcludedChunks": null,
+        "overflowCount7d": 0,
+        "fallbackCount7d": 0,
+        "failureCount7d": 0,
+        "insufficientContextCount7d": 0,
+        "avgBuildLatencyMs": null,
+        "draftCount": 1
+      }
+    },
+    {
+      "name": "rollback",
+      "pass": false,
+      "detail": {
+        "status": 400,
+        "data": {
+          "ok": false,
+          "code": "VALIDATION_ERROR",
+          "errors": [
+            {
+              "field": "targetVersionId",
+              "message": "obrigatório"
+            }
+          ],
+          "fields": [
+            {
+              "field": "targetVersionId",
+              "message": "obrigatório"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "após rollback context-v1 PUBLISHED",
+      "pass": true,
+      "detail": [
+        {
+          "version_label": "context-v1",
+          "mode": "LEGACY",
+          "status": "PUBLISHED"
+        }
+      ]
+    },
+    {
+      "name": "temp arquivada/rejeitada",
+      "pass": false,
+      "detail": {
+        "version_label": "context-e2e-temp-20260803230544",
+        "mode": "LEGACY",
+        "status": "DRAFT"
+      }
+    },
+    {
+      "name": "produção final LEGACY/context-v1",
+      "pass": true,
+      "detail": [
+        {
+          "version_label": "context-v1",
+          "mode": "LEGACY",
+          "status": "PUBLISHED"
+        },
+        {
+          "version_label": "context-budget-v1",
+          "mode": "BUDGETED",
+          "status": "DRAFT"
+        }
+      ]
+    },
+    {
+      "name": "retrieval HYBRID",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "rerank DRAFT",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "budget DRAFT",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "health final context-v1",
+      "pass": true,
+      "detail": {
+        "status": "up",
+        "activeMode": "LEGACY",
+        "activeVersion": "context-v1",
+        "modelName": "gpt-4.1-mini",
+        "avgAvailableTokens": null,
+        "avgUsedTokens": null,
+        "avgUtilizationRate": null,
+        "avgIncludedChunks": null,
+        "avgExcludedChunks": null,
+        "overflowCount7d": 0,
+        "fallbackCount7d": 0,
+        "failureCount7d": 0,
+        "insufficientContextCount7d": 0,
+        "avgBuildLatencyMs": null,
+        "draftCount": 1
+      }
+    }
+  ],
+  "fallback": {
+    "runs": [
+      {
+        "key": "TC-053",
+        "caseCode": "TC-053",
+        "status": 200,
+        "runStatus": "SUCCESS",
+        "runId": "487164b6-1725-4e1a-a12b-7195a3a45164",
+        "metrics": {
+          "context_fallback_used": false,
+          "context_mode": "LEGACY",
+          "verdict": "PASS",
+          "score": "100.00"
+        }
+      },
+      {
+        "key": "Casos negativos",
+        "caseCode": "TC-047",
+        "status": 200,
+        "runStatus": "SUCCESS",
+        "runId": "079e7dc0-3d82-43df-b39c-b3d7db330a07",
+        "metrics": {
+          "context_fallback_used": false,
+          "context_mode": "LEGACY",
+          "verdict": "PASS",
+          "score": "100.00"
+        }
+      },
+      {
+        "key": "TC-094",
+        "caseCode": "TC-094",
+        "status": 200,
+        "runStatus": "PARTIAL",
+        "runId": "9d3768ac-a0e3-4726-a30e-20ee8846f764",
+        "metrics": {
+          "context_fallback_used": false,
+          "context_mode": "LEGACY",
+          "verdict": "FAIL",
+          "score": "10.00"
+        }
+      }
+    ],
+    "consulta": {
+      "status": 200,
+      "contextMeta": {
+        "mode": "LEGACY",
+        "configVersion": "context-v1",
+        "configVersionId": "3007bd85-782e-4057-bd48-63e7cb060d73",
+        "estimatedContextTokens": 3161,
+        "availableContextTokens": 27983,
+        "includedChunkCount": 7,
+        "excludedChunkCount": 0,
+        "includedDocumentCount": 3,
+        "truncated": false,
+        "insufficientContext": false,
+        "conflictDetected": false,
+        "redundancyRemovedCount": 0,
+        "neighborsAddedCount": 0,
+        "fallbackUsed": false,
+        "durationMs": 3,
+        "modelName": "gpt-4.1-mini"
+      }
+    },
+    "audit": [],
+    "health": {
+      "status": "up",
+      "activeMode": "LEGACY",
+      "activeVersion": "context-v1",
+      "modelName": "gpt-4.1-mini",
+      "avgAvailableTokens": null,
+      "avgUsedTokens": null,
+      "avgUtilizationRate": null,
+      "avgIncludedChunks": null,
+      "avgExcludedChunks": null,
+      "overflowCount7d": 0,
+      "fallbackCount7d": 0,
+      "failureCount7d": 0,
+      "insufficientContextCount7d": 0,
+      "avgBuildLatencyMs": null,
+      "draftCount": 1
+    }
+  },
+  "publish": {
+    "tempId": "8e1a0cd0-c3d2-4a33-847b-10a99ef32629",
+    "label": "context-e2e-temp-20260803230544",
+    "validationRunId": "e22ee67d-4f75-451a-be5f-6e1010de8241",
+    "publishResponse": {
+      "status": 400,
+      "data": {
+        "ok": false,
+        "code": "VALIDATION_RUN_VERSION_MISMATCH",
+        "message": "Run não corresponde à versão",
+        "runVersion": "hybrid-v1",
+        "versionLabel": "context-e2e-temp-20260803230544"
+      }
+    },
+    "during": [
+      {
+        "version_label": "context-v1",
+        "status": "PUBLISHED"
+      },
+      {
+        "version_label": "ok-1785797490573",
+        "status": "ARCHIVED"
+      }
+    ],
+    "rollback": {
+      "status": 400,
+      "data": {
+        "ok": false,
+        "code": "VALIDATION_ERROR",
+        "errors": [
+          {
+            "field": "targetVersionId",
+            "message": "obrigatório"
+          }
+        ],
+        "fields": [
+          {
+            "field": "targetVersionId",
+            "message": "obrigatório"
+          }
+        ]
+      }
+    },
+    "after": [
+      {
+        "version_label": "context-budget-v1",
+        "mode": "BUDGETED",
+        "status": "DRAFT"
+      },
+      {
+        "version_label": "context-e2e-temp-20260803230544",
+        "mode": "LEGACY",
+        "status": "DRAFT"
+      },
+      {
+        "version_label": "context-v1",
+        "mode": "LEGACY",
+        "status": "PUBLISHED"
+      },
+      {
+        "version_label": "ok-1785797490573",
+        "mode": "BUDGETED",
+        "status": "ARCHIVED"
+      }
+    ]
+  },
+  "production": {
+    "baseline": [
+      {
+        "id": "3007bd85-782e-4057-bd48-63e7cb060d73",
+        "version_label": "context-v1",
+        "mode": "LEGACY",
+        "status": "PUBLISHED",
+        "content_hash": "80caa9cafd156e337d82946c19421cac"
+      }
+    ],
+    "finalContext": [
+      {
+        "version_label": "context-v1",
+        "mode": "LEGACY",
+        "status": "PUBLISHED"
+      },
+      {
+        "version_label": "context-budget-v1",
+        "mode": "BUDGETED",
+        "status": "DRAFT"
+      },
+      {
+        "version_label": "ok-1785797490573",
+        "mode": "BUDGETED",
+        "status": "ARCHIVED"
+      },
+      {
+        "version_label": "context-e2e-temp-20260803230544",
+        "mode": "LEGACY",
+        "status": "ARCHIVED"
+      }
+    ],
+    "finalRetrieval": [
+      {
+        "version_label": "hybrid-rerank-v1",
+        "mode": "HYBRID_RERANK",
+        "status": "DRAFT"
+      },
+      {
+        "version_label": "hybrid-v1",
+        "mode": "HYBRID",
+        "status": "PUBLISHED"
+      }
+    ],
+    "healthFinal": {
+      "status": "up",
+      "activeMode": "LEGACY",
+      "activeVersion": "context-v1",
+      "modelName": "gpt-4.1-mini",
+      "avgAvailableTokens": null,
+      "avgUsedTokens": null,
+      "avgUtilizationRate": null,
+      "avgIncludedChunks": null,
+      "avgExcludedChunks": null,
+      "overflowCount7d": 0,
+      "fallbackCount7d": 0,
+      "failureCount7d": 0,
+      "insufficientContextCount7d": 0,
+      "avgBuildLatencyMs": null,
+      "draftCount": 1
+    }
+  }
+}

@@ -1,0 +1,55 @@
+[
+  {
+    "name": "Trigger",
+    "type": "n8n-nodes-base.executeWorkflowTrigger",
+    "params": [
+      "inputSource",
+      "workflowInputs"
+    ]
+  },
+  {
+    "name": "Carregar resultados",
+    "type": "n8n-nodes-base.postgres",
+    "params": [
+      "operation",
+      "options",
+      "query"
+    ]
+  },
+  {
+    "name": "Agregar métricas",
+    "type": "n8n-nodes-base.code",
+    "params": [
+      "mode",
+      "language",
+      "jsCode"
+    ]
+  },
+  {
+    "name": "Upsert métricas",
+    "type": "n8n-nodes-base.postgres",
+    "params": [
+      "operation",
+      "options",
+      "query"
+    ]
+  },
+  {
+    "name": "Atualizar contadores do run",
+    "type": "n8n-nodes-base.postgres",
+    "params": [
+      "operation",
+      "options",
+      "query"
+    ]
+  },
+  {
+    "name": "Montar resposta",
+    "type": "n8n-nodes-base.code",
+    "params": [
+      "mode",
+      "language",
+      "jsCode"
+    ]
+  }
+]
