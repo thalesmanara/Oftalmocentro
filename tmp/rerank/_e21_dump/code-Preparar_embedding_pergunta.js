@@ -1,0 +1,1 @@
+const cls=$input.first().json||{};const question=String(cls.question||'').trim();return [{json:{...cls,openaiBody:{model:'text-embedding-3-small',input:question||' '},hasQuestion:!!question}}];

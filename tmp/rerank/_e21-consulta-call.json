@@ -1,0 +1,25 @@
+{
+  "mode": "once",
+  "source": "database",
+  "workflowId": {
+    "__rl": true,
+    "mode": "id",
+    "value": "bae8872eeb164a27",
+    "cachedResultName": "IA - RECUPERAR CONTEXTO"
+  },
+  "workflowInputs": {
+    "mappingMode": "defineBelow",
+    "value": {
+      "question": "={{ $('Classificar pergunta').first().json.question || '' }}",
+      "classificationJson": "={{ JSON.stringify($('Classificar pergunta').first().json || {}) }}",
+      "retrievalConfigVersionId": "={{ (() => { const b=$('Normalizar request').first().json.body||{}; const q=$('Normalizar request').first().json.query||{}; return String(b.retrievalConfigVersionId||q.retrievalConfigVersionId||'').trim(); })() }}",
+      "modeOverrideAllowed": "={{ (() => {\n  const b=$('Normalizar request').first().json.body||{};\n  const q=$('Normalizar request').first().json.query||{};\n  const flag=b.modeOverrideAllowed===true||b.modeOverrideAllowed==='true'||q.modeOverrideAllowed===true||q.modeOverrideAllowed==='true';\n  if(!flag) return 'false';\n  let allowed=false;\n  try {\n    const auth=$('Validar auth').first().json||{};\n    const user=auth.user||{};\n    const perms=[...(Array.isArray(auth.permissions)?auth.permissions:[]),...(Array.isArray(user.permissions)?user.permissions:[])].map(p=>String(p).toLowerCase());\n    allowed=auth.isMaster===true||user.isMaster===true||perms.includes('editar_configuracoes')||perms.some(p=>p.includes('ai_retrieval')||p.includes('admin'));\n  } catch(_) {}\n  return allowed ? 'true' : 'false';\n})() }}",
+      "requestId": "={{ $('Normalizar request').first().json.requestId || '' }}",
+      "userId": "={{ $('Validar auth').first().json.userId || '' }}",
+      "sessionId": "={{ $('Validar auth').first().json.sessionId || '' }}"
+    }
+  },
+  "options": {
+    "waitForSubWorkflow": true
+  }
+}

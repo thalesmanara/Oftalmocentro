@@ -1,0 +1,82 @@
+{
+  "at": "2026-08-03T21:43:19.570Z",
+  "tests": [
+    {
+      "name": "login",
+      "pass": true
+    },
+    {
+      "name": "consulta HYBRID produção",
+      "pass": true,
+      "detail": {
+        "mode": "HYBRID",
+        "version": "hybrid-v1",
+        "selected": 10,
+        "rankedDocs": 10,
+        "rankedChunks": 10,
+        "leakedChunkId": false
+      }
+    },
+    {
+      "name": "produção HYBRID/hybrid-v1",
+      "pass": true,
+      "detail": {
+        "id": "63631806-f1ba-4ff4-8b24-265a468229fb",
+        "version_label": "hybrid-v1",
+        "mode": "HYBRID",
+        "status": "PUBLISHED"
+      }
+    },
+    {
+      "name": "hybrid-rerank-v1 permanece DRAFT",
+      "pass": true,
+      "detail": {
+        "id": "b9f10499-cf34-48dd-90b9-119b1410e84d",
+        "version_label": "hybrid-rerank-v1",
+        "mode": "HYBRID_RERANK",
+        "status": "DRAFT"
+      }
+    },
+    {
+      "name": "Consulta IA sem lógica de busca",
+      "pass": true,
+      "detail": {
+        "nodeCount": 24,
+        "hasRecuperar": true
+      }
+    },
+    {
+      "name": "IA - RECUPERAR CONTEXTO ativo",
+      "pass": true,
+      "detail": {
+        "id": "bae8872eeb164a27",
+        "name": "IA - RECUPERAR CONTEXTO",
+        "active": true,
+        "activeVersionId": "381a25c4-c9e3-49a7-8e9d-bd7bfc9b7b65"
+      }
+    },
+    {
+      "name": "QDRANT history sem Stub",
+      "pass": true,
+      "detail": [
+        "Trigger",
+        "Preparar busca",
+        "Vector ok?",
+        "Qdrant search",
+        "Normalizar hits",
+        "Vazio"
+      ]
+    },
+    {
+      "name": "health retrievalPipeline",
+      "pass": true,
+      "detail": {
+        "retrievalPipeline": null,
+        "retrieval": {
+          "status": "ok"
+        },
+        "qdrant": "ok"
+      }
+    }
+  ]
+}

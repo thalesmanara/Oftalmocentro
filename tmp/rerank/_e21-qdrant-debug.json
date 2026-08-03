@@ -1,0 +1,103 @@
+{
+  "Extrair vetor": {
+    "status": "success",
+    "error": null,
+    "keys": [
+      "question",
+      "normalizedQuestion",
+      "questionHash",
+      "classification",
+      "categoryId",
+      "subcategoryId",
+      "categoryName",
+      "subcategoryName",
+      "searchTerms",
+      "retrievalConfigVersionId",
+      "modeOverrideAllowed",
+      "requestId",
+      "userId",
+      "sessionId",
+      "startedAtMs",
+      "versionId",
+      "mode",
+      "needVector",
+      "needText",
+      "candidateLimit",
+      "finalLimit",
+      "maxChunksPerDocument",
+      "weights",
+      "configuration",
+      "configurationJson",
+      "versionLabel",
+      "configCode",
+      "modeOverrideUsed",
+      "contentHash",
+      "cfgLoadedAtMs"
+    ],
+    "vectorOk": true,
+    "embLen": 1536,
+    "sample": {}
+  },
+  "Busca vetorial Qdrant": {
+    "status": "success",
+    "error": null,
+    "keys": [
+      "ok",
+      "hits",
+      "status"
+    ],
+    "hitsLen": 0,
+    "ok": true,
+    "embLen": 0,
+    "sample": {
+      "ok": true,
+      "hits": []
+    }
+  },
+  "Guardar hits vetoriais": {
+    "status": "success",
+    "error": null,
+    "keys": [
+      "question",
+      "normalizedQuestion",
+      "questionHash",
+      "classification",
+      "categoryId",
+      "subcategoryId",
+      "categoryName",
+      "subcategoryName",
+      "searchTerms",
+      "retrievalConfigVersionId",
+      "modeOverrideAllowed",
+      "requestId",
+      "userId",
+      "sessionId",
+      "startedAtMs",
+      "versionId",
+      "mode",
+      "needVector",
+      "needText",
+      "candidateLimit",
+      "finalLimit",
+      "maxChunksPerDocument",
+      "weights",
+      "configuration",
+      "configurationJson",
+      "versionLabel",
+      "configCode",
+      "modeOverrideUsed",
+      "contentHash",
+      "cfgLoadedAtMs"
+    ],
+    "vectorOk": true,
+    "embLen": 0,
+    "sample": {}
+  },
+  "Usar re-ranking?": {
+    "status": "success",
+    "error": null,
+    "keys": [],
+    "embLen": 0,
+    "sample": null
+  }
+}

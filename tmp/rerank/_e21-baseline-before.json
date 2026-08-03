@@ -1,0 +1,35 @@
+{
+  "at": "2026-08-03T21:29:04.515Z",
+  "results": {
+    "planilha": {
+      "status": 404,
+      "durationMs": 151,
+      "answerLen": 0,
+      "sourcesCount": 0,
+      "retrievalMeta": null,
+      "classification": null,
+      "answerPreview": "",
+      "sourceTitles": []
+    },
+    "semantica": {
+      "status": 404,
+      "durationMs": 458,
+      "answerLen": 0,
+      "sourcesCount": 0,
+      "retrievalMeta": null,
+      "classification": null,
+      "answerPreview": "",
+      "sourceTitles": []
+    },
+    "negativo": {
+      "status": 404,
+      "durationMs": 150,
+      "answerLen": 0,
+      "sourcesCount": 0,
+      "retrievalMeta": null,
+      "classification": null,
+      "answerPreview": "",
+      "sourceTitles": []
+    }
+  }
+}

@@ -21,6 +21,7 @@ const COMPONENT_LABELS: Record<string, string> = {
   embeddings: 'Embeddings',
   qdrant: 'Qdrant',
   retrieval: 'Retrieval / Re-ranking',
+  retrievalPipeline: 'Pipeline de retrieval',
 }
 
 function statusLabel(status: UiState): string {
@@ -116,6 +117,27 @@ function componentDetails(key: string, component: HealthComponent): string {
     if (typeof component.pending === 'number') parts.push(`${component.pending} pendentes`)
     if (typeof component.failures === 'number') parts.push(`${component.failures} falhas`)
     if (typeof component.avgDurationMs === 'number') parts.push(`${component.avgDurationMs} ms`)
+    if (component.lastRunAt) parts.push(formatCheckedAt(component.lastRunAt))
+  }
+  if (key === 'retrieval' || key === 'retrievalPipeline') {
+    const pipe = component as HealthComponent & {
+      activeMode?: string
+      avgRetrievalLatencyMs?: number | null
+      avgRerankLatencyMs?: number | null
+      fallbackCount7d?: number
+      avgCandidates?: number | null
+      avgSelected?: number | null
+    }
+    if (component.activeVersion) parts.push(String(component.activeVersion))
+    if (pipe.activeMode) parts.push(String(pipe.activeMode))
+    if (component.mode) parts.push(String(component.mode))
+    if (typeof pipe.avgRetrievalLatencyMs === 'number') parts.push(`ret ${pipe.avgRetrievalLatencyMs} ms`)
+    if (typeof pipe.avgRerankLatencyMs === 'number') parts.push(`rerank ${pipe.avgRerankLatencyMs} ms`)
+    if (typeof component.avgDurationMs === 'number') parts.push(`${component.avgDurationMs} ms`)
+    if (typeof pipe.avgCandidates === 'number') parts.push(`${pipe.avgCandidates} cand`)
+    if (typeof pipe.avgSelected === 'number') parts.push(`${pipe.avgSelected} sel`)
+    if (typeof pipe.fallbackCount7d === 'number') parts.push(`${pipe.fallbackCount7d} fallbacks/7d`)
+    if (typeof component.failures === 'number') parts.push(`${component.failures} falhas`)
     if (component.lastRunAt) parts.push(formatCheckedAt(component.lastRunAt))
   }
   return parts.join(' · ')

@@ -318,6 +318,7 @@ export interface HealthComponent {
   draftsCount?: number
   online?: boolean
   collection?: string
+  mode?: string
 }
 
 export interface SystemHealth {
@@ -340,6 +341,20 @@ export interface SystemHealth {
     embeddings?: HealthComponent
     qdrant?: HealthComponent
     retrieval?: HealthComponent
+    retrievalPipeline?: HealthComponent & {
+      activeMode?: string
+      textSearchAvailable?: boolean
+      vectorSearchAvailable?: boolean
+      rerankAvailable?: boolean
+      avgRetrievalLatencyMs?: number | null
+      avgRerankLatencyMs?: number | null
+      fallbackCount7d?: number
+      failureCount7d?: number
+      avgCandidates?: number | null
+      avgSelected?: number | null
+      lastSuccessfulRetrieval?: string | null
+      lastDatasetValidation?: string | null
+    }
   }
 }
 

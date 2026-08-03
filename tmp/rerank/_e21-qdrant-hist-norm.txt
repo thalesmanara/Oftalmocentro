@@ -1,0 +1,15 @@
+{
+  "id": "95bb6126-4ea4-49a9-9583-037fee0fedd1",
+  "name": "Stub",
+  "type": "n8n-nodes-base.code",
+  "typeVersion": 2,
+  "position": [
+    224,
+    0
+  ],
+  "parameters": {
+    "mode": "runOnceForAllItems",
+    "language": "javaScript",
+    "jsCode": "return [{ json: { ok: true, hits: [], status: 'STUB' } }];"
+  }
+}

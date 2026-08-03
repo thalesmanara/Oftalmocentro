@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Trigger",
+    "type": "n8n-nodes-base.executeWorkflowTrigger",
+    "params": "{\"inputSource\":\"workflowInputs\",\"workflowInputs\":{\"values\":[{\"name\":\"queryVectorJson\",\"type\":\"string\"},{\"name\":\"topK\",\"type\":\"number\"},{\"name\":\"categoryId\",\"type\":\"string\"},{\"name\":\"subcategoryId\",\"type\":\"string\"}]}}"
+  },
+  {
+    "name": "Preparar busca",
+    "type": "n8n-nodes-base.code",
+    "params": "const t=$input.first().json||{};let vector=[];try{vector=JSON.parse(String(t.queryVectorJson||'[]'));}catch(_){vector=[];}const topK=Math.min(Math.max(Number(t.topK||12)||12,1),50);const categoryId=String(t.categoryId||'').trim();const subcategoryId=String(t.subcategoryId||'').trim();const must=[{key:'isCurrent',match:{value:true}}];if(subcategoryId)must.push({key:'subcategoryId',match:{value:subc"
+  },
+  {
+    "name": "Vector ok?",
+    "type": "n8n-nodes-base.if",
+    "params": "{\"conditions\":{\"combinator\":\"and\",\"options\":{\"caseSensitive\":true,\"leftValue\":\"\",\"typeValidation\":\"loose\",\"version\":2},\"conditions\":[{\"id\":\"c1\",\"leftValue\":\"={{ $json.ok === true }}\",\"rightValue\":true,\"operator\":{\"type\":\"boolean\",\"operation\":\"true\"}}]},\"looseTypeValidation\":true}"
+  },
+  {
+    "name": "Qdrant search",
+    "type": "n8n-nodes-base.httpRequest",
+    "params": "{\"method\":\"POST\",\"url\":\"={{ $json.url }}\",\"sendBody\":true,\"contentType\":\"json\",\"specifyBody\":\"json\",\"jsonBody\":\"={{ $json.body }}\",\"options\":{\"timeout\":20000,\"response\":{\"response\":{\"fullResponse\":true,\"neverError\":true}}}}"
+  },
+  {
+    "name": "Normalizar hits",
+    "type": "n8n-nodes-base.code",
+    "params": "const resp=$input.first().json||{};const statusCode=Number(resp.statusCode??resp.status??0);let body=resp.body??resp.data??resp;if(typeof body==='string'){try{body=JSON.parse(body);}catch(_){body={};}}const ok=statusCode>=200&&statusCode<300;const raw=Array.isArray(body.result)?body.result:(Array.isArray(body)?body:[]);const hits=raw.map(h=>{const p=h.payload||{};return{chunkId:String(p.chunkId||h"
+  },
+  {
+    "name": "Vazio",
+    "type": "n8n-nodes-base.code",
+    "params": "return [{json:{ok:false,hits:[],count:0,retrievalMode:'vector',error:'invalid_vector'}}];"
+  }
+]

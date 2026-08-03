@@ -1,0 +1,91 @@
+{
+  "name": "IA - CARREGAR RETRIEVAL CONFIG",
+  "connections": {
+    "Trigger": {
+      "main": [
+        [
+          {
+            "node": "Buscar config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar config": {
+      "main": [
+        [
+          {
+            "node": "Normalizar config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodes": {
+    "Trigger": {
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "credentials": null,
+      "parameters": {
+        "inputSource": "workflowInputs",
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "requestId",
+              "type": "string"
+            },
+            {
+              "name": "modeOverride",
+              "type": "string"
+            },
+            {
+              "name": "versionId",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    "Buscar config": {
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        220,
+        0
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "XJtGZ5rpCR7BpN0X",
+          "name": "Postgres account"
+        }
+      },
+      "parameters": {
+        "operation": "executeQuery",
+        "options": {},
+        "query": "SELECT\n  c.code,\n  v.id AS version_id,\n  v.version_label,\n  v.version_number,\n  v.status,\n  v.mode,\n  v.configuration,\n  v.content_hash,\n  v.published_at,\n  COALESCE((SELECT value FROM app_secrets WHERE key='retrieval_active_mode' LIMIT 1), v.mode) AS secret_mode,\n  CASE WHEN NULLIF(TRIM('{{ $json.versionId || \"\" }}'), '') IS NOT NULL THEN true ELSE false END AS override_used\nFROM ai_retrieval_configs c\nJOIN ai_retrieval_config_versions v ON v.retrieval_config_id = c.id\nWHERE c.code = COALESCE((SELECT value FROM app_secrets WHERE key='retrieval_config_code' LIMIT 1), 'AI_QUERY_RETRIEVAL')\n  AND c.active = true\n  AND (\n    (NULLIF(TRIM('{{ $json.versionId || \"\" }}'), '') IS NOT NULL\n      AND v.id = NULLIF(TRIM('{{ $json.versionId || \"\" }}'), '')::uuid\n      AND v.status IN ('DRAFT','VALIDATING','PUBLISHED','ARCHIVED'))\n    OR\n    (NULLIF(TRIM('{{ $json.versionId || \"\" }}'), '') IS NULL AND v.status = 'PUBLISHED')\n  )\nORDER BY CASE WHEN v.status='PUBLISHED' THEN 0 ELSE 1 END, v.published_at DESC NULLS LAST\nLIMIT 1;"
+      },
+      "alwaysOutputData": true
+    },
+    "Normalizar config": {
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        0
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const t=$('Trigger').first().json||{};\nconst row=$input.first().json||{};\nconst override=String(t.modeOverride||'').trim().toUpperCase();\nconst versionOverride=String(t.versionId||'').trim();\nlet configuration=row.configuration;\nif(typeof configuration==='string'){try{configuration=JSON.parse(configuration);}catch(_){configuration={};}}\nif(!configuration||typeof configuration!=='object') configuration={};\nconst mode=override||String(row.mode||row.secret_mode||'HYBRID').toUpperCase();\nconst defaults={\n  mode:'HYBRID', candidateLimit:30, finalLimit:12, maxChunksPerDocument:4, enableNeighbors:false,\n  weights:{semantic:0.65,lexical:0.35,hybridPrior:0},\n  boosts:{subcategoryMatch:0.15,categoryMatch:0.1,titleMatch:0.08,exactIdentifier:0.2,tabularStructure:0.08,ocrGood:0.03,isCurrent:0.05,recentVigency:0.04,exactPhrase:0.08},\n  penalties:{redundancyPerExtraChunk:0.06,staleDocument:0.05,lowUsefulLength:0.03},\n  normalization:{vector:'clip01',text:'batchMax',hybrid:'passthrough'}\n};\nconst cfg={...defaults,...configuration,mode,weights:{...defaults.weights,...(configuration.weights||{})},boosts:{...defaults.boosts,...(configuration.boosts||{})},penalties:{...defaults.penalties,...(configuration.penalties||{})},normalization:{...defaults.normalization,...(configuration.normalization||{})}};\ncfg.candidateLimit=Math.min(Math.max(Number(cfg.candidateLimit||30)||30,5),50);\ncfg.finalLimit=Math.min(Math.max(Number(cfg.finalLimit||12)||12,1),20);\ncfg.maxChunksPerDocument=Math.min(Math.max(Number(cfg.maxChunksPerDocument||2)||2,1),8);\nconst ok=!!row.version_label;\nconst modeOverrideUsed=!!row.override_used || !!override;\nreturn [{json:{ok, requestId:t.requestId||'', code:row.code||'AI_QUERY_RETRIEVAL', versionId:row.version_id||null, versionLabel:row.version_label||'hybrid-v1-fallback', versionNumber:Number(row.version_number||1), status:row.status||'FALLBACK', mode:cfg.mode, configuration:cfg, contentHash:row.content_hash||null, publishedAt:row.published_at||null, configurationJson:JSON.stringify(cfg), modeOverrideUsed:!!row.override_used||!!override, versionId:row.version_id||null}}];"
+      }
+    }
+  }
+}

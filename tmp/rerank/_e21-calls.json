@@ -1,0 +1,279 @@
+[
+  {
+    "name": "Validar auth",
+    "workflowId": {
+      "__rl": true,
+      "cachedResultName": "AUTH - VALIDAR TOKEN",
+      "mode": "id",
+      "value": "P5E43ZXSJiI9wFYD"
+    },
+    "inputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "authorization": "={{ $json.authorization || $json.headers.authorization || $json.headers.Authorization || '' }}",
+        "requestId": "={{ $json.requestId || '' }}"
+      }
+    }
+  },
+  {
+    "name": "Validar permissão",
+    "workflowId": {
+      "__rl": true,
+      "cachedResultName": "AUTH - VALIDAR PERMISSÃO",
+      "mode": "id",
+      "value": "yXW3rW8EbHXuprRJ"
+    },
+    "inputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "isMaster": "={{ $json.user ? $json.user.isMaster === true : false }}",
+        "permissions": "={{ $json.permissions || ($json.user && $json.user.permissions) || [] }}",
+        "requiredAnyOf": "={{ [] }}",
+        "requiredPermission": "usar_consulta_ia",
+        "sessionId": "={{ $json.sessionId || '' }}",
+        "user": "={{ $json.user || null }}",
+        "userId": "={{ $json.userId || ($json.user && $json.user.id) || '' }}",
+        "requestId": "={{ $json.requestId || $('Normalizar request').first().json.requestId || '' }}"
+      }
+    }
+  },
+  {
+    "name": "Normalizar request",
+    "workflowId": {
+      "__rl": true,
+      "cachedResultName": "SYSTEM - NORMALIZAR REQUEST",
+      "mode": "id",
+      "value": "N3zLpj7Dij4n5p5p"
+    }
+  },
+  {
+    "name": "Preparar sucesso",
+    "workflowId": {
+      "__rl": true,
+      "cachedResultName": "SYSTEM - PREPARAR SUCESSO",
+      "mode": "id",
+      "value": "zE5LRjZfbXw8Ymll"
+    },
+    "inputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "data": "={{ $json.data }}",
+        "requestId": "={{ $json.requestId || $('Normalizar request').first().json.requestId }}",
+        "statusCode": "={{ $json.statusCode }}",
+        "requestStartedAtMs": "={{ Number($('Normalizar request').first().json.requestStartedAtMs) }}",
+        "method": "={{ $('Normalizar request').first().json.method }}",
+        "path": "={{ $('Normalizar request').first().json.path }}",
+        "userId": "={{ $('Validar auth').first().json.userId || '' }}",
+        "sessionId": "={{ $('Validar auth').first().json.sessionId || '' }}"
+      }
+    }
+  },
+  {
+    "name": "Preparar erro 401",
+    "workflowId": {
+      "__rl": true,
+      "cachedResultName": "SYSTEM - PREPARAR ERRO",
+      "mode": "id",
+      "value": "r3iSBV1ClKOxS2UI"
+    },
+    "inputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "code": "={{ $json.error && $json.error.code ? $json.error.code : 'UNAUTHORIZED' }}",
+        "message": "={{ $json.error && $json.error.message ? $json.error.message : 'Autenticação obrigatória.' }}",
+        "requestId": "={{ $('Normalizar request').first().json.requestId }}",
+        "statusCode": 401,
+        "requestStartedAtMs": "={{ Number($('Normalizar request').first().json.requestStartedAtMs) }}",
+        "method": "={{ $('Normalizar request').first().json.method }}",
+        "path": "={{ $('Normalizar request').first().json.path }}"
+      }
+    }
+  },
+  {
+    "name": "Preparar erro 403",
+    "workflowId": {
+      "__rl": true,
+      "cachedResultName": "SYSTEM - PREPARAR ERRO",
+      "mode": "id",
+      "value": "r3iSBV1ClKOxS2UI"
+    },
+    "inputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "code": "={{ $json.error && $json.error.code ? $json.error.code : 'FORBIDDEN' }}",
+        "message": "={{ $json.error && $json.error.message ? $json.error.message : 'Você não possui permissão para executar esta ação.' }}",
+        "requestId": "={{ $('Normalizar request').first().json.requestId }}",
+        "statusCode": 403,
+        "requestStartedAtMs": "={{ Number($('Normalizar request').first().json.requestStartedAtMs) }}",
+        "method": "={{ $('Normalizar request').first().json.method }}",
+        "path": "={{ $('Normalizar request').first().json.path }}"
+      }
+    }
+  },
+  {
+    "name": "Registrar auditoria sucesso",
+    "workflowId": {
+      "__rl": true,
+      "cachedResultName": "AUDITORIA - REGISTRAR",
+      "mode": "id",
+      "value": "jtQvQlqRZ5X5WF9I"
+    },
+    "inputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "action": "AI_QUERY",
+        "durationMs": "={{ $json.durationMs }}",
+        "errorCode": "={{ $json.tracking && $json.tracking.errorCode ? $json.tracking.errorCode : '' }}",
+        "headers": "={{ $('Normalizar request').first().json.headers }}",
+        "metadata": "={{ (() => { const resp = $json.response || {}; const data = resp.data || {}; const mr = $('Montar resposta').first().json || {}; const pm = mr.promptMeta || {}; const q = data.question || mr.data?.question || $('Webhook').first().json.body?.question || ''; const a = data.answer || ''; const sources = data.sources || []; const cls = data.classification || {}; return { questionLength: String(q).length, answerLength: String(a).length, sourcesCount: sources.length, documentIds: sources.map(s => s.documentId).filter(Boolean), categoryId: cls.categoryId || null, categoryName: cls.categoryName || null, subcategoryId: cls.subcategoryId || null, subcategoryName: cls.subcategoryName || null, promptVersionId: pm.promptVersionId || null, promptCode: pm.promptCode || null, promptVersionNumber: pm.versionNumber != null ? pm.versionNumber : null, promptContentHash: pm.contentHash || null, promptModelName: pm.modelName || null }; })() }}",
+        "method": "={{ $json.tracking && $json.tracking.method ? $json.tracking.method : ($('Normalizar request').first().json.method || '') }}",
+        "path": "={{ $json.tracking && $json.tracking.path ? $json.tracking.path : ($('Normalizar request').first().json.path || '') }}",
+        "requestId": "={{ $json.requestId }}",
+        "resourceId": "={{ (() => { const resp = $json.response || {}; const sources = (resp.data && resp.data.sources) || []; return sources[0]?.documentId || ''; })() }}",
+        "resourceType": "ai_query",
+        "response": "={{ $json.response }}",
+        "responseHeaders": "={{ $json.responseHeaders }}",
+        "sessionId": "={{ $json.tracking && $json.tracking.sessionId ? $json.tracking.sessionId : '' }}",
+        "statusCode": "={{ $json.statusCode }}",
+        "success": "={{ $json.tracking ? $json.tracking.success : true }}",
+        "tracking": "={{ $json.tracking }}",
+        "userId": "={{ $json.tracking && $json.tracking.userId ? $json.tracking.userId : '' }}"
+      }
+    }
+  },
+  {
+    "name": "Registrar auditoria 401",
+    "workflowId": {
+      "__rl": true,
+      "cachedResultName": "AUDITORIA - REGISTRAR",
+      "mode": "id",
+      "value": "jtQvQlqRZ5X5WF9I"
+    },
+    "inputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "action": "AI_QUERY",
+        "durationMs": "={{ $json.durationMs }}",
+        "errorCode": "={{ $json.tracking && $json.tracking.errorCode ? $json.tracking.errorCode : ($json.response && $json.response.error && $json.response.error.code ? $json.response.error.code : 'UNAUTHORIZED') }}",
+        "headers": "={{ $('Normalizar request').first().json.headers }}",
+        "method": "={{ $json.tracking && $json.tracking.method ? $json.tracking.method : ($('Normalizar request').first().json.method || '') }}",
+        "path": "={{ $json.tracking && $json.tracking.path ? $json.tracking.path : ($('Normalizar request').first().json.path || '') }}",
+        "requestId": "={{ $json.requestId }}",
+        "resourceId": "",
+        "resourceType": "ai_query",
+        "response": "={{ $json.response }}",
+        "responseHeaders": "={{ $json.responseHeaders }}",
+        "sessionId": "={{ $json.tracking && $json.tracking.sessionId ? $json.tracking.sessionId : '' }}",
+        "statusCode": "={{ $json.statusCode }}",
+        "success": false,
+        "tracking": "={{ $json.tracking }}",
+        "userId": "={{ $json.tracking && $json.tracking.userId ? $json.tracking.userId : '' }}"
+      }
+    }
+  },
+  {
+    "name": "Registrar auditoria 403",
+    "workflowId": {
+      "__rl": true,
+      "cachedResultName": "AUDITORIA - REGISTRAR",
+      "mode": "id",
+      "value": "jtQvQlqRZ5X5WF9I"
+    },
+    "inputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "action": "AI_QUERY",
+        "durationMs": "={{ $json.durationMs }}",
+        "errorCode": "={{ $json.tracking && $json.tracking.errorCode ? $json.tracking.errorCode : ($json.response && $json.response.error && $json.response.error.code ? $json.response.error.code : 'FORBIDDEN') }}",
+        "headers": "={{ $('Normalizar request').first().json.headers }}",
+        "method": "={{ $json.tracking && $json.tracking.method ? $json.tracking.method : ($('Normalizar request').first().json.method || '') }}",
+        "path": "={{ $json.tracking && $json.tracking.path ? $json.tracking.path : ($('Normalizar request').first().json.path || '') }}",
+        "requestId": "={{ $json.requestId }}",
+        "resourceId": "",
+        "resourceType": "ai_query",
+        "response": "={{ $json.response }}",
+        "responseHeaders": "={{ $json.responseHeaders }}",
+        "sessionId": "={{ $json.tracking && $json.tracking.sessionId ? $json.tracking.sessionId : '' }}",
+        "statusCode": "={{ $json.statusCode }}",
+        "success": false,
+        "tracking": "={{ $json.tracking }}",
+        "userId": "={{ $json.tracking && $json.tracking.userId ? $json.tracking.userId : '' }}"
+      }
+    }
+  },
+  {
+    "name": "Carregar prompt ativo",
+    "workflowId": {
+      "__rl": true,
+      "mode": "id",
+      "value": "OSopSf635RVwD65J",
+      "cachedResultName": "IA - CARREGAR PROMPT ATIVO"
+    },
+    "inputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "purpose": "AI_QUERY_MAIN",
+        "code": "",
+        "environment": "PRODUCTION",
+        "promptVersionId": "={{ $('Restaurar request').first().json.body?.promptVersionId || $('Restaurar request').first().json.query?.promptVersionId || '' }}",
+        "requestId": "={{ $('Normalizar request').first().json.requestId }}"
+      }
+    }
+  },
+  {
+    "name": "Busca vetorial Qdrant",
+    "workflowId": {
+      "__rl": true,
+      "mode": "id",
+      "value": "YDnrXjzYUOrZVE6N",
+      "cachedResultName": "QDRANT - BUSCAR"
+    },
+    "inputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "queryVectorJson": "={{ $json.queryVectorJson }}",
+        "topK": "={{ Number($json.topK || 12) }}",
+        "categoryId": "={{ $json.categoryId || '' }}",
+        "subcategoryId": "={{ $json.subcategoryId || '' }}"
+      }
+    }
+  },
+  {
+    "name": "Carregar retrieval config",
+    "workflowId": {
+      "__rl": true,
+      "mode": "id",
+      "value": "sClDEVNVS0TGG2uq",
+      "cachedResultName": "IA - CARREGAR RETRIEVAL CONFIG"
+    },
+    "inputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "requestId": "={{ $('Normalizar request').first().json.requestId || '' }}",
+        "modeOverride": "",
+        "versionId": "={{ (() => { const b=$('Normalizar request').first().json.body||{}; const q=$('Normalizar request').first().json.query||{}; return String(b.retrievalConfigVersionId||q.retrievalConfigVersionId||'').trim(); })() }}"
+      }
+    }
+  },
+  {
+    "name": "Chamar RE-RANQUEAR",
+    "workflowId": {
+      "__rl": true,
+      "mode": "id",
+      "value": "nivEQHAqHWIwP8P8",
+      "cachedResultName": "IA - RE-RANQUEAR CANDIDATOS"
+    },
+    "inputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "question": "={{ $json.question }}",
+        "classificationJson": "={{ $json.classificationJson }}",
+        "candidatesJson": "={{ $json.candidatesJson }}",
+        "configurationJson": "={{ $json.configurationJson }}",
+        "requestId": "={{ $json.requestId }}",
+        "userId": "={{ $json.userId }}",
+        "sessionId": "={{ $json.sessionId }}"
+      }
+    }
+  }
+]

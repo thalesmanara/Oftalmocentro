@@ -1,0 +1,33 @@
+{
+  "recuperarId": "bae8872eeb164a27",
+  "nodeCount": 27,
+  "names": [
+    "Trigger",
+    "Preparar entrada",
+    "Auditar START",
+    "Após audit start",
+    "Carregar retrieval config",
+    "Aplicar modo",
+    "Precisa vetor?",
+    "Preparar embedding",
+    "Embed pergunta",
+    "Extrair vetor",
+    "Busca vetorial Qdrant",
+    "Guardar hits vetoriais",
+    "Pular vetor",
+    "Precisa texto?",
+    "Preparar busca texto",
+    "Buscar chunks relevantes",
+    "Guardar rows texto",
+    "Pular texto",
+    "Merge híbrido",
+    "Preparar seleção",
+    "Usar re-ranking?",
+    "Chamar RE-RANQUEAR",
+    "Corte hybrid padrão",
+    "Resolver ranking final",
+    "Montar contexto atual",
+    "Auditar SUCCESS",
+    "Retorno"
+  ]
+}

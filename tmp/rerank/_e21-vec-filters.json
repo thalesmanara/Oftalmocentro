@@ -1,0 +1,12 @@
+{
+  "categoryId": "1a1b4aa3-fd95-4751-b7b1-ec8066a7185c",
+  "subcategoryId": "5fd457d4-7648-43dc-8136-00ed4a53bc84",
+  "topK": 30,
+  "vectorOk": true,
+  "queryLen": 1536,
+  "qdrant": {
+    "ok": true,
+    "hits": [],
+    "status": "STUB"
+  }
+}

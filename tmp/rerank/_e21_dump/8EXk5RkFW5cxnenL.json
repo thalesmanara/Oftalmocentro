@@ -1,0 +1,1348 @@
+{
+  "name": "Consulta IA",
+  "connections": {
+    "Classificar pergunta": {
+      "main": [
+        [
+          {
+            "node": "Preparar embedding pergunta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar chunks relevantes": {
+      "main": [
+        [
+          {
+            "node": "Aguardar recuperações",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar categorias e subcategorias": {
+      "main": [
+        [
+          {
+            "node": "Classificar pergunta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar auth": {
+      "main": [
+        [
+          {
+            "node": "Auth ok?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auth ok?": {
+      "main": [
+        [
+          {
+            "node": "Validar permissão",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar erro 401",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar permissão": {
+      "main": [
+        [
+          {
+            "node": "Permissão ok?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Permissão ok?": {
+      "main": [
+        [
+          {
+            "node": "Restaurar request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar erro 403",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Restaurar request": {
+      "main": [
+        [
+          {
+            "node": "Buscar categorias e subcategorias",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalizar request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalizar request": {
+      "main": [
+        [
+          {
+            "node": "Validar auth",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Montar resposta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Montar resposta": {
+      "main": [
+        [
+          {
+            "node": "Preparar sucesso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar sucesso": {
+      "main": [
+        [
+          {
+            "node": "Registrar auditoria sucesso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registrar auditoria sucesso": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar erro 401": {
+      "main": [
+        [
+          {
+            "node": "Registrar auditoria 401",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registrar auditoria 401": {
+      "main": [
+        [
+          {
+            "node": "Respond 401",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar erro 403": {
+      "main": [
+        [
+          {
+            "node": "Registrar auditoria 403",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registrar auditoria 403": {
+      "main": [
+        [
+          {
+            "node": "Respond 403",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Montar contexto": {
+      "main": [
+        [
+          {
+            "node": "Carregar prompt ativo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Carregar prompt ativo": {
+      "main": [
+        [
+          {
+            "node": "Aplicar prompt carregado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aplicar prompt carregado": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar embedding pergunta": {
+      "main": [
+        [
+          {
+            "node": "Embed pergunta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embed pergunta": {
+      "main": [
+        [
+          {
+            "node": "Extrair vetor pergunta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extrair vetor pergunta": {
+      "main": [
+        [
+          {
+            "node": "Busca vetorial Qdrant",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Restaurar classificação p/ texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Restaurar classificação p/ texto": {
+      "main": [
+        [
+          {
+            "node": "Buscar chunks relevantes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Busca vetorial Qdrant": {
+      "main": [
+        [
+          {
+            "node": "Aguardar recuperações",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aguardar recuperações": {
+      "main": [
+        [
+          {
+            "node": "Merge híbrido",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge híbrido": {
+      "main": [
+        [
+          {
+            "node": "Carregar retrieval config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Carregar retrieval config": {
+      "main": [
+        [
+          {
+            "node": "Preparar seleção retrieval",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar seleção retrieval": {
+      "main": [
+        [
+          {
+            "node": "Usar re-ranking?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Usar re-ranking?": {
+      "main": [
+        [
+          {
+            "node": "Chamar RE-RANQUEAR",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Corte hybrid padrão",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chamar RE-RANQUEAR": {
+      "main": [
+        [
+          {
+            "node": "Resolver ranking final",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Corte hybrid padrão": {
+      "main": [
+        [
+          {
+            "node": "Resolver ranking final",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resolver ranking final": {
+      "main": [
+        [
+          {
+            "node": "Montar contexto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodes": {
+    "Webhook": {
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "credentials": null,
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "consulta-ia",
+        "responseMode": "responseNode",
+        "options": {}
+      }
+    },
+    "Classificar pergunta": {
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        416,
+        0
+      ],
+      "credentials": null,
+      "parameters": {
+        "jsCode": "const webhook = $('Webhook').first().json;\n\nconst question =\n  webhook.body?.question ??\n  webhook.question ??\n  '';\n\nfunction normalizeText(value) {\n  return String(value ?? '')\n    .toLowerCase()\n    .normalize('NFD')\n    .replace(/[\\u0300-\\u036f]/g, '')\n    .replace(/[^\\p{L}\\p{N}\\s-]/gu, ' ')\n    .replace(/\\s+/g, ' ')\n    .trim();\n}\n\nconst stopWords = new Set([\n  'a',\n  'o',\n  'as',\n  'os',\n  'um',\n  'uma',\n  'uns',\n  'umas',\n  'de',\n  'da',\n  'do',\n  'das',\n  'dos',\n  'em',\n  'no',\n  'na',\n  'nos',\n  'nas',\n  'para',\n  'por',\n  'com',\n  'sem',\n  'sobre',\n  'entre',\n  'qual',\n  'quais',\n  'como',\n  'onde',\n  'quando',\n  'quem',\n  'que',\n  'e',\n  'ou',\n  'se',\n  'tem',\n  'ter',\n  'existem',\n  'existe',\n  'informe',\n  'informar',\n  'informacao',\n  'informacoes',\n  'liste',\n  'listar',\n  'mostre',\n  'mostrar'\n]);\n\nconst normalizedQuestion = normalizeText(question);\n\nconst questionTerms = normalizedQuestion\n  .split(/\\s+/)\n  .filter(term => term.length > 2)\n  .filter(term => !stopWords.has(term));\n\nconst rows = $input.all().map(item => {\n  const row = item.json;\n\n  return {\n    categoryId: row.categoryId ?? null,\n    categoryName: row.categoryName ?? '',\n    categoryDescription: row.categoryDescription ?? '',\n    subcategoryId: row.subcategoryId ?? null,\n    subcategoryName: row.subcategoryName ?? '',\n    subcategoryDescription: row.subcategoryDescription ?? '',\n\n    normalizedCategoryName: normalizeText(row.categoryName),\n    normalizedCategoryDescription: normalizeText(\n      row.categoryDescription\n    ),\n    normalizedSubcategoryName: normalizeText(\n      row.subcategoryName\n    ),\n    normalizedSubcategoryDescription: normalizeText(\n      row.subcategoryDescription\n    )\n  };\n});\n\nconst scoredRows = rows.map(row => {\n  let categoryScore = 0;\n  let subcategoryScore = 0;\n\n  /*\n   * Correspondência direta com os nomes.\n   */\n  if (\n    row.normalizedCategoryName &&\n    normalizedQuestion.includes(row.normalizedCategoryName)\n  ) {\n    categoryScore += 80;\n  }\n\n  if (\n    row.normalizedSubcategoryName &&\n    normalizedQuestion.includes(row.normalizedSubcategoryName)\n  ) {\n    subcategoryScore += 140;\n  }\n\n  /*\n   * Correspondência termo a termo.\n   */\n  for (const term of questionTerms) {\n    if (\n      row.normalizedCategoryName &&\n      row.normalizedCategoryName.includes(term)\n    ) {\n      categoryScore += 25;\n    }\n\n    if (\n      row.normalizedCategoryDescription &&\n      row.normalizedCategoryDescription.includes(term)\n    ) {\n      categoryScore += 12;\n    }\n\n    if (\n      row.normalizedSubcategoryName &&\n      row.normalizedSubcategoryName.includes(term)\n    ) {\n      subcategoryScore += 35;\n    }\n\n    if (\n      row.normalizedSubcategoryDescription &&\n      row.normalizedSubcategoryDescription.includes(term)\n    ) {\n      subcategoryScore += 20;\n    }\n  }\n\n  return {\n    categoryId: row.categoryId,\n    categoryName: row.categoryName,\n    categoryDescription: row.categoryDescription,\n\n    subcategoryId: row.subcategoryId,\n    subcategoryName: row.subcategoryName,\n    subcategoryDescription: row.subcategoryDescription,\n\n    categoryScore,\n    subcategoryScore,\n    totalScore: categoryScore + subcategoryScore\n  };\n});\n\n/*\n * Melhor linha completa: categoria + possível subcategoria.\n */\nscoredRows.sort((a, b) => {\n  if (b.totalScore !== a.totalScore) {\n    return b.totalScore - a.totalScore;\n  }\n\n  return b.subcategoryScore - a.subcategoryScore;\n});\n\nconst bestRow =\n  scoredRows.length > 0 && scoredRows[0].totalScore > 0\n    ? scoredRows[0]\n    : null;\n\n/*\n * Pode existir correspondência com a categoria, mas nenhuma\n * subcategoria específica.\n *\n * Nesse caso mantemos a categoria e deixamos subcategoryId nulo.\n */\nlet selectedCategory = null;\nlet selectedSubcategory = null;\n\nif (bestRow) {\n  selectedCategory = {\n    id: bestRow.categoryId,\n    name: bestRow.categoryName,\n    description: bestRow.categoryDescription,\n    score: bestRow.categoryScore\n  };\n\n  if (\n    bestRow.subcategoryId &&\n    bestRow.subcategoryScore > 0\n  ) {\n    selectedSubcategory = {\n      id: bestRow.subcategoryId,\n      name: bestRow.subcategoryName,\n      description: bestRow.subcategoryDescription,\n      score: bestRow.subcategoryScore\n    };\n  }\n}\n\n/*\n * Termos usados na busca SQL.\n */\nconst searchTerms = [...new Set(questionTerms)]\n  .filter(term => term.length > 3)\n  .slice(0, 8);\n\n/*\n * Candidatos servem para depuração.\n * Não precisam ser enviados ao frontend.\n */\nconst candidates = scoredRows\n  .filter(row => row.totalScore > 0)\n  .slice(0, 5)\n  .map(row => ({\n    categoryId: row.categoryId,\n    categoryName: row.categoryName,\n    subcategoryId: row.subcategoryId,\n    subcategoryName: row.subcategoryName,\n    categoryScore: row.categoryScore,\n    subcategoryScore: row.subcategoryScore,\n    totalScore: row.totalScore\n  }));\n\nreturn [\n  {\n    json: {\n      question,\n\n      categoryId: selectedCategory?.id ?? null,\n      categoryName: selectedCategory?.name ?? null,\n      categoryDescription:\n        selectedCategory?.description ?? null,\n\n      subcategoryId: selectedSubcategory?.id ?? null,\n      subcategoryName: selectedSubcategory?.name ?? null,\n      subcategoryDescription:\n        selectedSubcategory?.description ?? null,\n\n      searchTerms,\n      classificationCandidates: candidates\n    }\n  }\n];"
+      }
+    },
+    "Buscar chunks relevantes": {
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        624,
+        0
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "XJtGZ5rpCR7BpN0X",
+          "name": "Postgres account"
+        }
+      },
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "WITH params AS (\n  SELECT\n    '{{ ($json.question || \"\").replace(/'/g, \"''\") }}'::text AS question,\n    NULLIF('{{ $json.categoryId || \"\" }}','')::uuid AS category_id,\n    NULLIF('{{ $json.subcategoryId || \"\" }}','')::uuid AS subcategory_id,\n    '{{ ($json.categoryName || \"\").replace(/'/g, \"''\") }}'::text AS category_name,\n    '{{ ($json.subcategoryName || \"\").replace(/'/g, \"''\") }}'::text AS subcategory_name,\n    '{{ ($json.searchTerms[0] || \"\").replace(/'/g, \"''\") }}'::text AS term0,\n    '{{ ($json.searchTerms[1] || \"\").replace(/'/g, \"''\") }}'::text AS term1,\n    '{{ ($json.searchTerms[2] || \"\").replace(/'/g, \"''\") }}'::text AS term2,\n    '{{ ($json.searchTerms[3] || \"\").replace(/'/g, \"''\") }}'::text AS term3,\n    '{{ ($json.searchTerms[4] || \"\").replace(/'/g, \"''\") }}'::text AS term4,\n    '{{ ($json.searchTerms[5] || \"\").replace(/'/g, \"''\") }}'::text AS term5,\n    '{{ ($json.searchTerms[6] || \"\").replace(/'/g, \"''\") }}'::text AS term6,\n    '{{ ($json.searchTerms[7] || \"\").replace(/'/g, \"''\") }}'::text AS term7\n),\nranked_chunks AS (\n  SELECT\n    dc.document_id AS \"documentId\",\n    COALESCE(dv.title_snapshot, d.title) AS \"documentTitle\",\n    d.sector_id AS \"sectorId\",\n    s.name AS \"sectorName\",\n    d.category_id AS \"categoryId\",\n    c.name AS \"categoryName\",\n    c.description AS \"categoryDescription\",\n    d.subcategory_id AS \"subcategoryId\",\n    sc.name AS \"subcategoryName\",\n    sc.description AS \"subcategoryDescription\",\n    COALESCE(dv.expiration_date, d.expiration_date) AS \"vigencyDate\",\n    d.updated_at AS \"documentUpdatedAt\",\n    dv.version_number AS \"versionNumber\",\n    dv.id AS \"versionId\",\n    dc.chunk_order AS \"chunkOrder\",\n    dc.chunk_text AS \"chunkText\",\n    dc.chunk_kind AS \"chunkKind\",\n    dc.sheet_name AS \"sheetName\",\n    (\n      CASE WHEN (SELECT subcategory_id FROM params) IS NOT NULL AND d.subcategory_id = (SELECT subcategory_id FROM params) THEN 120 ELSE 0 END\n      + CASE WHEN (SELECT category_id FROM params) IS NOT NULL AND d.category_id = (SELECT category_id FROM params) THEN 80 ELSE 0 END\n      + CASE WHEN (SELECT question FROM params) <> '' AND dc.chunk_text ILIKE '%' || (SELECT question FROM params) || '%' THEN 100 ELSE 0 END\n      + CASE WHEN (SELECT subcategory_name FROM params) <> '' AND dc.chunk_text ILIKE '%' || (SELECT subcategory_name FROM params) || '%' THEN 40 ELSE 0 END\n      + CASE WHEN (SELECT category_name FROM params) <> '' AND dc.chunk_text ILIKE '%' || (SELECT category_name FROM params) || '%' THEN 20 ELSE 0 END\n      + CASE WHEN (SELECT term0 FROM params) <> '' AND (dc.chunk_text ILIKE '%' || (SELECT term0 FROM params) || '%' OR COALESCE(dv.title_snapshot, d.title) ILIKE '%' || (SELECT term0 FROM params) || '%' OR COALESCE(dv.description_snapshot, d.semantic_description, '') ILIKE '%' || (SELECT term0 FROM params) || '%') THEN 15 ELSE 0 END\n      + CASE WHEN (SELECT term1 FROM params) <> '' AND (dc.chunk_text ILIKE '%' || (SELECT term1 FROM params) || '%' OR COALESCE(dv.title_snapshot, d.title) ILIKE '%' || (SELECT term1 FROM params) || '%' OR COALESCE(dv.description_snapshot, d.semantic_description, '') ILIKE '%' || (SELECT term1 FROM params) || '%') THEN 15 ELSE 0 END\n      + CASE WHEN (SELECT term2 FROM params) <> '' AND (dc.chunk_text ILIKE '%' || (SELECT term2 FROM params) || '%' OR COALESCE(dv.title_snapshot, d.title) ILIKE '%' || (SELECT term2 FROM params) || '%' OR COALESCE(dv.description_snapshot, d.semantic_description, '') ILIKE '%' || (SELECT term2 FROM params) || '%') THEN 15 ELSE 0 END\n      + CASE WHEN (SELECT term3 FROM params) <> '' AND (dc.chunk_text ILIKE '%' || (SELECT term3 FROM params) || '%' OR COALESCE(dv.title_snapshot, d.title) ILIKE '%' || (SELECT term3 FROM params) || '%' OR COALESCE(dv.description_snapshot, d.semantic_description, '') ILIKE '%' || (SELECT term3 FROM params) || '%') THEN 15 ELSE 0 END\n      + CASE WHEN (SELECT term4 FROM params) <> '' AND (dc.chunk_text ILIKE '%' || (SELECT term4 FROM params) || '%' OR COALESCE(dv.title_snapshot, d.title) ILIKE '%' || (SELECT term4 FROM params) || '%' OR COALESCE(dv.description_snapshot, d.semantic_description, '') ILIKE '%' || (SELECT term4 FROM params) || '%') THEN 15 ELSE 0 END\n      + CASE WHEN (SELECT term5 FROM params) <> '' AND (dc.chunk_text ILIKE '%' || (SELECT term5 FROM params) || '%' OR COALESCE(dv.title_snapshot, d.title) ILIKE '%' || (SELECT term5 FROM params) || '%' OR COALESCE(dv.description_snapshot, d.semantic_description, '') ILIKE '%' || (SELECT term5 FROM params) || '%') THEN 15 ELSE 0 END\n      + CASE WHEN (SELECT term6 FROM params) <> '' AND (dc.chunk_text ILIKE '%' || (SELECT term6 FROM params) || '%' OR COALESCE(dv.title_snapshot, d.title) ILIKE '%' || (SELECT term6 FROM params) || '%' OR COALESCE(dv.description_snapshot, d.semantic_description, '') ILIKE '%' || (SELECT term6 FROM params) || '%') THEN 15 ELSE 0 END\n      + CASE WHEN (SELECT term7 FROM params) <> '' AND (dc.chunk_text ILIKE '%' || (SELECT term7 FROM params) || '%' OR COALESCE(dv.title_snapshot, d.title) ILIKE '%' || (SELECT term7 FROM params) || '%' OR COALESCE(dv.description_snapshot, d.semantic_description, '') ILIKE '%' || (SELECT term7 FROM params) || '%') THEN 15 ELSE 0 END\n      + CASE WHEN dc.chunk_kind = 'tabular' THEN 25 ELSE 0 END\n      + CASE WHEN dc.sheet_name IS NOT NULL AND (\n          ((SELECT question FROM params) <> '' AND dc.sheet_name ILIKE '%' || (SELECT question FROM params) || '%')\n          OR ((SELECT subcategory_name FROM params) <> '' AND dc.sheet_name ILIKE '%' || (SELECT subcategory_name FROM params) || '%')\n          OR ((SELECT category_name FROM params) <> '' AND dc.sheet_name ILIKE '%' || (SELECT category_name FROM params) || '%')\n          OR ((SELECT term0 FROM params) <> '' AND dc.sheet_name ILIKE '%' || (SELECT term0 FROM params) || '%')\n          OR ((SELECT term1 FROM params) <> '' AND dc.sheet_name ILIKE '%' || (SELECT term1 FROM params) || '%')\n          OR ((SELECT term2 FROM params) <> '' AND dc.sheet_name ILIKE '%' || (SELECT term2 FROM params) || '%')\n          OR ((SELECT term3 FROM params) <> '' AND dc.sheet_name ILIKE '%' || (SELECT term3 FROM params) || '%')\n          OR ((SELECT term4 FROM params) <> '' AND dc.sheet_name ILIKE '%' || (SELECT term4 FROM params) || '%')\n          OR ((SELECT term5 FROM params) <> '' AND dc.sheet_name ILIKE '%' || (SELECT term5 FROM params) || '%')\n          OR ((SELECT term6 FROM params) <> '' AND dc.sheet_name ILIKE '%' || (SELECT term6 FROM params) || '%')\n          OR ((SELECT term7 FROM params) <> '' AND dc.sheet_name ILIKE '%' || (SELECT term7 FROM params) || '%')\n        ) THEN 30 ELSE 0 END\n      + CASE WHEN dc.headers_json IS NOT NULL AND (\n          ((SELECT question FROM params) <> '' AND dc.headers_json::text ILIKE '%' || (SELECT question FROM params) || '%')\n          OR ((SELECT term0 FROM params) <> '' AND dc.headers_json::text ILIKE '%' || (SELECT term0 FROM params) || '%')\n          OR ((SELECT term1 FROM params) <> '' AND dc.headers_json::text ILIKE '%' || (SELECT term1 FROM params) || '%')\n          OR ((SELECT term2 FROM params) <> '' AND dc.headers_json::text ILIKE '%' || (SELECT term2 FROM params) || '%')\n          OR ((SELECT term3 FROM params) <> '' AND dc.headers_json::text ILIKE '%' || (SELECT term3 FROM params) || '%')\n          OR ((SELECT term4 FROM params) <> '' AND dc.headers_json::text ILIKE '%' || (SELECT term4 FROM params) || '%')\n          OR ((SELECT term5 FROM params) <> '' AND dc.headers_json::text ILIKE '%' || (SELECT term5 FROM params) || '%')\n          OR ((SELECT term6 FROM params) <> '' AND dc.headers_json::text ILIKE '%' || (SELECT term6 FROM params) || '%')\n          OR ((SELECT term7 FROM params) <> '' AND dc.headers_json::text ILIKE '%' || (SELECT term7 FROM params) || '%')\n        ) THEN 20 ELSE 0 END\n    ) AS relevance\n  FROM document_chunks dc\n  INNER JOIN document_versions dv ON dv.id = dc.document_version_id AND dv.is_current = true\n  INNER JOIN documents d ON d.id = dc.document_id\n  LEFT JOIN sectors s ON s.id = d.sector_id\n  LEFT JOIN categories c ON c.id = d.category_id\n  LEFT JOIN subcategories sc ON sc.id = d.subcategory_id\n  WHERE d.deleted_at IS NULL\n    AND COALESCE(dv.processing_status, d.processing_status) = 'processed'\n    AND COALESCE(dv.validation_status, 'VALID') = 'VALID'\n    AND COALESCE(dv.ocr_status, 'NOT_REQUIRED') NOT IN ('PROCESSING','FAILED','REQUIRED','OCR_REQUIRED','MANUAL_REVIEW','OCR_BUSY')\n    AND (dv.ocr_quality_grade IS NULL OR dv.ocr_quality_grade IN ('EXCELLENT','GOOD','ACCEPTABLE'))\n)\nSELECT *\nFROM ranked_chunks\nWHERE relevance > 0\nORDER BY relevance DESC, \"vigencyDate\" DESC NULLS LAST, \"documentUpdatedAt\" DESC, \"chunkOrder\" ASC\nLIMIT 12;",
+        "options": {}
+      }
+    },
+    "Montar contexto": {
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        832,
+        0
+      ],
+      "credentials": null,
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconst classification =\n  $('Classificar pergunta').first().json;\n\nconst question = classification.question ?? '';\n\nconst categoryId =\n  classification.categoryId ?? null;\n\nconst categoryName =\n  classification.categoryName ?? null;\n\nconst categoryDescription =\n  classification.categoryDescription ?? null;\n\nconst subcategoryId =\n  classification.subcategoryId ?? null;\n\nconst subcategoryName =\n  classification.subcategoryName ?? null;\n\nconst subcategoryDescription =\n  classification.subcategoryDescription ?? null;\n\n/*\n * Cada item é um chunk retornado pelo PostgreSQL.\n */\nconst contextChunks = items.map((item, index) => {\n  const row = item.json;\n\n  return {\n    index: index + 1,\n\n    documentId: row.documentId,\n    documentTitle: row.documentTitle,\n\n    sectorId: row.sectorId ?? null,\n    sectorName: row.sectorName ?? null,\n\n    categoryId: row.categoryId ?? null,\n    categoryName: row.categoryName ?? null,\n    categoryDescription:\n      row.categoryDescription ?? null,\n\n    subcategoryId: row.subcategoryId ?? null,\n    subcategoryName: row.subcategoryName ?? null,\n    subcategoryDescription:\n      row.subcategoryDescription ?? null,\n\n    vigencyDate: row.vigencyDate ?? null,\n\n    chunkOrder: row.chunkOrder,\n    relevance: row.relevance ?? 0,\n\n    text: row.chunkText ?? ''\n  };\n});\n\n/*\n * Texto enviado à OpenAI.\n */\nconst context = contextChunks\n  .map(source => {\n    return `\n[Fontes ${source.index}]\n\nDocumento: ${source.documentTitle || 'Não informado'}\nSetor: ${source.sectorName || 'Não informado'}\nCategoria: ${source.categoryName || 'Não informada'}\nSubcategoria: ${source.subcategoryName || 'Não informada'}\nData de vigência: ${source.vigencyDate || 'Não informada'}\nOrdem do trecho: ${source.chunkOrder}\nRelevância calculada: ${source.relevance}\n\nTrecho documental:\n${source.text}\n`.trim();\n  })\n  .join('\\n\\n------------------------------\\n\\n');\n\n/*\n * Fontes únicas para o frontend.\n *\n * Um documento pode ter vários chunks, mas deve gerar somente\n * um card em \"Fontes consultadas\".\n */\nconst uniqueSourcesMap = new Map();\n\nfor (const source of contextChunks) {\n  if (!source.documentId) {\n    continue;\n  }\n\n  const existing =\n    uniqueSourcesMap.get(source.documentId);\n\n  if (!existing) {\n    uniqueSourcesMap.set(source.documentId, {\n      documentId: source.documentId,\n      documentTitle: source.documentTitle,\n\n      sectorId: source.sectorId,\n      sectorName: source.sectorName,\n\n      categoryId: source.categoryId,\n      categoryName: source.categoryName,\n\n      subcategoryId: source.subcategoryId,\n      subcategoryName: source.subcategoryName,\n\n      vigencyDate: source.vigencyDate,\n\n      relevance: source.relevance\n    });\n\n    continue;\n  }\n\n  /*\n   * Preserva a maior relevância entre os chunks do documento.\n   */\n  if (\n    Number(source.relevance) >\n    Number(existing.relevance)\n  ) {\n    existing.relevance = source.relevance;\n  }\n}\n\nconst sources = [...uniqueSourcesMap.values()]\n  .sort((a, b) => {\n    return Number(b.relevance) - Number(a.relevance);\n  })\n  .map((source, index) => ({\n    index: index + 1,\n\n    documentId: source.documentId,\n    documentTitle: source.documentTitle,\n\n    sectorId: source.sectorId,\n    sectorName: source.sectorName,\n\n    categoryId: source.categoryId,\n    categoryName: source.categoryName,\n\n    subcategoryId: source.subcategoryId,\n    subcategoryName: source.subcategoryName,\n\n    vigencyDate: source.vigencyDate\n  }));\n\nreturn [\n  {\n    json: {\n      question,\n\n      classification: {\n        categoryId,\n        categoryName,\n        categoryDescription,\n\n        subcategoryId,\n        subcategoryName,\n        subcategoryDescription\n      },\n\n      context,\n      sources,\n\n      diagnostic: {\n        totalChunks: contextChunks.length,\n        totalDocuments: sources.length\n      }\n    }\n  }\n];"
+      }
+    },
+    "Message a model": {
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        1040,
+        0
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "g6QTP6n02dss9A0d",
+          "name": "OpenAI account"
+        }
+      },
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "={{ $json.modelName }}"
+        },
+        "responses": {
+          "values": [
+            {
+              "role": "system",
+              "content": "={{ $json.systemContent }}"
+            },
+            {
+              "content": "={{ $json.userContent }}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {
+          "maxTokens": "={{ $json.maxTokens }}",
+          "temperature": "={{ $json.temperature }}"
+        },
+        "resource": "text",
+        "operation": "response"
+      }
+    },
+    "Respond to Webhook": {
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1552,
+        0
+      ],
+      "credentials": null,
+      "parameters": {
+        "options": {
+          "responseCode": "={{ $json.statusCode }}",
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "X-Request-Id",
+                "value": "={{ $json.requestId }}"
+              },
+              {
+                "name": "X-Response-Time-Ms",
+                "value": "={{ String($json.durationMs ?? 0) }}"
+              }
+            ]
+          }
+        },
+        "respondWith": "json",
+        "responseBody": "={{ $json.response }}"
+      }
+    },
+    "Buscar categorias e subcategorias": {
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        208,
+        0
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "XJtGZ5rpCR7BpN0X",
+          "name": "Postgres account"
+        }
+      },
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT\n  c.id AS \"categoryId\",\n  c.name AS \"categoryName\",\n  c.description AS \"categoryDescription\",\n\n  sc.id AS \"subcategoryId\",\n  sc.name AS \"subcategoryName\",\n  sc.description AS \"subcategoryDescription\"\n\nFROM categories c\n\nLEFT JOIN subcategories sc\n  ON sc.category_id = c.id\n  AND sc.active = TRUE\n\nWHERE c.active = TRUE\n\nORDER BY\n  c.name ASC,\n  sc.name ASC;",
+        "options": {}
+      }
+    },
+    "Validar auth": {
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        120,
+        0
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "AUTH - VALIDAR TOKEN",
+          "mode": "id",
+          "value": "P5E43ZXSJiI9wFYD"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "authorization": "={{ $json.authorization || $json.headers.authorization || $json.headers.Authorization || '' }}",
+            "requestId": "={{ $json.requestId || '' }}"
+          }
+        }
+      }
+    },
+    "Auth ok?": {
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        320,
+        0
+      ],
+      "credentials": null,
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "a1",
+              "leftValue": "={{ $json.ok }}",
+              "operator": {
+                "operation": "true",
+                "type": "boolean"
+              },
+              "rightValue": true
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          }
+        },
+        "looseTypeValidation": true
+      }
+    },
+    "Respond 401": {
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        560,
+        120
+      ],
+      "credentials": null,
+      "parameters": {
+        "options": {
+          "responseCode": 401,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "X-Request-Id",
+                "value": "={{ $json.requestId }}"
+              },
+              {
+                "name": "X-Response-Time-Ms",
+                "value": "={{ String($json.durationMs ?? 0) }}"
+              }
+            ]
+          }
+        },
+        "respondWith": "json",
+        "responseBody": "={{ $json.response }}"
+      }
+    },
+    "Validar permissão": {
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        440,
+        -40
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "AUTH - VALIDAR PERMISSÃO",
+          "mode": "id",
+          "value": "yXW3rW8EbHXuprRJ"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "isMaster": "={{ $json.user ? $json.user.isMaster === true : false }}",
+            "permissions": "={{ $json.permissions || ($json.user && $json.user.permissions) || [] }}",
+            "requiredAnyOf": "={{ [] }}",
+            "requiredPermission": "usar_consulta_ia",
+            "sessionId": "={{ $json.sessionId || '' }}",
+            "user": "={{ $json.user || null }}",
+            "userId": "={{ $json.userId || ($json.user && $json.user.id) || '' }}",
+            "requestId": "={{ $json.requestId || $('Normalizar request').first().json.requestId || '' }}"
+          }
+        }
+      }
+    },
+    "Permissão ok?": {
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        620,
+        -40
+      ],
+      "credentials": null,
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "p1",
+              "leftValue": "={{ $json.ok }}",
+              "operator": {
+                "operation": "true",
+                "type": "boolean"
+              },
+              "rightValue": true
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          }
+        },
+        "looseTypeValidation": true
+      }
+    },
+    "Respond 403": {
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        820,
+        120
+      ],
+      "credentials": null,
+      "parameters": {
+        "options": {
+          "responseCode": 403,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "X-Request-Id",
+                "value": "={{ $json.requestId }}"
+              },
+              {
+                "name": "X-Response-Time-Ms",
+                "value": "={{ String($json.durationMs ?? 0) }}"
+              }
+            ]
+          }
+        },
+        "respondWith": "json",
+        "responseBody": "={{ $json.response }}"
+      }
+    },
+    "Restaurar request": {
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        820,
+        -40
+      ],
+      "credentials": null,
+      "parameters": {
+        "jsCode": "return [$('Webhook').first()];",
+        "mode": "runOnceForAllItems"
+      }
+    },
+    "Normalizar request": {
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        120,
+        0
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "SYSTEM - NORMALIZAR REQUEST",
+          "mode": "id",
+          "value": "N3zLpj7Dij4n5p5p"
+        }
+      }
+    },
+    "Montar resposta": {
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1360,
+        0
+      ],
+      "credentials": null,
+      "parameters": {
+        "jsCode": "const ctx = $('Montar contexto').first().json;\nconst prompt = $('Aplicar prompt carregado').first().json || {};\nconst answer = $json.output?.[0]?.content?.[0]?.text ?? '';\nconst sources = (ctx.sources || []).map((s) => ({\n  ...s,\n  expirationDate: s.expirationDate ?? s.vigencyDate ?? null,\n}));\nconst requestId = $('Normalizar request').first().json.requestId;\nlet rankingMeta = null;\nlet rankedDocumentIds = [];\nlet fallbackUsed = false;\nlet retrievalConfigVersion = null;\nlet modeOverrideUsed = false;\ntry {\n  const ranked = $('Resolver ranking final').all().map(i => i.json).filter(Boolean);\n  if (ranked.length) {\n    rankingMeta = ranked[0].rankingMetadata || null;\n    fallbackUsed = !!ranked[0].fallbackUsed || !!(rankingMeta && rankingMeta.fallbackUsed);\n    retrievalConfigVersion = ranked[0].retrievalConfigVersion || (rankingMeta && rankingMeta.versionLabel) || null;\n    rankedDocumentIds = ranked.map(r => r.documentId || r.document_id).filter(Boolean);\n  }\n} catch (_) {}\ntry {\n  const cfg = $('Carregar retrieval config').first().json || {};\n  modeOverrideUsed = !!cfg.modeOverrideUsed;\n  if (!retrievalConfigVersion) retrievalConfigVersion = cfg.versionLabel || null;\n} catch (_) {}\nconst retrievalMeta = {\n  mode: (rankingMeta && rankingMeta.mode) || null,\n  versionLabel: retrievalConfigVersion,\n  candidateCount: rankingMeta && rankingMeta.candidateCount != null ? Number(rankingMeta.candidateCount) : null,\n  selectedCount: rankingMeta && rankingMeta.selectedCount != null ? Number(rankingMeta.selectedCount) : rankedDocumentIds.length,\n  durationMs: rankingMeta && rankingMeta.durationMs != null ? Number(rankingMeta.durationMs) : null,\n  fallbackUsed,\n  modeOverrideUsed,\n  rankedDocumentIds,\n};\nreturn [{\n  json: {\n    data: {\n      question: ctx.question,\n      answer,\n      sources,\n      classification: ctx.classification,\n      retrievalMeta,\n    },\n    statusCode: 200,\n    requestId,\n    promptMeta: {\n      promptVersionId: prompt.promptVersionId || null,\n      promptCode: prompt.promptCode || null,\n      versionNumber: prompt.versionNumber != null ? prompt.versionNumber : null,\n      contentHash: prompt.contentHash || null,\n      modelName: prompt.modelName || null,\n    },\n  },\n}];",
+        "language": "javaScript",
+        "mode": "runOnceForAllItems"
+      }
+    },
+    "Preparar sucesso": {
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1552,
+        0
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "SYSTEM - PREPARAR SUCESSO",
+          "mode": "id",
+          "value": "zE5LRjZfbXw8Ymll"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "data": "={{ $json.data }}",
+            "requestId": "={{ $json.requestId || $('Normalizar request').first().json.requestId }}",
+            "statusCode": "={{ $json.statusCode }}",
+            "requestStartedAtMs": "={{ Number($('Normalizar request').first().json.requestStartedAtMs) }}",
+            "method": "={{ $('Normalizar request').first().json.method }}",
+            "path": "={{ $('Normalizar request').first().json.path }}",
+            "userId": "={{ $('Validar auth').first().json.userId || '' }}",
+            "sessionId": "={{ $('Validar auth').first().json.sessionId || '' }}"
+          }
+        }
+      }
+    },
+    "Preparar erro 401": {
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        660,
+        120
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "SYSTEM - PREPARAR ERRO",
+          "mode": "id",
+          "value": "r3iSBV1ClKOxS2UI"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "code": "={{ $json.error && $json.error.code ? $json.error.code : 'UNAUTHORIZED' }}",
+            "message": "={{ $json.error && $json.error.message ? $json.error.message : 'Autenticação obrigatória.' }}",
+            "requestId": "={{ $('Normalizar request').first().json.requestId }}",
+            "statusCode": 401,
+            "requestStartedAtMs": "={{ Number($('Normalizar request').first().json.requestStartedAtMs) }}",
+            "method": "={{ $('Normalizar request').first().json.method }}",
+            "path": "={{ $('Normalizar request').first().json.path }}"
+          }
+        }
+      }
+    },
+    "Preparar erro 403": {
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        960,
+        120
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "SYSTEM - PREPARAR ERRO",
+          "mode": "id",
+          "value": "r3iSBV1ClKOxS2UI"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "code": "={{ $json.error && $json.error.code ? $json.error.code : 'FORBIDDEN' }}",
+            "message": "={{ $json.error && $json.error.message ? $json.error.message : 'Você não possui permissão para executar esta ação.' }}",
+            "requestId": "={{ $('Normalizar request').first().json.requestId }}",
+            "statusCode": 403,
+            "requestStartedAtMs": "={{ Number($('Normalizar request').first().json.requestStartedAtMs) }}",
+            "method": "={{ $('Normalizar request').first().json.method }}",
+            "path": "={{ $('Normalizar request').first().json.path }}"
+          }
+        }
+      }
+    },
+    "Registrar auditoria sucesso": {
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1672,
+        0
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "AUDITORIA - REGISTRAR",
+          "mode": "id",
+          "value": "jtQvQlqRZ5X5WF9I"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "action": "AI_QUERY",
+            "durationMs": "={{ $json.durationMs }}",
+            "errorCode": "={{ $json.tracking && $json.tracking.errorCode ? $json.tracking.errorCode : '' }}",
+            "headers": "={{ $('Normalizar request').first().json.headers }}",
+            "metadata": "={{ (() => { const resp = $json.response || {}; const data = resp.data || {}; const mr = $('Montar resposta').first().json || {}; const pm = mr.promptMeta || {}; const q = data.question || mr.data?.question || $('Webhook').first().json.body?.question || ''; const a = data.answer || ''; const sources = data.sources || []; const cls = data.classification || {}; return { questionLength: String(q).length, answerLength: String(a).length, sourcesCount: sources.length, documentIds: sources.map(s => s.documentId).filter(Boolean), categoryId: cls.categoryId || null, categoryName: cls.categoryName || null, subcategoryId: cls.subcategoryId || null, subcategoryName: cls.subcategoryName || null, promptVersionId: pm.promptVersionId || null, promptCode: pm.promptCode || null, promptVersionNumber: pm.versionNumber != null ? pm.versionNumber : null, promptContentHash: pm.contentHash || null, promptModelName: pm.modelName || null }; })() }}",
+            "method": "={{ $json.tracking && $json.tracking.method ? $json.tracking.method : ($('Normalizar request').first().json.method || '') }}",
+            "path": "={{ $json.tracking && $json.tracking.path ? $json.tracking.path : ($('Normalizar request').first().json.path || '') }}",
+            "requestId": "={{ $json.requestId }}",
+            "resourceId": "={{ (() => { const resp = $json.response || {}; const sources = (resp.data && resp.data.sources) || []; return sources[0]?.documentId || ''; })() }}",
+            "resourceType": "ai_query",
+            "response": "={{ $json.response }}",
+            "responseHeaders": "={{ $json.responseHeaders }}",
+            "sessionId": "={{ $json.tracking && $json.tracking.sessionId ? $json.tracking.sessionId : '' }}",
+            "statusCode": "={{ $json.statusCode }}",
+            "success": "={{ $json.tracking ? $json.tracking.success : true }}",
+            "tracking": "={{ $json.tracking }}",
+            "userId": "={{ $json.tracking && $json.tracking.userId ? $json.tracking.userId : '' }}"
+          }
+        }
+      },
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true
+    },
+    "Registrar auditoria 401": {
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        780,
+        120
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "AUDITORIA - REGISTRAR",
+          "mode": "id",
+          "value": "jtQvQlqRZ5X5WF9I"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "action": "AI_QUERY",
+            "durationMs": "={{ $json.durationMs }}",
+            "errorCode": "={{ $json.tracking && $json.tracking.errorCode ? $json.tracking.errorCode : ($json.response && $json.response.error && $json.response.error.code ? $json.response.error.code : 'UNAUTHORIZED') }}",
+            "headers": "={{ $('Normalizar request').first().json.headers }}",
+            "method": "={{ $json.tracking && $json.tracking.method ? $json.tracking.method : ($('Normalizar request').first().json.method || '') }}",
+            "path": "={{ $json.tracking && $json.tracking.path ? $json.tracking.path : ($('Normalizar request').first().json.path || '') }}",
+            "requestId": "={{ $json.requestId }}",
+            "resourceId": "",
+            "resourceType": "ai_query",
+            "response": "={{ $json.response }}",
+            "responseHeaders": "={{ $json.responseHeaders }}",
+            "sessionId": "={{ $json.tracking && $json.tracking.sessionId ? $json.tracking.sessionId : '' }}",
+            "statusCode": "={{ $json.statusCode }}",
+            "success": false,
+            "tracking": "={{ $json.tracking }}",
+            "userId": "={{ $json.tracking && $json.tracking.userId ? $json.tracking.userId : '' }}"
+          }
+        }
+      },
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true
+    },
+    "Registrar auditoria 403": {
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1080,
+        120
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "AUDITORIA - REGISTRAR",
+          "mode": "id",
+          "value": "jtQvQlqRZ5X5WF9I"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "action": "AI_QUERY",
+            "durationMs": "={{ $json.durationMs }}",
+            "errorCode": "={{ $json.tracking && $json.tracking.errorCode ? $json.tracking.errorCode : ($json.response && $json.response.error && $json.response.error.code ? $json.response.error.code : 'FORBIDDEN') }}",
+            "headers": "={{ $('Normalizar request').first().json.headers }}",
+            "method": "={{ $json.tracking && $json.tracking.method ? $json.tracking.method : ($('Normalizar request').first().json.method || '') }}",
+            "path": "={{ $json.tracking && $json.tracking.path ? $json.tracking.path : ($('Normalizar request').first().json.path || '') }}",
+            "requestId": "={{ $json.requestId }}",
+            "resourceId": "",
+            "resourceType": "ai_query",
+            "response": "={{ $json.response }}",
+            "responseHeaders": "={{ $json.responseHeaders }}",
+            "sessionId": "={{ $json.tracking && $json.tracking.sessionId ? $json.tracking.sessionId : '' }}",
+            "statusCode": "={{ $json.statusCode }}",
+            "success": false,
+            "tracking": "={{ $json.tracking }}",
+            "userId": "={{ $json.tracking && $json.tracking.userId ? $json.tracking.userId : '' }}"
+          }
+        }
+      },
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true
+    },
+    "Carregar prompt ativo": {
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        900,
+        160
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "OSopSf635RVwD65J",
+          "cachedResultName": "IA - CARREGAR PROMPT ATIVO"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "purpose": "AI_QUERY_MAIN",
+            "code": "",
+            "environment": "PRODUCTION",
+            "promptVersionId": "={{ $('Restaurar request').first().json.body?.promptVersionId || $('Restaurar request').first().json.query?.promptVersionId || '' }}",
+            "requestId": "={{ $('Normalizar request').first().json.requestId }}"
+          }
+        }
+      }
+    },
+    "Aplicar prompt carregado": {
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        980,
+        160
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const ctx = $('Montar contexto').first().json || {};\nconst loaded = $input.first().json || {};\nif (!loaded.ok) {\n  throw new Error('Falha ao carregar prompt ativo: ' + (loaded.code || 'PROMPT_NOT_FOUND'));\n}\nconst cls = ctx.classification || {};\nconst userContent = 'Pergunta do usuário:\\n\\n' + (ctx.question || '') +\n  '\\n\\nCategoria identificada:\\n\\n' + (cls.categoryName || 'Não identificada') +\n  '\\n\\nDescrição da categoria:\\n\\n' + (cls.categoryDescription || 'Não informada') +\n  '\\n\\nSubcategoria identificada:\\n\\n' + (cls.subcategoryName || 'Não identificada') +\n  '\\n\\nDescrição da subcategoria:\\n\\n' + (cls.subcategoryDescription || 'Não informada') +\n  '\\n\\nContexto documental recuperado:\\n\\n' + (ctx.context || '') +\n  '\\n\\nResponda exclusivamente com base no contexto documental acima.';\n\nreturn [{\n  json: {\n    ...ctx,\n    systemContent: loaded.content,\n    userContent,\n    modelName: loaded.modelName || 'gpt-4.1-mini',\n    temperature: loaded.temperature != null ? loaded.temperature : 0.1,\n    maxTokens: loaded.maxTokens != null ? loaded.maxTokens : 800,\n    promptVersionId: loaded.promptVersionId || null,\n    promptDefinitionId: loaded.promptDefinitionId || null,\n    promptCode: loaded.promptCode || null,\n    versionNumber: loaded.versionNumber != null ? loaded.versionNumber : null,\n    contentHash: loaded.contentHash || null,\n  },\n}];"
+      }
+    },
+    "Preparar embedding pergunta": {
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1400,
+        100
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const cls=$input.first().json||{};const question=String(cls.question||'').trim();return [{json:{...cls,openaiBody:{model:'text-embedding-3-small',input:question||' '},hasQuestion:!!question}}];"
+      }
+    },
+    "Embed pergunta": {
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1620,
+        100
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "g6QTP6n02dss9A0d",
+          "name": "OpenAI account"
+        }
+      },
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/embeddings",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ $('Preparar embedding pergunta').first().json.openaiBody }}",
+        "options": {
+          "timeout": 30000,
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true
+            }
+          }
+        }
+      },
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true
+    },
+    "Extrair vetor pergunta": {
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1840,
+        100
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const cls=$('Preparar embedding pergunta').first().json||{};const resp=$input.first().json||{};const statusCode=Number(resp.statusCode??resp.status??0);let body=resp.body??resp.data??resp;if(typeof body==='string'){try{body=JSON.parse(body);}catch(_){body={};}}const emb=(body&&body.data&&body.data[0]&&body.data[0].embedding)||null;const ok=statusCode>=200&&statusCode<300&&Array.isArray(emb);return [{json:{...cls,queryVector:emb||[],queryVectorJson:JSON.stringify(emb||[]),vectorOk:ok}}];"
+      }
+    },
+    "Busca vetorial Qdrant": {
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2060,
+        40
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "once",
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "YDnrXjzYUOrZVE6N",
+          "cachedResultName": "QDRANT - BUSCAR"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "queryVectorJson": "={{ $json.queryVectorJson }}",
+            "topK": "={{ Number($json.topK || 12) }}",
+            "categoryId": "={{ $json.categoryId || '' }}",
+            "subcategoryId": "={{ $json.subcategoryId || '' }}"
+          }
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true
+    },
+    "Restaurar classificação p/ texto": {
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2060,
+        200
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const cls=$('Extrair vetor pergunta').first().json||{};return [{json:cls}];"
+      }
+    },
+    "Merge híbrido": {
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2500,
+        100
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const cls=$('Extrair vetor pergunta').first().json||{};\nconst items=$input.all().map(i=>i.json);\nlet vectorHits=[];\nconst textRows=[];\nfor(const it of items){\n  if(Array.isArray(it.hits)) vectorHits=it.hits;\n  else if(it.chunkText||it.documentId) textRows.push(it);\n}\ntry{ if(!vectorHits.length) vectorHits=($('Busca vetorial Qdrant').first().json.hits)||[]; }catch(_){}\nconst wV=0.65,wT=0.35;\nconst maxText=Math.max(1,...textRows.map(r=>Number(r.relevance||0)));\nconst byKey=new Map();\nfunction keyOf(docId,order){return String(docId)+':'+String(order);}\nfor(const h of vectorHits){\n  const k=keyOf(h.documentId,h.chunkIndex);\n  byKey.set(k,{documentId:h.documentId,documentTitle:h.documentTitle,sectorId:h.sectorId,categoryId:h.categoryId,subcategoryId:h.subcategoryId,chunkIndex:h.chunkIndex,chunkKind:h.chunkKind,sheetName:h.sheetName,ocrQuality:h.ocrQuality,vectorScore:Number(h.vectorScore||0),textScore:0,chunkText:null,versionId:h.documentVersionId,isCurrent:h.isCurrent!==false});\n}\nfor(const r of textRows){\n  const k=keyOf(r.documentId,r.chunkOrder);\n  const textScore=Number(r.relevance||0)/maxText;\n  const row=byKey.get(k)||{documentId:r.documentId,documentTitle:r.documentTitle,sectorId:r.sectorId,categoryId:r.categoryId,subcategoryId:r.subcategoryId,chunkIndex:r.chunkOrder,chunkKind:r.chunkKind,sheetName:r.sheetName,ocrQuality:null,vectorScore:0,textScore:0,chunkText:null,versionId:r.versionId,isCurrent:true};\n  row.textScore=Math.max(row.textScore||0,textScore);\n  row.chunkText=r.chunkText||row.chunkText;\n  row.documentTitle=r.documentTitle||row.documentTitle;\n  row.sectorName=r.sectorName; row.categoryName=r.categoryName; row.subcategoryName=r.subcategoryName;\n  row.categoryDescription=r.categoryDescription; row.subcategoryDescription=r.subcategoryDescription;\n  row.vigencyDate=r.vigencyDate; row.documentUpdatedAt=r.documentUpdatedAt; row.versionNumber=r.versionNumber; row.versionId=r.versionId||row.versionId;\n  byKey.set(k,row);\n}\nconst catId=cls.categoryId||null, subId=cls.subcategoryId||null;\nconst merged=[];\nfor(const row of byKey.values()){\n  if(!row.chunkText) continue;\n  let boost=0;\n  if(subId&&row.subcategoryId===subId) boost+=0.15; else if(catId&&row.categoryId===catId) boost+=0.10;\n  const ocr=String(row.ocrQuality||'').toUpperCase();\n  if(ocr==='EXCELLENT'||ocr==='GOOD') boost+=0.05;\n  if(String(row.chunkKind||'').toLowerCase()==='tabular') boost+=0.05;\n  if(row.isCurrent!==false) boost+=0.05;\n  const vectorNorm=Math.max(0,Math.min(1,Number(row.vectorScore||0)));\n  const textNorm=Math.max(0,Math.min(1,Number(row.textScore||0)));\n  const mergedScore=wV*vectorNorm+wT*textNorm+boost;\n  merged.push({documentId:row.documentId,documentTitle:row.documentTitle,sectorId:row.sectorId,sectorName:row.sectorName,categoryId:row.categoryId,categoryName:row.categoryName,categoryDescription:row.categoryDescription,subcategoryId:row.subcategoryId,subcategoryName:row.subcategoryName,subcategoryDescription:row.subcategoryDescription,vigencyDate:row.vigencyDate,documentUpdatedAt:row.documentUpdatedAt,versionNumber:row.versionNumber,versionId:row.versionId,chunkOrder:row.chunkIndex,chunkText:row.chunkText,chunkKind:row.chunkKind,sheetName:row.sheetName,relevance:Math.round(mergedScore*1000),vectorScore:vectorNorm,textScore:textNorm,mergedScore,retrievalMode:vectorHits.length?'hybrid':'text_fallback'});\n}\nmerged.sort((a,b)=>b.mergedScore-a.mergedScore);\nconst candidatePool=30;\nconst top=merged.slice(0,candidatePool);\nif(!top.length) return textRows.slice(0,12).map(r=>({json:{...r,retrievalMode:'text_fallback'}}));\nreturn top.map((r,i)=>({json:{...r, hybridRank:i+1, candidatePool}}));"
+      }
+    },
+    "Aguardar recuperações": {
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2300,
+        100
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "append",
+        "options": {}
+      }
+    },
+    "Carregar retrieval config": {
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2700,
+        100
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "once",
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "sClDEVNVS0TGG2uq",
+          "cachedResultName": "IA - CARREGAR RETRIEVAL CONFIG"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "requestId": "={{ $('Normalizar request').first().json.requestId || '' }}",
+            "modeOverride": "",
+            "versionId": "={{ (() => { const b=$('Normalizar request').first().json.body||{}; const q=$('Normalizar request').first().json.query||{}; return String(b.retrievalConfigVersionId||q.retrievalConfigVersionId||'').trim(); })() }}"
+          }
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true
+    },
+    "Preparar seleção retrieval": {
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2920,
+        100
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const cfgNode=$('Carregar retrieval config').first().json||{};\nconst cfg=cfgNode.configuration||{};\nconst mode=String(cfgNode.mode||cfg.mode||'HYBRID').toUpperCase();\nconst finalLimit=Math.min(Math.max(Number(cfg.finalLimit||12)||12,1),20);\nconst candidates=$('Merge híbrido').all().map(i=>i.json).filter(r=>r&&(r.chunkText||r.documentId));\nconst classification=$('Classificar pergunta').first().json||{};\nconst question=String(classification.question||'');\nconst useRerank=mode==='HYBRID_RERANK';\nreturn [{json:{\n  mode, useRerank, finalLimit,\n  versionLabel: cfgNode.versionLabel||'hybrid-v1',\n  configurationJson: JSON.stringify({...cfg, mode, versionLabel: cfgNode.versionLabel||null}),\n  classificationJson: JSON.stringify({\n    categoryId: classification.categoryId||null,\n    subcategoryId: classification.subcategoryId||null,\n    categoryName: classification.categoryName||null,\n    subcategoryName: classification.subcategoryName||null,\n    searchTerms: classification.searchTerms||[],\n  }),\n  candidatesJson: JSON.stringify(candidates),\n  candidates,\n  question,\n  requestId: $('Normalizar request').first().json.requestId||'',\n  userId: $('Validar auth').first().json.userId||'',\n  sessionId: $('Validar auth').first().json.sessionId||'',\n}}];"
+      }
+    },
+    "Usar re-ranking?": {
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3140,
+        100
+      ],
+      "credentials": null,
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "rr1",
+              "leftValue": "={{ $json.useRerank === true }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ]
+        },
+        "looseTypeValidation": true
+      }
+    },
+    "Chamar RE-RANQUEAR": {
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        3360,
+        0
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "once",
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "nivEQHAqHWIwP8P8",
+          "cachedResultName": "IA - RE-RANQUEAR CANDIDATOS"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "question": "={{ $json.question }}",
+            "classificationJson": "={{ $json.classificationJson }}",
+            "candidatesJson": "={{ $json.candidatesJson }}",
+            "configurationJson": "={{ $json.configurationJson }}",
+            "requestId": "={{ $json.requestId }}",
+            "userId": "={{ $json.userId }}",
+            "sessionId": "={{ $json.sessionId }}"
+          }
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true
+    },
+    "Resolver ranking final": {
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3580,
+        100
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const prep=$('Preparar seleção retrieval').first().json||{};\nconst mode=String(prep.mode||'HYBRID').toUpperCase();\nconst finalLimit=Number(prep.finalLimit||12)||12;\nconst hybridCandidates=Array.isArray(prep.candidates)?prep.candidates:[];\nlet ranked=[];\nlet fallbackUsed=false;\nlet rankingMetadata={mode, fallbackUsed:false, selectedCount:0, durationMs:0};\nif(mode==='HYBRID_RERANK'){\n  const rr=$input.first().json||{};\n  if(rr.ok===true && Array.isArray(rr.rankedCandidates) && rr.rankedCandidates.length){\n    ranked=rr.rankedCandidates;\n    rankingMetadata=rr.rankingMetadata||rankingMetadata;\n  } else {\n    fallbackUsed=true;\n    rankingMetadata={mode:'HYBRID_FALLBACK', fallbackUsed:true, selectedCount:0, durationMs:0, error:rr.error||'rerank_failed'};\n    ranked=hybridCandidates.slice(0, finalLimit).map((c,i)=>({...c, rerankPosition:i+1, rerankScore:c.mergedScore||0, selectionReason:'hybrid_fallback', retrievalMode:'hybrid_fallback'}));\n    try {\n      // audit fallback is best-effort via metadata on response; dedicated audit optional\n    } catch(_){}\n  }\n} else {\n  ranked=hybridCandidates.slice(0, finalLimit).map((c,i)=>({...c, rerankPosition:i+1, rerankScore:c.mergedScore||0, selectionReason:'hybrid', retrievalMode:c.retrievalMode||'hybrid'}));\n  rankingMetadata={mode, fallbackUsed:false, selectedCount:ranked.length, durationMs:0, versionLabel:prep.versionLabel||null};\n}\nrankingMetadata.fallbackUsed=fallbackUsed||!!rankingMetadata.fallbackUsed;\nrankingMetadata.selectedCount=ranked.length;\nrankingMetadata.versionLabel=prep.versionLabel||rankingMetadata.versionLabel||null;\nreturn ranked.map((r,i)=>({json:{...r, rankingMetadata, retrievalConfigVersion:prep.versionLabel||null, fallbackUsed:rankingMetadata.fallbackUsed}}));"
+      }
+    },
+    "Corte hybrid padrão": {
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3360,
+        200
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const prep=$input.first().json||{};\nreturn [{json:prep}];"
+      }
+    }
+  }
+}

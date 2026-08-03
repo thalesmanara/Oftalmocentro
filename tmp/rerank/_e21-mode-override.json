@@ -1,0 +1,32 @@
+{
+  "prod": {
+    "status": 200,
+    "mode": "HYBRID",
+    "version": "hybrid-v1",
+    "selected": 12,
+    "fallback": true,
+    "rerankMs": 0
+  },
+  "override": {
+    "status": 200,
+    "mode": "HYBRID_FALLBACK",
+    "version": "hybrid-rerank-v1",
+    "selected": 6,
+    "fallback": true,
+    "rerankMs": 178
+  },
+  "versions": [
+    {
+      "id": "b9f10499-cf34-48dd-90b9-119b1410e84d",
+      "version_label": "hybrid-rerank-v1",
+      "mode": "HYBRID_RERANK",
+      "status": "DRAFT"
+    },
+    {
+      "id": "63631806-f1ba-4ff4-8b24-265a468229fb",
+      "version_label": "hybrid-v1",
+      "mode": "HYBRID",
+      "status": "PUBLISHED"
+    }
+  ]
+}

@@ -1,0 +1,386 @@
+{
+  "name": "IA - RE-RANQUEAR CANDIDATOS",
+  "connections": {
+    "Trigger": {
+      "main": [
+        [
+          {
+            "node": "Validar entrada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar entrada": {
+      "main": [
+        [
+          {
+            "node": "Entrada ok?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Entrada ok?": {
+      "main": [
+        [
+          {
+            "node": "Audit START",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Erro entrada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Audit START": {
+      "main": [
+        [
+          {
+            "node": "Re-ranquear",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Re-ranquear": {
+      "main": [
+        [
+          {
+            "node": "Rerank ok?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Rerank ok?": {
+      "main": [
+        [
+          {
+            "node": "Audit SUCCESS",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Audit FAILED",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Audit SUCCESS": {
+      "main": [
+        [
+          {
+            "node": "Retorno",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Audit FAILED": {
+      "main": [
+        [
+          {
+            "node": "Retorno",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Erro entrada": {
+      "main": [
+        [
+          {
+            "node": "Retorno",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodes": {
+    "Trigger": {
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "credentials": null,
+      "parameters": {
+        "inputSource": "workflowInputs",
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "question",
+              "type": "string"
+            },
+            {
+              "name": "classificationJson",
+              "type": "string"
+            },
+            {
+              "name": "candidatesJson",
+              "type": "string"
+            },
+            {
+              "name": "configurationJson",
+              "type": "string"
+            },
+            {
+              "name": "requestId",
+              "type": "string"
+            },
+            {
+              "name": "userId",
+              "type": "string"
+            },
+            {
+              "name": "sessionId",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    "Validar entrada": {
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const t=$input.first().json||{};\nfunction parseJson(v,f){if(v==null||v==='')return f; if(typeof v==='object')return v; try{return JSON.parse(String(v));}catch(_){return f;}}\nconst candidates=parseJson(t.candidatesJson,[]);\nconst ok=Array.isArray(candidates);\nreturn [{json:{...t, ok, error: ok?null:'candidates_required', candidateCount: ok?candidates.length:0}}];"
+      }
+    },
+    "Entrada ok?": {
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        440,
+        0
+      ],
+      "credentials": null,
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.ok === true }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ]
+        },
+        "looseTypeValidation": true
+      }
+    },
+    "Erro entrada": {
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        120
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const t=$input.first().json||{}; return [{json:{ok:false, rankedCandidates:[], rankingMetadata:{mode:'ERROR', fallbackUsed:true, error:t.error||'invalid_input', candidateCount:0, selectedCount:0, durationMs:0}, requestId:t.requestId||''}}];"
+      }
+    },
+    "Audit START": {
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        660,
+        -80
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "once",
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "jtQvQlqRZ5X5WF9I",
+          "cachedResultName": "AUDITORIA - REGISTRAR"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "action": "AI_RERANK_STARTED",
+            "entityType": "retrieval",
+            "entityId": "AI_QUERY_RETRIEVAL",
+            "userId": "={{ $('Validar entrada').first().json.userId || '' }}",
+            "sessionId": "={{ $('Validar entrada').first().json.sessionId || '' }}",
+            "requestId": "={{ $('Validar entrada').first().json.requestId || '' }}",
+            "metadata": "={{ JSON.stringify({ candidateCount: $('Validar entrada').first().json.candidateCount }) }}"
+          }
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      }
+    },
+    "Re-ranquear": {
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        -80
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const started=Date.now();\nconst t=$input.first().json||{};\nfunction parseJson(v, fallback){ if(v==null||v==='') return fallback; if(typeof v==='object') return v; try{return JSON.parse(String(v));}catch(_){return fallback;} }\nconst question=String(t.question||'').trim();\nconst classification=parseJson(t.classificationJson, {});\nlet candidates=parseJson(t.candidatesJson, []);\nif(!Array.isArray(candidates)) candidates=[];\nconst cfg=parseJson(t.configurationJson, {});\nconst mode=String(cfg.mode||t.mode||'HYBRID').toUpperCase();\nconst candidateLimit=Math.min(Math.max(Number(cfg.candidateLimit||30)||30,5),50);\nconst finalLimit=Math.min(Math.max(Number(cfg.finalLimit||12)||12,1),20);\nconst maxPerDoc=Math.min(Math.max(Number(cfg.maxChunksPerDocument||2)||2,1),8);\nconst weights=cfg.weights||{semantic:0.65,lexical:0.35,hybridPrior:0};\nconst boosts=cfg.boosts||{};\nconst penalties=cfg.penalties||{};\nconst requestId=String(t.requestId||'');\n\nfunction clip01(x){ const n=Number(x); if(!Number.isFinite(n)) return null; return Math.max(0, Math.min(1, n)); }\nfunction normalizeText(s){ return String(s||'').toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').replace(/\\s+/g,' ').trim(); }\nfunction extractIdentifiers(q){\n  const out=[];\n  const patterns=[\n    /\\b\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}\\b/g, // CPF\n    /\\bcrm\\s*\\d{3,}/gi,\n    /\\boct\\b/gi,\n    /\\b\\d{6,}\\b/g,\n    /R\\$\\s*\\d+[\\.,]?\\d*/gi,\n    /\\b[A-Z]{2,}\\d{2,}\\b/g,\n  ];\n  for(const re of patterns){ const m=String(q).match(re); if(m) out.push(...m); }\n  return [...new Set(out.map(x=>normalizeText(x)).filter(Boolean))];\n}\nfunction tokenize(q){\n  return normalizeText(q).split(/[^a-z0-9]+/).filter(t=>t.length>2);\n}\nconst identifiers=extractIdentifiers(question);\nconst tokens=tokenize(question);\nconst qNorm=normalizeText(question);\n\n// prepare batch norms\nconst textVals=candidates.map(c=>Number(c.textScore||0)).filter(Number.isFinite);\nconst hybridVals=candidates.map(c=>Number(c.mergedScore||c.hybridScore||0)).filter(Number.isFinite);\nconst maxText=Math.max(1e-9, ...textVals, 1e-9);\nconst minH=hybridVals.length?Math.min(...hybridVals):0;\nconst maxH=hybridVals.length?Math.max(...hybridVals):1;\nconst spanH=Math.max(1e-9, maxH-minH);\n\nfunction scoreCandidate(c){\n  const vectorRaw=c.vectorScore;\n  const textRaw=c.textScore;\n  const hybridRaw=c.mergedScore??c.hybridScore;\n  const vectorNorm=vectorRaw==null||vectorRaw===''?null:clip01(vectorRaw);\n  const textNorm=textRaw==null||textRaw===''?null:clip01(Number(textRaw)>1?Number(textRaw)/maxText:Number(textRaw));\n  let hybridNorm=null;\n  if(hybridRaw!=null&&hybridRaw!==''){\n    const h=Number(hybridRaw);\n    hybridNorm=cfg.normalization?.hybrid==='batchMinMax' ? clip01((h-minH)/spanH) : clip01(h>1?h/Math.max(maxH,1):h);\n  }\n  const title=normalizeText(c.documentTitle||'');\n  const text=normalizeText(c.chunkText||c.text||'');\n  const sheet=normalizeText(c.sheetName||'');\n  const headers=normalizeText(typeof c.headersJson==='string'?c.headersJson:JSON.stringify(c.headersJson||''));\n  const breakdown={};\n  let score=0;\n  const wSem=Number(weights.semantic??0.45);\n  const wLex=Number(weights.lexical??0.25);\n  const wHyb=Number(weights.hybridPrior??0.15);\n  if(mode==='HYBRID' || mode==='TEXT_ONLY' || mode==='VECTOR_ONLY'){\n    // pass-through: prefer hybrid/merged then vector/text\n    score = hybridNorm!=null ? hybridNorm : ((vectorNorm||0)*0.65 + (textNorm||0)*0.35);\n    breakdown.passthrough=score;\n  } else {\n    if(vectorNorm!=null){ score += wSem*vectorNorm; breakdown.semantic=wSem*vectorNorm; }\n    if(textNorm!=null){ score += wLex*textNorm; breakdown.lexical=wLex*textNorm; }\n    if(hybridNorm!=null && wHyb>0){ score += wHyb*hybridNorm; breakdown.hybridPrior=wHyb*hybridNorm; }\n  }\n  const catId=classification.categoryId||null;\n  const subId=classification.subcategoryId||null;\n  if(subId && c.subcategoryId===subId){ const b=Number(boosts.subcategoryMatch||0); score+=b; breakdown.subcategoryMatch=b; }\n  else if(catId && c.categoryId===catId){ const b=Number(boosts.categoryMatch||0); score+=b; breakdown.categoryMatch=b; }\n  // title match\n  let titleHits=0; for(const tok of tokens){ if(title.includes(tok)) titleHits++; }\n  if(titleHits>0){ const b=Number(boosts.titleMatch||0)*Math.min(1, titleHits/Math.max(1,Math.min(tokens.length,4))); score+=b; breakdown.titleMatch=b; }\n  // exact identifiers\n  let idHits=0; for(const id of identifiers){ if(id && (text.includes(id)||title.includes(id)||sheet.includes(id)||headers.includes(id))) idHits++; }\n  if(idHits>0){ const b=Number(boosts.exactIdentifier||0)*Math.min(1.5, idHits); score+=b; breakdown.exactIdentifier=b; }\n  // exact phrase (question fragment length>8)\n  if(qNorm.length>8 && text.includes(qNorm.slice(0, Math.min(40, qNorm.length)))){ const b=Number(boosts.exactPhrase||0); score+=b; breakdown.exactPhrase=b; }\n  // tabular structure\n  const kind=String(c.chunkKind||'').toLowerCase();\n  if(kind==='tabular'){\n    let struct=0;\n    for(const tok of tokens){ if(sheet.includes(tok)||headers.includes(tok)) struct++; }\n    if(struct>0 || idHits>0){ const b=Number(boosts.tabularStructure||0)*Math.min(1, struct/2 || 1); score+=b; breakdown.tabularStructure=b; }\n  }\n  const ocr=String(c.ocrQuality||c.ocrQualityGrade||'').toUpperCase();\n  if(ocr==='EXCELLENT'||ocr==='GOOD'){ const b=Number(boosts.ocrGood||0); score+=b; breakdown.ocrGood=b; }\n  if(c.isCurrent!==false){ const b=Number(boosts.isCurrent||0); score+=b; breakdown.isCurrent=b; }\n  // recent vigency / update\n  const vig=c.vigencyDate?Date.parse(c.vigencyDate):NaN;\n  const upd=c.documentUpdatedAt?Date.parse(c.documentUpdatedAt):NaN;\n  const now=Date.now();\n  if(Number.isFinite(vig)){\n    const ageDays=(now-vig)/86400000;\n    if(ageDays>=0 && ageDays<365){ const b=Number(boosts.recentVigency||0)*(1-Math.min(1, ageDays/365)); score+=b; breakdown.recentVigency=b; }\n    if(ageDays<0){ /* future vigency ok */ }\n  }\n  // stale: very old update without current\n  if(Number.isFinite(upd)){\n    const ageDays=(now-upd)/86400000;\n    if(ageDays>1100){ const p=Number(penalties.staleDocument||0); score-=p; breakdown.staleDocument=-p; }\n  }\n  const usefulLen=String(c.chunkText||c.text||'').trim().length;\n  if(usefulLen>0 && usefulLen<40){ const p=Number(penalties.lowUsefulLength||0); score-=p; breakdown.lowUsefulLength=-p; }\n  return {\n    ...c,\n    chunkId:c.chunkId||c.id||null,\n    documentVersionId:c.documentVersionId||c.versionId||null,\n    vectorScore:vectorNorm,\n    textScore:textNorm,\n    hybridScore:hybridNorm!=null?hybridNorm:(c.mergedScore??null),\n    rerankScore:score,\n    scoreBreakdown:breakdown,\n  };\n}\n\nlet scored=candidates.slice(0, candidateLimit).map(scoreCandidate);\nscored.sort((a,b)=> (b.rerankScore-a.rerankScore) || ((b.hybridScore||0)-(a.hybridScore||0)) || ((b.vectorScore||0)-(a.vectorScore||0)));\n\n// diversity\nconst selected=[];\nconst perDoc=new Map();\nconst seenHash=new Set();\nconst seenText=new Set();\nfor(const c of scored){\n  if(selected.length>=finalLimit) break;\n  const docId=String(c.documentId||'');\n  const count=perDoc.get(docId)||0;\n  if(docId && count>=maxPerDoc){\n    c.selectionReason='skipped_diversity';\n    continue;\n  }\n  const hash=String(c.contentHash||c.embeddingHash||'');\n  const textKey=normalizeText(String(c.chunkText||c.text||'')).slice(0,180);\n  if(hash && seenHash.has(hash)){ c.selectionReason='skipped_hash_dup'; continue; }\n  if(textKey && seenText.has(textKey)){ c.selectionReason='skipped_text_dup'; continue; }\n  // redundancy soft penalty already applied for extra chunks; hard cap above\n  const reasonParts=['score'];\n  if(c.scoreBreakdown?.exactIdentifier) reasonParts.push('exact_id');\n  if(c.scoreBreakdown?.subcategoryMatch) reasonParts.push('subcategory');\n  if(c.scoreBreakdown?.tabularStructure) reasonParts.push('tabular');\n  const item={\n    ...c,\n    rerankPosition:selected.length+1,\n    selectionReason:reasonParts.join('+'),\n  };\n  // apply redundancy accounting for next items of same doc by mutating remaining? handled by perDoc cap\n  selected.push(item);\n  if(docId) perDoc.set(docId, count+1);\n  if(hash) seenHash.add(hash);\n  if(textKey) seenText.add(textKey);\n}\n\n// if diversity emptied too much, fill from scored\nif(selected.length<Math.min(finalLimit, scored.length)){\n  for(const c of scored){\n    if(selected.length>=finalLimit) break;\n    if(selected.some(s=>(s.chunkId&&s.chunkId===c.chunkId)||(s.documentId===c.documentId&&s.chunkOrder===c.chunkOrder))) continue;\n    selected.push({...c, rerankPosition:selected.length+1, selectionReason:(c.selectionReason||'fill')});\n  }\n}\n\nconst durationMs=Date.now()-started;\nconst rankedCandidates=selected.map((c,i)=>({\n  ...c,\n  rerankPosition:i+1,\n  // keep fields Montar contexto expects\n  chunkOrder:c.chunkOrder??c.chunkIndex??null,\n  chunkText:c.chunkText||c.text||'',\n  relevance:Math.round((c.rerankScore||0)*1000),\n  mergedScore:c.rerankScore,\n  retrievalMode:mode==='HYBRID_RERANK'?'hybrid_rerank':String(c.retrievalMode||mode.toLowerCase()),\n}));\n\nreturn [{json:{\n  ok:true,\n  rankedCandidates,\n  rankingMetadata:{\n    mode,\n    candidateCount:candidates.length,\n    consideredCount:scored.length,\n    selectedCount:rankedCandidates.length,\n    durationMs,\n    fallbackUsed:false,\n    versionLabel:cfg.versionLabel||null,\n    maxChunksPerDocument:maxPerDoc,\n    finalLimit,\n    candidateLimit,\n  },\n  requestId,\n}}];"
+      }
+    },
+    "Rerank ok?": {
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1100,
+        -80
+      ],
+      "credentials": null,
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.ok === true }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ]
+        },
+        "looseTypeValidation": true
+      }
+    },
+    "Audit SUCCESS": {
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1320,
+        -160
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "once",
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "jtQvQlqRZ5X5WF9I",
+          "cachedResultName": "AUDITORIA - REGISTRAR"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "action": "AI_RERANK_SUCCESS",
+            "entityType": "retrieval",
+            "entityId": "AI_QUERY_RETRIEVAL",
+            "userId": "={{ $('Validar entrada').first().json.userId || '' }}",
+            "sessionId": "={{ $('Validar entrada').first().json.sessionId || '' }}",
+            "requestId": "={{ $('Validar entrada').first().json.requestId || '' }}",
+            "metadata": "={{ JSON.stringify({ mode: $json.rankingMetadata.mode, selectedCount: $json.rankingMetadata.selectedCount, durationMs: $json.rankingMetadata.durationMs, fallbackUsed: false }) }}"
+          }
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      }
+    },
+    "Audit FAILED": {
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1320,
+        0
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "once",
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "jtQvQlqRZ5X5WF9I",
+          "cachedResultName": "AUDITORIA - REGISTRAR"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "action": "AI_RERANK_FAILED",
+            "entityType": "retrieval",
+            "entityId": "AI_QUERY_RETRIEVAL",
+            "userId": "={{ $('Validar entrada').first().json.userId || '' }}",
+            "sessionId": "={{ $('Validar entrada').first().json.sessionId || '' }}",
+            "requestId": "={{ $('Validar entrada').first().json.requestId || '' }}",
+            "metadata": "={{ JSON.stringify({ fallbackUsed: true }) }}"
+          }
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      }
+    },
+    "Retorno": {
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1540,
+        -80
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "return [{json:$input.first().json}];"
+      }
+    }
+  }
+}

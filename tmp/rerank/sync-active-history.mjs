@@ -4,6 +4,8 @@ import pg from 'pg';
 import { writeFileSync } from 'fs';
 
 const IDS = [
+  'bae8872eeb164a27', // RECUPERAR CONTEXTO
+  'YDnrXjzYUOrZVE6N', // QDRANT - BUSCAR
   'nivEQHAqHWIwP8P8', // RE-RANQUEAR
   'sClDEVNVS0TGG2uq', // CARREGAR RETRIEVAL CONFIG
   'NhWUkmzGhlttJC9S', // VALIDAR RETRIEVAL CONFIG

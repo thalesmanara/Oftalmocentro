@@ -1,0 +1,250 @@
+[
+  {
+    "id": "planilha",
+    "status": 200,
+    "ms": 9177,
+    "hasAnswer": true,
+    "answerPreview": "A relação dos funcionários do quadro de enfermagem do OFTALMOCENTRO UBERABA LTDA, conforme documento datado de 09/06/2026, é a seguinte:\n\n| Nome Completo                  | CPF    ",
+    "sourcesCount": 8,
+    "sourceTitles": [
+      "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+      "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+      "ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026",
+      "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA",
+      "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA"
+    ],
+    "sourceKeys": [
+      "index",
+      "documentId",
+      "documentTitle",
+      "sectorId",
+      "sectorName",
+      "categoryId",
+      "categoryName",
+      "subcategoryId",
+      "subcategoryName",
+      "vigencyDate",
+      "expirationDate"
+    ],
+    "retrievalMeta": {
+      "mode": "HYBRID",
+      "configVersion": "hybrid-v1",
+      "rankingVersion": "hybrid-v1",
+      "candidateCount": 11,
+      "deduplicatedCount": 18,
+      "selectedCount": 11,
+      "fallbackUsed": false,
+      "rankedDocumentIds": [
+        "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+        "dc44a492-d463-4028-b907-37117124163d",
+        "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1",
+        "e61eeda6-3045-4a2d-bb5b-4bcbe4756207",
+        "9db556e3-8140-4cb8-94d1-7b5173c199ad"
+      ],
+      "rankedChunkIds": [
+        "d371da48-1a26-4add-bbbe-6a37b9c4cf3f",
+        "043cf247-59e5-4947-a3ba-75ebb868e571",
+        "d625df84-5c70-4ade-81d2-feddf6130bf5",
+        "10ef9976-1d22-4e10-af7c-a4058089b3f2",
+        "845646e8-aae0-4bf8-92bc-1ad437fd67bc"
+      ],
+      "sourceDocumentIds": [
+        "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+        "dc44a492-d463-4028-b907-37117124163d",
+        "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1",
+        "e61eeda6-3045-4a2d-bb5b-4bcbe4756207",
+        "9db556e3-8140-4cb8-94d1-7b5173c199ad"
+      ],
+      "retrievalLatencyMs": 1160,
+      "textLatencyMs": 172,
+      "vectorLatencyMs": 778,
+      "rerankLatencyMs": 0
+    },
+    "leakedChunk": false,
+    "error": null
+  },
+  {
+    "id": "semantica",
+    "status": 200,
+    "ms": 15865,
+    "hasAnswer": true,
+    "answerPreview": "Os documentos que tratam de biometria e cálculo de lentes intraoculares são:\n\n1. \"BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA\" — este documento abord",
+    "sourcesCount": 3,
+    "sourceTitles": [
+      "TERMO DE CIENCIA - LENTE INTRA OCULAR",
+      "TABELA DE PREÇOS CONSULTAS E EXAMES PARTICULARES",
+      "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA"
+    ],
+    "sourceKeys": [
+      "index",
+      "documentId",
+      "documentTitle",
+      "sectorId",
+      "sectorName",
+      "categoryId",
+      "categoryName",
+      "subcategoryId",
+      "subcategoryName",
+      "vigencyDate",
+      "expirationDate"
+    ],
+    "retrievalMeta": {
+      "mode": "HYBRID",
+      "configVersion": "hybrid-v1",
+      "rankingVersion": "hybrid-v1",
+      "candidateCount": 12,
+      "deduplicatedCount": 12,
+      "selectedCount": 10,
+      "fallbackUsed": false,
+      "rankedDocumentIds": [
+        "a02d647e-6487-47ce-9b37-6ea7ee5e8c09",
+        "a02d647e-6487-47ce-9b37-6ea7ee5e8c09",
+        "a02d647e-6487-47ce-9b37-6ea7ee5e8c09",
+        "791232df-765c-412d-8bc2-2b2ecfd15f4f",
+        "791232df-765c-412d-8bc2-2b2ecfd15f4f"
+      ],
+      "rankedChunkIds": [
+        "9e540f5e-ddb0-4799-b1c9-936592e570ab",
+        "3a4707d9-7669-4d02-b369-ef1695894dc0",
+        "0254c276-9d93-4890-ae30-3ed0e09f4c89",
+        "210ccabf-33b6-456b-bf2d-9c8021df0a68",
+        "2ef874e1-9b81-413a-8f64-7b44318d4afa"
+      ],
+      "sourceDocumentIds": [
+        "a02d647e-6487-47ce-9b37-6ea7ee5e8c09",
+        "791232df-765c-412d-8bc2-2b2ecfd15f4f",
+        "b533f80a-9b19-47c0-b4ab-210590846228"
+      ],
+      "retrievalLatencyMs": 799,
+      "textLatencyMs": 109,
+      "vectorLatencyMs": 411,
+      "rerankLatencyMs": 0
+    },
+    "leakedChunk": false,
+    "error": null
+  },
+  {
+    "id": "negativo",
+    "status": 200,
+    "ms": 3696,
+    "hasAnswer": true,
+    "answerPreview": "Não encontrei essa informação na base documental disponível.\n\nFonte: RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL; CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYR",
+    "sourcesCount": 3,
+    "sourceTitles": [
+      "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+      "CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA - ARQUIVO WORD",
+      "CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA"
+    ],
+    "sourceKeys": [
+      "index",
+      "documentId",
+      "documentTitle",
+      "sectorId",
+      "sectorName",
+      "categoryId",
+      "categoryName",
+      "subcategoryId",
+      "subcategoryName",
+      "vigencyDate",
+      "expirationDate"
+    ],
+    "retrievalMeta": {
+      "mode": "HYBRID",
+      "configVersion": "hybrid-v1",
+      "rankingVersion": "hybrid-v1",
+      "candidateCount": 12,
+      "deduplicatedCount": 12,
+      "selectedCount": 8,
+      "fallbackUsed": true,
+      "rankedDocumentIds": [
+        "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+        "71e5029f-4881-4fe4-9dc9-048f178b1165",
+        "71e5029f-4881-4fe4-9dc9-048f178b1165",
+        "71e5029f-4881-4fe4-9dc9-048f178b1165",
+        "71e5029f-4881-4fe4-9dc9-048f178b1165"
+      ],
+      "rankedChunkIds": [
+        "d371da48-1a26-4add-bbbe-6a37b9c4cf3f",
+        "e6589177-9f51-4ce4-b7a3-a1515b52075e",
+        "27e9626e-e089-407c-ba71-70412c971a78",
+        "c44fb8c3-5433-47d8-ab3d-974afcbeeb76",
+        "32527512-ef01-40dc-91c3-8f9c546aee0b"
+      ],
+      "sourceDocumentIds": [
+        "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+        "71e5029f-4881-4fe4-9dc9-048f178b1165",
+        "a90d7c80-1693-4a7a-93f1-ec2206e3680c"
+      ],
+      "retrievalLatencyMs": 1284,
+      "textLatencyMs": 225,
+      "vectorLatencyMs": 685,
+      "rerankLatencyMs": 0
+    },
+    "leakedChunk": false,
+    "error": null
+  },
+  {
+    "id": "exata",
+    "status": 200,
+    "ms": 4724,
+    "hasAnswer": true,
+    "answerPreview": "Não encontrei essa informação na base documental disponível.\n\nFonte: TABELA DE PREÇOS CONSULTAS E EXAMES PARTICULARES; CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIV",
+    "sourcesCount": 9,
+    "sourceTitles": [
+      "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+      "CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA - ARQUIVO WORD",
+      "CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA",
+      "CADASTRO NACIONAL DE ESTABELECIMENTO DE SAÚDE BASE NACIONAL",
+      "CADASTRO NACIONAL DE ESTABELECIMENTO DE SAÚDE BASE LOCAL"
+    ],
+    "sourceKeys": [
+      "index",
+      "documentId",
+      "documentTitle",
+      "sectorId",
+      "sectorName",
+      "categoryId",
+      "categoryName",
+      "subcategoryId",
+      "subcategoryName",
+      "vigencyDate",
+      "expirationDate"
+    ],
+    "retrievalMeta": {
+      "mode": "HYBRID",
+      "configVersion": "hybrid-v1",
+      "rankingVersion": "hybrid-v1",
+      "candidateCount": 12,
+      "deduplicatedCount": 12,
+      "selectedCount": 12,
+      "fallbackUsed": true,
+      "rankedDocumentIds": [
+        "b533f80a-9b19-47c0-b4ab-210590846228",
+        "71e5029f-4881-4fe4-9dc9-048f178b1165",
+        "71e5029f-4881-4fe4-9dc9-048f178b1165",
+        "a90d7c80-1693-4a7a-93f1-ec2206e3680c",
+        "a90d7c80-1693-4a7a-93f1-ec2206e3680c"
+      ],
+      "rankedChunkIds": [
+        "dfe3ec19-15f2-4191-848d-ed58dd428af7",
+        "c44fb8c3-5433-47d8-ab3d-974afcbeeb76",
+        "c0c3ab38-968e-46a9-9412-d65819a21fd7",
+        "39965b1e-fc35-48e0-90e5-fd522850833d",
+        "85e657c1-efae-424c-8a02-20408c02c294"
+      ],
+      "sourceDocumentIds": [
+        "b533f80a-9b19-47c0-b4ab-210590846228",
+        "71e5029f-4881-4fe4-9dc9-048f178b1165",
+        "a90d7c80-1693-4a7a-93f1-ec2206e3680c",
+        "d80deafd-f0f2-4fd5-a2d7-2a4929565d23",
+        "c4adf0b5-83e7-4e91-aa94-8e82bffe6a3f"
+      ],
+      "retrievalLatencyMs": 696,
+      "textLatencyMs": 151,
+      "vectorLatencyMs": 345,
+      "rerankLatencyMs": 0
+    },
+    "leakedChunk": false,
+    "error": null
+  }
+]

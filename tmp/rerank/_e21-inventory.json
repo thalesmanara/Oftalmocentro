@@ -1,0 +1,817 @@
+{
+  "consulta": {
+    "id": "8EXk5RkFW5cxnenL",
+    "active": true,
+    "activeVersionId": "a6957f72-0e75-480f-9b93-9235ec07cf52",
+    "nodes": [
+      {
+        "name": "Webhook",
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          0,
+          0
+        ],
+        "workflowId": null,
+        "hasQuery": false,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Classificar pergunta",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          416,
+          0
+        ],
+        "workflowId": null,
+        "hasQuery": false,
+        "hasJs": true,
+        "jsLen": 5286
+      },
+      {
+        "name": "Buscar chunks relevantes",
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          624,
+          0
+        ],
+        "workflowId": null,
+        "hasQuery": true,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Montar contexto",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          832,
+          0
+        ],
+        "workflowId": null,
+        "hasQuery": false,
+        "hasJs": true,
+        "jsLen": 3834
+      },
+      {
+        "name": "Message a model",
+        "type": "@n8n/n8n-nodes-langchain.openAi",
+        "typeVersion": 2.3,
+        "position": [
+          1040,
+          0
+        ],
+        "workflowId": null,
+        "hasQuery": false,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Respond to Webhook",
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.5,
+        "position": [
+          1552,
+          0
+        ],
+        "workflowId": null,
+        "hasQuery": false,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Buscar categorias e subcategorias",
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 2.6,
+        "position": [
+          208,
+          0
+        ],
+        "workflowId": null,
+        "hasQuery": true,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Validar auth",
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          120,
+          0
+        ],
+        "workflowId": "P5E43ZXSJiI9wFYD",
+        "hasQuery": false,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Auth ok?",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          320,
+          0
+        ],
+        "workflowId": null,
+        "hasQuery": false,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Respond 401",
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.5,
+        "position": [
+          560,
+          120
+        ],
+        "workflowId": null,
+        "hasQuery": false,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Validar permissão",
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          440,
+          -40
+        ],
+        "workflowId": "yXW3rW8EbHXuprRJ",
+        "hasQuery": false,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Permissão ok?",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          620,
+          -40
+        ],
+        "workflowId": null,
+        "hasQuery": false,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Respond 403",
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.5,
+        "position": [
+          820,
+          120
+        ],
+        "workflowId": null,
+        "hasQuery": false,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Restaurar request",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          820,
+          -40
+        ],
+        "workflowId": null,
+        "hasQuery": false,
+        "hasJs": true,
+        "jsLen": 30
+      },
+      {
+        "name": "Normalizar request",
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          120,
+          0
+        ],
+        "workflowId": "N3zLpj7Dij4n5p5p",
+        "hasQuery": false,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Montar resposta",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1360,
+          0
+        ],
+        "workflowId": null,
+        "hasQuery": false,
+        "hasJs": true,
+        "jsLen": 2220
+      },
+      {
+        "name": "Preparar sucesso",
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          1552,
+          0
+        ],
+        "workflowId": "zE5LRjZfbXw8Ymll",
+        "hasQuery": false,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Preparar erro 401",
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          660,
+          120
+        ],
+        "workflowId": "r3iSBV1ClKOxS2UI",
+        "hasQuery": false,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Preparar erro 403",
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          960,
+          120
+        ],
+        "workflowId": "r3iSBV1ClKOxS2UI",
+        "hasQuery": false,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Registrar auditoria sucesso",
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          1672,
+          0
+        ],
+        "workflowId": "jtQvQlqRZ5X5WF9I",
+        "hasQuery": false,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Registrar auditoria 401",
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          780,
+          120
+        ],
+        "workflowId": "jtQvQlqRZ5X5WF9I",
+        "hasQuery": false,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Registrar auditoria 403",
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          1080,
+          120
+        ],
+        "workflowId": "jtQvQlqRZ5X5WF9I",
+        "hasQuery": false,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Carregar prompt ativo",
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          900,
+          160
+        ],
+        "workflowId": "OSopSf635RVwD65J",
+        "hasQuery": false,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Aplicar prompt carregado",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          980,
+          160
+        ],
+        "workflowId": null,
+        "hasQuery": false,
+        "hasJs": true,
+        "jsLen": 1363
+      },
+      {
+        "name": "Preparar embedding pergunta",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1400,
+          100
+        ],
+        "workflowId": null,
+        "hasQuery": false,
+        "hasJs": true,
+        "jsLen": 193
+      },
+      {
+        "name": "Embed pergunta",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          1620,
+          100
+        ],
+        "workflowId": null,
+        "hasQuery": false,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Extrair vetor pergunta",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1840,
+          100
+        ],
+        "workflowId": null,
+        "hasQuery": false,
+        "hasJs": true,
+        "jsLen": 491
+      },
+      {
+        "name": "Busca vetorial Qdrant",
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          2060,
+          40
+        ],
+        "workflowId": "YDnrXjzYUOrZVE6N",
+        "hasQuery": false,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Restaurar classificação p/ texto",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2060,
+          200
+        ],
+        "workflowId": null,
+        "hasQuery": false,
+        "hasJs": true,
+        "jsLen": 75
+      },
+      {
+        "name": "Merge híbrido",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2500,
+          100
+        ],
+        "workflowId": null,
+        "hasQuery": false,
+        "hasJs": true,
+        "jsLen": 3638
+      },
+      {
+        "name": "Aguardar recuperações",
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.2,
+        "position": [
+          2300,
+          100
+        ],
+        "workflowId": null,
+        "hasQuery": false,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Carregar retrieval config",
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          2700,
+          100
+        ],
+        "workflowId": "sClDEVNVS0TGG2uq",
+        "hasQuery": false,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Preparar seleção retrieval",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2920,
+          100
+        ],
+        "workflowId": null,
+        "hasQuery": false,
+        "hasJs": true,
+        "jsLen": 1254
+      },
+      {
+        "name": "Usar re-ranking?",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          3140,
+          100
+        ],
+        "workflowId": null,
+        "hasQuery": false,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Chamar RE-RANQUEAR",
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          3360,
+          0
+        ],
+        "workflowId": "nivEQHAqHWIwP8P8",
+        "hasQuery": false,
+        "hasJs": false,
+        "jsLen": 0
+      },
+      {
+        "name": "Resolver ranking final",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          3580,
+          100
+        ],
+        "workflowId": null,
+        "hasQuery": false,
+        "hasJs": true,
+        "jsLen": 1749
+      },
+      {
+        "name": "Corte hybrid padrão",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          3360,
+          200
+        ],
+        "workflowId": null,
+        "hasQuery": false,
+        "hasJs": true,
+        "jsLen": 57
+      }
+    ],
+    "edges": [
+      {
+        "from": "Classificar pergunta",
+        "to": "Preparar embedding pergunta",
+        "branch": 0
+      },
+      {
+        "from": "Buscar chunks relevantes",
+        "to": "Aguardar recuperações",
+        "branch": 0
+      },
+      {
+        "from": "Buscar categorias e subcategorias",
+        "to": "Classificar pergunta",
+        "branch": 0
+      },
+      {
+        "from": "Validar auth",
+        "to": "Auth ok?",
+        "branch": 0
+      },
+      {
+        "from": "Auth ok?",
+        "to": "Validar permissão",
+        "branch": 0
+      },
+      {
+        "from": "Auth ok?",
+        "to": "Preparar erro 401",
+        "branch": 1
+      },
+      {
+        "from": "Validar permissão",
+        "to": "Permissão ok?",
+        "branch": 0
+      },
+      {
+        "from": "Permissão ok?",
+        "to": "Restaurar request",
+        "branch": 0
+      },
+      {
+        "from": "Permissão ok?",
+        "to": "Preparar erro 403",
+        "branch": 1
+      },
+      {
+        "from": "Restaurar request",
+        "to": "Buscar categorias e subcategorias",
+        "branch": 0
+      },
+      {
+        "from": "Webhook",
+        "to": "Normalizar request",
+        "branch": 0
+      },
+      {
+        "from": "Normalizar request",
+        "to": "Validar auth",
+        "branch": 0
+      },
+      {
+        "from": "Message a model",
+        "to": "Montar resposta",
+        "branch": 0
+      },
+      {
+        "from": "Montar resposta",
+        "to": "Preparar sucesso",
+        "branch": 0
+      },
+      {
+        "from": "Preparar sucesso",
+        "to": "Registrar auditoria sucesso",
+        "branch": 0
+      },
+      {
+        "from": "Registrar auditoria sucesso",
+        "to": "Respond to Webhook",
+        "branch": 0
+      },
+      {
+        "from": "Preparar erro 401",
+        "to": "Registrar auditoria 401",
+        "branch": 0
+      },
+      {
+        "from": "Registrar auditoria 401",
+        "to": "Respond 401",
+        "branch": 0
+      },
+      {
+        "from": "Preparar erro 403",
+        "to": "Registrar auditoria 403",
+        "branch": 0
+      },
+      {
+        "from": "Registrar auditoria 403",
+        "to": "Respond 403",
+        "branch": 0
+      },
+      {
+        "from": "Montar contexto",
+        "to": "Carregar prompt ativo",
+        "branch": 0
+      },
+      {
+        "from": "Carregar prompt ativo",
+        "to": "Aplicar prompt carregado",
+        "branch": 0
+      },
+      {
+        "from": "Aplicar prompt carregado",
+        "to": "Message a model",
+        "branch": 0
+      },
+      {
+        "from": "Preparar embedding pergunta",
+        "to": "Embed pergunta",
+        "branch": 0
+      },
+      {
+        "from": "Embed pergunta",
+        "to": "Extrair vetor pergunta",
+        "branch": 0
+      },
+      {
+        "from": "Extrair vetor pergunta",
+        "to": "Busca vetorial Qdrant",
+        "branch": 0
+      },
+      {
+        "from": "Extrair vetor pergunta",
+        "to": "Restaurar classificação p/ texto",
+        "branch": 0
+      },
+      {
+        "from": "Restaurar classificação p/ texto",
+        "to": "Buscar chunks relevantes",
+        "branch": 0
+      },
+      {
+        "from": "Busca vetorial Qdrant",
+        "to": "Aguardar recuperações",
+        "branch": 0
+      },
+      {
+        "from": "Aguardar recuperações",
+        "to": "Merge híbrido",
+        "branch": 0
+      },
+      {
+        "from": "Merge híbrido",
+        "to": "Carregar retrieval config",
+        "branch": 0
+      },
+      {
+        "from": "Carregar retrieval config",
+        "to": "Preparar seleção retrieval",
+        "branch": 0
+      },
+      {
+        "from": "Preparar seleção retrieval",
+        "to": "Usar re-ranking?",
+        "branch": 0
+      },
+      {
+        "from": "Usar re-ranking?",
+        "to": "Chamar RE-RANQUEAR",
+        "branch": 0
+      },
+      {
+        "from": "Usar re-ranking?",
+        "to": "Corte hybrid padrão",
+        "branch": 1
+      },
+      {
+        "from": "Chamar RE-RANQUEAR",
+        "to": "Resolver ranking final",
+        "branch": 0
+      },
+      {
+        "from": "Corte hybrid padrão",
+        "to": "Resolver ranking final",
+        "branch": 0
+      },
+      {
+        "from": "Resolver ranking final",
+        "to": "Montar contexto",
+        "branch": 0
+      }
+    ]
+  },
+  "related": [
+    {
+      "id": "8EXk5RkFW5cxnenL",
+      "name": "Consulta IA",
+      "active": true,
+      "activeVersionId": "a6957f72-0e75-480f-9b93-9235ec07cf52",
+      "node_count": 37
+    },
+    {
+      "id": "SxDfJMFCQbytHHL6",
+      "name": "GET System AI Retrieval",
+      "active": true,
+      "activeVersionId": "43f662b2-841e-45e0-a369-471ad2efe7d2",
+      "node_count": 15
+    },
+    {
+      "id": "EdG14rWgluDHiOtt",
+      "name": "GET System AI Retrieval Detail",
+      "active": true,
+      "activeVersionId": "d49389c0-4217-4e23-8ebe-298a1bafe3d0",
+      "node_count": 15
+    },
+    {
+      "id": "sClDEVNVS0TGG2uq",
+      "name": "IA - CARREGAR RETRIEVAL CONFIG",
+      "active": true,
+      "activeVersionId": "a2741824-35bb-467c-a655-e0932b50fa85",
+      "node_count": 3
+    },
+    {
+      "id": "nivEQHAqHWIwP8P8",
+      "name": "IA - RE-RANQUEAR CANDIDATOS",
+      "active": true,
+      "activeVersionId": "d7060be2-7463-4b05-92bd-3e05f1789b9c",
+      "node_count": 10
+    },
+    {
+      "id": "NhWUkmzGhlttJC9S",
+      "name": "IA - VALIDAR RETRIEVAL CONFIG",
+      "active": true,
+      "activeVersionId": "860b5355-1b3a-4cc0-8639-335587d3631d",
+      "node_count": 2
+    },
+    {
+      "id": "RjQDc5gcWFYyBQJO",
+      "name": "POST System AI Retrieval Create",
+      "active": true,
+      "activeVersionId": "e02273fb-d677-414f-a63e-5a04c682a94c",
+      "node_count": 21
+    },
+    {
+      "id": "BAHKNoJM7VdYU8UE",
+      "name": "POST System AI Retrieval Publish",
+      "active": true,
+      "activeVersionId": "33e5470a-7eac-4d59-86c3-3dee75b0963e",
+      "node_count": 27
+    },
+    {
+      "id": "FdaMsXY4nXEO0xV8",
+      "name": "POST System AI Retrieval Rollback",
+      "active": true,
+      "activeVersionId": "a98c17e4-4817-4676-af7b-f19ffeac8c77",
+      "node_count": 21
+    },
+    {
+      "id": "DesGIYYOTdv0ws9J",
+      "name": "POST System AI Retrieval Validate",
+      "active": true,
+      "activeVersionId": "d2a29d14-675d-4423-b48a-280bd45bf39d",
+      "node_count": 16
+    },
+    {
+      "id": "zBMDF4cbf7kMk7u2",
+      "name": "POST System Qdrant Reindex",
+      "active": true,
+      "activeVersionId": "a83d9597-2b24-4574-bd6a-328585d7937e",
+      "node_count": 17
+    },
+    {
+      "id": "Ci5BcAlkZCxOxdyA",
+      "name": "PUT System AI Retrieval Update",
+      "active": true,
+      "activeVersionId": "f9e3e66d-4eb2-42fb-a5c3-a120a25ece85",
+      "node_count": 24
+    },
+    {
+      "id": "YDnrXjzYUOrZVE6N",
+      "name": "QDRANT - BUSCAR",
+      "active": true,
+      "activeVersionId": "e85a3e02-9eb5-426f-857a-f010d9b41cb5",
+      "node_count": 6
+    },
+    {
+      "id": "L61YCjalRxpWU9Un",
+      "name": "QDRANT - DELETE",
+      "active": true,
+      "activeVersionId": "bd7a4f14-d023-4aa0-a4c7-3c867a66df71",
+      "node_count": 11
+    },
+    {
+      "id": "7d7ZE8O6DjqMAk2d",
+      "name": "QDRANT - ORQUESTRAR",
+      "active": true,
+      "activeVersionId": "7f1c9c51-67a8-4882-99ca-6b155d2de6a5",
+      "node_count": 16
+    },
+    {
+      "id": "UrDNrDkE9WuwEK7H",
+      "name": "QDRANT - REINDEXAR",
+      "active": true,
+      "activeVersionId": "7a431b0a-ee3d-4e61-923e-883e719d9ba5",
+      "node_count": 9
+    },
+    {
+      "id": "ihR1aNY04ZgeW0lm",
+      "name": "QDRANT - UPSERT",
+      "active": true,
+      "activeVersionId": "21811900-b72b-4490-8eb6-1b61f0b46cc9",
+      "node_count": 12
+    },
+    {
+      "id": "q3ntUS5qHRsitZA0",
+      "name": "QDRANT - VALIDAR",
+      "active": true,
+      "activeVersionId": "00db70ac-99c0-46d4-acbd-87612f4dc3bc",
+      "node_count": 3
+    },
+    {
+      "id": "By7xP0i0JmWy1AZD",
+      "name": "Schedule - Qdrant Fila",
+      "active": true,
+      "activeVersionId": "92da6822-cd93-4e9c-8c2a-a7b1979359be",
+      "node_count": 2
+    }
+  ]
+}

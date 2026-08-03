@@ -1,0 +1,192 @@
+{
+  "name": "QDRANT - BUSCAR",
+  "connections": {
+    "Trigger": {
+      "main": [
+        [
+          {
+            "node": "Preparar busca",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar busca": {
+      "main": [
+        [
+          {
+            "node": "Vector ok?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vector ok?": {
+      "main": [
+        [
+          {
+            "node": "Qdrant search",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Vazio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qdrant search": {
+      "main": [
+        [
+          {
+            "node": "Normalizar hits",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodes": {
+    "Trigger": {
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "credentials": null,
+      "parameters": {
+        "inputSource": "workflowInputs",
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "queryVectorJson",
+              "type": "string"
+            },
+            {
+              "name": "topK",
+              "type": "number"
+            },
+            {
+              "name": "categoryId",
+              "type": "string"
+            },
+            {
+              "name": "subcategoryId",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    "Preparar busca": {
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const t=$input.first().json||{};let vector=[];try{vector=JSON.parse(String(t.queryVectorJson||'[]'));}catch(_){vector=[];}const topK=Math.min(Math.max(Number(t.topK||12)||12,1),50);const categoryId=String(t.categoryId||'').trim();const subcategoryId=String(t.subcategoryId||'').trim();const must=[{key:'isCurrent',match:{value:true}}];if(subcategoryId)must.push({key:'subcategoryId',match:{value:subcategoryId}});else if(categoryId)must.push({key:'categoryId',match:{value:categoryId}});const body={vector,limit:topK,with_payload:true,filter:{must}};return [{json:{ok:Array.isArray(vector)&&vector.length>0,url:'http://qdrant:6333/collections/oftalmocentro_chunks/points/search',body,topK}}];"
+      }
+    },
+    "Vector ok?": {
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        440,
+        0
+      ],
+      "credentials": null,
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.ok === true }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ]
+        },
+        "looseTypeValidation": true
+      }
+    },
+    "Qdrant search": {
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        660,
+        -80
+      ],
+      "credentials": null,
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $json.url }}",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.body }}",
+        "options": {
+          "timeout": 20000,
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true
+            }
+          }
+        }
+      },
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true
+    },
+    "Normalizar hits": {
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        880,
+        -80
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const resp=$input.first().json||{};const statusCode=Number(resp.statusCode??resp.status??0);let body=resp.body??resp.data??resp;if(typeof body==='string'){try{body=JSON.parse(body);}catch(_){body={};}}const ok=statusCode>=200&&statusCode<300;const raw=Array.isArray(body.result)?body.result:(Array.isArray(body)?body:[]);const hits=raw.map(h=>{const p=h.payload||{};return{chunkId:String(p.chunkId||h.id||''),documentId:p.documentId||null,documentVersionId:p.documentVersionId||null,documentTitle:p.documentTitle||null,sectorId:p.sectorId||null,categoryId:p.categoryId||null,subcategoryId:p.subcategoryId||null,chunkIndex:p.chunkIndex??null,chunkKind:p.chunkKind||null,sheetName:p.sheetName||null,ocrQuality:p.ocrQuality||null,vectorScore:Number(h.score||0),isCurrent:p.isCurrent===true};}).filter(h=>h.chunkId);return [{json:{ok,hits,count:hits.length,retrievalMode:'vector'}}];"
+      }
+    },
+    "Vazio": {
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        120
+      ],
+      "credentials": null,
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "return [{json:{ok:false,hits:[],count:0,retrievalMode:'vector',error:'invalid_vector'}}];"
+      }
+    }
+  }
+}

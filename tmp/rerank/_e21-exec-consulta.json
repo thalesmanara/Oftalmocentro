@@ -1,0 +1,86 @@
+{
+  "error": {
+    "level": "error",
+    "tags": {},
+    "message": "Cannot assign to read only property 'name' of object 'Error: Referenced node doesn't exist'",
+    "stack": "TypeError: Cannot assign to read only property 'name' of object 'Error: Referenced node doesn't exist'\n    at new ExecutionBaseError (/opt/runners/task-runner-javascript/node_modules/.pnpm/n8n-workflow@file+packages+workflow_zod@3.25.67/node_modules/n8n-workflow/dist/cjs/errors/abstract/execution-base.error.js:24:23)\n    at new ExpressionError (/opt/runners/task-runner-javascript/node_modules/.pnpm/n8n-workflow@file+packages+workflow_zod@3.25.67/node_modules/n8n-workflow/dist/cjs/errors/expression.error.js:19:13)\n    at createExpressionError (/opt/runners/task-runner-javascript/node_modules/.pnpm/n8n-workflow@file+packages+workflow_zod@3.25.67/node_modules/n8n-workflow/dist/cjs/workflow-data-proxy.js:682:24)\n    at $ (/opt/runners/task-runner-javascript/node_modules/.pnpm/n8n-workflow@file+packages+workflow_zod@3.25.67/node_modules/n8n-workflow/dist/cjs/workflow-data-proxy.js:916:31)\n    at VmCodeWrapper (evalmachine.<anonymous>:1:972)\n    at evalmachine.<anonymous>:30:2\n    at Script.runInContext (node:vm:149:12)\n    at runInContext (node:vm:301:6)\n    at result (/opt/runners/task-runner-javascript/dist/js-task-runner/js-task-runner.js:215:61)\n    at new Promise (<anonymous>)"
+  },
+  "summary": {
+    "IA - RECUPERAR CONTEXTO": {
+      "error": null,
+      "status": "success",
+      "items": 1,
+      "sampleKeys": [
+        "context",
+        "sources",
+        "selectedChunks",
+        "retrievalMeta",
+        "question",
+        "classification",
+        "diagnostic",
+        "requestId",
+        "userId",
+        "sessionId"
+      ]
+    },
+    "Aplicar contexto recuperado": {
+      "error": null,
+      "status": "success",
+      "items": 1,
+      "sampleKeys": [
+        "question",
+        "classification",
+        "context",
+        "sources",
+        "retrievalMeta",
+        "diagnostic"
+      ]
+    },
+    "Carregar prompt ativo": {
+      "error": null,
+      "status": "success",
+      "items": 1,
+      "sampleKeys": [
+        "ok",
+        "code",
+        "promptDefinitionId",
+        "promptVersionId",
+        "promptCode",
+        "purpose",
+        "versionNumber",
+        "content",
+        "modelName",
+        "temperature",
+        "maxTokens",
+        "topP",
+        "parameters",
+        "contentHash",
+        "publishedAt",
+        "status",
+        "environment",
+        "userMessageTemplate"
+      ]
+    },
+    "Aplicar prompt carregado": {
+      "error": "Cannot assign to read only property 'name' of object 'Error: Referenced node doesn't exist'",
+      "status": "error",
+      "sampleKeys": []
+    },
+    "Classificar pergunta": {
+      "error": null,
+      "status": "success",
+      "items": 1,
+      "sampleKeys": [
+        "question",
+        "categoryId",
+        "categoryName",
+        "categoryDescription",
+        "subcategoryId",
+        "subcategoryName",
+        "subcategoryDescription",
+        "searchTerms",
+        "classificationCandidates"
+      ]
+    }
+  }
+}

@@ -1,0 +1,1 @@
+const cls=$('Extrair vetor pergunta').first().json||{};return [{json:cls}];
