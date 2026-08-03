@@ -1,0 +1,340 @@
+﻿
+==== Avaliar id= 829e8f97-a8bb-4cdd-b4c6-3a0e350696b4 ====
+const trig = $('Trigger').first().json;
+const cfg = $input.first().json;
+
+const versionId = trig.versionId;
+const documentId = trig.documentId || cfg.documentId;
+const requestId = trig.requestId || '';
+const userId = trig.userId || '';
+const sessionId = trig.sessionId || '';
+const force = trig.force === true || trig.force === 'true';
+const extractedText = trig.extractedText || '';
+const modeIn = trig.mode || 'auto';
+
+const versionExists = !!cfg.versionId;
+const ocrEnabled = String(cfg.ocrEnabled ?? 'true').toLowerCase() === 'true';
+const maxAttempts = Number(cfg.ocrMaxAttempts ?? 3);
+const languages = cfg.ocrLanguages || 'por+eng';
+const fileExtension = String(cfg.fileExtension || '').toLowerCase().replace(/^\./, '');
+const filePath = cfg.filePath || '';
+const currentOcrStatus = cfg.ocrStatus || null;
+const ocrAttempts = Number(cfg.ocrAttempts || 0);
+const activeOcrCount = Number(cfg.activeOcrCount || 0);
+const pageCount = Math.max(1, Number(cfg.pageCount || cfg.ocrPageCount || 1));
+const excellentMin = Number(cfg.ocrQualityExcellentMin ?? 85);
+const goodMin = Number(cfg.ocrQualityGoodMin ?? 70);
+const acceptableMin = Number(cfg.ocrQualityAcceptableMin ?? 50);
+const poorMin = Number(cfg.ocrQualityPoorMin ?? 30);
+
+function normalizeDocumentText(raw) {
+  let text = String(raw ?? '');
+  text = text.normalize('NFC');
+  text = text.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F\u200B-\u200F\u202A-\u202E\u2060\uFEFF]/g, '');
+  text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  text = text.replace(/\n{3,}/g, '\n\n');
+  text = text
+    .split('\n')
+    .map((line) => line.replace(/[ \t\f\v]+/g, ' ').trimEnd())
+    .join('\n');
+  return text.trim();
+}
+
+function tokenizeWords(text) {
+  const matches = text.toLowerCase().match(/[\p{L}\p{N}][\p{L}\p{N}'ÔÇÖ-]*/gu);
+  return matches || [];
+}
+
+function evaluateDocumentQuality(rawText, meta = {}) {
+  const text = normalizeDocumentText(rawText);
+  const pageCount = Math.max(1, Number(meta.pageCount) || Number(meta.ocrPageCount) || 1);
+  const thresholds = {
+    excellent: Number(meta.excellentMin ?? 85),
+    good: Number(meta.goodMin ?? 70),
+    acceptable: Number(meta.acceptableMin ?? 50),
+    poor: Number(meta.poorMin ?? 30),
+  };
+
+  const charCount = text.length;
+  const lettersDigits = (text.match(/[\p{L}\p{N}]/gu) || []).length;
+  const spaces = (text.match(/[ \t]/g) || []).length;
+  const usefulChars = lettersDigits + spaces;
+  const controlOrSymbol = Math.max(0, charCount - usefulChars);
+  const
+
+==== Avaliar texto p├│s-OCR id= c1273d8a-2eed-4e03-ab21-784afcc60de7 ====
+function normalizeDocumentText(raw) {
+  let text = String(raw ?? '');
+  text = text.normalize('NFC');
+  text = text.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F\u200B-\u200F\u202A-\u202E\u2060\uFEFF]/g, '');
+  text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  text = text.replace(/\n{3,}/g, '\n\n');
+  text = text
+    .split('\n')
+    .map((line) => line.replace(/[ \t\f\v]+/g, ' ').trimEnd())
+    .join('\n');
+  return text.trim();
+}
+
+function tokenizeWords(text) {
+  const matches = text.toLowerCase().match(/[\p{L}\p{N}][\p{L}\p{N}'ÔÇÖ-]*/gu);
+  return matches || [];
+}
+
+function evaluateDocumentQuality(rawText, meta = {}) {
+  const text = normalizeDocumentText(rawText);
+  const pageCount = Math.max(1, Number(meta.pageCount) || Number(meta.ocrPageCount) || 1);
+  const thresholds = {
+    excellent: Number(meta.excellentMin ?? 85),
+    good: Number(meta.goodMin ?? 70),
+    acceptable: Number(meta.acceptableMin ?? 50),
+    poor: Number(meta.poorMin ?? 30),
+  };
+
+  const charCount = text.length;
+  const lettersDigits = (text.match(/[\p{L}\p{N}]/gu) || []).length;
+  const spaces = (text.match(/[ \t]/g) || []).length;
+  const usefulChars = lettersDigits + spaces;
+  const controlOrSymbol = Math.max(0, charCount - usefulChars);
+  const symbolRatio = charCount > 0 ? controlOrSymbol / charCount : 1;
+
+  const words = tokenizeWords(text);
+  const wordCount = words.length;
+  const uniqueWords = new Set(words);
+  const uniqueWordCount = uniqueWords.size;
+  const uniqueRatio = wordCount > 0 ? uniqueWordCount / wordCount : 0;
+  const charsPerPage = usefulChars / pageCount;
+  const wordsPerPage = wordCount / pageCount;
+
+  const lines = text.split('\n').map((l) => l.trim()).filter(Boolean);
+  const lineCount = lines.length;
+  const uniqueLineCount = new Set(lines.map((l) => l.toLowerCase())).size;
+  const uniqueLineRatio = lineCount > 0 ? uniqueLineCount / lineCount : 0;
+
+  let blockRepetition = 0;
+  if (lines.length >= 6) {
+    const blocks = [];
+    for (let i = 0; i < lines.length - 2; i++) {
+      blocks.push(`${lines[i]}|${lines[i + 1]}|${lines[i + 2]}`.toLowerCase());
+    }
+    const uniqBlocks = new Set(blocks).size;
+    blockRepetition = 1 - uniqBlocks / blocks.length;
+  }
+
+  const shortLines = lines.filter((l) => l.length <= 40).length;
+  const shortLineRatio = lineCount > 0 ? shortLines / lineCount : 1;
+  const avgLineLen = lineCount > 0 ? lines.reduce((a, l) => a + l.length, 0) / lineCount : 0;
+
+  let density = 0;
+  if (charsPerPage >= 400) de
+
+==== Avaliar texto p├│s-OCR HQ id= 2ac1e56d-7d67-4acc-b74d-23e235febf08 ====
+function normalizeDocumentText(raw) {
+  let text = String(raw ?? '');
+  text = text.normalize('NFC');
+  text = text.replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F\u200B-\u200F\u202A-\u202E\u2060\uFEFF]/g, '');
+  text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  text = text.replace(/\n{3,}/g, '\n\n');
+  text = text
+    .split('\n')
+    .map((line) => line.replace(/[ \t\f\v]+/g, ' ').trimEnd())
+    .join('\n');
+  return text.trim();
+}
+
+function tokenizeWords(text) {
+  const matches = text.toLowerCase().match(/[\p{L}\p{N}][\p{L}\p{N}'ÔÇÖ-]*/gu);
+  return matches || [];
+}
+
+function evaluateDocumentQuality(rawText, meta = {}) {
+  const text = normalizeDocumentText(rawText);
+  const pageCount = Math.max(1, Number(meta.pageCount) || Number(meta.ocrPageCount) || 1);
+  const thresholds = {
+    excellent: Number(meta.excellentMin ?? 85),
+    good: Number(meta.goodMin ?? 70),
+    acceptable: Number(meta.acceptableMin ?? 50),
+    poor: Number(meta.poorMin ?? 30),
+  };
+
+  const charCount = text.length;
+  const lettersDigits = (text.match(/[\p{L}\p{N}]/gu) || []).length;
+  const spaces = (text.match(/[ \t]/g) || []).length;
+  const usefulChars = lettersDigits + spaces;
+  const controlOrSymbol = Math.max(0, charCount - usefulChars);
+  const symbolRatio = charCount > 0 ? controlOrSymbol / charCount : 1;
+
+  const words = tokenizeWords(text);
+  const wordCount = words.length;
+  const uniqueWords = new Set(words);
+  const uniqueWordCount = uniqueWords.size;
+  const uniqueRatio = wordCount > 0 ? uniqueWordCount / wordCount : 0;
+  const charsPerPage = usefulChars / pageCount;
+  const wordsPerPage = wordCount / pageCount;
+
+  const lines = text.split('\n').map((l) => l.trim()).filter(Boolean);
+  const lineCount = lines.length;
+  const uniqueLineCount = new Set(lines.map((l) => l.toLowerCase())).size;
+  const uniqueLineRatio = lineCount > 0 ? uniqueLineCount / lineCount : 0;
+
+  let blockRepetition = 0;
+  if (lines.length >= 6) {
+    const blocks = [];
+    for (let i = 0; i < lines.length - 2; i++) {
+      blocks.push(`${lines[i]}|${lines[i + 1]}|${lines[i + 2]}`.toLowerCase());
+    }
+    const uniqBlocks = new Set(blocks).size;
+    blockRepetition = 1 - uniqBlocks / blocks.length;
+  }
+
+  const shortLines = lines.filter((l) => l.length <= 40).length;
+  const shortLineRatio = lineCount > 0 ? shortLines / lineCount : 1;
+  const avgLineLen = lineCount > 0 ? lines.reduce((a, l) => a + l.length, 0) / lineCount : 0;
+
+  let density = 0;
+  if (charsPerPage >= 400) de
+
+==== Marcar OCR iniciado id= a41d2e2b-9842-4353-9590-2b36511319a7 ====
+=WITH v AS (
+  UPDATE document_versions
+  SET ocr_status = 'PROCESSING',
+      ocr_attempts = ocr_attempts + 1,
+      ocr_started_at = NOW(),
+      ocr_engine = 'ocrmypdf+tesseract',
+      ocr_languages = '{{ $json.languages }}',
+      ocr_mode = '{{ $json.ocrMode || "STANDARD" }}'
+  WHERE id = '{{ $json.versionId }}'::uuid
+  RETURNING id, document_id, file_path, ocr_attempts, ocr_mode
+),
+d AS (
+  UPDATE documents
+  SET processing_status = 'processing', updated_at = NOW()
+  FROM v
+  WHERE documents.id = v.document_id
+    AND documents.processing_status <> 'processing'
+  RETURNING documents.id
+)
+SELECT
+  v.id AS "versionId",
+  v.document_id AS "documentId",
+  v.file_path AS "filePath",
+  v.ocr_attempts AS "ocrAttempts",
+  v.ocr_mode AS "ocrMode"
+FROM v;
+
+==== Persistir qualidade sucesso id= 2ac5e1c5-bfeb-435e-9b9d-860d59ccc322 ====
+={{ (() => {
+  const j = $json;
+  const esc = (s) => String(s ?? '').replace(/'/g, "''");
+  const metrics = j.ocrQualityMetrics ? `'${JSON.stringify(j.ocrQualityMetrics).replace(/'/g, "''")}'::jsonb` : 'NULL';
+  const reason = j.ocrQualityReason ? `'${esc(j.ocrQualityReason)}'` : 'NULL';
+  const mode = j.ocrMode ? `'${esc(j.ocrMode)}'` : 'NULL';
+  const grade = j.ocrQualityGrade ? `'${esc(j.ocrQualityGrade)}'` : 'NULL';
+  const score = (j.ocrQualityScore === null || j.ocrQualityScore === undefined) ? 'NULL' : Number(j.ocrQualityScore);
+  const wordCount = (j.ocrWordCount === null || j.ocrWordCount === undefined) ? 'NULL' : Number(j.ocrWordCount);
+  const uniqueWordCount = (j.ocrUniqueWordCount === null || j.ocrUniqueWordCount === undefined) ? 'NULL' : Number(j.ocrUniqueWordCount);
+  const charCount = (j.ocrCharacterCount === null || j.ocrCharacterCount === undefined) ? 'NULL' : Number(j.ocrCharacterCount);
+  const charsPerPage = (j.ocrCharactersPerPage === null || j.ocrCharactersPerPage === undefined) ? 'NULL' : Number(j.ocrCharactersPerPage);
+  const text = `'${esc(j.extractedText)}'`;
+  return `UPDATE document_versions
+SET ocr_status = 'SUCCESS',
+    ocr_finished_at = NOW(),
+    ocr_mode = ${mode},
+    ocr_quality_score = ${score},
+    ocr_quality_grade = ${grade},
+    ocr_word_count = ${wordCount},
+    ocr_unique_word_count = ${uniqueWordCount},
+    ocr_character_count = ${charCount},
+    ocr_characters_per_page = ${charsPerPage},
+    ocr_quality_reason = ${reason},
+    ocr_review_reason = NULL,
+    ocr_quality_metrics = ${metrics},
+    extracted_text = ${text}
+WHERE id = '${esc(j.versionId)}'::uuid
+RETURNING
+  id AS "versionId",
+  document_id AS "documentId",
+  extracted_text AS "extractedText",
+  '${esc(j.requestId)}' AS "requestId",
+  '${esc(j.userId)}' AS "userId",
+  '${esc(j.sessionId)}' AS "sessionId",
+  'ocr' AS "extractionMethod",
+  ocr_status AS "ocrStatus",
+  '${esc(j.ocrEngine)}' AS "ocrEngine",
+  '${esc(j.ocrLanguages)}' AS "ocrLanguages",
+  ${Number(j.ocrDurationMs) || 0} AS "ocrDurationMs",
+  ${Number(j.ocrAttempts) || 0} AS "ocrAttempts",
+  length(extracted_text) AS "textLength",
+  ocr_quality_score AS "ocrQualityScore",
+  ocr_quality_grade AS "ocrQualityGrade",
+  ocr_quality_reason AS "ocrQualityReason",
+  ocr_mode AS "ocrMode";`;
+})() }}
+
+==== Marcar revis├úo manual p├│s-OCR id= 930cc7aa-2ece-459d-ab8f-32e397ab3286 ====
+={{ (() => {
+  const j = $json;
+  const esc = (s) => String(s ?? '').replace(/'/g, "''");
+  const score = (j.ocrQualityScore === null || j.ocrQualityScore === undefined) ? 'NULL' : Number(j.ocrQualityScore);
+  const metrics = j.ocrQualityMetrics ? `'${JSON.stringify(j.ocrQualityMetrics).replace(/'/g, "''")}'::jsonb` : 'NULL';
+  const reason = j.ocrQualityReason ? `'${esc(j.ocrQualityReason)}'` : 'NULL';
+  const review = j.ocrReviewReason ? `'${esc(j.ocrReviewReason)}'` : 'NULL';
+  const mode = j.ocrMode ? `'${esc(j.ocrMode)}'` : 'NULL';
+  return `WITH v AS (
+  UPDATE document_versions
+  SET ocr_status = 'MANUAL_REVIEW',
+      processing_status = 'failed',
+      status = 'FAILED',
+      ocr_finished_at = COALESCE(ocr_finished_at, NOW()),
+      ocr_quality_score = ${score},
+      ocr_quality_grade = 'MANUAL_REVIEW',
+      ocr_quality_reason = ${reason},
+      ocr_review_reason = ${review},
+      ocr_quality_metrics = ${metrics},
+      ocr_mode = COALESCE(${mode}, ocr_mode)
+  WHERE id = '${esc(j.versionId)}'::uuid
+  RETURNING id, document_id
+), d AS (
+  UPDATE documents
+  SET processing_status = 'failed', updated_at = NOW()
+  FROM v
+  WHERE documents.id = v.document_id
+  RETURNING documents.id
+)
+SELECT
+  v.id AS "versionId",
+  v.document_id AS "documentId",
+  '${esc(j.requestId)}' AS "requestId",
+  '${esc(j.userId)}' AS "userId",
+  '${esc(j.sessionId)}' AS "sessionId",
+  ${Number(j.textLength) || 0} AS "textLength",
+  ${Number(j.ocrAttempts) || 0} AS "ocrAttempts",
+  ${score} AS "ocrQualityScore",
+  'MANUAL_REVIEW' AS "ocrQualityGrade",
+  ${review} AS "ocrReviewReason"
+FROM v;`;
+})() }}
+
+==== Texto p├│s-OCR suficiente? id= 8fe6d79f-8a9e-4ef5-90aa-07441e32b51f ====
+{"conditions":{"options":{"caseSensitive":true,"leftValue":"","typeValidation":"strict"},"conditions":[{"leftValue":"={{ $json.ok }}","operator":{"type":"boolean","operation":"true"},"rightValue":true}],"combinator":"and"}}
+
+==== ├ë retry HQ? id= df0ef4d3-f791-4371-bc05-8447094bb5d0 ====
+{"conditions":{"options":{"caseSensitive":true,"leftValue":"","typeValidation":"strict"},"conditions":[{"leftValue":"={{ $json.action }}","operator":{"type":"string","operation":"equals"},"rightValue":"HIGH_QUALITY_RETRY"}],"combinator":"and"}}
+
+==== Auditoria qualidade avaliada id= d7e2eae0-d509-47bf-a7a2-d8b1383513ff ====
+{"mode":"once","source":"database","options":{"waitForSubWorkflow":true},"workflowId":{"__rl":true,"mode":"id","value":"jtQvQlqRZ5X5WF9I","cachedResultName":"AUDITORIA - REGISTRAR"},"workflowInputs":{"mappingMode":"defineBelow","value":{"requestId":"={{ $json.requestId }}","userId":"={{ $json.userId }}","sessionId":"={{ $json.sessionId }}","action":"OCR_QUALITY_EVALUATED","resourceType":"document_version","resourceId":"={{ $json.versionId }}","success":true,"metadata":"={{ { score: $json.ocrQualityScore, grade: $json.ocrQualityGrade, reasons: $json.ocrQualityReason, attempts: $json.ocrAttempts, mode: $json.ocrMode } }}"}}}
+
+==== Auditoria retry HQ id= 8de2dd1b-74e1-479e-b4fa-49dc780c962d ====
+{"mode":"once","source":"database","options":{"waitForSubWorkflow":true},"workflowId":{"__rl":true,"mode":"id","value":"jtQvQlqRZ5X5WF9I","cachedResultName":"AUDITORIA - REGISTRAR"},"workflowInputs":{"mappingMode":"defineBelow","value":{"requestId":"={{ $json.requestId }}","userId":"={{ $json.userId }}","sessionId":"={{ $json.sessionId }}","action":"OCR_HIGH_QUALITY_RETRY","resourceType":"document_version","resourceId":"={{ $json.versionId }}","success":true,"metadata":"={{ { score: $json.ocrQualityScore, grade: $json.ocrQualityGrade, attempt: $json.ocrAttempts } }}"}}}
+
+CONN from Avaliar texto p├│s-OCR => [[{"node":"Texto p├│s-OCR suficiente?","type":"main","index":0}]]
+
+CONN from Texto p├│s-OCR suficiente? => [[{"node":"Persistir qualidade sucesso","type":"main","index":0}],[{"node":"├ë retry HQ?","type":"main","index":0}]]
+
+CONN from ├ë retry HQ? => [[{"node":"Marcar retry HQ","type":"main","index":0}],[{"node":"Marcar revis├úo manual p├│s-OCR","type":"main","index":0}]]
+
+CONN from Marcar retry HQ => [[{"node":"Auditoria retry HQ","type":"main","index":0}]]
+
+CONN from Avaliar texto p├│s-OCR HQ => [[{"node":"Texto p├│s-OCR suficiente?","type":"main","index":0}]]
+
+CONN from Persistir qualidade sucesso => [[{"node":"Auditoria qualidade avaliada","type":"main","index":0}]]

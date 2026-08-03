@@ -14,8 +14,13 @@ import {
   formatDateTime,
   formatDurationMs,
   formatFileSize,
+  formatOcrQualityScore,
   extractionMethodLabel,
   isDocumentExpired,
+  isSpreadsheetExtension,
+  ocrModeLabel,
+  ocrQualityGradeLabel,
+  ocrQualityGradeVariant,
   ocrStatusLabel,
   ocrStatusVariant,
   validationStatusLabel,
@@ -28,6 +33,7 @@ import { Button } from '@/components/ui/Button'
 import { PermissionGuard } from '@/components/ui/PermissionGuard'
 import { ModalConfirm } from '@/components/ui/Modal'
 import { DocumentVersionsPanel } from '@/components/documents/DocumentVersionsPanel'
+import { SpreadsheetPreviewPanel } from '@/components/documents/SpreadsheetPreviewPanel'
 
 export function DocumentDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -315,12 +321,47 @@ export function DocumentDetailPage() {
                       )}
                     </dd>
                   </div>
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                    <dt className="text-slate-500">Qualidade OCR</dt>
+                    <dd className="flex flex-wrap items-center gap-2">
+                      {doc.ocrQualityGrade ? (
+                        <Badge variant={ocrQualityGradeVariant(doc.ocrQualityGrade)}>
+                          {ocrQualityGradeLabel(doc.ocrQualityGrade)}
+                        </Badge>
+                      ) : (
+                        <span className="text-slate-700">—</span>
+                      )}
+                      <span className="text-slate-700">
+                        {formatOcrQualityScore(doc.ocrQualityScore)}
+                      </span>
+                    </dd>
+                  </div>
                   <div className="flex flex-wrap gap-x-2">
                     <dt className="text-slate-500">Método de extração</dt>
                     <dd className="text-slate-700">
                       {extractionMethodLabel(doc.extractionMethod)}
                     </dd>
                   </div>
+                  {(doc.sheetCount != null || isSpreadsheetExtension(doc.fileExtension)) && (
+                    <>
+                      <div className="flex flex-wrap gap-x-2">
+                        <dt className="text-slate-500">Abas</dt>
+                        <dd className="text-slate-700">{doc.sheetCount ?? '—'}</dd>
+                      </div>
+                      <div className="flex flex-wrap gap-x-2">
+                        <dt className="text-slate-500">Linhas / colunas</dt>
+                        <dd className="text-slate-700">
+                          {doc.tableRowCount ?? '—'} / {doc.tableColumnCount ?? '—'}
+                        </dd>
+                      </div>
+                    </>
+                  )}
+                  {doc.ocrMode && (
+                    <div className="flex flex-wrap gap-x-2">
+                      <dt className="text-slate-500">Modo OCR</dt>
+                      <dd className="text-slate-700">{ocrModeLabel(doc.ocrMode)}</dd>
+                    </div>
+                  )}
                   {doc.ocrEngine && (
                     <div className="flex flex-wrap gap-x-2">
                       <dt className="text-slate-500">Motor OCR</dt>
@@ -337,6 +378,12 @@ export function DocumentDetailPage() {
                     <div className="flex flex-wrap gap-x-2">
                       <dt className="text-slate-500">Tempo OCR</dt>
                       <dd className="text-slate-700">{formatDurationMs(doc.ocrDurationMs)}</dd>
+                    </div>
+                  )}
+                  {doc.ocrReviewReason && (
+                    <div className="flex flex-wrap gap-x-2">
+                      <dt className="text-slate-500">Motivo da revisão</dt>
+                      <dd className="text-slate-700">{doc.ocrReviewReason}</dd>
                     </div>
                   )}
                   {doc.hasOcrDerivedFile && (
@@ -389,6 +436,19 @@ export function DocumentDetailPage() {
             </div>
           </div>
         </Card>
+
+        {(doc.hasTablePreview ||
+          doc.extractionMethod === 'tabular' ||
+          isSpreadsheetExtension(doc.fileExtension)) && (
+          <SpreadsheetPreviewPanel
+            documentId={doc.id}
+            versionId={doc.currentVersionId}
+            sheetCount={doc.sheetCount}
+            tableRowCount={doc.tableRowCount}
+            tableColumnCount={doc.tableColumnCount}
+            enabled
+          />
+        )}
       </div>
 
       <div className="mt-6">

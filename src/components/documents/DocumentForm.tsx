@@ -252,7 +252,7 @@ export function DocumentForm({
         )}
         {fileError && <p className="text-sm text-red-600">{fileError}</p>}
         <p className="text-xs text-slate-400">
-          Formatos permitidos: PDF, DOC, DOCX, XLS, XLSX, CSV e TXT. Tamanho máximo:{' '}
+          Formatos permitidos: PDF, DOC, DOCX, XLS, XLSX, CSV, TSV e TXT. Tamanho máximo:{' '}
           {formatFileSize(MAX_UPLOAD_SIZE_BYTES)}. O arquivo é enviado após salvar os dados do
           documento.
         </p>

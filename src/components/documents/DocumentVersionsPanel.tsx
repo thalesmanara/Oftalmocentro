@@ -12,7 +12,10 @@ import {
   formatDateTime,
   formatDurationMs,
   formatFileSize,
+  formatOcrQualityScore,
   extractionMethodLabel,
+  ocrQualityGradeLabel,
+  ocrQualityGradeVariant,
   ocrStatusLabel,
   ocrStatusVariant,
   validationStatusLabel,
@@ -225,11 +228,20 @@ export function DocumentVersionsPanel({
                       ) : (
                         <span className="text-slate-500">—</span>
                       )}
+                      {version.ocrQualityGrade && (
+                        <Badge variant={ocrQualityGradeVariant(version.ocrQualityGrade)}>
+                          {ocrQualityGradeLabel(version.ocrQualityGrade)}{' '}
+                          {formatOcrQualityScore(version.ocrQualityScore)}
+                        </Badge>
+                      )}
                       {version.ocrDurationMs != null && (
                         <p className="text-xs text-slate-500">
                           {formatDurationMs(version.ocrDurationMs)}
                           {version.ocrLanguages ? ` · ${version.ocrLanguages}` : ''}
                         </p>
+                      )}
+                      {version.ocrReviewReason && (
+                        <p className="text-xs text-amber-700">{version.ocrReviewReason}</p>
                       )}
                       {version.ocrEngine && (
                         <p className="text-xs text-slate-500">{version.ocrEngine}</p>
@@ -237,7 +249,15 @@ export function DocumentVersionsPanel({
                     </div>
                   </td>
                   <td className="py-3 pr-3 text-slate-600">
-                    {extractionMethodLabel(version.extractionMethod)}
+                    <div className="space-y-1">
+                      <div>{extractionMethodLabel(version.extractionMethod)}</div>
+                      {(version.sheetCount != null || version.tableRowCount != null) && (
+                        <p className="text-xs text-slate-500">
+                          {version.sheetCount ?? 0} aba(s) · {version.tableRowCount ?? 0} linhas ·{' '}
+                          {version.tableColumnCount ?? 0} cols
+                        </p>
+                      )}
+                    </div>
                   </td>
                   <td className="py-3 pr-3">
                     <Badge variant={statusVariant(version.status)}>

@@ -122,6 +122,64 @@ export interface Document {
   ocrDerivedFileName?: string | null
   ocrPageCount?: number | null
   hasOcrDerivedFile?: boolean | null
+  ocrQualityScore?: number | null
+  ocrQualityGrade?: string | null
+  ocrWordCount?: number | null
+  ocrUniqueWordCount?: number | null
+  ocrCharacterCount?: number | null
+  ocrCharactersPerPage?: number | null
+  ocrQualityReason?: string | null
+  ocrReviewReason?: string | null
+  ocrMode?: string | null
+  sheetCount?: number | null
+  tableRowCount?: number | null
+  tableColumnCount?: number | null
+  tableSummary?: TableSummary | null
+  hasTablePreview?: boolean | null
+}
+
+export interface TableSheetSummary {
+  name?: string
+  rows?: number
+  columns?: number
+  headers?: string[]
+  hasMergedCells?: boolean
+}
+
+export interface TableSummary {
+  sheetCount?: number
+  rowCount?: number
+  columnCount?: number
+  sheets?: TableSheetSummary[]
+  warnings?: string[]
+  engine?: string
+}
+
+export interface TablePreviewRow {
+  rowNumber: number
+  values: string[]
+}
+
+export interface TablePreviewSheet {
+  headers: string[]
+  rows: TablePreviewRow[]
+}
+
+export interface TablePreviewResponse {
+  documentId: string
+  versionId?: string | null
+  sheetCount?: number | null
+  tableRowCount?: number | null
+  tableColumnCount?: number | null
+  tableSummary?: TableSummary | null
+  preview?: Record<string, TablePreviewSheet> | null
+  sheets?: Array<{
+    sheetName: string
+    sheetIndex?: number
+    rowCount?: number
+    columnCount?: number
+    headers?: string[]
+  }>
 }
 
 export type DocumentVersionStatus = 'PROCESSING' | 'READY' | 'FAILED' | 'ARCHIVED' | 'CURRENT'
@@ -165,6 +223,20 @@ export interface DocumentVersion {
   ocrDerivedFileName?: string | null
   ocrPageCount?: number | null
   hasOcrDerivedFile?: boolean | null
+  ocrQualityScore?: number | null
+  ocrQualityGrade?: string | null
+  ocrWordCount?: number | null
+  ocrUniqueWordCount?: number | null
+  ocrCharacterCount?: number | null
+  ocrCharactersPerPage?: number | null
+  ocrQualityReason?: string | null
+  ocrReviewReason?: string | null
+  ocrMode?: string | null
+  sheetCount?: number | null
+  tableRowCount?: number | null
+  tableColumnCount?: number | null
+  tableSummary?: TableSummary | null
+  hasTablePreview?: boolean | null
 }
 
 export interface SystemSettings {
@@ -203,6 +275,13 @@ export interface HealthComponent {
   pending?: number
   avgDurationMs?: number
   stuck?: number
+  avgQualityScore?: number
+  excellentCount?: number
+  goodCount?: number
+  acceptableCount?: number
+  poorCount?: number
+  manualReviewCount?: number
+  avgAttempts?: number
 }
 
 export interface SystemHealth {
@@ -214,6 +293,7 @@ export interface SystemHealth {
     storage?: HealthComponent
     tika?: HealthComponent
     ocr?: HealthComponent
+    tabular?: HealthComponent
     configuration?: HealthComponent
     sessions?: HealthComponent
     audit?: HealthComponent

@@ -8,7 +8,7 @@ import {
   apiUpload,
 } from './api'
 import { expectArray } from '@/utils/expectArray'
-import type { Document, DocumentFormData, DocumentVersion } from '@/types'
+import type { Document, DocumentFormData, DocumentVersion, TablePreviewResponse } from '@/types'
 
 export interface DocumentFileUploadResult {
   id: string
@@ -98,6 +98,24 @@ function normalizeOcrFields(record: Record<string, unknown>) {
     ocrDerivedFileName: pickString(record, 'ocrDerivedFileName', 'ocr_derived_file_name'),
     ocrPageCount: pickNumber(record, 'ocrPageCount', 'ocr_page_count'),
     hasOcrDerivedFile: hasDerived || null,
+    ocrQualityScore: pickNumber(record, 'ocrQualityScore', 'ocr_quality_score'),
+    ocrQualityGrade: pickString(record, 'ocrQualityGrade', 'ocr_quality_grade'),
+    ocrWordCount: pickNumber(record, 'ocrWordCount', 'ocr_word_count'),
+    ocrUniqueWordCount: pickNumber(record, 'ocrUniqueWordCount', 'ocr_unique_word_count'),
+    ocrCharacterCount: pickNumber(record, 'ocrCharacterCount', 'ocr_character_count'),
+    ocrCharactersPerPage: pickNumber(record, 'ocrCharactersPerPage', 'ocr_characters_per_page'),
+    ocrQualityReason: pickString(record, 'ocrQualityReason', 'ocr_quality_reason'),
+    ocrReviewReason: pickString(record, 'ocrReviewReason', 'ocr_review_reason'),
+    ocrMode: pickString(record, 'ocrMode', 'ocr_mode'),
+    sheetCount: pickNumber(record, 'sheetCount', 'sheet_count'),
+    tableRowCount: pickNumber(record, 'tableRowCount', 'table_row_count'),
+    tableColumnCount: pickNumber(record, 'tableColumnCount', 'table_column_count'),
+    tableSummary: (record.tableSummary ?? record.table_summary ?? null) as Document['tableSummary'],
+    hasTablePreview:
+      record.hasTablePreview === true ||
+      record.has_table_preview === true ||
+      Boolean(record.tableSummary ?? record.table_summary) ||
+      null,
   }
 }
 
@@ -469,6 +487,35 @@ function parseDocumentVersion(data: unknown): DocumentVersion | null {
   }
 
   return null
+}
+
+export async function getTabularPreview(
+  documentId: string,
+  versionId?: string | null
+): Promise<TablePreviewResponse> {
+  const qs = new URLSearchParams({ documentId })
+  if (versionId) qs.set('versionId', versionId)
+  const data = await apiGet<unknown>(`/webhook/documents/tabular/preview?${qs.toString()}`)
+  const record = (data && typeof data === 'object' && 'data' in (data as object)
+    ? ((data as { data: unknown }).data as Record<string, unknown>)
+    : (data as Record<string, unknown>)) || {}
+
+  return {
+    documentId: String(record.documentId ?? record.document_id ?? documentId),
+    versionId: (record.versionId ?? record.version_id ?? versionId ?? null) as string | null,
+    sheetCount: Number(record.sheetCount ?? record.sheet_count ?? 0) || null,
+    tableRowCount: Number(record.tableRowCount ?? record.table_row_count ?? 0) || null,
+    tableColumnCount: Number(record.tableColumnCount ?? record.table_column_count ?? 0) || null,
+    tableSummary: (record.tableSummary ??
+      record.table_summary ??
+      record.summary ??
+      null) as TablePreviewResponse['tableSummary'],
+    preview: (record.preview ??
+      record.tablePreview ??
+      record.table_preview ??
+      null) as TablePreviewResponse['preview'],
+    sheets: (record.sheets as TablePreviewResponse['sheets']) ?? undefined,
+  }
 }
 
 export async function getDocumentVersions(documentId: string): Promise<DocumentVersion[]> {

@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """Minimal internal OCR HTTP API wrapping OCRmyPDF + Tesseract.
 Not for public exposure. Endpoints: GET /health, POST /ocr
+
+Query/form params:
+  languages=por+eng
+  force=true|false
+  quality=standard|high   (high = deskew/rotate/clean/oversample; for retries only)
 """
 from __future__ import annotations
 
@@ -8,7 +13,6 @@ import hashlib
 import os
 import shutil
 import subprocess
-import tempfile
 import time
 import uuid
 from pathlib import Path
@@ -19,6 +23,7 @@ app = Flask(__name__)
 
 OCR_LANGUAGES = os.environ.get("OCR_LANGUAGES", "por+eng")
 OCR_TIMEOUT = int(os.environ.get("OCR_TIMEOUT_SECONDS", "180"))
+OCR_TIMEOUT_HQ = int(os.environ.get("OCR_TIMEOUT_HQ_SECONDS", str(OCR_TIMEOUT + 120)))
 MAX_UPLOAD_BYTES = int(os.environ.get("OCR_MAX_UPLOAD_BYTES", str(40 * 1024 * 1024)))
 WORK_DIR = Path(os.environ.get("OCR_WORK_DIR", "/tmp/ocr-work"))
 WORK_DIR.mkdir(parents=True, exist_ok=True)
@@ -63,6 +68,17 @@ def health():
             "languagesInstalled": langs,
             "defaultLanguages": OCR_LANGUAGES,
             "timeoutSeconds": OCR_TIMEOUT,
+            "modes": ["STANDARD", "HIGH_QUALITY"],
+            "features": {
+                "deskew": True,
+                "rotatePages": True,
+                "clean": True,
+                "cleanFinal": True,
+                "optimize": True,
+                "oversample": True,
+                "forceOcr": True,
+                "redoOcr": True,
+            },
         }
     )
 
@@ -78,6 +94,12 @@ def ocr():
     force = str(
         request.form.get("force") or request.args.get("force") or "false"
     ).lower() in {"1", "true", "yes"}
+    quality_raw = (
+        request.form.get("quality") or request.args.get("quality") or "standard"
+    ).strip().lower()
+    high_quality = quality_raw in {"high", "high_quality", "hq", "high-quality"}
+    mode_label = "HIGH_QUALITY" if high_quality else "STANDARD"
+    timeout = OCR_TIMEOUT_HQ if high_quality else OCR_TIMEOUT
 
     job_id = str(uuid.uuid4())
     job_dir = WORK_DIR / job_id
@@ -90,7 +112,6 @@ def ocr():
         if f is not None:
             f.save(in_path)
         elif request.data:
-            # raw application/pdf body (preferred by n8n HTTP binaryData)
             in_path.write_bytes(request.data)
         else:
             return jsonify(
@@ -105,7 +126,6 @@ def ocr():
                 {"ok": False, "code": "FILE_TOO_LARGE", "message": "Arquivo excede o limite do OCR."}
             ), 413
 
-        # basic PDF magic
         with open(in_path, "rb") as fh:
             head = fh.read(5)
         if not head.startswith(b"%PDF"):
@@ -119,27 +139,43 @@ def ocr():
             languages,
             "--output-type",
             "pdf",
-            "--optimize",
-            "1",
             "--jobs",
             "1",
             "--tesseract-timeout",
-            str(max(30, OCR_TIMEOUT - 20)),
+            str(max(30, timeout - 30)),
         ]
-        if force:
-            cmd.append("--force-ocr")
+
+        if high_quality:
+            # retry mode only — slower, higher quality
+            cmd.extend(
+                [
+                    "--optimize",
+                    "1",
+                    "--deskew",
+                    "--rotate-pages",
+                    "--clean",
+                    "--clean-final",
+                    "--oversample",
+                    "300",
+                    "--force-ocr",
+                ]
+            )
         else:
-            cmd.append("--skip-text")
+            cmd.extend(["--optimize", "1"])
+            if force:
+                cmd.append("--force-ocr")
+            else:
+                cmd.append("--skip-text")
+
         cmd.extend([str(in_path), str(out_path)])
 
         proc = subprocess.run(
             cmd,
             capture_output=True,
             text=True,
-            timeout=OCR_TIMEOUT,
+            timeout=timeout,
         )
 
-        # ocrmypdf exit 6 = already has text when --skip-text; treat as success copy
         if proc.returncode == 6 and not out_path.exists():
             shutil.copyfile(in_path, out_path)
         elif proc.returncode not in (0, 6) or not out_path.exists():
@@ -165,13 +201,13 @@ def ocr():
         resp.headers["X-OCR-Engine"] = "ocrmypdf+tesseract"
         resp.headers["X-OCR-Languages"] = languages
         resp.headers["X-OCR-Job-Id"] = job_id
+        resp.headers["X-OCR-Mode"] = mode_label
         return resp
     except subprocess.TimeoutExpired:
         return jsonify({"ok": False, "code": "OCR_TIMEOUT", "message": "Tempo limite do OCR excedido."}), 504
     except Exception as exc:
         return jsonify({"ok": False, "code": "OCR_FAILED", "message": "Erro interno no OCR.", "detail": str(exc)[:300]}), 500
     finally:
-        # best-effort cleanup; keep brief for debugging if OCR_KEEP_TEMP=1
         if os.environ.get("OCR_KEEP_TEMP", "0") != "1":
             shutil.rmtree(job_dir, ignore_errors=True)
 

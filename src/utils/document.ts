@@ -9,8 +9,15 @@ export const ALLOWED_EXTENSIONS = [
   'xls',
   'xlsx',
   'csv',
+  'tsv',
   'txt',
 ] as const
+
+export const SPREADSHEET_EXTENSIONS = new Set(['xls', 'xlsx', 'csv', 'tsv'])
+
+export function isSpreadsheetExtension(ext?: string | null): boolean {
+  return SPREADSHEET_EXTENSIONS.has(String(ext || '').toLowerCase().replace(/^\./, ''))
+}
 
 export const ACCEPTED_FILE_TYPES = ALLOWED_EXTENSIONS.map((ext) => `.${ext}`).join(',')
 
@@ -125,11 +132,59 @@ const EXTRACTION_METHOD_LABELS: Record<string, string> = {
   tika: 'Apache Tika',
   ocr: 'OCR (OCRmyPDF)',
   tika_ocr: 'Tika + OCR',
+  tabular: 'Planilha estruturada',
+  sheetjs: 'Planilha estruturada',
 }
 
 export function ocrStatusLabel(status?: string | null): string {
   if (!status) return '—'
   return OCR_STATUS_LABELS[status.toUpperCase()] ?? status
+}
+
+const OCR_QUALITY_GRADE_LABELS: Record<string, string> = {
+  EXCELLENT: 'Excelente',
+  GOOD: 'Boa',
+  ACCEPTABLE: 'Aceitável',
+  POOR: 'Ruim',
+  FAILED: 'Insuficiente',
+  MANUAL_REVIEW: 'Revisão manual',
+}
+
+export function ocrQualityGradeLabel(grade?: string | null): string {
+  if (!grade) return '—'
+  return OCR_QUALITY_GRADE_LABELS[grade.toUpperCase()] ?? grade
+}
+
+export function ocrQualityGradeVariant(
+  grade?: string | null
+): 'default' | 'success' | 'warning' | 'danger' | 'info' {
+  switch ((grade ?? '').toUpperCase()) {
+    case 'EXCELLENT':
+    case 'GOOD':
+      return 'success'
+    case 'ACCEPTABLE':
+      return 'info'
+    case 'POOR':
+      return 'warning'
+    case 'FAILED':
+    case 'MANUAL_REVIEW':
+      return 'danger'
+    default:
+      return 'default'
+  }
+}
+
+export function ocrModeLabel(mode?: string | null): string {
+  if (!mode) return '—'
+  const value = mode.toUpperCase()
+  if (value === 'HIGH_QUALITY') return 'Alta qualidade'
+  if (value === 'STANDARD') return 'Padrão'
+  return mode
+}
+
+export function formatOcrQualityScore(score?: number | null): string {
+  if (score == null || !Number.isFinite(score)) return '—'
+  return `${Math.round(score)}/100`
 }
 
 export function ocrStatusVariant(
