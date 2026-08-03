@@ -1,0 +1,345 @@
+{
+  "results": [
+    {
+      "name": "Login autorizado",
+      "pass": true,
+      "detail": "status=200"
+    },
+    {
+      "name": "11. GET backups sem token → 401",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "12. GET backups autorizado",
+      "pass": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "1. Migration/registros existem",
+      "pass": true,
+      "detail": "runs=11"
+    },
+    {
+      "name": "9. Status SUCCESS/PARTIAL/FAILED coerente",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "3. Backup banco registrado (PARTIAL lógico)",
+      "pass": true,
+      "detail": "oftalmocentro_database_20260802_024002.json"
+    },
+    {
+      "name": "5. Export workflows",
+      "pass": true,
+      "detail": "oftalmocentro_n8n_workflows_20260802_024450.json"
+    },
+    {
+      "name": "4. Inventário documentos",
+      "pass": true,
+      "detail": "oftalmocentro_documents_20260802_024006.json"
+    },
+    {
+      "name": "6. Arquivo > 0 (banco/workflows)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "7. SHA-256 presente (abreviado na API)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "8. Manifesto/limitations",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "10. Sem segredo/path físico na API",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "14. POST run suportado",
+      "pass": true,
+      "detail": "HTTP 200"
+    },
+    {
+      "name": "15. Health admin com backup",
+      "pass": true,
+      "detail": "{\"status\":\"ok\",\"lastBackupAt\":\"2026-08-02T02:40:06.525Z\",\"lastBackupStatus\":\"PARTIAL\",\"lastBackupType\":\"FULL\",\"ageHours\":0.1}"
+    },
+    {
+      "name": "16. Retenção destrutiva não ativa",
+      "pass": true,
+      "detail": "não implementada"
+    },
+    {
+      "name": "17. Restore isolado pendente",
+      "pass": true,
+      "detail": "esperado pendente"
+    },
+    {
+      "name": "20. Sem funcionalidade fictícia de DR",
+      "pass": true,
+      "detail": ""
+    }
+  ],
+  "list": {
+    "runs": [
+      {
+        "id": "8d8fafdb-c5a3-419b-84f9-b1adc6c553af",
+        "backupType": "N8N_WORKFLOWS",
+        "status": "VERIFIED",
+        "startedAt": "2026-08-02T02:44:50.588+00:00",
+        "finishedAt": "2026-08-02T02:44:50.96+00:00",
+        "durationMs": 372,
+        "fileName": "oftalmocentro_n8n_workflows_20260802_024450.json",
+        "storageLocation": "local:backups",
+        "fileSize": 638450,
+        "checksum": "80d8e64190dc…",
+        "recordsCount": 50,
+        "triggeredBy": "06e0915e-0f90-42b1-a32c-ae5e0f7de1c6",
+        "errorCode": null,
+        "errorMessage": null,
+        "createdAt": "2026-08-02T02:44:50.621997+00:00"
+      },
+      {
+        "id": "c9ec3517-cc6d-4107-a244-c5ad7ce7d10a",
+        "backupType": "N8N_WORKFLOWS",
+        "status": "VERIFIED",
+        "startedAt": "2026-08-02T02:44:39.432+00:00",
+        "finishedAt": "2026-08-02T02:44:39.651+00:00",
+        "durationMs": 219,
+        "fileName": "oftalmocentro_n8n_workflows_20260802_024439.json",
+        "storageLocation": "local:backups",
+        "fileSize": 638450,
+        "checksum": "1aaf016b8620…",
+        "recordsCount": 50,
+        "triggeredBy": "06e0915e-0f90-42b1-a32c-ae5e0f7de1c6",
+        "errorCode": null,
+        "errorMessage": null,
+        "createdAt": "2026-08-02T02:44:39.465136+00:00"
+      },
+      {
+        "id": "bb4d8d87-2157-49d9-b1f5-a9a87aeecf1a",
+        "backupType": "N8N_WORKFLOWS",
+        "status": "VERIFIED",
+        "startedAt": "2026-08-02T02:44:20.116+00:00",
+        "finishedAt": "2026-08-02T02:44:20.386+00:00",
+        "durationMs": 270,
+        "fileName": "oftalmocentro_n8n_workflows_20260802_024420.json",
+        "storageLocation": "local:backups",
+        "fileSize": 638450,
+        "checksum": "04b11472795b…",
+        "recordsCount": 50,
+        "triggeredBy": "06e0915e-0f90-42b1-a32c-ae5e0f7de1c6",
+        "errorCode": null,
+        "errorMessage": null,
+        "createdAt": "2026-08-02T02:44:20.146394+00:00"
+      },
+      {
+        "id": "1faa81bb-b50b-4e43-8c68-b49ecd3e093c",
+        "backupType": "DOCUMENT_FILES",
+        "status": "PARTIAL",
+        "startedAt": "2026-08-02T02:40:06.358+00:00",
+        "finishedAt": "2026-08-02T02:40:06.43+00:00",
+        "durationMs": 72,
+        "fileName": "oftalmocentro_documents_20260802_024006.json",
+        "storageLocation": "local:backups",
+        "fileSize": 20006,
+        "checksum": "cb55724a223d…",
+        "recordsCount": 57,
+        "triggeredBy": null,
+        "errorCode": null,
+        "errorMessage": null,
+        "createdAt": "2026-08-02T02:40:06.389297+00:00"
+      },
+      {
+        "id": "9d612c36-33d1-47a0-a941-5197caac6295",
+        "backupType": "N8N_WORKFLOWS",
+        "status": "VERIFIED",
+        "startedAt": "2026-08-02T02:40:04.691+00:00",
+        "finishedAt": "2026-08-02T02:40:05.159+00:00",
+        "durationMs": 469,
+        "fileName": "oftalmocentro_n8n_workflows_20260802_024004.json",
+        "storageLocation": "local:backups",
+        "fileSize": 638450,
+        "checksum": "6f5d48deed85…",
+        "recordsCount": 50,
+        "triggeredBy": null,
+        "errorCode": null,
+        "errorMessage": null,
+        "createdAt": "2026-08-02T02:40:04.754747+00:00"
+      },
+      {
+        "id": "1101efe8-a890-41ee-aa1c-92677bd670b5",
+        "backupType": "DATABASE",
+        "status": "PARTIAL",
+        "startedAt": "2026-08-02T02:40:01.81+00:00",
+        "finishedAt": "2026-08-02T02:40:02.672+00:00",
+        "durationMs": 865,
+        "fileName": "oftalmocentro_database_20260802_024002.json",
+        "storageLocation": "local:backups",
+        "fileSize": 1311719,
+        "checksum": "2e9813ce7ac3…",
+        "recordsCount": 725,
+        "triggeredBy": null,
+        "errorCode": null,
+        "errorMessage": null,
+        "createdAt": "2026-08-02T02:40:02.054986+00:00"
+      },
+      {
+        "id": "1ae82995-de3e-4696-a433-37dbec97cd6e",
+        "backupType": "FULL",
+        "status": "PARTIAL",
+        "startedAt": "2026-08-02T02:40:01.42+00:00",
+        "finishedAt": "2026-08-02T02:40:06.525+00:00",
+        "durationMs": 5106,
+        "fileName": null,
+        "storageLocation": "local:backups",
+        "fileSize": null,
+        "checksum": null,
+        "recordsCount": 832,
+        "triggeredBy": null,
+        "errorCode": null,
+        "errorMessage": null,
+        "createdAt": "2026-08-02T02:40:01.54849+00:00"
+      },
+      {
+        "id": "521be5d3-ef6d-4cf0-a948-ba00f7046d82",
+        "backupType": "DOCUMENT_FILES",
+        "status": "FAILED",
+        "startedAt": "2026-08-02T02:38:07.913+00:00",
+        "finishedAt": "2026-08-02T02:38:08.228+00:00",
+        "durationMs": 315,
+        "fileName": "oftalmocentro_documents_20260802_023808.json",
+        "storageLocation": "local:backups",
+        "fileSize": null,
+        "checksum": null,
+        "recordsCount": null,
+        "triggeredBy": null,
+        "errorCode": "WRITE_FAILED",
+        "errorMessage": "The file or directory does not exist",
+        "createdAt": "2026-08-02T02:38:08.173479+00:00"
+      },
+      {
+        "id": "ba54dc55-dbb8-499a-9dad-7e6f08d148d1",
+        "backupType": "N8N_WORKFLOWS",
+        "status": "FAILED",
+        "startedAt": "2026-08-02T02:38:07.062+00:00",
+        "finishedAt": "2026-08-02T02:38:07.275+00:00",
+        "durationMs": 213,
+        "fileName": "oftalmocentro_n8n_workflows_20260802_023807.json",
+        "storageLocation": "local:backups",
+        "fileSize": null,
+        "checksum": null,
+        "recordsCount": null,
+        "triggeredBy": null,
+        "errorCode": "WRITE_FAILED",
+        "errorMessage": "The file or directory does not exist",
+        "createdAt": "2026-08-02T02:38:07.089542+00:00"
+      },
+      {
+        "id": "3586eeb0-c837-4168-a125-f05ea702ae73",
+        "backupType": "DATABASE",
+        "status": "FAILED",
+        "startedAt": "2026-08-02T02:38:05.702+00:00",
+        "finishedAt": "2026-08-02T02:38:06.445+00:00",
+        "durationMs": 765,
+        "fileName": "oftalmocentro_database_20260802_023805.json",
+        "storageLocation": "local:backups",
+        "fileSize": null,
+        "checksum": null,
+        "recordsCount": null,
+        "triggeredBy": null,
+        "errorCode": "WRITE_FAILED",
+        "errorMessage": "The file or directory does not exist",
+        "createdAt": "2026-08-02T02:38:05.739788+00:00"
+      },
+      {
+        "id": "8df3d773-eca0-4eb2-8484-661ba3e01982",
+        "backupType": "FULL",
+        "status": "FAILED",
+        "startedAt": "2026-08-02T02:38:05.601+00:00",
+        "finishedAt": "2026-08-02T02:38:08.333+00:00",
+        "durationMs": 2736,
+        "fileName": null,
+        "storageLocation": "local:backups",
+        "fileSize": null,
+        "checksum": null,
+        "recordsCount": 0,
+        "triggeredBy": null,
+        "errorCode": "COMPONENT_FAILED",
+        "errorMessage": "Um ou mais componentes de backup falharam.",
+        "createdAt": "2026-08-02T02:38:05.646496+00:00"
+      }
+    ],
+    "summaryByType": {
+      "DATABASE": {
+        "status": "PARTIAL",
+        "finishedAt": "2026-08-02T02:40:02.672+00:00",
+        "startedAt": "2026-08-02T02:40:01.81+00:00",
+        "createdAt": "2026-08-02T02:40:02.054986+00:00",
+        "fileName": "oftalmocentro_database_20260802_024002.json",
+        "checksum": "2e9813ce7ac3…"
+      },
+      "DOCUMENT_FILES": {
+        "status": "PARTIAL",
+        "finishedAt": "2026-08-02T02:40:06.43+00:00",
+        "startedAt": "2026-08-02T02:40:06.358+00:00",
+        "createdAt": "2026-08-02T02:40:06.389297+00:00",
+        "fileName": "oftalmocentro_documents_20260802_024006.json",
+        "checksum": "cb55724a223d…"
+      },
+      "FULL": {
+        "status": "PARTIAL",
+        "finishedAt": "2026-08-02T02:40:06.525+00:00",
+        "startedAt": "2026-08-02T02:40:01.42+00:00",
+        "createdAt": "2026-08-02T02:40:01.54849+00:00",
+        "fileName": null,
+        "checksum": null
+      },
+      "N8N_WORKFLOWS": {
+        "status": "VERIFIED",
+        "finishedAt": "2026-08-02T02:44:50.96+00:00",
+        "startedAt": "2026-08-02T02:44:50.588+00:00",
+        "createdAt": "2026-08-02T02:44:50.621997+00:00",
+        "fileName": "oftalmocentro_n8n_workflows_20260802_024450.json",
+        "checksum": "80d8e64190dc…"
+      }
+    },
+    "limitations": {
+      "level": "operational_local",
+      "pgDump": false,
+      "externalStorage": false,
+      "restoreTestIsolated": false,
+      "documentPacking": "inventory_only",
+      "disasterRecovery": false
+    }
+  },
+  "run": {
+    "success": true,
+    "data": {
+      "ok": true,
+      "backupType": "N8N_WORKFLOWS",
+      "backupRunId": "fb4d516e-fc31-4d23-8660-101fd61b5bb2",
+      "status": "VERIFIED",
+      "fileName": "oftalmocentro_n8n_workflows_20260802_024551.json",
+      "storageLocation": "local:backups",
+      "checksum": "6217779f8218…",
+      "fileSize": 642982,
+      "recordsCount": 50,
+      "limitations": {
+        "level": "operational_local",
+        "disasterRecovery": false
+      }
+    },
+    "meta": {
+      "requestId": "8c40e14a-5dca-46f4-a821-2b65cc52011c",
+      "timestamp": "2026-08-02T02:45:52.174Z",
+      "durationMs": 878
+    }
+  }
+}

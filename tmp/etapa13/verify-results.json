@@ -1,0 +1,43 @@
+{
+  "validarUploadWorkflowId": "xSEbtkxFXCxlHO2s",
+  "publishedVersionId": "4403294d-f768-4b60-821d-725d4b6c1267",
+  "parentUploadWorkflowId": "vymsco8fVdIvgW4b",
+  "parentPublishedVersionId": "60d96f0c-b215-44db-90a1-e3d8794e5efd",
+  "changes": [
+    "Validar e normalizar: getBinaryDataBuffer when input has binary; getBinaryStream+binaryToBuffer fallback; skip base64 when data is filesystem-v2",
+    "Validar e normalizar: resolveMetaSize prefers bin.bytes (fileSize is pretty string like '45 B')",
+    "Validar e normalizar: double-ext FILE_EXTENSION_MISMATCH before generic NOT_ALLOWED",
+    "Added Anexar binário node so Postgres policy row keeps Trigger binary for getBinaryDataBuffer",
+    "Aplicar Tika already had strongConflict softening (kept)",
+    "Parent Validar payload: early FILE_EMPTY when binary bytes===0"
+  ],
+  "curlBase": "https://n8n.oftalmocentrouberaba.cloud/webhook/documents/upload",
+  "field": "file0",
+  "results": [
+    {
+      "case": "empty.pdf",
+      "curl": "FAIL http=500 (n8n webhook binary ingress crashes on 0-byte multipart before workflow)",
+      "pinTest": "PASS FILE_EMPTY (execution 6551)"
+    },
+    {
+      "case": "doc.pdf.exe",
+      "curl": "PASS 400 FILE_EXTENSION_MISMATCH"
+    },
+    {
+      "case": "x.js",
+      "curl": "PASS 400 FILE_EXTENSION_NOT_ALLOWED"
+    },
+    {
+      "case": "tiny.pdf",
+      "curl": "PASS 200/409 with checksum or DUPLICATE_FILE"
+    },
+    {
+      "case": "big.pdf >25MB",
+      "curl": "PASS 413 FILE_TOO_LARGE"
+    },
+    {
+      "case": "no auth",
+      "curl": "PASS 401 UNAUTHORIZED"
+    }
+  ]
+}

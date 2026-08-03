@@ -15,6 +15,7 @@ const COMPONENT_LABELS: Record<string, string> = {
   sessions: 'Sessões',
   audit: 'Auditoria',
   documents: 'Documentos',
+  backup: 'Backup',
 }
 
 function statusLabel(status: UiState): string {
@@ -73,6 +74,11 @@ function componentDetails(key: string, component: HealthComponent): string {
     if (typeof component.processing === 'number') parts.push(`${component.processing} processando`)
     if (typeof component.errors === 'number') parts.push(`${component.errors} erro`)
     if (typeof component.missingFiles === 'number') parts.push(`${component.missingFiles} sem arquivo`)
+  }
+  if (key === 'backup') {
+    if (component.lastBackupType) parts.push(component.lastBackupType)
+    if (component.lastBackupStatus) parts.push(component.lastBackupStatus)
+    if (typeof component.ageHours === 'number') parts.push(`${component.ageHours}h`)
   }
   return parts.join(' · ')
 }

@@ -8,7 +8,7 @@ import {
   apiUpload,
 } from './api'
 import { expectArray } from '@/utils/expectArray'
-import type { Document, DocumentFormData } from '@/types'
+import type { Document, DocumentFormData, DocumentVersion } from '@/types'
 
 export interface DocumentFileUploadResult {
   id: string
@@ -32,13 +32,96 @@ function normalizeExpirationDate(value: string | null | undefined): string | nul
   return value.split('T')[0]
 }
 
-function normalizeDocument(doc: Document): Document {
+function pickRaw(
+  record: Record<string, unknown>,
+  ...keys: string[]
+): unknown {
+  for (const key of keys) {
+    if (record[key] !== undefined && record[key] !== null) {
+      return record[key]
+    }
+  }
+  return null
+}
+
+function pickString(
+  record: Record<string, unknown>,
+  ...keys: string[]
+): string | null {
+  const value = pickRaw(record, ...keys)
+  if (value == null) return null
+  return String(value)
+}
+
+function pickNumber(
+  record: Record<string, unknown>,
+  ...keys: string[]
+): number | null {
+  const value = pickRaw(record, ...keys)
+  if (value == null || value === '') return null
+  const num = Number(value)
+  return Number.isFinite(num) ? num : null
+}
+
+function normalizeFileValidationFields(record: Record<string, unknown>) {
   return {
-    ...doc,
-    subcategoryId: doc.subcategoryId ?? null,
-    subcategoryName: doc.subcategoryName ?? null,
-    subcategoryDescription: doc.subcategoryDescription ?? null,
-    expirationDate: normalizeExpirationDate(doc.expirationDate),
+    originalFileName: pickString(record, 'originalFileName', 'original_file_name'),
+    storedFileName: pickString(record, 'storedFileName', 'stored_file_name'),
+    fileExtension: pickString(record, 'fileExtension', 'file_extension'),
+    browserMimeType: pickString(record, 'browserMimeType', 'browser_mime_type'),
+    detectedMimeType: pickString(record, 'detectedMimeType', 'detected_mime_type'),
+    checksum: pickString(record, 'checksum'),
+    checksumAlgorithm: pickString(record, 'checksumAlgorithm', 'checksum_algorithm'),
+    validationStatus: pickString(record, 'validationStatus', 'validation_status'),
+    validationErrorCode: pickString(record, 'validationErrorCode', 'validation_error_code'),
+    validatedAt: pickString(record, 'validatedAt', 'validated_at'),
+    pageCount: pickNumber(record, 'pageCount', 'page_count'),
+  }
+}
+
+function normalizeOcrFields(record: Record<string, unknown>) {
+  const hasDerived =
+    record.hasOcrDerivedFile === true ||
+    record.has_ocr_derived_file === true ||
+    Boolean(pickString(record, 'ocrDerivedFileName', 'ocr_derived_file_name'))
+
+  return {
+    ocrStatus: pickString(record, 'ocrStatus', 'ocr_status'),
+    ocrEngine: pickString(record, 'ocrEngine', 'ocr_engine'),
+    ocrLanguages: pickString(record, 'ocrLanguages', 'ocr_languages'),
+    ocrAttempts: pickNumber(record, 'ocrAttempts', 'ocr_attempts'),
+    ocrErrorCode: pickString(record, 'ocrErrorCode', 'ocr_error_code'),
+    ocrStartedAt: pickString(record, 'ocrStartedAt', 'ocr_started_at'),
+    ocrFinishedAt: pickString(record, 'ocrFinishedAt', 'ocr_finished_at'),
+    ocrDurationMs: pickNumber(record, 'ocrDurationMs', 'ocr_duration_ms'),
+    extractionMethod: pickString(record, 'extractionMethod', 'extraction_method'),
+    ocrDerivedFileName: pickString(record, 'ocrDerivedFileName', 'ocr_derived_file_name'),
+    ocrPageCount: pickNumber(record, 'ocrPageCount', 'ocr_page_count'),
+    hasOcrDerivedFile: hasDerived || null,
+  }
+}
+
+function normalizeDocument(doc: Document | Record<string, unknown>): Document {
+  const record = doc as Record<string, unknown>
+  const base = doc as Document
+
+  return {
+    ...base,
+    subcategoryId: (base.subcategoryId ?? pickString(record, 'subcategoryId', 'subcategory_id')) ?? null,
+    subcategoryName:
+      (base.subcategoryName ?? pickString(record, 'subcategoryName', 'subcategory_name')) ?? null,
+    subcategoryDescription:
+      (base.subcategoryDescription ??
+        pickString(record, 'subcategoryDescription', 'subcategory_description')) ?? null,
+    expirationDate: normalizeExpirationDate(
+      base.expirationDate ?? pickString(record, 'expirationDate', 'expiration_date')
+    ),
+    fileName: base.fileName ?? pickString(record, 'fileName', 'file_name'),
+    fileType: base.fileType ?? pickString(record, 'fileType', 'file_type'),
+    fileSize: base.fileSize ?? pickNumber(record, 'fileSize', 'file_size'),
+    filePath: base.filePath ?? pickString(record, 'filePath', 'file_path'),
+    ...normalizeFileValidationFields(record),
+    ...normalizeOcrFields(record),
   }
 }
 
@@ -336,6 +419,170 @@ export async function processDocument(documentId: string): Promise<DocumentProce
 
 export async function deleteDocument(id: string): Promise<void> {
   await apiDelete('/webhook/documents/delete', { id })
+}
+
+function normalizeDocumentVersion(record: Record<string, unknown>): DocumentVersion {
+  return {
+    id: String(record.id ?? ''),
+    documentId: String(record.documentId ?? record.document_id ?? ''),
+    versionNumber: Number(record.versionNumber ?? record.version_number ?? 0),
+    isCurrent: record.isCurrent === true || record.is_current === true,
+    status: String(record.status ?? ''),
+    fileName: pickString(record, 'fileName', 'file_name'),
+    fileSize: pickNumber(record, 'fileSize', 'file_size'),
+    mimeType: pickString(record, 'mimeType', 'mime_type'),
+    titleSnapshot: pickString(record, 'titleSnapshot', 'title_snapshot'),
+    descriptionSnapshot: pickString(record, 'descriptionSnapshot', 'description_snapshot'),
+    expirationDate: normalizeExpirationDate(
+      pickString(record, 'expirationDate', 'expiration_date')
+    ),
+    processingStatus: pickString(record, 'processingStatus', 'processing_status'),
+    createdBy: pickString(record, 'createdBy', 'created_by'),
+    createdByName: pickString(record, 'createdByName', 'created_by_name'),
+    createdAt: String(record.createdAt ?? record.created_at ?? ''),
+    ...normalizeFileValidationFields(record),
+    ...normalizeOcrFields(record),
+  }
+}
+
+function parseDocumentVersion(data: unknown): DocumentVersion | null {
+  if (!data) return null
+
+  if (Array.isArray(data) && data.length > 0) {
+    return parseDocumentVersion(data[0])
+  }
+
+  if (typeof data !== 'object') return null
+
+  const record = data as Record<string, unknown>
+
+  if (record.id) {
+    return normalizeDocumentVersion(record)
+  }
+
+  if (record.version) {
+    return parseDocumentVersion(record.version)
+  }
+
+  if (record.data) {
+    return parseDocumentVersion(record.data)
+  }
+
+  return null
+}
+
+export async function getDocumentVersions(documentId: string): Promise<DocumentVersion[]> {
+  const data = await apiGet<unknown>(
+    `/webhook/documents/versions?documentId=${encodeURIComponent(documentId)}`
+  )
+  return expectArray(data, 'versões do documento').map((item) =>
+    normalizeDocumentVersion(item as Record<string, unknown>)
+  )
+}
+
+export async function getDocumentVersionDetail(
+  documentId: string,
+  versionId: string
+): Promise<DocumentVersion> {
+  const data = await apiGet<unknown>(
+    `/webhook/documents/versions/detail?documentId=${encodeURIComponent(
+      documentId
+    )}&versionId=${encodeURIComponent(versionId)}`
+  )
+  const version = parseDocumentVersion(data)
+  if (!version) {
+    throw new ApiError({
+      status: 500,
+      code: 'INTERNAL_ERROR',
+      message: 'Resposta inválida ao carregar versão do documento',
+    })
+  }
+  return version
+}
+
+export async function restoreDocumentVersion(
+  documentId: string,
+  versionId: string
+): Promise<Document> {
+  const result = await apiPost<unknown>('/webhook/documents/versions/restore', {
+    documentId,
+    versionId,
+  })
+
+  const parsed = parseDocument(result)
+  if (parsed) return parsed
+
+  return resolveDocumentAfterUpdate(result, documentId)
+}
+
+export async function downloadDocumentVersion(
+  documentId: string,
+  versionId: string,
+  fileName?: string
+): Promise<void> {
+  const { blob, fileName: downloadedFileName } = await apiDownload(
+    `/webhook/documents/versions/download?documentId=${encodeURIComponent(
+      documentId
+    )}&versionId=${encodeURIComponent(versionId)}`
+  )
+
+  const objectUrl = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = objectUrl
+  link.download = downloadedFileName ?? fileName ?? 'documento'
+  document.body.appendChild(link)
+  link.click()
+  link.remove()
+  URL.revokeObjectURL(objectUrl)
+}
+
+export interface DocumentOcrResult {
+  ok: boolean
+  documentId?: string
+  versionId?: string
+  ocrStatus?: string | null
+  extractionMethod?: string | null
+  ocrEngine?: string | null
+  ocrLanguages?: string | null
+  ocrDurationMs?: number | null
+  ocrAttempts?: number | null
+  code?: string | null
+  message?: string | null
+}
+
+export async function runDocumentOcr(
+  documentId: string,
+  options?: { versionId?: string; force?: boolean }
+): Promise<DocumentOcrResult> {
+  const data = await apiPost<unknown>('/webhook/documents/ocr', {
+    documentId,
+    versionId: options?.versionId ?? null,
+    force: options?.force ?? true,
+  })
+
+  const record =
+    data && typeof data === 'object'
+      ? ((data as Record<string, unknown>).data as Record<string, unknown> | undefined) ??
+        (data as Record<string, unknown>)
+      : null
+
+  if (!record || typeof record !== 'object') {
+    return { ok: false, code: 'INTERNAL_ERROR', message: 'Resposta inválida do OCR.' }
+  }
+
+  return {
+    ok: record.ok === true,
+    documentId: pickString(record, 'documentId', 'document_id') ?? documentId,
+    versionId: pickString(record, 'versionId', 'version_id') ?? undefined,
+    ocrStatus: pickString(record, 'ocrStatus', 'ocr_status'),
+    extractionMethod: pickString(record, 'extractionMethod', 'extraction_method'),
+    ocrEngine: pickString(record, 'ocrEngine', 'ocr_engine'),
+    ocrLanguages: pickString(record, 'ocrLanguages', 'ocr_languages'),
+    ocrDurationMs: pickNumber(record, 'ocrDurationMs', 'ocr_duration_ms'),
+    ocrAttempts: pickNumber(record, 'ocrAttempts', 'ocr_attempts'),
+    code: pickString(record, 'code'),
+    message: pickString(record, 'message'),
+  }
 }
 
 export async function downloadDocumentFile(

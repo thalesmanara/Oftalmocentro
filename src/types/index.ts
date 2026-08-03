@@ -97,6 +97,74 @@ export interface Document {
   updatedByName?: string | null
   createdAt: string
   updatedAt: string
+  currentVersionId?: string | null
+  currentVersionNumber?: number | null
+  originalFileName?: string | null
+  storedFileName?: string | null
+  fileExtension?: string | null
+  browserMimeType?: string | null
+  detectedMimeType?: string | null
+  checksum?: string | null
+  checksumAlgorithm?: string | null
+  validationStatus?: string | null
+  validationErrorCode?: string | null
+  validatedAt?: string | null
+  pageCount?: number | null
+  ocrStatus?: string | null
+  ocrEngine?: string | null
+  ocrLanguages?: string | null
+  ocrAttempts?: number | null
+  ocrErrorCode?: string | null
+  ocrStartedAt?: string | null
+  ocrFinishedAt?: string | null
+  ocrDurationMs?: number | null
+  extractionMethod?: string | null
+  ocrDerivedFileName?: string | null
+  ocrPageCount?: number | null
+  hasOcrDerivedFile?: boolean | null
+}
+
+export type DocumentVersionStatus = 'PROCESSING' | 'READY' | 'FAILED' | 'ARCHIVED' | 'CURRENT'
+
+export interface DocumentVersion {
+  id: string
+  documentId: string
+  versionNumber: number
+  isCurrent: boolean
+  status: DocumentVersionStatus | string
+  fileName?: string | null
+  fileSize?: number | null
+  mimeType?: string | null
+  titleSnapshot?: string | null
+  descriptionSnapshot?: string | null
+  expirationDate?: string | null
+  processingStatus?: string | null
+  createdBy?: string | null
+  createdByName?: string | null
+  createdAt: string
+  checksum?: string | null
+  originalFileName?: string | null
+  storedFileName?: string | null
+  fileExtension?: string | null
+  browserMimeType?: string | null
+  detectedMimeType?: string | null
+  checksumAlgorithm?: string | null
+  validationStatus?: string | null
+  validationErrorCode?: string | null
+  validatedAt?: string | null
+  pageCount?: number | null
+  ocrStatus?: string | null
+  ocrEngine?: string | null
+  ocrLanguages?: string | null
+  ocrAttempts?: number | null
+  ocrErrorCode?: string | null
+  ocrStartedAt?: string | null
+  ocrFinishedAt?: string | null
+  ocrDurationMs?: number | null
+  extractionMethod?: string | null
+  ocrDerivedFileName?: string | null
+  ocrPageCount?: number | null
+  hasOcrDerivedFile?: boolean | null
 }
 
 export interface SystemSettings {
@@ -123,6 +191,18 @@ export interface HealthComponent {
   errors?: number
   missingFiles?: number
   processedWithoutChunks?: number
+  lastBackupAt?: string
+  lastBackupStatus?: string
+  lastBackupType?: string
+  ageHours?: number
+  available?: boolean
+  version?: string
+  languages?: string[] | string
+  queue?: number
+  failures?: number
+  pending?: number
+  avgDurationMs?: number
+  stuck?: number
 }
 
 export interface SystemHealth {
@@ -133,11 +213,56 @@ export interface SystemHealth {
     database?: HealthComponent
     storage?: HealthComponent
     tika?: HealthComponent
+    ocr?: HealthComponent
     configuration?: HealthComponent
     sessions?: HealthComponent
     audit?: HealthComponent
     documents?: HealthComponent
+    backup?: HealthComponent
   }
+}
+
+export type BackupRunType =
+  | 'DATABASE'
+  | 'DOCUMENT_FILES'
+  | 'N8N_WORKFLOWS'
+  | 'FULL'
+  | 'RESTORE_TEST'
+
+export type BackupRunStatus = 'STARTED' | 'SUCCESS' | 'PARTIAL' | 'FAILED' | 'VERIFIED'
+
+export interface BackupRun {
+  id: string
+  backupType: BackupRunType | string
+  status: BackupRunStatus | string
+  startedAt: string
+  finishedAt?: string | null
+  durationMs?: number | null
+  fileName?: string | null
+  storageLocation?: string | null
+  fileSize?: number | null
+  checksum?: string | null
+  recordsCount?: number | null
+  errorCode?: string | null
+  errorMessage?: string | null
+  metadata?: Record<string, unknown> | null
+}
+
+export interface BackupLimitations {
+  level?: string
+  pgDump?: boolean
+  externalStorage?: boolean
+  restoreTestIsolated?: boolean
+  documentPacking?: string
+  disasterRecovery?: boolean
+  [key: string]: unknown
+}
+
+export interface BackupDashboard {
+  items: BackupRun[]
+  lastByType?: Partial<Record<string, BackupRun | null>>
+  limitations: BackupLimitations
+  lastRestoreTest?: BackupRun | null
 }
 
 export interface AuditLog {

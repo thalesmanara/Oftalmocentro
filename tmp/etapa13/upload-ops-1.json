@@ -1,0 +1,82 @@
+{
+  "workflowId": "vymsco8fVdIvgW4b",
+  "operations": [
+    {
+      "type": "updateNodeParameters",
+      "nodeName": "Validar payload",
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const wh = $('Webhook').first();\nconst body = wh.json.body || {};\nconst documentId = String(body.documentId || '').trim();\nconst hasFile = Boolean(wh.binary?.file0 || wh.binary?.file);\nconst errors = [];\nif (!documentId) errors.push('documentId é obrigatório.');\nif (!hasFile) errors.push('file é obrigatório.');\nif (errors.length) {\n  return [{ json: { ok: false, code: 'VALIDATION_ERROR', message: errors.join(' '), statusCode: 400 } }];\n}\nconst binKey = wh.binary?.file0 ? 'file0' : 'file';\nconst bin = wh.binary[binKey];\nreturn [{\n  json: {\n    ok: true,\n    documentId,\n    requestId: String($('Normalizar request').first().json.requestId || ''),\n    binaryPropertyName: binKey,\n    originalFileName: String(bin?.fileName || ''),\n    browserMimeType: String(bin?.mimeType || ''),\n  },\n  binary: wh.binary,\n}];"
+      }
+    },
+    {
+      "type": "addNode",
+      "node": {
+        "name": "Validar upload",
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [1100, -40],
+        "parameters": {
+          "mode": "once",
+          "source": "database",
+          "workflowId": {
+            "__rl": true,
+            "mode": "id",
+            "value": "xSEbtkxFXCxlHO2s",
+            "cachedResultName": "FILES - VALIDAR UPLOAD"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "documentId": "={{ $json.documentId }}",
+              "requestId": "={{ $json.requestId || $('Normalizar request').first().json.requestId || '' }}",
+              "binaryPropertyName": "={{ $json.binaryPropertyName || 'file0' }}",
+              "originalFileName": "={{ $json.originalFileName || '' }}",
+              "browserMimeType": "={{ $json.browserMimeType || '' }}",
+              "fileSizeBytes": "={{ 0 }}"
+            }
+          },
+          "options": { "waitForSubWorkflow": true }
+        }
+      }
+    },
+    {
+      "type": "addNode",
+      "node": {
+        "name": "Avaliar validação",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [1320, -40],
+        "parameters": {
+          "mode": "runOnceForAllItems",
+          "language": "javaScript",
+          "jsCode": "const item = $input.first();\nconst v = item.json || {};\nconst duplicateSame = v.duplicateSameDocument === true;\nconst proceed = v.ok === true && !duplicateSame;\nconst statusCode = duplicateSame ? 409 : Number(v.statusCode || (proceed ? 200 : 400));\nconst code = duplicateSame ? 'DUPLICATE_FILE' : (v.code || (proceed ? null : 'FILE_UNREADABLE'));\nconst message = duplicateSame\n  ? (v.message || 'Arquivo duplicado já existe neste documento.')\n  : (v.message || (proceed ? null : 'Validação de arquivo falhou.'));\nreturn [{\n  json: {\n    ...v,\n    proceed,\n    ok: proceed,\n    statusCode,\n    code: proceed ? null : code,\n    message: proceed ? null : message,\n  },\n  binary: item.binary,\n}];"
+        }
+      }
+    },
+    {
+      "type": "addNode",
+      "node": {
+        "name": "Validação ok?",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [1540, -40],
+        "parameters": {
+          "conditions": {
+            "combinator": "and",
+            "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "loose", "version": 2 },
+            "conditions": [
+              {
+                "id": "v1",
+                "leftValue": "={{ $json.proceed }}",
+                "rightValue": true,
+                "operator": { "type": "boolean", "operation": "true" }
+              }
+            ]
+          },
+          "looseTypeValidation": true
+        }
+      }
+    }
+  ]
+}

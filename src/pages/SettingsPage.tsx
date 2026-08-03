@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
 import { SystemHealthPanel } from '@/components/settings/SystemHealthPanel'
+import { BackupPanel } from '@/components/settings/BackupPanel'
 import { getErrorMessage } from '@/utils/apiError'
 
 type Feedback = { type: 'success' | 'error'; message: string }
@@ -139,6 +140,7 @@ export function SettingsPage() {
       </Card>
 
       <SystemHealthPanel />
+      <BackupPanel />
     </div>
   )
 }

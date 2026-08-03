@@ -1,0 +1,147 @@
+WITH new_document AS (
+  INSERT INTO documents (
+    title,
+    sector_id,
+    category_id,
+    subcategory_id,
+    semantic_description,
+    expiration_date,
+    file_name,
+    file_type,
+    file_size,
+    file_path,
+    extracted_text,
+    processing_status,
+    responsible_user_id,
+    created_by,
+    updated_by
+  )
+  VALUES (
+    '{{ ($json.body.title || "").replace(/'/g, "''") }}',
+
+    '{{ $json.body.sectorId }}'::uuid,
+
+    '{{ $json.body.categoryId }}'::uuid,
+
+    NULLIF(
+      '{{ $json.body.subcategoryId || "" }}',
+      ''
+    )::uuid,
+
+    NULLIF(
+      '{{ ($json.body.semanticDescription || "").replace(/'/g, "''") }}',
+      ''
+    ),
+
+    NULLIF(
+      '{{ $json.body.expirationDate || "" }}',
+      ''
+    )::date,
+
+    NULLIF(
+      '{{ ($json.body.fileName || "").replace(/'/g, "''") }}',
+      ''
+    ),
+
+    NULLIF(
+      '{{ ($json.body.fileType || "").replace(/'/g, "''") }}',
+      ''
+    ),
+
+    NULLIF(
+      '{{ $json.body.fileSize || "" }}',
+      ''
+    )::bigint,
+
+    NULLIF(
+      '{{ ($json.body.filePath || "").replace(/'/g, "''") }}',
+      ''
+    ),
+
+    NULLIF(
+      '{{ ($json.body.extractedText || "").replace(/'/g, "''") }}',
+      ''
+    ),
+
+    'pending',
+
+    NULLIF(
+      '{{ $json.body.responsibleUserId || "" }}',
+      ''
+    )::uuid,
+
+    NULLIF(
+      '{{ $json.body.createdBy || "" }}',
+      ''
+    )::uuid,
+
+    NULLIF(
+      '{{ $json.body.updatedBy || "" }}',
+      ''
+    )::uuid
+  )
+  RETURNING *
+)
+SELECT
+  d.id,
+  d.title,
+
+  d.sector_id AS "sectorId",
+  s.name AS "sectorName",
+
+  d.category_id AS "categoryId",
+  c.name AS "categoryName",
+  c.description AS "categoryDescription",
+
+  d.subcategory_id AS "subcategoryId",
+  sc.name AS "subcategoryName",
+  sc.description AS "subcategoryDescription",
+
+  d.semantic_description AS "semanticDescription",
+  d.expiration_date AS "expirationDate",
+
+  d.file_name AS "fileName",
+  d.file_type AS "fileType",
+  d.file_size AS "fileSize",
+  d.file_path AS "filePath",
+
+  d.extracted_text AS "extractedText",
+  d.processing_status AS "processingStatus",
+  d.processed_at AS "processedAt",
+
+  d.responsible_user_id AS "responsibleUserId",
+  ru.name AS "responsibleUserName",
+
+  d.created_by AS "createdBy",
+  cb.name AS "createdByName",
+
+  d.updated_by AS "updatedBy",
+  ub.name AS "updatedByName",
+
+  d.created_at AS "createdAt",
+  d.updated_at AS "updatedAt"
+
+FROM documents d
+
+LEFT JOIN sectors s
+  ON s.id = d.sector_id
+
+LEFT JOIN categories c
+  ON c.id = d.category_id
+
+LEFT JOIN subcategories sc
+  ON sc.id = d.subcategory_id
+
+LEFT JOIN users ru
+  ON ru.id = d.responsible_user_id
+
+LEFT JOIN users cb
+  ON cb.id = d.created_by
+
+LEFT JOIN users ub
+  ON ub.id = d.updated_by
+
+WHERE d.id = (
+  SELECT id
+  FROM new_document
+);

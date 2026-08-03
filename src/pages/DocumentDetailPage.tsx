@@ -1,26 +1,39 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Pencil, Trash2, FileIcon, ArrowLeft, Download } from 'lucide-react'
-import { getDocumentById, deleteDocument, downloadDocumentFile } from '@/services/documentsService'
+import { getDocumentById, deleteDocument, downloadDocumentFile, runDocumentOcr } from '@/services/documentsService'
 import { getSectors } from '@/services/sectorsService'
 import { getCategories } from '@/services/categoriesService'
 import type { Category, Document, Sector } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
 import { useSettings } from '@/hooks/useSettings'
 import { getCategoryNameById, getSectorNameById } from '@/utils/entities'
-import { formatDate, formatDateTime, formatFileSize, isDocumentExpired } from '@/utils/document'
+import {
+  formatChecksumShort,
+  formatDate,
+  formatDateTime,
+  formatDurationMs,
+  formatFileSize,
+  extractionMethodLabel,
+  isDocumentExpired,
+  ocrStatusLabel,
+  ocrStatusVariant,
+  validationStatusLabel,
+  validationStatusVariant,
+} from '@/utils/document'
 import { getErrorMessage } from '@/utils/apiError'
 import { Card } from '@/components/ui/Card'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { PermissionGuard } from '@/components/ui/PermissionGuard'
 import { ModalConfirm } from '@/components/ui/Modal'
+import { DocumentVersionsPanel } from '@/components/documents/DocumentVersionsPanel'
 
 export function DocumentDetailPage() {
   const { id } = useParams<{ id: string }>()
   const location = useLocation()
   const navigate = useNavigate()
-  const { user } = useAuth()
+  const { user, hasPermission } = useAuth()
   const { settings } = useSettings()
   const [flashError, setFlashError] = useState('')
   const handledLocationKey = useRef<string | null>(null)
@@ -33,6 +46,9 @@ export function DocumentDetailPage() {
   const [deleting, setDeleting] = useState(false)
   const [downloading, setDownloading] = useState(false)
   const [downloadError, setDownloadError] = useState<string | null>(null)
+  const [ocrRunning, setOcrRunning] = useState(false)
+  const [ocrMessage, setOcrMessage] = useState<string | null>(null)
+  const [ocrError, setOcrError] = useState<string | null>(null)
 
   useEffect(() => {
     if (handledLocationKey.current === location.key) return
@@ -49,12 +65,12 @@ export function DocumentDetailPage() {
     setFlashError('')
   }, [id, location.key, location.pathname, location.state, navigate])
 
-  useEffect(() => {
-    if (!id) return
+  const loadDocument = useCallback(() => {
+    if (!id) return Promise.resolve()
 
     setLoading(true)
     setLoadError(null)
-    void Promise.all([getDocumentById(id), getSectors(), getCategories()])
+    return Promise.all([getDocumentById(id), getSectors(), getCategories()])
       .then(([document, s, c]) => {
         setDoc(document)
         setSectors(s)
@@ -66,6 +82,12 @@ export function DocumentDetailPage() {
       })
       .finally(() => setLoading(false))
   }, [id])
+
+  useEffect(() => {
+    void loadDocument()
+  }, [loadDocument])
+
+  const canEditDocument = hasPermission('editar_documentos')
 
   if (loading) {
     return <p className="text-slate-500">Carregando documento...</p>
@@ -108,11 +130,38 @@ export function DocumentDetailPage() {
     setDownloadError(null)
 
     try {
-      await downloadDocumentFile(id, doc.fileName)
+      await downloadDocumentFile(id, doc.originalFileName ?? doc.fileName)
     } catch (err) {
       setDownloadError(getErrorMessage(err, 'Não foi possível baixar o arquivo.'))
     } finally {
       setDownloading(false)
+    }
+  }
+
+  const handleRunOcr = async (force: boolean) => {
+    if (!id) return
+    setOcrRunning(true)
+    setOcrError(null)
+    setOcrMessage(null)
+    try {
+      const result = await runDocumentOcr(id, {
+        versionId: doc.currentVersionId ?? undefined,
+        force,
+      })
+      if (!result.ok) {
+        setOcrError(result.message || result.code || 'Falha ao executar OCR.')
+      } else {
+        setOcrMessage(
+          force
+            ? `OCR reprocessado (${ocrStatusLabel(result.ocrStatus)}).`
+            : `OCR executado (${ocrStatusLabel(result.ocrStatus)}).`
+        )
+        await loadDocument()
+      }
+    } catch (err) {
+      setOcrError(getErrorMessage(err, 'Não foi possível executar o OCR.'))
+    } finally {
+      setOcrRunning(false)
     }
   }
 
@@ -209,28 +258,145 @@ export function DocumentDetailPage() {
         <Card title="Arquivo">
           <div className="flex items-start gap-4">
             <FileIcon className="text-slate-400" size={40} />
-            <div className="flex-1">
-              <p className="font-medium text-slate-800">{doc.fileName ?? '—'}</p>
-              <p className="text-sm text-slate-500">{doc.fileType ?? '—'}</p>
-              <p className="text-sm text-slate-500">{formatFileSize(doc.fileSize)}</p>
-              {doc.fileName && (
-                <Button
-                  size="sm"
-                  className="mt-4 text-white hover:opacity-90"
-                  style={{ backgroundColor: settings.primaryColor }}
-                  onClick={handleDownload}
-                  disabled={downloading}
-                >
-                  <Download size={16} />
-                  {downloading ? 'Baixando...' : 'Download do arquivo'}
-                </Button>
-              )}
+            <div className="flex-1 space-y-2">
+              <div>
+                <p className="font-medium text-slate-800">
+                  {doc.originalFileName ?? doc.fileName ?? '—'}
+                </p>
+                <dl className="mt-2 space-y-1.5 text-sm">
+                  <div className="flex flex-wrap gap-x-2">
+                    <dt className="text-slate-500">Tamanho</dt>
+                    <dd className="text-slate-700">{formatFileSize(doc.fileSize)}</dd>
+                  </div>
+                  <div className="flex flex-wrap gap-x-2">
+                    <dt className="text-slate-500">Tipo</dt>
+                    <dd className="text-slate-700">
+                      {doc.detectedMimeType ?? doc.fileType ?? doc.browserMimeType ?? '—'}
+                    </dd>
+                  </div>
+                  <div className="flex flex-wrap gap-x-2">
+                    <dt className="text-slate-500">Checksum</dt>
+                    <dd className="font-mono text-slate-700">
+                      {formatChecksumShort(doc.checksum)}
+                      {doc.checksumAlgorithm ? (
+                        <span className="ml-1 font-sans text-slate-500">
+                          ({doc.checksumAlgorithm})
+                        </span>
+                      ) : null}
+                    </dd>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                    <dt className="text-slate-500">Validação</dt>
+                    <dd>
+                      {doc.validationStatus ? (
+                        <Badge variant={validationStatusVariant(doc.validationStatus)}>
+                          {validationStatusLabel(doc.validationStatus)}
+                        </Badge>
+                      ) : (
+                        <span className="text-slate-700">—</span>
+                      )}
+                    </dd>
+                  </div>
+                  {doc.validatedAt && (
+                    <div className="flex flex-wrap gap-x-2">
+                      <dt className="text-slate-500">Validado em</dt>
+                      <dd className="text-slate-700">{formatDateTime(doc.validatedAt)}</dd>
+                    </div>
+                  )}
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                    <dt className="text-slate-500">Status OCR</dt>
+                    <dd>
+                      {doc.ocrStatus ? (
+                        <Badge variant={ocrStatusVariant(doc.ocrStatus)}>
+                          {ocrStatusLabel(doc.ocrStatus)}
+                        </Badge>
+                      ) : (
+                        <span className="text-slate-700">—</span>
+                      )}
+                    </dd>
+                  </div>
+                  <div className="flex flex-wrap gap-x-2">
+                    <dt className="text-slate-500">Método de extração</dt>
+                    <dd className="text-slate-700">
+                      {extractionMethodLabel(doc.extractionMethod)}
+                    </dd>
+                  </div>
+                  {doc.ocrEngine && (
+                    <div className="flex flex-wrap gap-x-2">
+                      <dt className="text-slate-500">Motor OCR</dt>
+                      <dd className="text-slate-700">{doc.ocrEngine}</dd>
+                    </div>
+                  )}
+                  {doc.ocrLanguages && (
+                    <div className="flex flex-wrap gap-x-2">
+                      <dt className="text-slate-500">Idioma OCR</dt>
+                      <dd className="text-slate-700">{doc.ocrLanguages}</dd>
+                    </div>
+                  )}
+                  {doc.ocrDurationMs != null && (
+                    <div className="flex flex-wrap gap-x-2">
+                      <dt className="text-slate-500">Tempo OCR</dt>
+                      <dd className="text-slate-700">{formatDurationMs(doc.ocrDurationMs)}</dd>
+                    </div>
+                  )}
+                  {doc.hasOcrDerivedFile && (
+                    <div className="flex flex-wrap gap-x-2">
+                      <dt className="text-slate-500">PDF OCR</dt>
+                      <dd className="text-slate-700">
+                        {doc.ocrDerivedFileName ?? 'Derivado disponível'}
+                      </dd>
+                    </div>
+                  )}
+                </dl>
+              </div>
+              <div className="mt-2 flex flex-wrap gap-2">
+                {(doc.originalFileName ?? doc.fileName) && (
+                  <Button
+                    size="sm"
+                    className="text-white hover:opacity-90"
+                    style={{ backgroundColor: settings.primaryColor }}
+                    onClick={handleDownload}
+                    disabled={downloading}
+                  >
+                    <Download size={16} />
+                    {downloading ? 'Baixando...' : 'Download do arquivo'}
+                  </Button>
+                )}
+                <PermissionGuard permission="editar_documentos">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => void handleRunOcr(false)}
+                    disabled={ocrRunning || (doc.fileExtension ?? '').toLowerCase() !== 'pdf'}
+                  >
+                    {ocrRunning ? 'Executando OCR...' : 'Executar OCR'}
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => void handleRunOcr(true)}
+                    disabled={ocrRunning || (doc.fileExtension ?? '').toLowerCase() !== 'pdf'}
+                  >
+                    Reprocessar OCR
+                  </Button>
+                </PermissionGuard>
+              </div>
               {downloadError && (
                 <p className="mt-2 text-sm text-red-600">{downloadError}</p>
               )}
+              {ocrError && <p className="mt-2 text-sm text-red-600">{ocrError}</p>}
+              {ocrMessage && <p className="mt-2 text-sm text-emerald-700">{ocrMessage}</p>}
             </div>
           </div>
         </Card>
+      </div>
+
+      <div className="mt-6">
+        <DocumentVersionsPanel
+          documentId={id ?? ''}
+          canEdit={canEditDocument}
+          onRestored={() => void loadDocument()}
+        />
       </div>
 
       <ModalConfirm

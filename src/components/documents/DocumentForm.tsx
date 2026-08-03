@@ -8,7 +8,12 @@ import { getSectors } from '@/services/sectorsService'
 import { getCategories } from '@/services/categoriesService'
 import { getSubcategories } from '@/services/subcategoriesService'
 import { useSettings } from '@/hooks/useSettings'
-import { ACCEPTED_FILE_TYPES, formatFileSize } from '@/utils/document'
+import {
+  ACCEPTED_FILE_TYPES,
+  formatFileSize,
+  MAX_UPLOAD_SIZE_BYTES,
+  validateFileClientSide,
+} from '@/utils/document'
 
 interface DocumentFormProps {
   initial?: Partial<DocumentFormData>
@@ -40,6 +45,7 @@ export function DocumentForm({
   const [semanticDescription, setSemanticDescription] = useState(initial?.semanticDescription ?? '')
   const [expirationDate, setExpirationDate] = useState(initial?.expirationDate ?? '')
   const [file, setFile] = useState<File | null>(null)
+  const [fileError, setFileError] = useState<string | null>(null)
   const [sectors, setSectors] = useState<{ value: string; label: string }[]>([])
   const [categories, setCategories] = useState<{ value: string; label: string }[]>([])
   const [subcategories, setSubcategories] = useState<{ value: string; label: string }[]>([])
@@ -111,11 +117,24 @@ export function DocumentForm({
     setSubcategoryId('')
   }
 
+  const handleFileChange = (selected: File | null) => {
+    if (!selected) {
+      setFile(null)
+      setFileError(null)
+      return
+    }
+
+    const result = validateFileClientSide(selected)
+    setFile(selected)
+    setFileError(result.ok ? null : result.message)
+  }
+
   const isValid =
     title.trim() &&
     sectorId &&
     categoryId &&
-    semanticDescription.trim()
+    semanticDescription.trim() &&
+    !fileError
 
   const subcategoryOptions = !categoryId
     ? [{ value: '', label: 'Selecione uma categoria primeiro' }]
@@ -130,6 +149,15 @@ export function DocumentForm({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!isValid) return
+
+    if (file) {
+      const result = validateFileClientSide(file)
+      if (!result.ok) {
+        setFileError(result.message)
+        return
+      }
+    }
+
     void onSubmit({
       title: title.trim(),
       sectorId,
@@ -194,7 +222,7 @@ export function DocumentForm({
             type="file"
             accept={ACCEPTED_FILE_TYPES}
             disabled={submitting}
-            onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+            onChange={(e) => handleFileChange(e.target.files?.[0] ?? null)}
             className="hidden"
           />
           <Button
@@ -212,7 +240,7 @@ export function DocumentForm({
           <p className="text-sm text-slate-600">
             Arquivo atual: {initialFile.fileName}
             {initialFile.fileType ? ` · ${initialFile.fileType}` : ''}
-            {initialFile.fileSize ? ` · ${formatFileSize(initialFile.fileSize)}` : ''}
+            {initialFile.fileSize != null ? ` · ${formatFileSize(initialFile.fileSize)}` : ''}
           </p>
         )}
         {file && (
@@ -222,8 +250,11 @@ export function DocumentForm({
             {` · ${formatFileSize(file.size)}`}
           </p>
         )}
+        {fileError && <p className="text-sm text-red-600">{fileError}</p>}
         <p className="text-xs text-slate-400">
-          Formatos aceitos: PDF, Word, Excel, CSV e TXT. O arquivo é enviado após salvar os dados do documento.
+          Formatos permitidos: PDF, DOC, DOCX, XLS, XLSX, CSV e TXT. Tamanho máximo:{' '}
+          {formatFileSize(MAX_UPLOAD_SIZE_BYTES)}. O arquivo é enviado após salvar os dados do
+          documento.
         </p>
       </div>
       <div className="flex gap-2 pt-4">
