@@ -1,0 +1,70 @@
+{
+  "create": {
+    "status": 201,
+    "id": "c70d6760-1198-43bc-ae6f-8e60371aab13"
+  },
+  "publish": {
+    "status": 200,
+    "data": {
+      "ok": true,
+      "version": {
+        "id": "c70d6760-1198-43bc-ae6f-8e60371aab13",
+        "versionLabel": "tmp-pubrb-msdqisi7",
+        "mode": "HYBRID",
+        "status": "PUBLISHED",
+        "publishedAt": "2026-08-03T21:22:03.256Z",
+        "versionNumber": 7
+      },
+      "overrideUsed": true
+    },
+    "text": "{\"success\":true,\"data\":{\"ok\":true,\"version\":{\"id\":\"c70d6760-1198-43bc-ae6f-8e60371aab13\",\"versionLabel\":\"tmp-pubrb-msdqisi7\",\"mode\":\"HYBRID\",\"status\":\"PUBLISHED\",\"publishedAt\":\"2026-08-03T21:22:03.256Z\",\"versionNumber\":7},\"overrideUsed\":true},\"meta\":{\"requestId\":\"979e3c75-909d-4cf1-a41a-9d3ee8d5f31b\",\"timestamp\":\"2026-08-03T21:22:03.681Z\",\"durationMs\":1040}}"
+  },
+  "midSecrets": [
+    {
+      "key": "retrieval_active_mode",
+      "value": "HYBRID"
+    },
+    {
+      "key": "retrieval_active_version",
+      "value": "tmp-pubrb-msdqisi7"
+    }
+  ],
+  "midPublished": [
+    {
+      "version_label": "tmp-pubrb-msdqisi7",
+      "status": "PUBLISHED"
+    }
+  ],
+  "rollback": {
+    "status": 200,
+    "data": {
+      "ok": true,
+      "version": {
+        "id": "63631806-f1ba-4ff4-8b24-265a468229fb",
+        "versionLabel": "hybrid-v1",
+        "mode": "HYBRID",
+        "status": "PUBLISHED",
+        "publishedAt": "2026-08-03T21:22:04.555Z",
+        "versionNumber": 1
+      }
+    },
+    "text": "{\"success\":true,\"data\":{\"ok\":true,\"version\":{\"id\":\"63631806-f1ba-4ff4-8b24-265a468229fb\",\"versionLabel\":\"hybrid-v1\",\"mode\":\"HYBRID\",\"status\":\"PUBLISHED\",\"publishedAt\":\"2026-08-03T21:22:04.555Z\",\"versionNumber\":1}},\"meta\":{\"requestId\":\"74a58bff-97b2-4b67-903a-4318078d0e31\",\"timestamp\":\"2026-08-03T21:22:04.729Z\",\"durationMs\":433}}"
+  },
+  "finalSecrets": [
+    {
+      "key": "retrieval_active_mode",
+      "value": "HYBRID"
+    },
+    {
+      "key": "retrieval_active_version",
+      "value": "hybrid-v1"
+    }
+  ],
+  "finalPublished": [
+    {
+      "version_label": "hybrid-v1",
+      "status": "PUBLISHED"
+    }
+  ],
+  "ok": true
+}

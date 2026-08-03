@@ -1,0 +1,9 @@
+{
+  "name": "Montar resposta",
+  "type": "n8n-nodes-base.code",
+  "params": {
+    "jsCode": "const ctx = $('Montar contexto').first().json;\nconst prompt = $('Aplicar prompt carregado').first().json || {};\nconst answer = $json.output?.[0]?.content?.[0]?.text ?? '';\nconst sources = (ctx.sources || []).map((s) => ({\n  ...s,\n  expirationDate: s.expirationDate ?? s.vigencyDate ?? null,\n}));\nconst requestId = $('Normalizar request').first().json.requestId;\nreturn [{\n  json: {\n    data: {\n      question: ctx.question,\n      answer,\n      sources,\n      classification: ctx.classification,\n    },\n    statusCode: 200,\n    requestId,\n    promptMeta: {\n      promptVersionId: prompt.promptVersionId || null,\n      promptCode: prompt.promptCode || null,\n      versionNumber: prompt.versionNumber != null ? prompt.versionNumber : null,\n      contentHash: prompt.contentHash || null,\n      modelName: prompt.modelName || null,\n    },\n  },\n}];",
+    "language": "javaScript",
+    "mode": "runOnceForAllItems"
+  }
+}

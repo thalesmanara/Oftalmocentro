@@ -1,0 +1,101 @@
+{
+  "state": [
+    {
+      "version_label": "hybrid-v1",
+      "status": "PUBLISHED",
+      "mode": "HYBRID"
+    },
+    {
+      "version_label": "hybrid-rerank-v1",
+      "status": "DRAFT",
+      "mode": "HYBRID_RERANK"
+    },
+    {
+      "version_label": "tmp-c-msdqawe0",
+      "status": "REJECTED",
+      "mode": "HYBRID_RERANK"
+    },
+    {
+      "version_label": "tmp-optest-msdqcqte",
+      "status": "REJECTED",
+      "mode": "HYBRID_RERANK"
+    },
+    {
+      "version_label": "tmp-pubrb-msdqelk6",
+      "status": "REJECTED",
+      "mode": "HYBRID"
+    },
+    {
+      "version_label": "tmp-pubrb-msdqggsv",
+      "status": "REJECTED",
+      "mode": "HYBRID"
+    },
+    {
+      "version_label": "tmp-pubrb-msdqisi7",
+      "status": "REJECTED",
+      "mode": "HYBRID"
+    }
+  ],
+  "secrets": [
+    {
+      "key": "retrieval_active_mode",
+      "value": "HYBRID"
+    },
+    {
+      "key": "retrieval_active_version",
+      "value": "hybrid-v1"
+    }
+  ],
+  "ab": [
+    {
+      "id": "a4117044-46ea-471e-b8b6-bc635cf0ee3d",
+      "retrieval_mode": "HYBRID",
+      "retrieval_config_version": "hybrid-v1",
+      "mode_override_used": false,
+      "overall_score": "100.00",
+      "total_cases": 1
+    },
+    {
+      "id": "4fb2148c-fa72-4332-a4e6-a225809ade51",
+      "retrieval_mode": "HYBRID_RERANK",
+      "retrieval_config_version": "hybrid-rerank-v1",
+      "mode_override_used": true,
+      "overall_score": "100.00",
+      "total_cases": 1
+    }
+  ],
+  "abm": [
+    {
+      "run_id": "a4117044-46ea-471e-b8b6-bc635cf0ee3d",
+      "overall_score": "100.00",
+      "precision": "100.00",
+      "recall": "100.00",
+      "recall_at_k": null,
+      "precision_at_k": null,
+      "mrr": "0",
+      "hit_rate": "0",
+      "hallucination_count": 0,
+      "sources_correct_count": 1,
+      "document_correct_count": 1,
+      "retrieval_cases_evaluated": 1,
+      "retrieval_cases_skipped": 0,
+      "fallback_count": 0
+    },
+    {
+      "run_id": "4fb2148c-fa72-4332-a4e6-a225809ade51",
+      "overall_score": "100.00",
+      "precision": "100.00",
+      "recall": "100.00",
+      "recall_at_k": null,
+      "precision_at_k": null,
+      "mrr": "0",
+      "hit_rate": "0",
+      "hallucination_count": 0,
+      "sources_correct_count": 1,
+      "document_correct_count": 1,
+      "retrieval_cases_evaluated": 1,
+      "retrieval_cases_skipped": 0,
+      "fallback_count": 0
+    }
+  ]
+}

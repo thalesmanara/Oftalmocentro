@@ -1,0 +1,59 @@
+{
+  "name": "IA - CALCULAR MÉTRICAS",
+  "summary": [
+    {
+      "name": "Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "hasJs": false,
+      "jsLen": 0,
+      "queryHas": null
+    },
+    {
+      "name": "Carregar resultados",
+      "type": "n8n-nodes-base.postgres",
+      "hasJs": false,
+      "jsLen": 0,
+      "queryHas": {
+        "insertResults": true,
+        "insertMetrics": false,
+        "retrieval": false
+      }
+    },
+    {
+      "name": "Agregar métricas",
+      "type": "n8n-nodes-base.code",
+      "hasJs": true,
+      "jsLen": 7319,
+      "queryHas": null
+    },
+    {
+      "name": "Upsert métricas",
+      "type": "n8n-nodes-base.postgres",
+      "hasJs": false,
+      "jsLen": 0,
+      "queryHas": {
+        "insertResults": false,
+        "insertMetrics": false,
+        "retrieval": false
+      }
+    },
+    {
+      "name": "Atualizar contadores do run",
+      "type": "n8n-nodes-base.postgres",
+      "hasJs": false,
+      "jsLen": 0,
+      "queryHas": {
+        "insertResults": false,
+        "insertMetrics": false,
+        "retrieval": false
+      }
+    },
+    {
+      "name": "Montar resposta",
+      "type": "n8n-nodes-base.code",
+      "hasJs": true,
+      "jsLen": 1446,
+      "queryHas": null
+    }
+  ]
+}

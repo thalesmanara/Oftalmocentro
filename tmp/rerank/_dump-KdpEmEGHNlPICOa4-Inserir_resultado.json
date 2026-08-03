@@ -1,0 +1,9 @@
+{
+  "name": "Inserir resultado",
+  "type": "n8n-nodes-base.postgres",
+  "params": {
+    "operation": "executeQuery",
+    "options": {},
+    "query": "={{ $json.sql }}"
+  }
+}

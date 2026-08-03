@@ -21,6 +21,7 @@ import {
   type AiTestCase,
   type AiTestRun,
 } from '@/services/aiValidationService'
+import { getAiRetrievalDetail, type AiRetrievalVersion } from '@/services/aiRetrievalService'
 
 type TabKey = 'casos' | 'historico' | 'resultado'
 
@@ -111,6 +112,19 @@ export function AiValidationPage() {
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(
     null
   )
+  const [retrievalVersions, setRetrievalVersions] = useState<AiRetrievalVersion[]>([])
+  const [retrievalConfigVersionId, setRetrievalConfigVersionId] = useState('')
+
+  useEffect(() => {
+    void (async () => {
+      try {
+        const detail = await getAiRetrievalDetail({})
+        setRetrievalVersions(detail.versions || [])
+      } catch {
+        setRetrievalVersions([])
+      }
+    })()
+  }, [])
 
   const loadCases = useCallback(async (filters: AiCaseFilters) => {
     setCasesLoading(true)
@@ -183,7 +197,10 @@ export function AiValidationPage() {
     setRunningCaseId(testCase.id)
     setFeedback(null)
     try {
-      const result = await runAiTestCase({ caseId: testCase.id })
+      const result = await runAiTestCase({
+        caseId: testCase.id,
+        retrievalConfigVersionId: retrievalConfigVersionId || undefined,
+      })
       setFeedback({ type: 'success', message: `Caso "${testCase.code}" executado com sucesso.` })
       await loadRuns()
       setSelectedRunId(result.run.id)
@@ -203,8 +220,14 @@ export function AiValidationPage() {
       const result = await runAiTestDataset({
         groupName: caseFilters.groupName || undefined,
         includeMissingDocs,
+        retrievalConfigVersionId: retrievalConfigVersionId || undefined,
       })
-      setFeedback({ type: 'success', message: 'Execução do dataset concluída.' })
+      setFeedback({
+        type: 'success',
+        message: retrievalConfigVersionId
+          ? 'Dataset concluído com override de retrieval (produção inalterada).'
+          : 'Execução do dataset concluída.',
+      })
       await loadRuns()
       setSelectedRunId(result.run.id)
       await loadRunDetail(result.run.id)
@@ -280,6 +303,21 @@ export function AiValidationPage() {
             >
               Retrieval / Re-ranking
             </Link>
+            <label className="mr-2 flex max-w-[220px] flex-col gap-0.5 text-xs text-slate-600">
+              Override retrieval
+              <select
+                className="rounded-lg border border-slate-300 bg-white px-2 py-1.5 text-sm text-slate-800"
+                value={retrievalConfigVersionId}
+                onChange={(e) => setRetrievalConfigVersionId(e.target.value)}
+              >
+                <option value="">Produção (publicado)</option>
+                {retrievalVersions.map((v) => (
+                  <option key={v.id} value={v.id}>
+                    {v.versionLabel} · {v.mode} · {v.status}
+                  </option>
+                ))}
+              </select>
+            </label>
             <label className="mr-1 flex items-center gap-2 text-sm text-slate-600">
               <input
                 type="checkbox"
@@ -643,6 +681,52 @@ export function AiValidationPage() {
                     <p className="text-lg font-semibold text-slate-800">
                       {runDetail.metrics?.hallucinationCount ?? 0}
                     </p>
+                  </div>
+                </div>
+
+                <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-3">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Retrieval (Top-K)
+                  </p>
+                  <p className="mb-3 text-xs text-slate-500">
+                    Modo: {runDetail.run?.retrievalMode || '—'} · versão{' '}
+                    {runDetail.run?.retrievalConfigVersion || '—'}
+                    {runDetail.run?.modeOverrideUsed ? ' · override laboratório' : ''}
+                    {runDetail.metrics?.retrievalCasesSkipped != null
+                      ? ` · sem ref.: ${runDetail.metrics.retrievalCasesSkipped}`
+                      : ''}
+                  </p>
+                  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                    <div>
+                      <p className="text-xs text-slate-500">Recall@K</p>
+                      <p className="text-base font-semibold text-slate-800">
+                        {runDetail.metrics?.recallAtK != null
+                          ? Number(runDetail.metrics.recallAtK).toFixed(3)
+                          : 'n/d'}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-slate-500">Precision@K</p>
+                      <p className="text-base font-semibold text-slate-800">
+                        {runDetail.metrics?.precisionAtK != null
+                          ? Number(runDetail.metrics.precisionAtK).toFixed(3)
+                          : 'n/d'}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-slate-500">MRR</p>
+                      <p className="text-base font-semibold text-slate-800">
+                        {runDetail.metrics?.mrr != null ? Number(runDetail.metrics.mrr).toFixed(3) : 'n/d'}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-slate-500">Hit Rate</p>
+                      <p className="text-base font-semibold text-slate-800">
+                        {runDetail.metrics?.hitRate != null
+                          ? Number(runDetail.metrics.hitRate).toFixed(3)
+                          : 'n/d'}
+                      </p>
+                    </div>
                   </div>
                 </div>
 

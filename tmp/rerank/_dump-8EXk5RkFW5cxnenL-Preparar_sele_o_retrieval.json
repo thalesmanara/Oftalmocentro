@@ -1,0 +1,9 @@
+{
+  "name": "Preparar seleção retrieval",
+  "type": "n8n-nodes-base.code",
+  "params": {
+    "mode": "runOnceForAllItems",
+    "language": "javaScript",
+    "jsCode": "const cfgNode=$('Carregar retrieval config').first().json||{};\nconst cfg=cfgNode.configuration||{};\nconst mode=String(cfgNode.mode||cfg.mode||'HYBRID').toUpperCase();\nconst finalLimit=Math.min(Math.max(Number(cfg.finalLimit||12)||12,1),20);\nconst candidates=$('Merge híbrido').all().map(i=>i.json).filter(r=>r&&(r.chunkText||r.documentId));\nconst classification=$('Classificar pergunta').first().json||{};\nconst question=String(classification.question||'');\nconst useRerank=mode==='HYBRID_RERANK';\nreturn [{json:{\n  mode, useRerank, finalLimit,\n  versionLabel: cfgNode.versionLabel||'hybrid-v1',\n  configurationJson: JSON.stringify({...cfg, mode, versionLabel: cfgNode.versionLabel||null}),\n  classificationJson: JSON.stringify({\n    categoryId: classification.categoryId||null,\n    subcategoryId: classification.subcategoryId||null,\n    categoryName: classification.categoryName||null,\n    subcategoryName: classification.subcategoryName||null,\n    searchTerms: classification.searchTerms||[],\n  }),\n  candidatesJson: JSON.stringify(candidates),\n  candidates,\n  question,\n  requestId: $('Normalizar request').first().json.requestId||'',\n  userId: $('Validar auth').first().json.userId||'',\n  sessionId: $('Validar auth').first().json.sessionId||'',\n}}];"
+  }
+}

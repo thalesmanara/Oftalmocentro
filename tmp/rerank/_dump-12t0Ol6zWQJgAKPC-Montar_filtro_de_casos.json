@@ -1,0 +1,9 @@
+{
+  "name": "Montar filtro de casos",
+  "type": "n8n-nodes-base.code",
+  "params": {
+    "mode": "runOnceForAllItems",
+    "language": "javaScript",
+    "jsCode": "const trigIn = $('Trigger').first().json || {};\nfunction esc(s) { return String(s ?? '').replace(/'/g, \"''\"); }\nconst conditions = [\"status = 'active'\"];\nif (!trigIn.includeMissingDocs) conditions.push('depends_on_missing_docs = false');\nif (trigIn.groupName) conditions.push(\"group_name = '\" + esc(trigIn.groupName) + \"'\");\nif (trigIn.caseId) conditions.push(\"id = '\" + esc(trigIn.caseId) + \"'::uuid\");\nelse if (trigIn.caseCode) conditions.push(\"code = '\" + esc(trigIn.caseCode) + \"'\");\nconst sql = \"SELECT id, code, name, group_name, test_type, category_name, subcategory_name, expected_document_id,\\n\" +\n  \"  expected_document_ids, question, expected_answer, required_words, forbidden_words,\\n\" +\n  \"  required_source_document_id, min_score, expect_no_answer, notes, status, version, depends_on_missing_docs\\n\" +\n  \"FROM ai_test_cases\\n\" +\n  \"WHERE \" + conditions.join(' AND ') + \"\\n\" +\n  \"ORDER BY code ASC;\";\nreturn [{ json: { sql } }];"
+  }
+}

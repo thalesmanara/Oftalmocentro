@@ -1,0 +1,43 @@
+{
+  "name": "Trigger",
+  "type": "n8n-nodes-base.executeWorkflowTrigger",
+  "params": {
+    "inputSource": "workflowInputs",
+    "workflowInputs": {
+      "values": [
+        {
+          "name": "runId",
+          "type": "string"
+        },
+        {
+          "name": "caseId",
+          "type": "string"
+        },
+        {
+          "name": "authorization",
+          "type": "string"
+        },
+        {
+          "name": "promptVersion",
+          "type": "string"
+        },
+        {
+          "name": "promptVersionId",
+          "type": "string"
+        },
+        {
+          "name": "modelName",
+          "type": "string"
+        },
+        {
+          "name": "refusalPhrase",
+          "type": "string"
+        },
+        {
+          "name": "maxLatencyMs",
+          "type": "number"
+        }
+      ]
+    }
+  }
+}

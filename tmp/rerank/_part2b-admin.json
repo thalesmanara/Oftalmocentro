@@ -1,0 +1,20 @@
+{
+  "update": {
+    "id": "Ci5BcAlkZCxOxdyA",
+    "path": "system/ai-retrieval/update",
+    "method": "PUT",
+    "nodes": 24
+  },
+  "publish": {
+    "id": "BAHKNoJM7VdYU8UE",
+    "path": "system/ai-retrieval/publish",
+    "method": "POST",
+    "nodes": 26
+  },
+  "rollback": {
+    "id": "FdaMsXY4nXEO0xV8",
+    "path": "system/ai-retrieval/rollback",
+    "method": "POST",
+    "nodes": 20
+  }
+}

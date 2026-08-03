@@ -1,0 +1,38 @@
+{
+  "name": "Chamar Consulta IA",
+  "type": "n8n-nodes-base.httpRequest",
+  "params": {
+    "method": "POST",
+    "url": "http://127.0.0.1:5678/webhook/consulta-ia",
+    "sendHeaders": true,
+    "headerParameters": {
+      "parameters": [
+        {
+          "name": "Authorization",
+          "value": "={{ $json.authorization }}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "X-Request-Id",
+          "value": "={{ $json.run_id }}"
+        }
+      ]
+    },
+    "sendBody": true,
+    "contentType": "json",
+    "specifyBody": "json",
+    "jsonBody": "={{ JSON.stringify(Object.assign({ question: $json.question }, $json.prompt_version_id ? { promptVersionId: $json.prompt_version_id } : {})) }}",
+    "options": {
+      "timeout": 120000,
+      "response": {
+        "response": {
+          "fullResponse": true,
+          "neverError": true
+        }
+      }
+    }
+  }
+}

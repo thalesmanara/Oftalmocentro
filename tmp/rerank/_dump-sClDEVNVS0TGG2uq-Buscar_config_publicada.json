@@ -1,0 +1,9 @@
+{
+  "name": "Buscar config publicada",
+  "type": "n8n-nodes-base.postgres",
+  "params": {
+    "operation": "executeQuery",
+    "options": {},
+    "query": "SELECT\n  c.code,\n  v.id AS version_id,\n  v.version_label,\n  v.version_number,\n  v.status,\n  v.mode,\n  v.configuration,\n  v.content_hash,\n  v.published_at,\n  COALESCE((SELECT value FROM app_secrets WHERE key='retrieval_active_mode' LIMIT 1), v.mode) AS secret_mode\nFROM ai_retrieval_configs c\nJOIN ai_retrieval_config_versions v ON v.retrieval_config_id = c.id AND v.status = 'PUBLISHED'\nWHERE c.code = COALESCE((SELECT value FROM app_secrets WHERE key='retrieval_config_code' LIMIT 1), 'AI_QUERY_RETRIEVAL')\n  AND c.active = true\nLIMIT 1;"
+  }
+}

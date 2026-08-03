@@ -1,0 +1,54 @@
+[
+  {
+    "label": "validate",
+    "status": 400,
+    "headers": {
+      "alt-svc": "h3=\":443\"; ma=2592000",
+      "content-length": "404",
+      "content-security-policy": "sandbox allow-downloads allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-scripts allow-top-navigation-by-user-activation allow-top-navigation-to-custom-protocols",
+      "content-type": "application/json; charset=utf-8",
+      "date": "Mon, 03 Aug 2026 21:15:52 GMT",
+      "etag": "W/\"194-CndzFesteUATpR6441ISEOuJQv8\"",
+      "vary": "Accept-Encoding, Accept-Encoding",
+      "x-request-id": "63f01327-ee9e-4f63-8b11-008d467a6618",
+      "x-response-time-ms": "396"
+    },
+    "byteLength": 404,
+    "text": "{\"success\":true,\"data\":{\"ok\":false,\"errors\":[{\"field\":\"versionLabel\",\"message\":\"formato inválido (2-64 chars: letras, números, ._- )\",\"code\":\"FORMAT\"}],\"warnings\":[],\"fields\":[{\"field\":\"versionLabel\",\"message\":\"formato inválido (2-64 chars: letras, números, ._- )\",\"code\":\"FORMAT\"}]},\"meta\":{\"requestId\":\"63f01327-ee9e-4f63-8b11-008d467a6618\",\"timestamp\":\"2026-08-03T21:15:52.585Z\",\"durationMs\":396}}"
+  },
+  {
+    "label": "list",
+    "status": 200,
+    "headers": {
+      "alt-svc": "h3=\":443\"; ma=2592000",
+      "content-encoding": "br",
+      "content-security-policy": "sandbox allow-downloads allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-scripts allow-top-navigation-by-user-activation allow-top-navigation-to-custom-protocols",
+      "content-type": "application/json; charset=utf-8",
+      "date": "Mon, 03 Aug 2026 21:15:53 GMT",
+      "etag": "W/\"534-EOHtLZUzZ5Hf3bc9C5wIE8KxkKw\"",
+      "transfer-encoding": "chunked",
+      "vary": "Accept-Encoding, Accept-Encoding",
+      "x-request-id": "3c9f26d9-2dfe-4ac6-967b-bdb6f96acd3d",
+      "x-response-time-ms": "121"
+    },
+    "byteLength": 1332,
+    "text": "{\"success\":true,\"data\":{\"items\":[{\"id\":\"5dd38fb3-11ba-4adf-8755-37b1329402bd\",\"code\":\"AI_QUERY_RETRIEVAL\",\"purpose\":\"AI_QUERY_RETRIEVAL\",\"description\":\"Configuração de recuperação e re-ranking da Consulta IA\",\"active\":true,\"createdAt\":\"2026-08-03T20:32:07.105Z\",\"updatedAt\":\"2026-08-03T20:32:07.105Z\",\"activeMode\":\"HYBRID\",\"activeVersionLabel\":\"hybrid-v1\",\"publishedVersion\":{\"id\":\"63631806-f1ba-4ff4-8b24-265a468229fb\",\"versionNumber\":1,\"versionLabel\":\"hybrid-v1\",\"mode\":\"HYBRID\",\"configuration\":{\"mode\":\"HYBRID\",\"notes\":\"Produção atual — ranking híbrido sem re-ranking avançado\",\"boosts\":{\"ocrGood\":0.03,\"isCurrent\":0.05,\"titleMatch\":0.08,\"categoryMatch\":0.1,\"recentVigency\":0.04,\"exactIdentifier\":0.2,\"subcategoryMatch\":0.15,\"tabularStructure\":0.08},\"weights\":{\"lexical\":0.35,\"semantic\":0.65},\"penalties\":{\"staleDocument\":0.05,\"redundancyPerExtraChunk\":0.06},\"finalLimit\":12,\"normalization\":{\"text\":\"batchMax\",\"hybrid\":\"passthrough\",\"vector\":\"clip01\"},\"candidateLimit\":30,\"enableNeighbors\":false,\"maxChunksPerDocument\":4},\"publishedAt\":\"2026-08-03T20:33:30.461Z\",\"validationScore\":null,\"contentHash\":\"8f20c4f8dac00019b2a67e8133f149f26b59eb2ba13b5cc10fd47c843909e1ec\"},\"draftCount\":1,\"versionCount\":2}]},\"meta\":{\"requestId\":\"3c9f26d9-2dfe-4ac6-967b-bdb6f96acd3d\",\"timestamp\":\"2026-08-03T21:15:53.222Z\",\"durationMs\":121}}"
+  },
+  {
+    "label": "create",
+    "status": 201,
+    "headers": {
+      "alt-svc": "h3=\":443\"; ma=2592000",
+      "content-length": "769",
+      "content-security-policy": "sandbox allow-downloads allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-scripts allow-top-navigation-by-user-activation allow-top-navigation-to-custom-protocols",
+      "content-type": "application/json; charset=utf-8",
+      "date": "Mon, 03 Aug 2026 21:15:53 GMT",
+      "etag": "W/\"301-+FaYc/rp9yNektdWkon4bQzvE+Y\"",
+      "vary": "Accept-Encoding, Accept-Encoding",
+      "x-request-id": "997fa140-a89a-4ed2-9c30-255469f27862",
+      "x-response-time-ms": "242"
+    },
+    "byteLength": 769,
+    "text": "{\"success\":true,\"data\":{\"ok\":true,\"version\":{\"id\":\"e65c2ff9-39ec-4b3d-86d8-1e16e2471dbe\",\"versionNumber\":3,\"versionLabel\":\"tmp-c-msdqawe0\",\"status\":\"DRAFT\",\"mode\":\"HYBRID_RERANK\",\"configuration\":{\"mode\":\"HYBRID_RERANK\",\"notes\":\"\",\"boosts\":{\"exactIdentifier\":0.2},\"weights\":{\"lexical\":0.25,\"semantic\":0.45,\"hybridPrior\":0.15},\"penalties\":{\"redundancyPerExtraChunk\":0.1},\"finalLimit\":8,\"normalization\":{\"text\":\"batchMax\",\"hybrid\":\"passthrough\",\"vector\":\"clip01\"},\"candidateLimit\":20,\"enableNeighbors\":false,\"maxChunksPerDocument\":2},\"contentHash\":\"732f458ecd1732d98364f8d535f54b9b2dcbac405e895d0ee9b571eec3a3fc19\",\"createdAt\":\"2026-08-03T21:15:53.554Z\"}},\"meta\":{\"requestId\":\"997fa140-a89a-4ed2-9c30-255469f27862\",\"timestamp\":\"2026-08-03T21:15:53.660Z\",\"durationMs\":242}}"
+  }
+]

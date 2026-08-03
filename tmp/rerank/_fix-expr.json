@@ -1,0 +1,113 @@
+[
+  {
+    "id": "RjQDc5gcWFYyBQJO",
+    "name": "POST System AI Retrieval Create",
+    "total": 7,
+    "details": [
+      {
+        "name": "Inserir DRAFT",
+        "replacements": 7,
+        "preview": "WITH cfg AS (SELECT id FROM ai_retrieval_configs WHERE code='AI_QUERY_RETRIEVAL' LIMIT 1),\nnxt AS (SELECT COALESCE(MAX(version_number),0)+1 AS n FROM ai_retrieval_config_versions v, cfg WHERE v.retrie"
+      }
+    ]
+  },
+  {
+    "id": "Ci5BcAlkZCxOxdyA",
+    "name": "PUT System AI Retrieval Update",
+    "total": 7,
+    "details": [
+      {
+        "name": "Checar status DRAFT",
+        "replacements": 1,
+        "preview": "SELECT id, status, mode, version_label FROM ai_retrieval_config_versions WHERE id = NULLIF('{{ $('Preparar update').first().json.versionId }}','')::uuid"
+      },
+      {
+        "name": "Executar update",
+        "replacements": 6,
+        "preview": "UPDATE ai_retrieval_config_versions SET\n  mode='{{ $('Chamar VALIDAR').first().json.mode }}',\n  configuration='{{ $('Chamar VALIDAR').first().json.configurationJson }}'::jsonb,\n  content_hash='{{ $('C"
+      }
+    ]
+  },
+  {
+    "id": "BAHKNoJM7VdYU8UE",
+    "name": "POST System AI Retrieval Publish",
+    "total": 5,
+    "details": [
+      {
+        "name": "Carregar versão",
+        "replacements": 1,
+        "preview": "SELECT v.*, c.code FROM ai_retrieval_config_versions v JOIN ai_retrieval_configs c ON c.id=v.retrieval_config_id WHERE v.id=NULLIF('{{ $('Preparar publish').first().json.versionId }}','')::uuid"
+      },
+      {
+        "name": "Checar run validação",
+        "replacements": 1,
+        "preview": "SELECT id, status, retrieval_config_version, finished_at\nFROM ai_test_runs\nWHERE id = NULLIF('{{ $('Avaliar publish').first().json.validationRunId || \"\" }}','')::uuid\nLIMIT 1;"
+      },
+      {
+        "name": "Publicar TX",
+        "replacements": 3,
+        "preview": "WITH target AS (\n  SELECT id, retrieval_config_id, mode, version_label FROM ai_retrieval_config_versions\n  WHERE id=NULLIF('{{ $('Avaliar run').first().json.versionId }}','')::uuid\n), arch AS (\n  UPDA"
+      }
+    ]
+  },
+  {
+    "id": "FdaMsXY4nXEO0xV8",
+    "name": "POST System AI Retrieval Rollback",
+    "total": 2,
+    "details": [
+      {
+        "name": "Executar rollback",
+        "replacements": 2,
+        "preview": "WITH target AS (\n  SELECT * FROM ai_retrieval_config_versions WHERE id=NULLIF('{{ $('Preparar rollback').first().json.targetVersionId }}','')::uuid\n), arch AS (\n  UPDATE ai_retrieval_config_versions v"
+      }
+    ]
+  },
+  {
+    "id": "12t0Ol6zWQJgAKPC",
+    "name": "IA - EXECUTAR DATASET",
+    "total": 6,
+    "details": [
+      {
+        "name": "Inserir run",
+        "replacements": 6,
+        "preview": "=INSERT INTO ai_test_runs (status, triggered_by, trigger_mode, prompt_version, model_name, ocr_engine_version, tabular_engine_version, prompt_version_id, embedding_model, embedding_version, retrieval_"
+      }
+    ]
+  },
+  {
+    "id": "KdpEmEGHNlPICOa4",
+    "name": "IA - EXECUTAR TESTE",
+    "total": 0,
+    "details": []
+  },
+  {
+    "id": "sClDEVNVS0TGG2uq",
+    "name": "IA - CARREGAR RETRIEVAL CONFIG",
+    "total": 4,
+    "details": [
+      {
+        "name": "Buscar config",
+        "replacements": 4,
+        "preview": "SELECT\n  c.code,\n  v.id AS version_id,\n  v.version_label,\n  v.version_number,\n  v.status,\n  v.mode,\n  v.configuration,\n  v.content_hash,\n  v.published_at,\n  COALESCE((SELECT value FROM app_secrets WHE"
+      }
+    ]
+  },
+  {
+    "id": "1uITQcJ5jSNXErOM",
+    "name": "IA - CALCULAR MÉTRICAS",
+    "total": 0,
+    "details": []
+  },
+  {
+    "id": "EdG14rWgluDHiOtt",
+    "name": "GET System AI Retrieval Detail",
+    "total": 0,
+    "details": []
+  },
+  {
+    "id": "SxDfJMFCQbytHHL6",
+    "name": "GET System AI Retrieval",
+    "total": 0,
+    "details": []
+  }
+]

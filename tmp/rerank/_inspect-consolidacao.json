@@ -1,0 +1,546 @@
+{
+  "workflows": [
+    {
+      "id": "8EXk5RkFW5cxnenL",
+      "name": "Consulta IA",
+      "active": true,
+      "activeVersionId": "a6957f72-0e75-480f-9b93-9235ec07cf52",
+      "nodeNames": [
+        "Webhook",
+        "Classificar pergunta",
+        "Buscar chunks relevantes",
+        "Montar contexto",
+        "Message a model",
+        "Respond to Webhook",
+        "Buscar categorias e subcategorias",
+        "Validar auth",
+        "Auth ok?",
+        "Respond 401",
+        "Validar permissão",
+        "Permissão ok?",
+        "Respond 403",
+        "Restaurar request",
+        "Normalizar request",
+        "Montar resposta",
+        "Preparar sucesso",
+        "Preparar erro 401",
+        "Preparar erro 403",
+        "Registrar auditoria sucesso",
+        "Registrar auditoria 401",
+        "Registrar auditoria 403",
+        "Carregar prompt ativo",
+        "Aplicar prompt carregado",
+        "Preparar embedding pergunta",
+        "Embed pergunta",
+        "Extrair vetor pergunta",
+        "Busca vetorial Qdrant",
+        "Restaurar classificação p/ texto",
+        "Merge híbrido",
+        "Aguardar recuperações",
+        "Carregar retrieval config",
+        "Preparar seleção retrieval",
+        "Usar re-ranking?",
+        "Chamar RE-RANQUEAR",
+        "Resolver ranking final",
+        "Corte hybrid padrão"
+      ],
+      "drift": false,
+      "eHash": "18449c3ae8a7",
+      "hHash": "18449c3ae8a7"
+    },
+    {
+      "id": "SxDfJMFCQbytHHL6",
+      "name": "GET System AI Retrieval",
+      "active": true,
+      "activeVersionId": "43f662b2-841e-45e0-a369-471ad2efe7d2",
+      "nodeNames": [
+        "Webhook",
+        "Normalizar request",
+        "Validar auth",
+        "Auth ok?",
+        "Validar permissão",
+        "Permissão ok?",
+        "Restaurar request",
+        "Listar retrieval configs",
+        "Coletar lista",
+        "Preparar sucesso",
+        "Respond to Webhook",
+        "Preparar erro 403",
+        "Respond 403",
+        "Preparar erro 401",
+        "Respond 401"
+      ],
+      "drift": false,
+      "eHash": "0cc8323fb029",
+      "hHash": "0cc8323fb029"
+    },
+    {
+      "id": "EdG14rWgluDHiOtt",
+      "name": "GET System AI Retrieval Detail",
+      "active": true,
+      "activeVersionId": "d49389c0-4217-4e23-8ebe-298a1bafe3d0",
+      "nodeNames": [
+        "Webhook",
+        "Normalizar request",
+        "Validar auth",
+        "Auth ok?",
+        "Validar permissão",
+        "Permissão ok?",
+        "Restaurar request",
+        "Buscar retrieval detail",
+        "Coletar detalhe",
+        "Preparar sucesso",
+        "Respond to Webhook",
+        "Preparar erro 403",
+        "Respond 403",
+        "Preparar erro 401",
+        "Respond 401"
+      ],
+      "drift": false,
+      "eHash": "e0386dc9f271",
+      "hHash": "e0386dc9f271"
+    },
+    {
+      "id": "sClDEVNVS0TGG2uq",
+      "name": "IA - CARREGAR RETRIEVAL CONFIG",
+      "active": true,
+      "activeVersionId": "a2741824-35bb-467c-a655-e0932b50fa85",
+      "nodeNames": [
+        "Trigger",
+        "Buscar config publicada",
+        "Normalizar config"
+      ],
+      "drift": false,
+      "eHash": "0217ae5cb439",
+      "hHash": "0217ae5cb439"
+    },
+    {
+      "id": "12t0Ol6zWQJgAKPC",
+      "name": "IA - EXECUTAR DATASET",
+      "active": true,
+      "activeVersionId": "96c73175-194e-4545-a2bb-2a30f32aff55",
+      "nodeNames": [
+        "Trigger",
+        "Inserir run",
+        "Montar filtro de casos",
+        "Carregar casos",
+        "Calcular métricas",
+        "Gerar relatório",
+        "Carregar resultados finais",
+        "Montar atualização do run",
+        "Atualizar run",
+        "Montar resposta",
+        "Executar caso",
+        "Loop casos"
+      ],
+      "drift": false,
+      "eHash": "f7872874fb05",
+      "hHash": "f7872874fb05"
+    },
+    {
+      "id": "KdpEmEGHNlPICOa4",
+      "name": "IA - EXECUTAR TESTE",
+      "active": true,
+      "activeVersionId": "cf853c27-7f7e-481c-9fe8-8490e6c637a4",
+      "nodeNames": [
+        "Trigger",
+        "Carregar caso",
+        "Chamar Consulta IA",
+        "Avaliar e montar insert",
+        "Inserir resultado",
+        "Normalizar saída"
+      ],
+      "drift": false,
+      "eHash": "f4481d632828",
+      "hHash": "f4481d632828"
+    },
+    {
+      "id": "nivEQHAqHWIwP8P8",
+      "name": "IA - RE-RANQUEAR CANDIDATOS",
+      "active": true,
+      "activeVersionId": "d7060be2-7463-4b05-92bd-3e05f1789b9c",
+      "nodeNames": [
+        "Trigger",
+        "Validar entrada",
+        "Entrada ok?",
+        "Erro entrada",
+        "Audit START",
+        "Re-ranquear",
+        "Rerank ok?",
+        "Audit SUCCESS",
+        "Audit FAILED",
+        "Retorno"
+      ],
+      "drift": false,
+      "eHash": "304867fe6a66",
+      "hHash": "304867fe6a66"
+    },
+    {
+      "id": "RjQDc5gcWFYyBQJO",
+      "name": "POST System AI Retrieval Create",
+      "active": true,
+      "activeVersionId": "e02273fb-d677-414f-a63e-5a04c682a94c",
+      "nodeNames": [
+        "Webhook",
+        "Normalizar request",
+        "Validar auth",
+        "Auth ok?",
+        "Validar permissão",
+        "Permissão ok?",
+        "Restaurar request",
+        "Montar SQL de contexto",
+        "Carregar contexto",
+        "Avaliar criação",
+        "Criação válida?",
+        "Montar SQL de criação",
+        "Executar criação",
+        "Montar resultado",
+        "Preparar sucesso",
+        "Auditar criação",
+        "Repassar resposta",
+        "Respond to Webhook",
+        "Preparar erro negócio",
+        "Respond erro negócio",
+        "Preparar erro 403",
+        "Respond 403",
+        "Preparar erro 401",
+        "Respond 401"
+      ],
+      "drift": false,
+      "eHash": "8cd2577ffb12",
+      "hHash": "8cd2577ffb12"
+    },
+    {
+      "id": "BAHKNoJM7VdYU8UE",
+      "name": "POST System AI Retrieval Publish",
+      "active": true,
+      "activeVersionId": "33e5470a-7eac-4d59-86c3-3dee75b0963e",
+      "nodeNames": [
+        "Webhook",
+        "Normalizar request",
+        "Validar auth",
+        "Auth ok?",
+        "Validar permissão",
+        "Permissão ok?",
+        "Restaurar request",
+        "Preparar inputs",
+        "Inputs ok?",
+        "Chamar PUBLICAR",
+        "Avaliar publicação",
+        "Publicação ok?",
+        "Preparar sucesso",
+        "Auditar publicação",
+        "Repassar resposta",
+        "Respond to Webhook",
+        "Preparar erro negócio",
+        "Respond erro negócio",
+        "Preparar erro 403",
+        "Respond 403",
+        "Preparar erro 401",
+        "Respond 401"
+      ],
+      "drift": false,
+      "eHash": "3c2d5d4220c0",
+      "hHash": "3c2d5d4220c0"
+    },
+    {
+      "id": "FdaMsXY4nXEO0xV8",
+      "name": "POST System AI Retrieval Rollback",
+      "active": true,
+      "activeVersionId": "a98c17e4-4817-4676-af7b-f19ffeac8c77",
+      "nodeNames": [
+        "Webhook",
+        "Normalizar request",
+        "Validar auth",
+        "Auth ok?",
+        "Validar permissão",
+        "Permissão ok?",
+        "Restaurar request",
+        "Preparar inputs",
+        "Inputs ok?",
+        "Chamar ROLLBACK",
+        "Avaliar rollback",
+        "Rollback ok?",
+        "Preparar sucesso",
+        "Auditar rollback",
+        "Repassar resposta",
+        "Respond to Webhook",
+        "Preparar erro negócio",
+        "Respond erro negócio",
+        "Preparar erro 403",
+        "Respond 403",
+        "Preparar erro 401",
+        "Respond 401"
+      ],
+      "drift": false,
+      "eHash": "1acdb7e0908d",
+      "hHash": "1acdb7e0908d"
+    },
+    {
+      "id": "DesGIYYOTdv0ws9J",
+      "name": "POST System AI Retrieval Validate",
+      "active": true,
+      "activeVersionId": "d2a29d14-675d-4423-b48a-280bd45bf39d",
+      "nodeNames": [
+        "Webhook",
+        "Normalizar request",
+        "Validar auth",
+        "Auth ok?",
+        "Validar permissão",
+        "Permissão ok?",
+        "Restaurar request",
+        "Montar SQL de contexto",
+        "Carregar contexto",
+        "Avaliar contexto",
+        "Contexto ok?",
+        "Marcar VALIDATING",
+        "Chamar VALIDAR",
+        "Finalizar status",
+        "Atualizar status final",
+        "Montar resultado",
+        "Preparar sucesso",
+        "Auditar START",
+        "Auditar FINISH",
+        "Repassar resposta",
+        "Respond to Webhook",
+        "Preparar erro negócio",
+        "Respond erro negócio",
+        "Preparar erro 403",
+        "Respond 403",
+        "Preparar erro 401",
+        "Respond 401"
+      ],
+      "drift": false,
+      "eHash": "a7cdbc6943e4",
+      "hHash": "a7cdbc6943e4"
+    },
+    {
+      "id": "Ci5BcAlkZCxOxdyA",
+      "name": "PUT System AI Retrieval Update",
+      "active": true,
+      "activeVersionId": "f9e3e66d-4eb2-42fb-a5c3-a120a25ece85",
+      "nodeNames": [
+        "Webhook",
+        "Normalizar request",
+        "Validar auth",
+        "Auth ok?",
+        "Validar permissão",
+        "Permissão ok?",
+        "Restaurar request",
+        "Montar SQL de contexto",
+        "Carregar contexto",
+        "Avaliar atualização",
+        "Atualização válida?",
+        "Montar SQL de atualização",
+        "Executar atualização",
+        "Montar resultado",
+        "Preparar sucesso",
+        "Auditar atualização",
+        "Repassar resposta",
+        "Respond to Webhook",
+        "Preparar erro negócio",
+        "Respond erro negócio",
+        "Preparar erro 403",
+        "Respond 403",
+        "Preparar erro 401",
+        "Respond 401"
+      ],
+      "drift": false,
+      "eHash": "27c57bf7bb79",
+      "hHash": "27c57bf7bb79"
+    }
+  ],
+  "versions": [
+    {
+      "id": "63631806-f1ba-4ff4-8b24-265a468229fb",
+      "version_number": 1,
+      "version_label": "hybrid-v1",
+      "status": "PUBLISHED",
+      "mode": "HYBRID",
+      "hash": "8f20c4f8dac0"
+    },
+    {
+      "id": "b9f10499-cf34-48dd-90b9-119b1410e84d",
+      "version_number": 2,
+      "version_label": "hybrid-rerank-v1",
+      "status": "DRAFT",
+      "mode": "HYBRID_RERANK",
+      "hash": "554cbc45fd76"
+    }
+  ],
+  "secrets": [
+    {
+      "key": "retrieval_active_mode",
+      "value": "HYBRID"
+    },
+    {
+      "key": "retrieval_active_version",
+      "value": "hybrid-v1"
+    },
+    {
+      "key": "retrieval_config_code",
+      "value": "AI_QUERY_RETRIEVAL"
+    }
+  ],
+  "caseExpectCols": [
+    {
+      "column_name": "expect_no_answer"
+    },
+    {
+      "column_name": "expected_answer"
+    },
+    {
+      "column_name": "expected_document_id"
+    },
+    {
+      "column_name": "expected_document_ids"
+    }
+  ],
+  "caseStats": {
+    "total": 100,
+    "with_doc": 91,
+    "with_docs": 91,
+    "active": 100,
+    "groups": 14
+  },
+  "groups": [
+    {
+      "group_name": "Casos ambíguos",
+      "n": 1
+    },
+    {
+      "group_name": "Casos conflitantes",
+      "n": 1
+    },
+    {
+      "group_name": "Casos negativos",
+      "n": 4
+    },
+    {
+      "group_name": "Casos vencidos",
+      "n": 4
+    },
+    {
+      "group_name": "Convênios",
+      "n": 1
+    },
+    {
+      "group_name": "Documentos",
+      "n": 24
+    },
+    {
+      "group_name": "Exames",
+      "n": 6
+    },
+    {
+      "group_name": "Financeiro",
+      "n": 14
+    },
+    {
+      "group_name": "Médicos",
+      "n": 10
+    },
+    {
+      "group_name": "Normas",
+      "n": 8
+    },
+    {
+      "group_name": "OCR",
+      "n": 1
+    },
+    {
+      "group_name": "POP",
+      "n": 2
+    },
+    {
+      "group_name": "Planilhas",
+      "n": 2
+    },
+    {
+      "group_name": "RH",
+      "n": 22
+    }
+  ],
+  "metricCols": [
+    {
+      "table_name": "ai_test_metrics",
+      "column_name": "avg_rerank_latency_ms"
+    },
+    {
+      "table_name": "ai_test_metrics",
+      "column_name": "avg_retrieval_latency_ms"
+    },
+    {
+      "table_name": "ai_test_metrics",
+      "column_name": "hit_rate"
+    },
+    {
+      "table_name": "ai_test_metrics",
+      "column_name": "mrr"
+    },
+    {
+      "table_name": "ai_test_metrics",
+      "column_name": "precision"
+    },
+    {
+      "table_name": "ai_test_metrics",
+      "column_name": "precision_at_k"
+    },
+    {
+      "table_name": "ai_test_metrics",
+      "column_name": "recall"
+    },
+    {
+      "table_name": "ai_test_metrics",
+      "column_name": "recall_at_k"
+    },
+    {
+      "table_name": "ai_test_results",
+      "column_name": "candidates_reranked"
+    },
+    {
+      "table_name": "ai_test_results",
+      "column_name": "forbidden_words_hit"
+    },
+    {
+      "table_name": "ai_test_results",
+      "column_name": "required_words_hit"
+    },
+    {
+      "table_name": "ai_test_results",
+      "column_name": "rerank_latency_ms"
+    },
+    {
+      "table_name": "ai_test_results",
+      "column_name": "rerank_score"
+    },
+    {
+      "table_name": "ai_test_results",
+      "column_name": "retrieval_config_version"
+    },
+    {
+      "table_name": "ai_test_results",
+      "column_name": "retrieval_latency_ms"
+    },
+    {
+      "table_name": "ai_test_results",
+      "column_name": "retrieval_mode"
+    },
+    {
+      "table_name": "ai_test_runs",
+      "column_name": "rerank_latency_ms"
+    },
+    {
+      "table_name": "ai_test_runs",
+      "column_name": "retrieval_config_version"
+    },
+    {
+      "table_name": "ai_test_runs",
+      "column_name": "retrieval_latency_ms"
+    },
+    {
+      "table_name": "ai_test_runs",
+      "column_name": "retrieval_mode"
+    }
+  ]
+}

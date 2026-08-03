@@ -1,0 +1,469 @@
+{
+  "resultRetrievalCols": [
+    {
+      "column_name": "candidates_reranked"
+    },
+    {
+      "column_name": "candidates_retrieved"
+    },
+    {
+      "column_name": "forbidden_words_hit"
+    },
+    {
+      "column_name": "required_words_hit"
+    },
+    {
+      "column_name": "retrieval_config_version"
+    },
+    {
+      "column_name": "retrieval_latency_ms"
+    },
+    {
+      "column_name": "retrieval_mode"
+    },
+    {
+      "column_name": "retrieval_ranked_document_ids"
+    },
+    {
+      "column_name": "source_recall"
+    }
+  ],
+  "metricsCols": [
+    {
+      "column_name": "avg_rerank_latency_ms"
+    },
+    {
+      "column_name": "fallback_count"
+    },
+    {
+      "column_name": "hit_rate"
+    },
+    {
+      "column_name": "mrr"
+    },
+    {
+      "column_name": "precision"
+    },
+    {
+      "column_name": "precision_at_k"
+    },
+    {
+      "column_name": "recall"
+    },
+    {
+      "column_name": "recall_at_k"
+    },
+    {
+      "column_name": "source_precision"
+    },
+    {
+      "column_name": "source_recall"
+    }
+  ],
+  "allResultCols": [
+    "id",
+    "run_id",
+    "case_id",
+    "case_code",
+    "question",
+    "answer",
+    "duration_ms",
+    "sources",
+    "chunk_refs",
+    "classification",
+    "matched_document",
+    "matched_category",
+    "matched_subcategory",
+    "required_words_hit",
+    "required_words_total",
+    "forbidden_words_hit",
+    "sources_correct",
+    "sources_incorrect",
+    "is_hallucination",
+    "is_empty_answer",
+    "is_internal_error",
+    "score",
+    "verdict",
+    "score_breakdown",
+    "extraction_method",
+    "ocr_quality_grade",
+    "ocr_used",
+    "sheet_name",
+    "headers_json",
+    "prompt_version",
+    "model_name",
+    "created_at",
+    "prompt_version_id",
+    "retrieval_mode",
+    "top_k",
+    "vector_score",
+    "text_score",
+    "merged_score",
+    "candidates_retrieved",
+    "candidates_reranked",
+    "expected_document_rank",
+    "retrieval_latency_ms",
+    "rerank_latency_ms",
+    "final_context_count",
+    "retrieval_config_version",
+    "fallback_used",
+    "rerank_score",
+    "source_precision",
+    "source_recall",
+    "retrieval_ranked_document_ids"
+  ],
+  "runs": [
+    {
+      "id": "4fb2148c-fa72-4332-a4e6-a225809ade51",
+      "overall_score": "100.00",
+      "retrieval_mode": "HYBRID_RERANK",
+      "retrieval_config_version": "hybrid-rerank-v1",
+      "mode_override_used": true,
+      "total_cases": 1,
+      "duration_ms": 5870,
+      "started_at": "2026-08-04T00:17:28.866Z"
+    },
+    {
+      "id": "a4117044-46ea-471e-b8b6-bc635cf0ee3d",
+      "overall_score": "100.00",
+      "retrieval_mode": "HYBRID",
+      "retrieval_config_version": "hybrid-v1",
+      "mode_override_used": false,
+      "total_cases": 1,
+      "duration_ms": 6037,
+      "started_at": "2026-08-04T00:17:22.169Z"
+    },
+    {
+      "id": "11d65bda-2226-47a9-8d79-d0e105ff7fac",
+      "overall_score": "100.00",
+      "retrieval_mode": "HYBRID",
+      "retrieval_config_version": "hybrid-v1",
+      "mode_override_used": false,
+      "total_cases": 1,
+      "duration_ms": 8940,
+      "started_at": "2026-08-03T23:53:44.308Z"
+    },
+    {
+      "id": "65ec6199-4e9d-4f00-9984-636a1ecf42b4",
+      "overall_score": "100.00",
+      "retrieval_mode": "HYBRID",
+      "retrieval_config_version": "hybrid-v1",
+      "mode_override_used": false,
+      "total_cases": 1,
+      "duration_ms": 5477,
+      "started_at": "2026-08-03T23:47:40.892Z"
+    },
+    {
+      "id": "eaa6f2d2-7bb6-4059-9b11-437f07644f6c",
+      "overall_score": "100.00",
+      "retrieval_mode": "HYBRID",
+      "retrieval_config_version": "hybrid-v1",
+      "mode_override_used": false,
+      "total_cases": 1,
+      "duration_ms": 9120,
+      "started_at": "2026-08-03T23:45:53.789Z"
+    }
+  ],
+  "mets": [
+    {
+      "id": "357c375b-d65f-4d6d-b033-536e8da213cc",
+      "run_id": "eaa6f2d2-7bb6-4059-9b11-437f07644f6c",
+      "precision": "100.00",
+      "recall": "100.00",
+      "document_coverage": "100.00",
+      "category_coverage": {
+        "Planilhas": {
+          "total": 1,
+          "passed": 1,
+          "precision": 100
+        }
+      },
+      "avg_duration_ms": "0.00",
+      "min_duration_ms": 0,
+      "max_duration_ms": 0,
+      "sources_correct_count": 1,
+      "sources_incorrect_count": 0,
+      "document_correct_count": 1,
+      "category_correct_count": 0,
+      "subcategory_correct_count": 0,
+      "hallucination_count": 0,
+      "empty_answer_count": 0,
+      "internal_error_count": 0,
+      "passed_count": 1,
+      "failed_count": 0,
+      "total_count": 1,
+      "overall_score": "100.00",
+      "top_errors": [],
+      "top_documents": [
+        {
+          "count": 1,
+          "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+          "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+        },
+        {
+          "count": 1,
+          "title": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+          "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+        },
+        {
+          "count": 1,
+          "title": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+          "documentId": "b533f80a-9b19-47c0-b4ab-210590846228"
+        }
+      ],
+      "score_formula": "Per-case: answerQuality40 + sources30 + document20 + latency10. Run overall = average(case scores). Precision = passed/total.",
+      "created_at": "2026-08-03T23:46:02.620Z",
+      "recall_at_k": null,
+      "precision_at_k": null,
+      "mrr": null,
+      "hit_rate": null,
+      "avg_retrieval_latency_ms": null,
+      "avg_rerank_latency_ms": null,
+      "fallback_count": null,
+      "retrieval_cases_evaluated": null,
+      "retrieval_cases_skipped": null,
+      "source_precision": null,
+      "source_recall": null
+    },
+    {
+      "id": "eed99542-3c9a-484a-98b6-82cb7f19a4f4",
+      "run_id": "65ec6199-4e9d-4f00-9984-636a1ecf42b4",
+      "precision": "100.00",
+      "recall": "100.00",
+      "document_coverage": "100.00",
+      "category_coverage": {
+        "Planilhas": {
+          "total": 1,
+          "passed": 1,
+          "precision": 100
+        }
+      },
+      "avg_duration_ms": "0.00",
+      "min_duration_ms": 0,
+      "max_duration_ms": 0,
+      "sources_correct_count": 1,
+      "sources_incorrect_count": 0,
+      "document_correct_count": 1,
+      "category_correct_count": 0,
+      "subcategory_correct_count": 0,
+      "hallucination_count": 0,
+      "empty_answer_count": 0,
+      "internal_error_count": 0,
+      "passed_count": 1,
+      "failed_count": 0,
+      "total_count": 1,
+      "overall_score": "100.00",
+      "top_errors": [],
+      "top_documents": [
+        {
+          "count": 1,
+          "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+          "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+        },
+        {
+          "count": 1,
+          "title": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+          "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+        },
+        {
+          "count": 1,
+          "title": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+          "documentId": "b533f80a-9b19-47c0-b4ab-210590846228"
+        }
+      ],
+      "score_formula": "Per-case: answerQuality40 + sources30 + document20 + latency10. Run overall = average(case scores). Precision = passed/total.",
+      "created_at": "2026-08-03T23:47:46.308Z",
+      "recall_at_k": null,
+      "precision_at_k": null,
+      "mrr": null,
+      "hit_rate": null,
+      "avg_retrieval_latency_ms": null,
+      "avg_rerank_latency_ms": null,
+      "fallback_count": null,
+      "retrieval_cases_evaluated": null,
+      "retrieval_cases_skipped": null,
+      "source_precision": null,
+      "source_recall": null
+    },
+    {
+      "id": "dca36115-e577-4a8d-925a-bca0ba913e4d",
+      "run_id": "11d65bda-2226-47a9-8d79-d0e105ff7fac",
+      "precision": "100.00",
+      "recall": "100.00",
+      "document_coverage": "100.00",
+      "category_coverage": {
+        "Planilhas": {
+          "total": 1,
+          "passed": 1,
+          "precision": 100
+        }
+      },
+      "avg_duration_ms": "0.00",
+      "min_duration_ms": 0,
+      "max_duration_ms": 0,
+      "sources_correct_count": 1,
+      "sources_incorrect_count": 0,
+      "document_correct_count": 1,
+      "category_correct_count": 0,
+      "subcategory_correct_count": 0,
+      "hallucination_count": 0,
+      "empty_answer_count": 0,
+      "internal_error_count": 0,
+      "passed_count": 1,
+      "failed_count": 0,
+      "total_count": 1,
+      "overall_score": "100.00",
+      "top_errors": [],
+      "top_documents": [
+        {
+          "count": 1,
+          "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+          "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+        },
+        {
+          "count": 1,
+          "title": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+          "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+        },
+        {
+          "count": 1,
+          "title": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+          "documentId": "b533f80a-9b19-47c0-b4ab-210590846228"
+        }
+      ],
+      "score_formula": "Per-case: answerQuality40 + sources30 + document20 + latency10. Run overall = average(case scores). Precision = passed/total.",
+      "created_at": "2026-08-03T23:53:53.175Z",
+      "recall_at_k": null,
+      "precision_at_k": null,
+      "mrr": null,
+      "hit_rate": null,
+      "avg_retrieval_latency_ms": null,
+      "avg_rerank_latency_ms": null,
+      "fallback_count": null,
+      "retrieval_cases_evaluated": null,
+      "retrieval_cases_skipped": null,
+      "source_precision": null,
+      "source_recall": null
+    },
+    {
+      "id": "811e5568-4ba5-4693-8f93-f0ec90dfb902",
+      "run_id": "a4117044-46ea-471e-b8b6-bc635cf0ee3d",
+      "precision": "100.00",
+      "recall": "100.00",
+      "document_coverage": "100.00",
+      "category_coverage": {
+        "Planilhas": {
+          "total": 1,
+          "passed": 1,
+          "precision": 100
+        }
+      },
+      "avg_duration_ms": "0.00",
+      "min_duration_ms": 0,
+      "max_duration_ms": 0,
+      "sources_correct_count": 1,
+      "sources_incorrect_count": 0,
+      "document_correct_count": 1,
+      "category_correct_count": 0,
+      "subcategory_correct_count": 0,
+      "hallucination_count": 0,
+      "empty_answer_count": 0,
+      "internal_error_count": 0,
+      "passed_count": 1,
+      "failed_count": 0,
+      "total_count": 1,
+      "overall_score": "100.00",
+      "top_errors": [],
+      "top_documents": [
+        {
+          "count": 1,
+          "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+          "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+        },
+        {
+          "count": 1,
+          "title": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+          "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+        },
+        {
+          "count": 1,
+          "title": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+          "documentId": "b533f80a-9b19-47c0-b4ab-210590846228"
+        }
+      ],
+      "score_formula": "Per-case: answerQuality40 + sources30 + document20 + latency10. Run overall = average(case scores). Precision = passed/total.",
+      "created_at": "2026-08-04T00:17:28.135Z",
+      "recall_at_k": null,
+      "precision_at_k": null,
+      "mrr": "0",
+      "hit_rate": "0",
+      "avg_retrieval_latency_ms": null,
+      "avg_rerank_latency_ms": "0",
+      "fallback_count": 0,
+      "retrieval_cases_evaluated": 1,
+      "retrieval_cases_skipped": 0,
+      "source_precision": null,
+      "source_recall": null
+    },
+    {
+      "id": "2b9bead3-19a6-4304-902b-4ce904fd5d6f",
+      "run_id": "4fb2148c-fa72-4332-a4e6-a225809ade51",
+      "precision": "100.00",
+      "recall": "100.00",
+      "document_coverage": "100.00",
+      "category_coverage": {
+        "Planilhas": {
+          "total": 1,
+          "passed": 1,
+          "precision": 100
+        }
+      },
+      "avg_duration_ms": "0.00",
+      "min_duration_ms": 0,
+      "max_duration_ms": 0,
+      "sources_correct_count": 1,
+      "sources_incorrect_count": 0,
+      "document_correct_count": 1,
+      "category_correct_count": 0,
+      "subcategory_correct_count": 0,
+      "hallucination_count": 0,
+      "empty_answer_count": 0,
+      "internal_error_count": 0,
+      "passed_count": 1,
+      "failed_count": 0,
+      "total_count": 1,
+      "overall_score": "100.00",
+      "top_errors": [],
+      "top_documents": [
+        {
+          "count": 1,
+          "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+          "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+        },
+        {
+          "count": 1,
+          "title": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+          "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+        },
+        {
+          "count": 1,
+          "title": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+          "documentId": "b533f80a-9b19-47c0-b4ab-210590846228"
+        }
+      ],
+      "score_formula": "Per-case: answerQuality40 + sources30 + document20 + latency10. Run overall = average(case scores). Precision = passed/total.",
+      "created_at": "2026-08-04T00:17:34.599Z",
+      "recall_at_k": null,
+      "precision_at_k": null,
+      "mrr": "0",
+      "hit_rate": "0",
+      "avg_retrieval_latency_ms": null,
+      "avg_rerank_latency_ms": "0",
+      "fallback_count": 0,
+      "retrieval_cases_evaluated": 1,
+      "retrieval_cases_skipped": 0,
+      "source_precision": null,
+      "source_recall": null
+    }
+  ]
+}

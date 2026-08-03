@@ -1,0 +1,168 @@
+{
+  "versions": [
+    {
+      "id": "b9f10499-cf34-48dd-90b9-119b1410e84d",
+      "version_label": "hybrid-rerank-v1",
+      "status": "DRAFT",
+      "mode": "HYBRID_RERANK",
+      "created_at": "2026-08-03T20:33:30.752Z"
+    },
+    {
+      "id": "63631806-f1ba-4ff4-8b24-265a468229fb",
+      "version_label": "hybrid-v1",
+      "status": "PUBLISHED",
+      "mode": "HYBRID",
+      "created_at": "2026-08-03T20:33:30.461Z"
+    }
+  ],
+  "runs": [
+    {
+      "id": "11d65bda-2226-47a9-8d79-d0e105ff7fac",
+      "status": "SUCCESS",
+      "overall_score": "100.00",
+      "retrieval_mode": "HYBRID",
+      "retrieval_config_version": "hybrid-v1",
+      "mode_override_used": false,
+      "total_cases": 1,
+      "started_at": "2026-08-03T23:53:44.308Z",
+      "duration_ms": 8940
+    },
+    {
+      "id": "65ec6199-4e9d-4f00-9984-636a1ecf42b4",
+      "status": "SUCCESS",
+      "overall_score": "100.00",
+      "retrieval_mode": "HYBRID",
+      "retrieval_config_version": "hybrid-v1",
+      "mode_override_used": false,
+      "total_cases": 1,
+      "started_at": "2026-08-03T23:47:40.892Z",
+      "duration_ms": 5477
+    },
+    {
+      "id": "eaa6f2d2-7bb6-4059-9b11-437f07644f6c",
+      "status": "SUCCESS",
+      "overall_score": "100.00",
+      "retrieval_mode": "HYBRID",
+      "retrieval_config_version": "hybrid-v1",
+      "mode_override_used": false,
+      "total_cases": 1,
+      "started_at": "2026-08-03T23:45:53.789Z",
+      "duration_ms": 9120
+    },
+    {
+      "id": "5e9b8e74-59fe-47e7-bcaa-a0303a08ffad",
+      "status": "SUCCESS",
+      "overall_score": "100.00",
+      "retrieval_mode": null,
+      "retrieval_config_version": null,
+      "mode_override_used": false,
+      "total_cases": 1,
+      "started_at": "2026-08-03T19:20:18.843Z",
+      "duration_ms": 7885
+    },
+    {
+      "id": "745b957c-451c-41c5-8e69-73931c33f490",
+      "status": "SUCCESS",
+      "overall_score": "100.00",
+      "retrieval_mode": null,
+      "retrieval_config_version": null,
+      "mode_override_used": false,
+      "total_cases": 1,
+      "started_at": "2026-08-03T19:20:11.436Z",
+      "duration_ms": 6806
+    },
+    {
+      "id": "99a33ce6-7efb-4eb4-b6c2-b2903befdfa6",
+      "status": "PARTIAL",
+      "overall_score": "89.55",
+      "retrieval_mode": null,
+      "retrieval_config_version": null,
+      "mode_override_used": false,
+      "total_cases": 22,
+      "started_at": "2026-08-03T16:58:26.480Z",
+      "duration_ms": 119984
+    },
+    {
+      "id": "d269c658-8649-48fc-aed3-8d767ea5def4",
+      "status": "SUCCESS",
+      "overall_score": "100.00",
+      "retrieval_mode": null,
+      "retrieval_config_version": null,
+      "mode_override_used": false,
+      "total_cases": 1,
+      "started_at": "2026-08-03T16:56:47.941Z",
+      "duration_ms": 5997
+    },
+    {
+      "id": "d832aef5-45c3-49a6-83f3-0b65c73625f0",
+      "status": "SUCCESS",
+      "overall_score": "100.00",
+      "retrieval_mode": null,
+      "retrieval_config_version": null,
+      "mode_override_used": false,
+      "total_cases": 1,
+      "started_at": "2026-08-03T16:56:05.292Z",
+      "duration_ms": 4797
+    }
+  ],
+  "updateNodeNames": [
+    "Webhook",
+    "Normalizar request",
+    "Validar auth",
+    "Auth ok?",
+    "Validar permissão",
+    "Permissão ok?",
+    "Restaurar request",
+    "Preparar sucesso",
+    "Respond to Webhook",
+    "Preparar erro 403",
+    "Respond 403",
+    "Preparar erro 401",
+    "Respond 401",
+    "Preparar update",
+    "Tem versionId?",
+    "Checar status DRAFT",
+    "Avaliar draft",
+    "Pode editar?",
+    "Chamar VALIDAR",
+    "Validação ok?",
+    "Erro validate",
+    "Executar update",
+    "Montar update ok",
+    "Pass-through blocked"
+  ],
+  "updateCodes": {
+    "Validar auth": null,
+    "Validar permissão": null,
+    "Preparar update": "const norm=$('Normalizar request').first().json||{};\nconst body=norm.body||{}; let auth={}; try{auth=$('Validar auth').first().json||{};}catch(_){}\nif(!body.versionId){ return [{json:{ early:true, data:{ok:false,code:'VALIDATION_ERROR',errors:[{field:'versionId',message:'obrigatório'}],fields:[{field:'versionId',message:'obrigatório'}]}, statusCode:400, requestId:norm.requestId, requestStartedAtMs:norm.requestStartedAtMs, method:norm.method, path:norm.path, userId:auth.userId||'', sessionId:auth.sessionId||'' }}]; }\nreturn [{json:{ early:false, versionId:body.versionId, mode:body.mode||'', configurationJson:JSON.stringify(body.configuration||{}), versionLabel:body.versionLabel||'', notes:body.notes||'', requestId:norm.requestId, requestStartedAtMs:norm.requestStartedAtMs, method:norm.method, path:norm.path, userId:auth.userId||'', sessionId:auth.sessionId||'' }}];",
+    "Checar status DRAFT": null,
+    "Avaliar draft": "const prep=$('Preparar update').first().json; const row=$input.first().json||{};\nif(!row.id) return [{json:{...prep, blocked:true, data:{ok:false,code:'NOT_FOUND'}, statusCode:404}}];\nif(row.status!=='DRAFT') return [{json:{...prep, blocked:true, data:{ok:false,code:'NOT_DRAFT',message:'Somente DRAFT pode ser editado', status:row.status}, statusCode:400}}];\nreturn [{json:{...prep, blocked:false}}];",
+    "Chamar VALIDAR": null,
+    "Executar update": null,
+    "Montar update ok": "const prep=$('Preparar update').first().json; const row=$input.first().json||{};\nlet configuration=row.configuration; if(typeof configuration==='string'){try{configuration=JSON.parse(configuration);}catch(_){}}\nreturn [{json:{data:{ok:true,version:{id:row.id,versionNumber:Number(row.version_number),versionLabel:row.version_label,status:row.status,mode:row.mode,configuration,contentHash:row.content_hash,createdAt:row.created_at}},\nstatusCode:200,requestId:prep.requestId,requestStartedAtMs:prep.requestStartedAtMs,method:prep.method,path:prep.path,userId:prep.userId,sessionId:prep.sessionId}}];"
+  },
+  "createNodeNames": [
+    "Webhook",
+    "Normalizar request",
+    "Validar auth",
+    "Auth ok?",
+    "Validar permissão",
+    "Permissão ok?",
+    "Restaurar request",
+    "Preparar sucesso",
+    "Respond to Webhook",
+    "Preparar erro 403",
+    "Respond 403",
+    "Preparar erro 401",
+    "Respond 401",
+    "Preparar create",
+    "Chamar VALIDAR",
+    "Validação ok?",
+    "Erro validação",
+    "Inserir DRAFT",
+    "Montar create result",
+    "Auditar create",
+    "Repassar create"
+  ],
+  "createMontar": null
+}

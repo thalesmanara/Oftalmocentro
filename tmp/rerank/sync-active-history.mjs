@@ -3,7 +3,24 @@
 import pg from 'pg';
 import { writeFileSync } from 'fs';
 
-const IDS = ['nivEQHAqHWIwP8P8', 'sClDEVNVS0TGG2uq', '8EXk5RkFW5cxnenL'];
+const IDS = [
+  'nivEQHAqHWIwP8P8', // RE-RANQUEAR
+  'sClDEVNVS0TGG2uq', // CARREGAR RETRIEVAL CONFIG
+  'NhWUkmzGhlttJC9S', // VALIDAR RETRIEVAL CONFIG
+  '8EXk5RkFW5cxnenL', // Consulta IA
+  'DesGIYYOTdv0ws9J', // validate endpoint
+  'RjQDc5gcWFYyBQJO', // create
+  'Ci5BcAlkZCxOxdyA', // update
+  'BAHKNoJM7VdYU8UE', // publish
+  'FdaMsXY4nXEO0xV8', // rollback
+  'SxDfJMFCQbytHHL6', // GET list
+  'EdG14rWgluDHiOtt', // GET detail
+  'KdpEmEGHNlPICOa4', // EXECUTAR TESTE
+  '12t0Ol6zWQJgAKPC', // EXECUTAR DATASET
+  '1uITQcJ5jSNXErOM', // CALCULAR MÉTRICAS
+  'wTH2YV6pIlhzWDiY', // run-dataset webhook
+  'qVH5qtBf8IY32uiH', // run-case webhook
+];
 const client = new pg.Client({
   connectionString:
     'postgresql://ZuOg8foF6iDUR8Y4:W8rAAeT4sJBTGB9ufVpYlvgcnZ0cHZ9L@2.24.89.199:5432/n8n',

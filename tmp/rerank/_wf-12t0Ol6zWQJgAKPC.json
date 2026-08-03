@@ -1,0 +1,108 @@
+{
+  "name": "IA - EXECUTAR DATASET",
+  "summary": [
+    {
+      "name": "Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "hasJs": false,
+      "jsLen": 0,
+      "queryHas": null
+    },
+    {
+      "name": "Inserir run",
+      "type": "n8n-nodes-base.postgres",
+      "hasJs": false,
+      "jsLen": 0,
+      "queryHas": {
+        "insertResults": false,
+        "insertMetrics": false,
+        "retrieval": true
+      }
+    },
+    {
+      "name": "Montar filtro de casos",
+      "type": "n8n-nodes-base.code",
+      "hasJs": true,
+      "jsLen": 941,
+      "queryHas": null
+    },
+    {
+      "name": "Carregar casos",
+      "type": "n8n-nodes-base.postgres",
+      "hasJs": false,
+      "jsLen": 0,
+      "queryHas": {
+        "insertResults": false,
+        "insertMetrics": false,
+        "retrieval": false
+      }
+    },
+    {
+      "name": "Calcular métricas",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "wf": "1uITQcJ5jSNXErOM",
+      "hasJs": false,
+      "jsLen": 0,
+      "queryHas": null
+    },
+    {
+      "name": "Gerar relatório",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "wf": "DoaDLe6P5BtJhDXb",
+      "hasJs": false,
+      "jsLen": 0,
+      "queryHas": null
+    },
+    {
+      "name": "Carregar resultados finais",
+      "type": "n8n-nodes-base.postgres",
+      "hasJs": false,
+      "jsLen": 0,
+      "queryHas": {
+        "insertResults": true,
+        "insertMetrics": false,
+        "retrieval": false
+      }
+    },
+    {
+      "name": "Montar atualização do run",
+      "type": "n8n-nodes-base.code",
+      "hasJs": true,
+      "jsLen": 2763,
+      "queryHas": null
+    },
+    {
+      "name": "Atualizar run",
+      "type": "n8n-nodes-base.postgres",
+      "hasJs": false,
+      "jsLen": 0,
+      "queryHas": {
+        "insertResults": false,
+        "insertMetrics": false,
+        "retrieval": false
+      }
+    },
+    {
+      "name": "Montar resposta",
+      "type": "n8n-nodes-base.code",
+      "hasJs": true,
+      "jsLen": 1032,
+      "queryHas": null
+    },
+    {
+      "name": "Executar caso",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "wf": "KdpEmEGHNlPICOa4",
+      "hasJs": false,
+      "jsLen": 0,
+      "queryHas": null
+    },
+    {
+      "name": "Loop casos",
+      "type": "n8n-nodes-base.splitInBatches",
+      "hasJs": false,
+      "jsLen": 0,
+      "queryHas": null
+    }
+  ]
+}

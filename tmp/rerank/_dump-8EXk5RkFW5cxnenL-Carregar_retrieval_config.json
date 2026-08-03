@@ -1,0 +1,24 @@
+{
+  "name": "Carregar retrieval config",
+  "type": "n8n-nodes-base.executeWorkflow",
+  "params": {
+    "mode": "once",
+    "source": "database",
+    "workflowId": {
+      "__rl": true,
+      "mode": "id",
+      "value": "sClDEVNVS0TGG2uq",
+      "cachedResultName": "IA - CARREGAR RETRIEVAL CONFIG"
+    },
+    "workflowInputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "requestId": "={{ $('Normalizar request').first().json.requestId || '' }}",
+        "modeOverride": ""
+      }
+    },
+    "options": {
+      "waitForSubWorkflow": true
+    }
+  }
+}

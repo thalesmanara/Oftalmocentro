@@ -1,0 +1,90 @@
+[
+  {
+    "column_name": "id",
+    "data_type": "uuid"
+  },
+  {
+    "column_name": "code",
+    "data_type": "text"
+  },
+  {
+    "column_name": "name",
+    "data_type": "text"
+  },
+  {
+    "column_name": "group_name",
+    "data_type": "text"
+  },
+  {
+    "column_name": "test_type",
+    "data_type": "text"
+  },
+  {
+    "column_name": "category_name",
+    "data_type": "text"
+  },
+  {
+    "column_name": "subcategory_name",
+    "data_type": "text"
+  },
+  {
+    "column_name": "expected_document_id",
+    "data_type": "uuid"
+  },
+  {
+    "column_name": "expected_document_ids",
+    "data_type": "ARRAY"
+  },
+  {
+    "column_name": "question",
+    "data_type": "text"
+  },
+  {
+    "column_name": "expected_answer",
+    "data_type": "text"
+  },
+  {
+    "column_name": "required_words",
+    "data_type": "ARRAY"
+  },
+  {
+    "column_name": "forbidden_words",
+    "data_type": "ARRAY"
+  },
+  {
+    "column_name": "required_source_document_id",
+    "data_type": "uuid"
+  },
+  {
+    "column_name": "min_score",
+    "data_type": "numeric"
+  },
+  {
+    "column_name": "expect_no_answer",
+    "data_type": "boolean"
+  },
+  {
+    "column_name": "notes",
+    "data_type": "text"
+  },
+  {
+    "column_name": "status",
+    "data_type": "text"
+  },
+  {
+    "column_name": "version",
+    "data_type": "integer"
+  },
+  {
+    "column_name": "depends_on_missing_docs",
+    "data_type": "boolean"
+  },
+  {
+    "column_name": "created_at",
+    "data_type": "timestamp without time zone"
+  },
+  {
+    "column_name": "updated_at",
+    "data_type": "timestamp without time zone"
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "name": "Trigger",
+  "type": "n8n-nodes-base.executeWorkflowTrigger",
+  "params": {
+    "inputSource": "workflowInputs",
+    "workflowInputs": {
+      "values": [
+        {
+          "name": "requestId",
+          "type": "string"
+        },
+        {
+          "name": "modeOverride",
+          "type": "string"
+        }
+      ]
+    }
+  }
+}

@@ -116,13 +116,18 @@ export function AiRetrievalPage() {
   const [rollingBack, setRollingBack] = useState(false)
 
   const [feedback, setFeedback] = useState<Feedback | null>(null)
-  const [validationResult, setValidationResult] = useState<{ errors: string[]; warnings: string[] } | null>(
-    null
-  )
+  const [validationResult, setValidationResult] = useState<{
+    errors: string[]
+    warnings: string[]
+    fields?: Record<string, string>
+  } | null>(null)
 
   const [publishModalOpen, setPublishModalOpen] = useState(false)
+  const [publishForceOverride, setPublishForceOverride] = useState(false)
+  const [publishOverrideReason, setPublishOverrideReason] = useState('')
   const [rollbackModalOpen, setRollbackModalOpen] = useState(false)
   const [rollbackReason, setRollbackReason] = useState('')
+  const [lastValidationRunId, setLastValidationRunId] = useState<string | null>(null)
 
   const loadDefinitions = useCallback(async () => {
     setDefinitionsLoading(true)
@@ -258,7 +263,15 @@ export function AiRetrievalPage() {
         mode: draftMode,
         configuration,
       })
-      setValidationResult({ errors: result.errors || [], warnings: result.warnings || [] })
+      const fieldErrors = result.fields
+        ? Object.entries(result.fields).map(([k, v]) => `${k}: ${v}`)
+        : []
+      const errors = [...(result.errors || []), ...fieldErrors]
+      setValidationResult({
+        errors,
+        warnings: result.warnings || [],
+        fields: result.fields,
+      })
       setFeedback({
         type: result.ok ? 'success' : 'error',
         message: result.ok ? 'Validação concluída sem erros.' : 'Validação encontrou problemas.',
@@ -274,10 +287,16 @@ export function AiRetrievalPage() {
     setRunningDataset(true)
     setFeedback(null)
     try {
-      await runAiTestDataset({ groupName: 'Planilhas', includeMissingDocs: false })
+      const run = await runAiTestDataset({
+        groupName: 'Planilhas',
+        includeMissingDocs: false,
+        retrievalConfigVersionId: selectedVersion?.id,
+      })
+      const runId = run.run?.id
+      if (runId) setLastValidationRunId(runId)
       setFeedback({
         type: 'success',
-        message: 'Dataset executado. Compare o resultado em Validação IA (modo publicado permanece HYBRID até publicação explícita).',
+        message: `Dataset (override isolado) concluído. Run ${runId || '—'}. Produção permanece inalterada.`,
       })
     } catch (err) {
       setFeedback({ type: 'error', message: getErrorMessage(err, 'Falha ao executar dataset.') })
@@ -288,11 +307,32 @@ export function AiRetrievalPage() {
 
   async function handlePublish() {
     if (!selectedVersion) return
+    if (!lastValidationRunId && !selectedVersion.validationRunId && !publishForceOverride) {
+      setFeedback({
+        type: 'error',
+        message: 'Publique apenas com validationRunId válido, ou use override com motivo obrigatório.',
+      })
+      return
+    }
+    if (publishForceOverride && publishOverrideReason.trim().length < 20) {
+      setFeedback({
+        type: 'error',
+        message: 'Override exige motivo específico (mín. 20 caracteres).',
+      })
+      return
+    }
     setPublishing(true)
     setFeedback(null)
     try {
-      await publishAiRetrievalVersion({ versionId: selectedVersion.id })
+      await publishAiRetrievalVersion({
+        versionId: selectedVersion.id,
+        validationRunId: lastValidationRunId || selectedVersion.validationRunId || undefined,
+        forceOverride: publishForceOverride || undefined,
+        overrideReason: publishForceOverride ? publishOverrideReason.trim() : undefined,
+      })
       setPublishModalOpen(false)
+      setPublishForceOverride(false)
+      setPublishOverrideReason('')
       setFeedback({ type: 'success', message: 'Configuração publicada. Produção agora usa esta versão.' })
       await loadDefinitions()
       if (selectedDefinitionId) await loadDefinitionDetail(selectedDefinitionId, selectedVersion.id)
@@ -478,6 +518,10 @@ export function AiRetrievalPage() {
                       <p className="text-xs text-slate-500">
                         {statusLabel(selectedVersion.status)} · {modeLabel(selectedVersion.mode)}
                         {!isDraft && ' · somente leitura'}
+                        {selectedVersion.validationRunId
+                          ? ` · validationRun ${selectedVersion.validationRunId.slice(0, 8)}…`
+                          : ''}
+                        {lastValidationRunId ? ` · último run lab ${lastValidationRunId.slice(0, 8)}…` : ''}
                       </p>
                     </div>
                     <div className="flex flex-wrap gap-2">
@@ -581,11 +625,22 @@ export function AiRetrievalPage() {
                         <p className="text-emerald-700">Sem erros ou avisos.</p>
                       ) : (
                         <>
-                          {validationResult.errors.map((e, i) => (
-                            <p key={`e-${i}`} className="flex gap-2 text-red-700">
-                              <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" /> {e}
-                            </p>
-                          ))}
+                          {validationResult.fields &&
+                            Object.entries(validationResult.fields).map(([field, msg]) => (
+                              <p key={`f-${field}`} className="flex gap-2 text-red-700">
+                                <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
+                                <span>
+                                  <strong>{field}</strong>: {msg}
+                                </span>
+                              </p>
+                            ))}
+                          {validationResult.errors
+                            .filter((e) => !validationResult.fields || !Object.keys(validationResult.fields).some((f) => e.startsWith(`${f}:`)))
+                            .map((e, i) => (
+                              <p key={`e-${i}`} className="flex gap-2 text-red-700">
+                                <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" /> {e}
+                              </p>
+                            ))}
                           {validationResult.warnings.map((w, i) => (
                             <p key={`w-${i}`} className="text-amber-800">
                               {w}
@@ -608,14 +663,41 @@ export function AiRetrievalPage() {
         title="Publicar configuração de retrieval"
       >
         <p className="text-sm text-slate-600">
-          Isso altera o modo ativo da Consulta IA. Só publique após comparar HYBRID × HYBRID_RERANK no
-          dataset e confirmar ausência de regressão.
+          Isso altera o modo ativo da Consulta IA. Exige validationRunId da mesma versão, salvo override
+          administrativo com motivo específico.
         </p>
+        <p className="mt-2 text-xs text-slate-500">
+          Run vinculado: {lastValidationRunId || selectedVersion?.validationRunId || 'nenhum — use override'}
+        </p>
+        <label className="mt-3 flex items-center gap-2 text-sm text-slate-700">
+          <input
+            type="checkbox"
+            checked={publishForceOverride}
+            onChange={(e) => setPublishForceOverride(e.target.checked)}
+          />
+          Override administrativo (sem run válido)
+        </label>
+        {publishForceOverride && (
+          <Textarea
+            className="mt-2 min-h-[100px]"
+            value={publishOverrideReason}
+            onChange={(e) => setPublishOverrideReason(e.target.value)}
+            placeholder="Motivo obrigatório, específico e auditável (mín. 20 caracteres)…"
+          />
+        )}
         <div className="mt-4 flex justify-end gap-2">
           <Button variant="secondary" onClick={() => setPublishModalOpen(false)}>
             Cancelar
           </Button>
-          <Button disabled={publishing} onClick={() => void handlePublish()}>
+          <Button
+            disabled={
+              publishing ||
+              (!lastValidationRunId &&
+                !selectedVersion?.validationRunId &&
+                !(publishForceOverride && publishOverrideReason.trim().length >= 20))
+            }
+            onClick={() => void handlePublish()}
+          >
             {publishing ? 'Publicando…' : 'Confirmar publicação'}
           </Button>
         </div>

@@ -1,0 +1,30 @@
+{
+  "name": "Executar caso",
+  "type": "n8n-nodes-base.executeWorkflow",
+  "params": {
+    "mode": "once",
+    "options": {
+      "waitForSubWorkflow": true
+    },
+    "source": "database",
+    "workflowId": {
+      "__rl": true,
+      "mode": "id",
+      "value": "KdpEmEGHNlPICOa4",
+      "cachedResultName": "IA - EXECUTAR TESTE"
+    },
+    "workflowInputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "runId": "={{ $('Inserir run').first().json.id }}",
+        "caseId": "={{ $json.id }}",
+        "authorization": "={{ $('Trigger').first().json.authorization }}",
+        "promptVersion": "={{ $('Inserir run').first().json.prompt_version }}",
+        "promptVersionId": "={{ $('Inserir run').first().json.prompt_version_id || '' }}",
+        "modelName": "={{ $('Inserir run').first().json.model_name }}",
+        "refusalPhrase": "",
+        "maxLatencyMs": "={{ 0 }}"
+      }
+    }
+  }
+}

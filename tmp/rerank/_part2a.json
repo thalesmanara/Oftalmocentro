@@ -1,0 +1,14 @@
+{
+  "validate": {
+    "id": "DesGIYYOTdv0ws9J",
+    "path": "system/ai-retrieval/validate",
+    "method": "POST",
+    "nodeCount": 16
+  },
+  "create": {
+    "id": "RjQDc5gcWFYyBQJO",
+    "path": "system/ai-retrieval/create",
+    "method": "POST",
+    "nodeCount": 21
+  }
+}

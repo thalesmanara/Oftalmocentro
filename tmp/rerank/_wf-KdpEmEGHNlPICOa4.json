@@ -1,0 +1,55 @@
+{
+  "name": "IA - EXECUTAR TESTE",
+  "summary": [
+    {
+      "name": "Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "hasJs": false,
+      "jsLen": 0,
+      "queryHas": null
+    },
+    {
+      "name": "Carregar caso",
+      "type": "n8n-nodes-base.postgres",
+      "hasJs": false,
+      "jsLen": 0,
+      "queryHas": {
+        "insertResults": false,
+        "insertMetrics": false,
+        "retrieval": false
+      }
+    },
+    {
+      "name": "Chamar Consulta IA",
+      "type": "n8n-nodes-base.httpRequest",
+      "hasJs": false,
+      "jsLen": 0,
+      "queryHas": null
+    },
+    {
+      "name": "Avaliar e montar insert",
+      "type": "n8n-nodes-base.code",
+      "hasJs": true,
+      "jsLen": 9644,
+      "queryHas": null
+    },
+    {
+      "name": "Inserir resultado",
+      "type": "n8n-nodes-base.postgres",
+      "hasJs": false,
+      "jsLen": 0,
+      "queryHas": {
+        "insertResults": false,
+        "insertMetrics": false,
+        "retrieval": false
+      }
+    },
+    {
+      "name": "Normalizar saída",
+      "type": "n8n-nodes-base.code",
+      "hasJs": true,
+      "jsLen": 1789,
+      "queryHas": null
+    }
+  ]
+}

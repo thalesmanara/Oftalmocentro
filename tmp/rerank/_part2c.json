@@ -1,0 +1,37 @@
+{
+  "consulta": {
+    "id": "8EXk5RkFW5cxnenL",
+    "name": "Consulta IA",
+    "patched": [
+      "load",
+      "montar"
+    ]
+  },
+  "teste": {
+    "id": "KdpEmEGHNlPICOa4",
+    "name": "IA - EXECUTAR TESTE",
+    "patched": true
+  },
+  "testeHasCandidates": true,
+  "testeHasRanked": true,
+  "dataset": {
+    "id": "12t0Ol6zWQJgAKPC",
+    "name": "IA - EXECUTAR DATASET",
+    "patched": true
+  },
+  "metrics": {
+    "id": "1uITQcJ5jSNXErOM",
+    "name": "IA - CALCULAR MÉTRICAS",
+    "patched": true
+  },
+  "datasetWebhook": {
+    "id": "wTH2YV6pIlhzWDiY",
+    "name": "POST System AI Eval Run Dataset",
+    "patched": true
+  },
+  "caseWebhook": {
+    "id": "qVH5qtBf8IY32uiH",
+    "name": "POST System AI Eval Run Case",
+    "patched": true
+  }
+}

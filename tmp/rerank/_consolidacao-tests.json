@@ -1,0 +1,659 @@
+{
+  "startedAt": "2026-08-03T21:17:12.870Z",
+  "tests": [
+    {
+      "name": "login",
+      "pass": true,
+      "detail": "status=200"
+    },
+    {
+      "name": "401 validate sem token",
+      "pass": true,
+      "detail": "status=401"
+    },
+    {
+      "name": "validate mode inválido",
+      "pass": true,
+      "detail": "status=400 errors=[{\"field\":\"mode\",\"message\":\"mode deve ser TEXT_ONLY|VECTOR_ONLY|HYBRID|HYBRID_RERANK\",\"code\":\"INVALID_MODE\"}]"
+    },
+    {
+      "name": "validate peso negativo",
+      "pass": true,
+      "detail": "status=400"
+    },
+    {
+      "name": "validate campo desconhecido",
+      "pass": true,
+      "detail": "status=400"
+    },
+    {
+      "name": "validate finalLimit > candidateLimit",
+      "pass": true,
+      "detail": "status=400"
+    },
+    {
+      "name": "validate config vazia/incompleta",
+      "pass": true,
+      "detail": "status=400"
+    },
+    {
+      "name": "validate string no lugar de número",
+      "pass": true,
+      "detail": "status=400"
+    },
+    {
+      "name": "validate válido",
+      "pass": true,
+      "detail": "status=200"
+    },
+    {
+      "name": "create DRAFT válido",
+      "pass": true,
+      "detail": "status=201 id=3ce8f73f-b217-4a54-ab30-a30fec49392f"
+    },
+    {
+      "name": "create mode inválido bloqueado",
+      "pass": true,
+      "detail": "status=400"
+    },
+    {
+      "name": "update DRAFT válido",
+      "pass": true,
+      "detail": "status=200"
+    },
+    {
+      "name": "update PUBLISHED bloqueado",
+      "pass": true,
+      "detail": "status=400 code=NOT_DRAFT"
+    },
+    {
+      "name": "publish sem run bloqueado",
+      "pass": true,
+      "detail": "status=400 code=VALIDATION_RUN_REQUIRED"
+    },
+    {
+      "name": "publish override sem motivo bloqueado",
+      "pass": true,
+      "detail": "status=400"
+    },
+    {
+      "name": "A/B run A HYBRID",
+      "pass": true,
+      "detail": "status=200 score=100"
+    },
+    {
+      "name": "A/B run B HYBRID_RERANK override",
+      "pass": true,
+      "detail": "status=200 score=100"
+    },
+    {
+      "name": "override não altera produção",
+      "pass": true,
+      "detail": "[{\"key\":\"retrieval_active_mode\",\"value\":\"HYBRID\"},{\"key\":\"retrieval_active_version\",\"value\":\"hybrid-v1\"}]"
+    },
+    {
+      "name": "métricas recall/precision/mrr presentes ou null cobertos",
+      "pass": true,
+      "detail": "[{\"run_id\":\"a4117044-46ea-471e-b8b6-bc635cf0ee3d\",\"precision\":\"100.00\",\"recall\":\"100.00\",\"recall_at_k\":null,\"precision_at_k\":null,\"mrr\":\"0\",\"hit_rate\":\"0\",\"overall_score\":\"100.00\",\"hallucination_count\":0,\"sources_correct_count\":1,\"document_correct_count\":1,\"fallback_count\":0,\"retrieval_cases_evaluated\":1,\"retrieval_cases_skipped\":0,\"avg_rerank_latency_ms\":\"0\"},{\"run_id\":\"4fb2148c-fa72-4332-a4e6-a2"
+    },
+    {
+      "name": "rollback sem motivo bloqueado",
+      "pass": true,
+      "detail": "status=400"
+    },
+    {
+      "name": "publish override com motivo (teste controlado)",
+      "pass": false,
+      "detail": "status=200 body=null"
+    },
+    {
+      "name": "produção final HYBRID/hybrid-v1",
+      "pass": true,
+      "detail": "{\"secrets\":[{\"key\":\"retrieval_active_mode\",\"value\":\"HYBRID\"},{\"key\":\"retrieval_active_version\",\"value\":\"hybrid-v1\"}],\"publishedCount\":1}"
+    },
+    {
+      "name": "health retrieval",
+      "pass": true,
+      "detail": "{\"status\":\"ok\"}"
+    },
+    {
+      "name": "A/B veredito registrado",
+      "pass": true,
+      "detail": "NEUTRAL"
+    },
+    {
+      "name": "apenas uma PUBLISHED",
+      "pass": true,
+      "detail": "n=1"
+    }
+  ],
+  "secretsBefore": [
+    {
+      "key": "retrieval_active_mode",
+      "value": "HYBRID"
+    },
+    {
+      "key": "retrieval_active_version",
+      "value": "hybrid-v1"
+    }
+  ],
+  "createdVersionId": "3ce8f73f-b217-4a54-ab30-a30fec49392f",
+  "createResponse": {
+    "success": true,
+    "data": {
+      "ok": true,
+      "version": {
+        "id": "3ce8f73f-b217-4a54-ab30-a30fec49392f",
+        "versionNumber": 4,
+        "versionLabel": "tmp-optest-msdqcqte",
+        "status": "DRAFT",
+        "mode": "HYBRID_RERANK",
+        "configuration": {
+          "mode": "HYBRID_RERANK",
+          "notes": "",
+          "boosts": {
+            "titleMatch": 0.1,
+            "exactIdentifier": 0.2
+          },
+          "weights": {
+            "lexical": 0.25,
+            "semantic": 0.45,
+            "hybridPrior": 0.15
+          },
+          "penalties": {
+            "redundancyPerExtraChunk": 0.1
+          },
+          "finalLimit": 8,
+          "normalization": {
+            "text": "batchMax",
+            "hybrid": "passthrough",
+            "vector": "clip01"
+          },
+          "candidateLimit": 20,
+          "enableNeighbors": false,
+          "maxChunksPerDocument": 2
+        },
+        "contentHash": "07928104c7091941f4d028b2766a0bdd3a12309a19909604e26e7770365beb19",
+        "createdAt": "2026-08-03T21:17:19.634Z"
+      }
+    },
+    "meta": {
+      "requestId": "f2a9e637-deeb-40c5-b342-8a30bf50da79",
+      "timestamp": "2026-08-03T21:17:19.715Z",
+      "durationMs": 199
+    }
+  },
+  "versions": {
+    "hybrid": {
+      "id": "63631806-f1ba-4ff4-8b24-265a468229fb",
+      "version_label": "hybrid-v1",
+      "mode": "HYBRID",
+      "status": "PUBLISHED"
+    },
+    "rerank": {
+      "id": "b9f10499-cf34-48dd-90b9-119b1410e84d",
+      "version_label": "hybrid-rerank-v1",
+      "mode": "HYBRID_RERANK",
+      "status": "DRAFT"
+    }
+  },
+  "runA": {
+    "label": "HYBRID",
+    "status": 200,
+    "durationMs": 6690,
+    "data": {
+      "run": {
+        "id": "a4117044-46ea-471e-b8b6-bc635cf0ee3d",
+        "startedAt": "2026-08-03T21:17:22.169Z",
+        "finishedAt": "2026-08-03T21:17:28.206Z",
+        "durationMs": 6037,
+        "status": "FAILED",
+        "triggeredBy": "06e0915e-0f90-42b1-a32c-ae5e0f7de1c6",
+        "triggerMode": "dataset",
+        "totalCases": 1,
+        "passedCount": 1,
+        "failedCount": 0,
+        "errorCount": 0,
+        "skippedCount": 0,
+        "overallScore": 100,
+        "promptVersion": "AI_QUERY_MAIN@v1:9faa2e456571",
+        "promptVersionId": null,
+        "modelName": "gpt-4.1-mini",
+        "ocrEngineVersion": "n/a",
+        "tabularEngineVersion": "n/a",
+        "report": {
+          "total": 1,
+          "errors": 0,
+          "failed": 0,
+          "passed": 1,
+          "recall": 100,
+          "precision": 100,
+          "topErrors": [],
+          "generatedAt": "2026-08-03T21:17:28.180Z",
+          "overallScore": 100,
+          "scoreFormula": "Per-case: answerQuality40 + sources30 + document20 + latency10. Run overall = average(case scores). Precision = passed/total.",
+          "topDocuments": [
+            {
+              "count": 1,
+              "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+              "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+            },
+            {
+              "count": 1,
+              "title": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+              "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+            },
+            {
+              "count": 1,
+              "title": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+              "documentId": "b533f80a-9b19-47c0-b4ab-210590846228"
+            }
+          ],
+          "avgDurationMs": 0,
+          "maxDurationMs": 0,
+          "minDurationMs": 0,
+          "categoryCoverage": {
+            "Planilhas": {
+              "total": 1,
+              "passed": 1,
+              "precision": 100
+            }
+          },
+          "documentCoverage": 100
+        },
+        "metadata": {},
+        "createdAt": "2026-08-03T21:17:22.169Z"
+      },
+      "metrics": {
+        "id": "811e5568-4ba5-4693-8f93-f0ec90dfb902",
+        "runId": "a4117044-46ea-471e-b8b6-bc635cf0ee3d",
+        "precision": 100,
+        "recall": 100,
+        "documentCoverage": null,
+        "categoryCoverage": {},
+        "avgDurationMs": null,
+        "minDurationMs": null,
+        "maxDurationMs": null,
+        "sourcesCorrectCount": 0,
+        "sourcesIncorrectCount": 0,
+        "documentCorrectCount": 0,
+        "categoryCorrectCount": 0,
+        "subcategoryCorrectCount": 0,
+        "hallucinationCount": 0,
+        "emptyAnswerCount": 0,
+        "internalErrorCount": 0,
+        "passedCount": 0,
+        "failedCount": 0,
+        "totalCount": 0,
+        "overallScore": 100,
+        "topErrors": [],
+        "topDocuments": [],
+        "scoreFormula": null,
+        "createdAt": "2026-08-03T21:17:28.135Z"
+      },
+      "results": [
+        {
+          "id": "949fd9c7-39ee-4184-ab32-903a3d013a85",
+          "runId": "a4117044-46ea-471e-b8b6-bc635cf0ee3d",
+          "caseId": "1e040f78-0846-4bde-abbf-4a84694e9af5",
+          "caseCode": "TC-053",
+          "question": "Quem aparece na relação de funcionários em Excel?",
+          "answer": "Na relação de funcionários em Excel do Serviço de Enfermagem do Oftalmocentro Uberaba LTDA, aparecem os seguintes nomes:\n\n- BARBARA APARECIDA MUNIZ DE LIMA, Técnica em Enfermagem, COREN-MG 2246508, setor Centro Cirúrgico/Exames/CME\n- BIANCA KATHEREIN FREITAS SILVA, Enfermeira, COREN-MG 795377, setor Centro Cirúrgico/Exames/CME\n- DAYANA SENE VIEIRA AS SILVA, Técnica de Enfermagem, COREN-MG 646,173, setor Centro Cirúrgico/Exames/CME\n- JORDANA BORGES, Enfermeira, COREN-MG 493,608, responsável técnica\n- MARIANA PEREIRA OLIVEIRA, Enfermeira, COREN-MG 271,377, setor Centro Cirúrgico/Exames/CME\n\nFonte: RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+          "durationMs": null,
+          "sources": [
+            {
+              "index": 1,
+              "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+              "categoryName": "ALVARÁS - LICENÇAS - ART",
+              "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+              "subcategoryName": "COREN"
+            },
+            {
+              "index": 2,
+              "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a",
+              "categoryName": "ENGENHARIA CLÍNICA",
+              "documentTitle": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+              "subcategoryName": "CONTRATOS DE MANUTENÇÃO"
+            },
+            {
+              "index": 3,
+              "documentId": "b533f80a-9b19-47c0-b4ab-210590846228",
+              "categoryName": "INFORMAÇÕES GERAIS",
+              "documentTitle": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+              "subcategoryName": "Texto Livre"
+            }
+          ],
+          "chunkRefs": [
+            {
+              "index": 1,
+              "chunkOrder": null,
+              "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+            },
+            {
+              "index": 2,
+              "chunkOrder": null,
+              "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+            },
+            {
+              "index": 3,
+              "chunkOrder": null,
+              "documentId": "b533f80a-9b19-47c0-b4ab-210590846228"
+            }
+          ],
+          "classification": {
+            "categoryId": "c2a99325-1439-4f1d-bec7-6f6006a0822f",
+            "categoryName": "TABELAS DE PREÇOS",
+            "subcategoryId": "8ff31a51-8732-48b3-9f40-742d4abe9b3e",
+            "subcategoryName": "Lente Intraocular Particular",
+            "categoryDescription": "Tabelas contendo os valores vigentes para consultas médicas, exames oftalmológicos, procedimentos cirúrgicos e demais serviços prestados em regime particular, e convênios com cartões desconto, incluindo atualizações e históricos de preços.",
+            "subcategoryDescription": "Relação de preços das lentes intraoculares disponibilizadas para pacientes particulares, contemplando modelos, fabricantes, características técnicas e respectivos valores."
+          },
+          "matchedDocument": true,
+          "matchedCategory": null,
+          "matchedSubcategory": null,
+          "requiredWordsHit": 1,
+          "requiredWordsTotal": 1,
+          "forbiddenWordsHit": 0,
+          "sourcesCorrect": true,
+          "sourcesIncorrect": false,
+          "isHallucination": false,
+          "isEmptyAnswer": false,
+          "isInternalError": false,
+          "score": 100,
+          "verdict": "PASS",
+          "scoreBreakdown": {
+            "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+            "latency": 10,
+            "sources": 30,
+            "weights": {
+              "latency": 10,
+              "sources": 30,
+              "document": 20,
+              "answerQuality": 40
+            },
+            "document": 20,
+            "answerQuality": 40
+          },
+          "extractionMethod": "tabular",
+          "ocrQualityGrade": null,
+          "ocrUsed": false,
+          "sheetName": "Planilha1",
+          "promptVersion": "AI_QUERY_MAIN@v1:9faa2e456571",
+          "promptVersionId": null,
+          "modelName": "gpt-4.1-mini",
+          "createdAt": "2026-08-03T21:17:28.073Z"
+        }
+      ]
+    },
+    "retrievalConfigVersionId": null
+  },
+  "runB": {
+    "label": "HYBRID_RERANK",
+    "status": 200,
+    "durationMs": 6359,
+    "data": {
+      "run": {
+        "id": "4fb2148c-fa72-4332-a4e6-a225809ade51",
+        "startedAt": "2026-08-03T21:17:28.866Z",
+        "finishedAt": "2026-08-03T21:17:34.736Z",
+        "durationMs": 5870,
+        "status": "FAILED",
+        "triggeredBy": "06e0915e-0f90-42b1-a32c-ae5e0f7de1c6",
+        "triggerMode": "dataset",
+        "totalCases": 1,
+        "passedCount": 1,
+        "failedCount": 0,
+        "errorCount": 0,
+        "skippedCount": 0,
+        "overallScore": 100,
+        "promptVersion": "AI_QUERY_MAIN@v1:9faa2e456571",
+        "promptVersionId": null,
+        "modelName": "gpt-4.1-mini",
+        "ocrEngineVersion": "n/a",
+        "tabularEngineVersion": "n/a",
+        "report": {
+          "total": 1,
+          "errors": 0,
+          "failed": 0,
+          "passed": 1,
+          "recall": 100,
+          "precision": 100,
+          "topErrors": [],
+          "generatedAt": "2026-08-03T21:17:34.711Z",
+          "overallScore": 100,
+          "scoreFormula": "Per-case: answerQuality40 + sources30 + document20 + latency10. Run overall = average(case scores). Precision = passed/total.",
+          "topDocuments": [
+            {
+              "count": 1,
+              "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+              "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+            },
+            {
+              "count": 1,
+              "title": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+              "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+            },
+            {
+              "count": 1,
+              "title": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+              "documentId": "b533f80a-9b19-47c0-b4ab-210590846228"
+            }
+          ],
+          "avgDurationMs": 0,
+          "maxDurationMs": 0,
+          "minDurationMs": 0,
+          "categoryCoverage": {
+            "Planilhas": {
+              "total": 1,
+              "passed": 1,
+              "precision": 100
+            }
+          },
+          "documentCoverage": 100
+        },
+        "metadata": {},
+        "createdAt": "2026-08-03T21:17:28.866Z"
+      },
+      "metrics": {
+        "id": "2b9bead3-19a6-4304-902b-4ce904fd5d6f",
+        "runId": "4fb2148c-fa72-4332-a4e6-a225809ade51",
+        "precision": 100,
+        "recall": 100,
+        "documentCoverage": null,
+        "categoryCoverage": {},
+        "avgDurationMs": null,
+        "minDurationMs": null,
+        "maxDurationMs": null,
+        "sourcesCorrectCount": 0,
+        "sourcesIncorrectCount": 0,
+        "documentCorrectCount": 0,
+        "categoryCorrectCount": 0,
+        "subcategoryCorrectCount": 0,
+        "hallucinationCount": 0,
+        "emptyAnswerCount": 0,
+        "internalErrorCount": 0,
+        "passedCount": 0,
+        "failedCount": 0,
+        "totalCount": 0,
+        "overallScore": 100,
+        "topErrors": [],
+        "topDocuments": [],
+        "scoreFormula": null,
+        "createdAt": "2026-08-03T21:17:34.599Z"
+      },
+      "results": [
+        {
+          "id": "02529093-a78e-41a6-8144-40bd7bcf0bbe",
+          "runId": "4fb2148c-fa72-4332-a4e6-a225809ade51",
+          "caseId": "1e040f78-0846-4bde-abbf-4a84694e9af5",
+          "caseCode": "TC-053",
+          "question": "Quem aparece na relação de funcionários em Excel?",
+          "answer": "A relação de funcionários em Excel apresenta os seguintes nomes e informações do Serviço de Enfermagem do Oftalmocentro Uberaba Ltda, datada de 09/06/2026:\n\n| Nome                         | CPF             | Categoria Profissional   | Nº Registro | Setor de Trabalho                  |\n|------------------------------|-----------------|-------------------------|-------------|----------------------------------|\n| BARBARA APARECIDA MUNIZ DE LIMA | 120.943.006-17  | TÉCNICA EM ENFERMAGEM   | 2246508     | CENTRO CIRÚRGICO/ EXAMES/ CME    |\n| BIANCA KATHEREIN FREITAS SILVA  | 099.446.406-11  | ENFERMEIRA              | 795377      | CENTRO CIRÚRGICO/ EXAMES/ CME    |\n| DAYANA SENE VIEIRA AS SILVA     | 079.209.996-69  | TÉCNICA DE ENFERMAGEM   | 646,173     | CENTRO CIRÚRGICO/ EXAMES/ CME    |\n| JORDANA BORGES                  | 075.482.896-42  | ENFERMEIRA              | 493,608     | RESPONSAVEL TÉCNICA              |\n| MARIANA PEREIRA OLIVEIRA        | 095.038.926-94  | ENFERMEIRA              | 271,377     | CENTRO CIRÚRGICO/ EXAMES/ CME    |\n\nFonte: RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+          "durationMs": null,
+          "sources": [
+            {
+              "index": 1,
+              "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+              "categoryName": "ALVARÁS - LICENÇAS - ART",
+              "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+              "subcategoryName": "COREN"
+            },
+            {
+              "index": 2,
+              "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a",
+              "categoryName": "ENGENHARIA CLÍNICA",
+              "documentTitle": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+              "subcategoryName": "CONTRATOS DE MANUTENÇÃO"
+            },
+            {
+              "index": 3,
+              "documentId": "b533f80a-9b19-47c0-b4ab-210590846228",
+              "categoryName": "INFORMAÇÕES GERAIS",
+              "documentTitle": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+              "subcategoryName": "Texto Livre"
+            }
+          ],
+          "chunkRefs": [
+            {
+              "index": 1,
+              "chunkOrder": null,
+              "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+            },
+            {
+              "index": 2,
+              "chunkOrder": null,
+              "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+            },
+            {
+              "index": 3,
+              "chunkOrder": null,
+              "documentId": "b533f80a-9b19-47c0-b4ab-210590846228"
+            }
+          ],
+          "classification": {
+            "categoryId": "c2a99325-1439-4f1d-bec7-6f6006a0822f",
+            "categoryName": "TABELAS DE PREÇOS",
+            "subcategoryId": "8ff31a51-8732-48b3-9f40-742d4abe9b3e",
+            "subcategoryName": "Lente Intraocular Particular",
+            "categoryDescription": "Tabelas contendo os valores vigentes para consultas médicas, exames oftalmológicos, procedimentos cirúrgicos e demais serviços prestados em regime particular, e convênios com cartões desconto, incluindo atualizações e históricos de preços.",
+            "subcategoryDescription": "Relação de preços das lentes intraoculares disponibilizadas para pacientes particulares, contemplando modelos, fabricantes, características técnicas e respectivos valores."
+          },
+          "matchedDocument": true,
+          "matchedCategory": null,
+          "matchedSubcategory": null,
+          "requiredWordsHit": 1,
+          "requiredWordsTotal": 1,
+          "forbiddenWordsHit": 0,
+          "sourcesCorrect": true,
+          "sourcesIncorrect": false,
+          "isHallucination": false,
+          "isEmptyAnswer": false,
+          "isInternalError": false,
+          "score": 100,
+          "verdict": "PASS",
+          "scoreBreakdown": {
+            "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+            "latency": 10,
+            "sources": 30,
+            "weights": {
+              "latency": 10,
+              "sources": 30,
+              "document": 20,
+              "answerQuality": 40
+            },
+            "document": 20,
+            "answerQuality": 40
+          },
+          "extractionMethod": "tabular",
+          "ocrQualityGrade": null,
+          "ocrUsed": false,
+          "sheetName": "Planilha1",
+          "promptVersion": "AI_QUERY_MAIN@v1:9faa2e456571",
+          "promptVersionId": null,
+          "modelName": "gpt-4.1-mini",
+          "createdAt": "2026-08-03T21:17:34.408Z"
+        }
+      ]
+    },
+    "retrievalConfigVersionId": "b9f10499-cf34-48dd-90b9-119b1410e84d"
+  },
+  "secretsAfter": [
+    {
+      "key": "retrieval_active_mode",
+      "value": "HYBRID"
+    },
+    {
+      "key": "retrieval_active_version",
+      "value": "hybrid-v1"
+    }
+  ],
+  "dbRuns": [
+    {
+      "id": "a4117044-46ea-471e-b8b6-bc635cf0ee3d",
+      "overall_score": "100.00",
+      "retrieval_mode": "HYBRID",
+      "retrieval_config_version": "hybrid-v1",
+      "mode_override_used": false,
+      "status": "FAILED",
+      "duration_ms": 6037
+    },
+    {
+      "id": "4fb2148c-fa72-4332-a4e6-a225809ade51",
+      "overall_score": "100.00",
+      "retrieval_mode": "HYBRID_RERANK",
+      "retrieval_config_version": "hybrid-rerank-v1",
+      "mode_override_used": true,
+      "status": "FAILED",
+      "duration_ms": 5870
+    }
+  ],
+  "dbMetrics": [
+    {
+      "run_id": "a4117044-46ea-471e-b8b6-bc635cf0ee3d",
+      "precision": "100.00",
+      "recall": "100.00",
+      "recall_at_k": null,
+      "precision_at_k": null,
+      "mrr": "0",
+      "hit_rate": "0",
+      "overall_score": "100.00",
+      "hallucination_count": 0,
+      "sources_correct_count": 1,
+      "document_correct_count": 1,
+      "fallback_count": 0,
+      "retrieval_cases_evaluated": 1,
+      "retrieval_cases_skipped": 0,
+      "avg_rerank_latency_ms": "0"
+    },
+    {
+      "run_id": "4fb2148c-fa72-4332-a4e6-a225809ade51",
+      "precision": "100.00",
+      "recall": "100.00",
+      "recall_at_k": null,
+      "precision_at_k": null,
+      "mrr": "0",
+      "hit_rate": "0",
+      "overall_score": "100.00",
+      "hallucination_count": 0,
+      "sources_correct_count": 1,
+      "document_correct_count": 1,
+      "fallback_count": 0,
+      "retrieval_cases_evaluated": 1,
+      "retrieval_cases_skipped": 0,
+      "avg_rerank_latency_ms": "0"
+    }
+  ],
+  "secretsFinal": [
+    {
+      "key": "retrieval_active_mode",
+      "value": "HYBRID"
+    },
+    {
+      "key": "retrieval_active_version",
+      "value": "hybrid-v1"
+    }
+  ],
+  "abVerdict": "NEUTRAL",
+  "recommendation": "NÃO publicar hybrid-rerank-v1 automaticamente. Manter DRAFT. Produção permanece HYBRID/hybrid-v1.",
+  "finishedAt": "2026-08-03T21:17:39.382Z"
+}

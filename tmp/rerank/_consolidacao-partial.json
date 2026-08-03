@@ -1,0 +1,13 @@
+{
+  "steps": [
+    {
+      "migration": true
+    }
+  ],
+  "validar": {
+    "id": "NhWUkmzGhlttJC9S",
+    "status": "created",
+    "versionId": "860b5355-1b3a-4cc0-8639-335587d3631d"
+  },
+  "loadCfg": true
+}

@@ -54,6 +54,8 @@ export interface AiTestRun {
   embeddingVersion?: string | null
   retrievalMode?: string | null
   retrievalConfigVersion?: string | null
+  retrievalConfigVersionId?: string | null
+  modeOverrideUsed?: boolean | null
   retrievalLatencyMs?: number | null
   rerankLatencyMs?: number | null
   fallbackUsed?: boolean | null
@@ -102,6 +104,21 @@ export interface AiTestResult {
   sheetName?: string | null
   promptVersion?: string | null
   modelName?: string | null
+  /** Métricas de retrieval por caso (null quando sem referência suficiente). */
+  recallAtK?: number | null
+  precisionAtK?: number | null
+  mrr?: number | null
+  hitRate?: number | null
+  expectedDocumentRank?: number | null
+  expectedChunkRank?: number | null
+  candidatesRetrieved?: number | null
+  candidatesReranked?: number | null
+  finalContextCount?: number | null
+  retrievalLatencyMs?: number | null
+  rerankLatencyMs?: number | null
+  fallbackUsed?: boolean | null
+  sourcePrecision?: number | null
+  sourceRecall?: number | null
   createdAt: string
 }
 
@@ -149,6 +166,17 @@ export interface AiTestMetrics {
   topErrors?: AiTopError[]
   topDocuments?: AiTopDocument[]
   scoreFormula?: string
+  recallAtK?: number | null
+  precisionAtK?: number | null
+  mrr?: number | null
+  hitRate?: number | null
+  sourcePrecision?: number | null
+  sourceRecall?: number | null
+  avgRetrievalLatencyMs?: number | null
+  avgRerankLatencyMs?: number | null
+  fallbackCount?: number | null
+  retrievalCasesEvaluated?: number | null
+  retrievalCasesSkipped?: number | null
   createdAt: string
 }
 
@@ -200,6 +228,8 @@ export interface AiRunCaseInput {
   caseCode?: string
   /** Etapa 17 — executa o caso usando uma versão específica de prompt (governança). */
   promptVersionId?: string
+  /** Laboratório: override isolado de retrieval (não altera produção). */
+  retrievalConfigVersionId?: string
 }
 
 export interface AiRunCaseResult {
@@ -212,6 +242,8 @@ export interface AiRunDatasetInput {
   includeMissingDocs?: boolean
   /** Etapa 17 — executa o dataset usando uma versão específica de prompt (governança). */
   promptVersionId?: string
+  /** Laboratório: override isolado de retrieval (não altera produção). */
+  retrievalConfigVersionId?: string
 }
 
 export interface AiRunDatasetResult {

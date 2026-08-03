@@ -119,19 +119,30 @@ export async function updateAiRetrievalVersion(input: {
   return apiPut('/webhook/system/ai-retrieval/update', input)
 }
 
+export interface AiRetrievalValidationResult {
+  ok: boolean
+  errors: string[]
+  warnings: string[]
+  /** Erros por campo (VALIDAÇÃO ESTRITA). */
+  fields?: Record<string, string>
+  code?: string
+}
+
 export async function validateAiRetrievalVersion(input: {
   versionId?: string
   mode?: AiRetrievalMode
   configuration?: AiRetrievalConfiguration
-}): Promise<{ ok: boolean; errors: string[]; warnings: string[] }> {
+  versionLabel?: string
+}): Promise<AiRetrievalValidationResult> {
   return apiPost('/webhook/system/ai-retrieval/validate', input, { timeoutMs: 60000 })
 }
 
 export async function publishAiRetrievalVersion(input: {
   versionId: string
+  validationRunId?: string
   forceOverride?: boolean
   overrideReason?: string
-}): Promise<{ version: AiRetrievalVersion }> {
+}): Promise<{ version: AiRetrievalVersion; ok?: boolean }> {
   return apiPost('/webhook/system/ai-retrieval/publish', input)
 }
 

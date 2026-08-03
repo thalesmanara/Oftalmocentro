@@ -1,0 +1,43 @@
+{
+  "name": "Trigger",
+  "type": "n8n-nodes-base.executeWorkflowTrigger",
+  "params": {
+    "inputSource": "workflowInputs",
+    "workflowInputs": {
+      "values": [
+        {
+          "name": "authorization",
+          "type": "string"
+        },
+        {
+          "name": "triggeredBy",
+          "type": "string"
+        },
+        {
+          "name": "groupName",
+          "type": "string"
+        },
+        {
+          "name": "includeMissingDocs",
+          "type": "boolean"
+        },
+        {
+          "name": "caseId",
+          "type": "string"
+        },
+        {
+          "name": "caseCode",
+          "type": "string"
+        },
+        {
+          "name": "triggerMode",
+          "type": "string"
+        },
+        {
+          "name": "promptVersionId",
+          "type": "string"
+        }
+      ]
+    }
+  }
+}

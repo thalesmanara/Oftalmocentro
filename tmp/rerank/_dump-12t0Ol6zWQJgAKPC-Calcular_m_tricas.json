@@ -1,0 +1,23 @@
+{
+  "name": "Calcular métricas",
+  "type": "n8n-nodes-base.executeWorkflow",
+  "params": {
+    "mode": "once",
+    "options": {
+      "waitForSubWorkflow": true
+    },
+    "source": "database",
+    "workflowId": {
+      "__rl": true,
+      "mode": "id",
+      "value": "1uITQcJ5jSNXErOM",
+      "cachedResultName": "IA - CALCULAR MÉTRICAS"
+    },
+    "workflowInputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "runId": "={{ $('Inserir run').first().json.id }}"
+      }
+    }
+  }
+}
