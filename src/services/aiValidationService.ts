@@ -56,6 +56,8 @@ export interface AiTestRun {
   retrievalConfigVersion?: string | null
   retrievalConfigVersionId?: string | null
   modeOverrideUsed?: boolean | null
+  contextConfigVersionId?: string | null
+  contextModeOverrideUsed?: boolean | null
   retrievalLatencyMs?: number | null
   rerankLatencyMs?: number | null
   fallbackUsed?: boolean | null
@@ -230,6 +232,9 @@ export interface AiRunCaseInput {
   promptVersionId?: string
   /** Laboratório: override isolado de retrieval (não altera produção). */
   retrievalConfigVersionId?: string
+  /** Laboratório: override isolado da janela de contexto. */
+  contextConfigVersionId?: string
+  contextConfigOverrideAllowed?: boolean
 }
 
 export interface AiRunCaseResult {
@@ -244,6 +249,9 @@ export interface AiRunDatasetInput {
   promptVersionId?: string
   /** Laboratório: override isolado de retrieval (não altera produção). */
   retrievalConfigVersionId?: string
+  /** Laboratório: override isolado da janela de contexto. */
+  contextConfigVersionId?: string
+  contextConfigOverrideAllowed?: boolean
 }
 
 export interface AiRunDatasetResult {

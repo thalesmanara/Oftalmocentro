@@ -22,6 +22,7 @@ import {
   type AiTestRun,
 } from '@/services/aiValidationService'
 import { getAiRetrievalDetail, type AiRetrievalVersion } from '@/services/aiRetrievalService'
+import { getAiContextDetail, type AiContextVersion } from '@/services/aiContextService'
 
 type TabKey = 'casos' | 'historico' | 'resultado'
 
@@ -114,14 +115,21 @@ export function AiValidationPage() {
   )
   const [retrievalVersions, setRetrievalVersions] = useState<AiRetrievalVersion[]>([])
   const [retrievalConfigVersionId, setRetrievalConfigVersionId] = useState('')
+  const [contextVersions, setContextVersions] = useState<AiContextVersion[]>([])
+  const [contextConfigVersionId, setContextConfigVersionId] = useState('')
 
   useEffect(() => {
     void (async () => {
       try {
-        const detail = await getAiRetrievalDetail({})
-        setRetrievalVersions(detail.versions || [])
+        const [retrievalDetail, contextDetail] = await Promise.all([
+          getAiRetrievalDetail({}),
+          getAiContextDetail({}),
+        ])
+        setRetrievalVersions(retrievalDetail.versions || [])
+        setContextVersions(contextDetail.versions || [])
       } catch {
         setRetrievalVersions([])
+        setContextVersions([])
       }
     })()
   }, [])
@@ -200,6 +208,8 @@ export function AiValidationPage() {
       const result = await runAiTestCase({
         caseId: testCase.id,
         retrievalConfigVersionId: retrievalConfigVersionId || undefined,
+        contextConfigVersionId: contextConfigVersionId || undefined,
+        contextConfigOverrideAllowed: contextConfigVersionId ? true : undefined,
       })
       setFeedback({ type: 'success', message: `Caso "${testCase.code}" executado com sucesso.` })
       await loadRuns()
@@ -221,11 +231,17 @@ export function AiValidationPage() {
         groupName: caseFilters.groupName || undefined,
         includeMissingDocs,
         retrievalConfigVersionId: retrievalConfigVersionId || undefined,
+        contextConfigVersionId: contextConfigVersionId || undefined,
+        contextConfigOverrideAllowed: contextConfigVersionId ? true : undefined,
       })
+      const overrideBits = [
+        retrievalConfigVersionId ? 'retrieval' : null,
+        contextConfigVersionId ? 'contexto' : null,
+      ].filter(Boolean)
       setFeedback({
         type: 'success',
-        message: retrievalConfigVersionId
-          ? 'Dataset concluído com override de retrieval (produção inalterada).'
+        message: overrideBits.length
+          ? `Dataset concluído com override de ${overrideBits.join(' + ')} (produção inalterada).`
           : 'Execução do dataset concluída.',
       })
       await loadRuns()
@@ -303,6 +319,12 @@ export function AiValidationPage() {
             >
               Retrieval / Re-ranking
             </Link>
+            <Link
+              to="/ia/contexto"
+              className="mr-2 inline-flex items-center rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+            >
+              Contexto
+            </Link>
             <label className="mr-2 flex max-w-[220px] flex-col gap-0.5 text-xs text-slate-600">
               Override retrieval
               <select
@@ -312,6 +334,21 @@ export function AiValidationPage() {
               >
                 <option value="">Produção (publicado)</option>
                 {retrievalVersions.map((v) => (
+                  <option key={v.id} value={v.id}>
+                    {v.versionLabel} · {v.mode} · {v.status}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="mr-2 flex max-w-[220px] flex-col gap-0.5 text-xs text-slate-600">
+              Override contexto
+              <select
+                className="rounded-lg border border-slate-300 bg-white px-2 py-1.5 text-sm text-slate-800"
+                value={contextConfigVersionId}
+                onChange={(e) => setContextConfigVersionId(e.target.value)}
+              >
+                <option value="">Produção (publicado)</option>
+                {contextVersions.map((v) => (
                   <option key={v.id} value={v.id}>
                     {v.versionLabel} · {v.mode} · {v.status}
                   </option>
@@ -728,6 +765,22 @@ export function AiValidationPage() {
                       </p>
                     </div>
                   </div>
+                </div>
+
+                <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-3">
+                  <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                    Janela de contexto
+                  </p>
+                  <p className="mb-3 text-xs text-slate-500">
+                    Override laboratório:{' '}
+                    {runDetail.run?.contextModeOverrideUsed ? 'sim' : 'não'}
+                    {' · '}
+                    versão {runDetail.run?.contextConfigVersionId || 'produção'}
+                  </p>
+                  <p className="text-xs text-slate-500">
+                    Tokens / utilização / overflow / fallback / conflito aparecem por caso no detalhe
+                    exportado. Valores sem referência suficiente permanecem n/d.
+                  </p>
                 </div>
 
                 {scoreBreakdownAvg && (

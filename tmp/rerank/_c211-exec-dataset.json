@@ -1,0 +1,67 @@
+{
+  "name": "IA - EXECUTAR DATASET",
+  "names": [
+    "Trigger",
+    "Inserir run",
+    "Montar filtro de casos",
+    "Carregar casos",
+    "Calcular métricas",
+    "Gerar relatório",
+    "Carregar resultados finais",
+    "Montar atualização do run",
+    "Atualizar run",
+    "Montar resposta",
+    "Executar caso",
+    "Loop casos"
+  ],
+  "interesting": [
+    {
+      "name": "Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "inputs": null,
+      "url": null,
+      "js": "",
+      "query": ""
+    },
+    {
+      "name": "Inserir run",
+      "type": "n8n-nodes-base.postgres",
+      "inputs": null,
+      "url": null,
+      "js": "",
+      "query": "=INSERT INTO ai_test_runs (status, triggered_by, trigger_mode, prompt_version, model_name, ocr_engine_version, tabular_engine_version, prompt_version_id, embedding_model, embedding_version, retrieval_mode, retrieval_config_version, retrieval_config_version_id, mode_override_used)\nSELECT\n  'STARTED',\n  NULLIF('{{ $json.triggeredBy || \"\" }}', '')::uuid,\n  '{{ String($json.triggerMode || \"dataset\").r"
+    },
+    {
+      "name": "Carregar casos",
+      "type": "n8n-nodes-base.postgres",
+      "inputs": null,
+      "url": null,
+      "js": "",
+      "query": "={{ $json.sql }}"
+    },
+    {
+      "name": "Carregar resultados finais",
+      "type": "n8n-nodes-base.postgres",
+      "inputs": null,
+      "url": null,
+      "js": "",
+      "query": "=SELECT * FROM ai_test_results WHERE run_id = '{{ $('Inserir run').first().json.id }}'::uuid ORDER BY created_at ASC;"
+    },
+    {
+      "name": "Montar atualização do run",
+      "type": "n8n-nodes-base.code",
+      "inputs": null,
+      "url": null,
+      "js": "const startedRow = $('Inserir run').first().json;\nconst metrics = $('Calcular métricas').first().json || {};\nconst rows = $('Carregar resultados finais').all().map((i) => i.json).filter((r) => r && r.id);\nconst totalCount = Number(metrics.totalCount || 0);\nconst passedCount = Number(metrics.passedCount || 0);\nconst failedCount = Number(metrics.failedCount || 0);\nconst internalErrorCount = Number(metrics.internalErrorCount || 0);\nlet status;\nif (totalCount === 0) status = 'FAILED';\nelse if (failedCount === 0 && internalErrorCount === 0) status = 'SUCCESS';\nelse if (passedCount > 0) status = 'PARTIAL';\nelse status = 'FAILED';\nconst startedAt = new Date(startedRow.started_at);\nconst finishedAt = new Date();\nconst durationMs = Math.max(0, finishedAt.getTime() - startedAt.getTime());\nfunction e",
+      "query": ""
+    },
+    {
+      "name": "Atualizar run",
+      "type": "n8n-nodes-base.postgres",
+      "inputs": null,
+      "url": null,
+      "js": "",
+      "query": "={{ $json.sql }}"
+    }
+  ]
+}

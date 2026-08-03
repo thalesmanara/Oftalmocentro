@@ -1,0 +1,17 @@
+{
+  "name": "IA - VALIDAR CONTEXT CONFIG",
+  "names": [
+    "Trigger",
+    "Validar"
+  ],
+  "interesting": [
+    {
+      "name": "Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "inputs": null,
+      "url": null,
+      "js": "",
+      "query": ""
+    }
+  ]
+}

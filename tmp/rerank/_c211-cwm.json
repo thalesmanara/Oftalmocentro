@@ -1,0 +1,52 @@
+{
+  "name": "IA - GERENCIAR JANELA DE CONTEXTO",
+  "names": [
+    "Trigger",
+    "Preparar entrada",
+    "Auditar START",
+    "Após audit start",
+    "Carregar context config",
+    "Após carregar config",
+    "Montar janela",
+    "Auditar SUCCESS",
+    "Retorno"
+  ],
+  "interesting": [
+    {
+      "name": "Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "inputs": null,
+      "url": null,
+      "js": "",
+      "query": ""
+    },
+    {
+      "name": "Preparar entrada",
+      "type": "n8n-nodes-base.code",
+      "inputs": null,
+      "url": null,
+      "js": "const t=$input.first().json||{};\nlet classification={}; try{classification=typeof t.classificationJson==='string'?JSON.parse(t.classificationJson||'{}'):(t.classification||{});}catch(_){classification={};}\nlet selectedChunks=[]; try{selectedChunks=typeof t.selectedChunksJson==='string'?JSON.parse(t.selectedChunksJson||'[]'):(t.selectedChunks||[]);}catch(_){selectedChunks=[];}\nlet retrievalMeta={}; try{retrievalMeta=typeof t.retrievalMetaJson==='string'?JSON.parse(t.retrievalMetaJson||'{}'):(t.retrievalMeta||{});}catch(_){retrievalMeta={};}\nlet promptConfiguration={}; try{promptConfiguration=typeof t.promptConfigurationJson==='string'?JSON.parse(t.promptConfigurationJson||'{}'):(t.promptConfiguration||{});}catch(_){promptConfiguration={};}\nlet sources=[]; try{sources=typeof t.sourcesJson===",
+      "query": ""
+    },
+    {
+      "name": "Carregar context config",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "inputs": {
+        "contextConfigVersionId": "={{ $json.contextConfigVersionId || \"\" }}",
+        "contextConfigOverrideAllowed": "={{ $json.contextConfigOverrideAllowed || \"false\" }}",
+        "requestId": "={{ $json.requestId || \"\" }}"
+      },
+      "url": null,
+      "js": "",
+      "query": ""
+    },
+    {
+      "name": "Após carregar config",
+      "type": "n8n-nodes-base.code",
+      "inputs": null,
+      "url": null,
+      "js": "const prep=$('Preparar entrada').first().json||{};\nconst cfg=$input.first().json||{};\nif(!cfg.ok){\n  return [{json:{...prep, configuration:{}, mode:'LEGACY', versionId:null, versionLabel:null, code:'AI_QUERY_CONTEXT', loadError:cfg.error||cfg.code||'missing'}}];\n}\nreturn [{json:{...prep, ...cfg}}];",
+      "query": ""
+    }
+  ]
+}

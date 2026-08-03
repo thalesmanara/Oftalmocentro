@@ -1,0 +1,25 @@
+{
+  "defId": "6427c070-e47c-4aae-97b6-a1c3ffd4a500",
+  "legacy": {
+    "id": "3007bd85-782e-4057-bd48-63e7cb060d73",
+    "status": "PUBLISHED",
+    "created": true
+  },
+  "budget": {
+    "id": "7587c86b-8db3-44c0-9881-1e996abda89a",
+    "status": "DRAFT",
+    "created": true
+  },
+  "versions": [
+    {
+      "version_label": "context-v1",
+      "mode": "LEGACY",
+      "status": "PUBLISHED"
+    },
+    {
+      "version_label": "context-budget-v1",
+      "mode": "BUDGETED",
+      "status": "DRAFT"
+    }
+  ]
+}

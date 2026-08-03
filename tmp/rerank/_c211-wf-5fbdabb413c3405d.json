@@ -1,0 +1,788 @@
+{
+  "name": "SYSTEM - AI CONTEXT CREATE",
+  "nodes": [
+    {
+      "id": "69c52c4f-4d21-4d8f-a193-5f0b7bef8de5",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        192
+      ],
+      "parameters": {
+        "path": "system/ai-context/create",
+        "httpMethod": "POST",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "webhookId": "f4d314a5-88db-422c-9a9b-f1d9bda60300"
+    },
+    {
+      "id": "cc7ccfea-d2f7-4c91-9308-bdcc837c1252",
+      "name": "Normalizar request",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        224,
+        192
+      ],
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "SYSTEM - NORMALIZAR REQUEST",
+          "mode": "id",
+          "value": "N3zLpj7Dij4n5p5p"
+        }
+      }
+    },
+    {
+      "id": "6096a228-b756-4af7-8611-9ac1c6cd98ea",
+      "name": "Validar auth",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        448,
+        192
+      ],
+      "parameters": {
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "P5E43ZXSJiI9wFYD",
+          "cachedResultName": "AUTH - VALIDAR TOKEN"
+        },
+        "mode": "once",
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "authorization": "={{ $json.authorization || $json.headers.authorization || $json.headers.Authorization || '' }}",
+            "requestId": "={{ $json.requestId || '' }}"
+          }
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      }
+    },
+    {
+      "id": "a1a4c3b1-0b17-4f7a-8f9e-c87efc8b6d65",
+      "name": "Auth ok?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        672,
+        192
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a1",
+              "leftValue": "={{ $json.ok }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true
+      }
+    },
+    {
+      "id": "b6bdf937-4792-43b1-b09b-748a239c50bb",
+      "name": "Validar permissão",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        896,
+        96
+      ],
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "AUTH - VALIDAR PERMISSÃO",
+          "mode": "id",
+          "value": "yXW3rW8EbHXuprRJ"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "isMaster": "={{ $json.user ? $json.user.isMaster === true : false }}",
+            "permissions": "={{ $json.permissions || ($json.user && $json.user.permissions) || [] }}",
+            "requiredAnyOf": "={{ [] }}",
+            "requiredPermission": "editar_configuracoes",
+            "sessionId": "={{ $json.sessionId || '' }}",
+            "user": "={{ $json.user || null }}",
+            "userId": "={{ $json.userId || ($json.user && $json.user.id) || '' }}",
+            "requestId": "={{ $json.requestId || $('Normalizar request').first().json.requestId || '' }}"
+          }
+        }
+      }
+    },
+    {
+      "id": "9370e3e1-483c-48ed-84d1-ef3d16bdc681",
+      "name": "Permissão ok?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1120,
+        96
+      ],
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "p1",
+              "leftValue": "={{ $json.ok }}",
+              "operator": {
+                "operation": "true",
+                "type": "boolean"
+              },
+              "rightValue": true
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          }
+        },
+        "looseTypeValidation": true
+      }
+    },
+    {
+      "id": "2cbc1b3a-9d6f-45b4-9e0b-cb955f7adaf7",
+      "name": "Restaurar request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1344,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "return [$('Normalizar request').first()];"
+      }
+    },
+    {
+      "id": "77119a19-88d4-40d4-ab44-15e5fedbab7f",
+      "name": "Preparar sucesso",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2016,
+        0
+      ],
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "SYSTEM - PREPARAR SUCESSO",
+          "mode": "id",
+          "value": "zE5LRjZfbXw8Ymll"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "asList": "={{ $json.asList }}",
+            "data": "={{ $json.data }}",
+            "requestId": "={{ $json.requestId || $('Normalizar request').first().json.requestId }}",
+            "statusCode": "={{ $json.statusCode }}",
+            "requestStartedAtMs": "={{ $('Normalizar request').first().json.requestStartedAtMs }}",
+            "method": "={{ $('Normalizar request').first().json.method }}",
+            "path": "={{ $('Normalizar request').first().json.path }}",
+            "userId": "={{ $('Validar auth').first().json.userId || '' }}",
+            "sessionId": "={{ $('Validar auth').first().json.sessionId || '' }}"
+          }
+        }
+      }
+    },
+    {
+      "id": "9ce8fc74-5e22-471d-8dab-79e34570006d",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        2240,
+        0
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json.response }}",
+        "options": {
+          "responseCode": "={{ $json.statusCode }}",
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "X-Request-Id",
+                "value": "={{ $json.responseHeaders && $json.responseHeaders[\"X-Request-Id\"] ? $json.responseHeaders[\"X-Request-Id\"] : ($json.requestId || \"\") }}"
+              },
+              {
+                "name": "X-Response-Time-Ms",
+                "value": "={{ $json.responseHeaders && $json.responseHeaders[\"X-Response-Time-Ms\"] ? $json.responseHeaders[\"X-Response-Time-Ms\"] : String($json.durationMs || 0) }}"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "fe0a5d12-d7ea-44b1-963d-fa8941f6d08c",
+      "name": "Preparar erro 403",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1344,
+        192
+      ],
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "SYSTEM - PREPARAR ERRO",
+          "mode": "id",
+          "value": "r3iSBV1ClKOxS2UI"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "code": "={{ $json.error && $json.error.code ? $json.error.code : 'FORBIDDEN' }}",
+            "message": "={{ $json.error && $json.error.message ? $json.error.message : 'Você não possui permissão para executar esta ação.' }}",
+            "requestId": "={{ $('Normalizar request').first().json.requestId }}",
+            "statusCode": 403,
+            "requestStartedAtMs": "={{ $('Normalizar request').first().json.requestStartedAtMs }}",
+            "method": "={{ $('Normalizar request').first().json.method }}",
+            "path": "={{ $('Normalizar request').first().json.path }}"
+          }
+        }
+      }
+    },
+    {
+      "id": "b27c65cc-4116-4d5b-8cf1-0960063e3c56",
+      "name": "Respond 403",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1568,
+        192
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json.response }}",
+        "options": {
+          "responseCode": 403,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "X-Request-Id",
+                "value": "={{ $json.responseHeaders && $json.responseHeaders[\"X-Request-Id\"] ? $json.responseHeaders[\"X-Request-Id\"] : ($json.requestId || \"\") }}"
+              },
+              {
+                "name": "X-Response-Time-Ms",
+                "value": "={{ $json.responseHeaders && $json.responseHeaders[\"X-Response-Time-Ms\"] ? $json.responseHeaders[\"X-Response-Time-Ms\"] : String($json.durationMs || 0) }}"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "d81f74ee-0273-4a40-ba4f-40edf6f6772a",
+      "name": "Preparar erro 401",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        896,
+        288
+      ],
+      "parameters": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": true
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "SYSTEM - PREPARAR ERRO",
+          "mode": "id",
+          "value": "r3iSBV1ClKOxS2UI"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "code": "={{ $json.error && $json.error.code ? $json.error.code : 'UNAUTHORIZED' }}",
+            "message": "={{ $json.error && $json.error.message ? $json.error.message : 'Autenticação obrigatória.' }}",
+            "requestId": "={{ $('Normalizar request').first().json.requestId }}",
+            "statusCode": 401,
+            "requestStartedAtMs": "={{ $('Normalizar request').first().json.requestStartedAtMs }}",
+            "method": "={{ $('Normalizar request').first().json.method }}",
+            "path": "={{ $('Normalizar request').first().json.path }}"
+          }
+        }
+      }
+    },
+    {
+      "id": "c239eded-83a5-4675-af58-cee012839e38",
+      "name": "Respond 401",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1120,
+        288
+      ],
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json.response }}",
+        "options": {
+          "responseCode": 401,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "X-Request-Id",
+                "value": "={{ $json.responseHeaders && $json.responseHeaders[\"X-Request-Id\"] ? $json.responseHeaders[\"X-Request-Id\"] : ($json.requestId || \"\") }}"
+              },
+              {
+                "name": "X-Response-Time-Ms",
+                "value": "={{ $json.responseHeaders && $json.responseHeaders[\"X-Response-Time-Ms\"] ? $json.responseHeaders[\"X-Response-Time-Ms\"] : String($json.durationMs || 0) }}"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "27976f89-67ff-4a98-825d-d24c366f3669",
+      "name": "Preparar create",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const norm=$('Normalizar request').first().json||{};\nconst body=norm.body||{};\nlet auth={}; try{auth=$('Validar auth').first().json||{};}catch(_){}\nreturn [{json:{\n  mode: body.mode||'',\n  configurationJson: JSON.stringify(body.configuration||{}),\n  versionLabel: body.versionLabel||body.changeSummary||'',\n  notes: body.notes||body.changeSummary||'',\n  requestId: norm.requestId, requestStartedAtMs: norm.requestStartedAtMs,\n  method: norm.method, path: norm.path, userId: auth.userId||'', sessionId: auth.sessionId||'',\n}}];"
+      }
+    },
+    {
+      "id": "58063939-9e82-49da-bb3f-7048f1cc2d25",
+      "name": "Chamar VALIDAR",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1420,
+        0
+      ],
+      "parameters": {
+        "mode": "once",
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "0289408b8d774379",
+          "cachedResultName": "IA - VALIDAR CONTEXT CONFIG"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "mode": "={{ $json.mode }}",
+            "configurationJson": "={{ $json.configurationJson }}",
+            "versionLabel": "={{ $json.versionLabel }}"
+          }
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      }
+    },
+    {
+      "id": "15ab49bf-f44d-4ab3-9cb6-16dbd4103855",
+      "name": "Validação ok?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1640,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "v1",
+              "leftValue": "={{ $json.ok === true }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ]
+        },
+        "looseTypeValidation": true
+      }
+    },
+    {
+      "id": "2dba5e04-70bb-445d-b1e0-e8ab82a4791a",
+      "name": "Erro validação",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1860,
+        120
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const prep=$('Preparar create').first().json; const v=$input.first().json||{};\nreturn [{json:{ data:{ ok:false, code:'VALIDATION_ERROR', errors:v.errors||[], fields:v.errors||[] }, statusCode:400,\n  requestId:prep.requestId, requestStartedAtMs:prep.requestStartedAtMs, method:prep.method, path:prep.path, userId:prep.userId, sessionId:prep.sessionId }}];"
+      }
+    },
+    {
+      "id": "a6b306ee-49c1-4e12-87a5-58592bd00e40",
+      "name": "Inserir DRAFT",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1860,
+        0
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "XJtGZ5rpCR7BpN0X",
+          "name": "Postgres account"
+        }
+      },
+      "parameters": {
+        "operation": "executeQuery",
+        "options": {},
+        "query": "WITH cfg AS (SELECT id FROM ai_context_configs WHERE code='AI_QUERY_CONTEXT' LIMIT 1),\nnxt AS (SELECT COALESCE(MAX(version_number),0)+1 AS n FROM ai_context_config_versions v, cfg WHERE v.context_config_id=cfg.id),\nins AS (\n  INSERT INTO ai_context_config_versions\n    (context_config_id, version_number, version_label, status, mode, configuration, content_hash, notes, created_by)\n  SELECT cfg.id, nxt.n,\n    COALESCE(NULLIF('{{ $('Chamar VALIDAR').first().json.versionLabel || \"\" }}',''), 'draft-v' || nxt.n::text),\n    'DRAFT',\n    '{{ $('Chamar VALIDAR').first().json.mode }}',\n    '{{ $('Chamar VALIDAR').first().json.configurationJson }}'::jsonb,\n    '{{ $('Chamar VALIDAR').first().json.contentHash }}',\n    '{{ $('Preparar create').first().json.notes || \"\" }}',\n    NULLIF('{{ $('Preparar create').first().json.userId || \"\" }}','')::uuid\n  FROM cfg, nxt\n  WHERE NOT EXISTS (\n    SELECT 1 FROM ai_context_config_versions x, cfg c2\n    WHERE x.context_config_id=c2.id\n      AND x.version_label = COALESCE(NULLIF('{{ $('Chamar VALIDAR').first().json.versionLabel || \"\" }}',''), 'draft-v' || nxt.n::text)\n  )\n  RETURNING *\n)\nSELECT * FROM ins;"
+      }
+    },
+    {
+      "id": "ec47ebd1-2045-47e0-88c3-df3e404a123d",
+      "name": "Montar create result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2080,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const prep=$('Preparar create').first().json;\nconst row=$input.first().json||{};\nif(!row.id){\n  return [{json:{data:{ok:false,code:'DUPLICATE_OR_FAILED',message:'Não foi possível criar (label duplicado?)'},statusCode:409,\n    requestId:prep.requestId,requestStartedAtMs:prep.requestStartedAtMs,method:prep.method,path:prep.path,userId:prep.userId,sessionId:prep.sessionId}}];\n}\nlet configuration=row.configuration; if(typeof configuration==='string'){try{configuration=JSON.parse(configuration);}catch(_){}}\nreturn [{json:{data:{ok:true, version:{ id:row.id, versionNumber:Number(row.version_number), versionLabel:row.version_label, status:row.status, mode:row.mode, configuration, contentHash:row.content_hash, createdAt:row.created_at }},\n  statusCode:201, requestId:prep.requestId, requestStartedAtMs:prep.requestStartedAtMs, method:prep.method, path:prep.path, userId:prep.userId, sessionId:prep.sessionId,\n  auditAction:'AI_CONTEXT_CONFIG_DRAFT_CREATE', auditResourceId:row.id }}];"
+      }
+    },
+    {
+      "id": "a9aa65fa-6146-4606-9f92-c13cdc055019",
+      "name": "Auditar create",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2300,
+        0
+      ],
+      "onError": "continueRegularOutput",
+      "parameters": {
+        "mode": "once",
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "jtQvQlqRZ5X5WF9I",
+          "cachedResultName": "SYSTEM - REGISTRAR AUDITORIA"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "action": "AI_CONTEXT_CONFIG_DRAFT_CREATE",
+            "resourceType": "ai_retrieval_config_version",
+            "resourceId": "={{ $json.auditResourceId || \"\" }}",
+            "requestId": "={{ $json.requestId || \"\" }}",
+            "userId": "={{ $json.userId || \"\" }}",
+            "sessionId": "={{ $json.sessionId || \"\" }}",
+            "metadata": "={{ JSON.stringify({ statusCode: $json.statusCode }) }}"
+          }
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      }
+    },
+    {
+      "id": "d5ec4a2e-c032-49a6-9495-73e269afe464",
+      "name": "Repassar create",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2520,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "return [$('Montar create result').first()];"
+      }
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalizar request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalizar request": {
+      "main": [
+        [
+          {
+            "node": "Validar auth",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar auth": {
+      "main": [
+        [
+          {
+            "node": "Auth ok?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auth ok?": {
+      "main": [
+        [
+          {
+            "node": "Validar permissão",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar erro 401",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validar permissão": {
+      "main": [
+        [
+          {
+            "node": "Permissão ok?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Permissão ok?": {
+      "main": [
+        [
+          {
+            "node": "Restaurar request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Preparar erro 403",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar sucesso": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar erro 401": {
+      "main": [
+        [
+          {
+            "node": "Respond 401",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar erro 403": {
+      "main": [
+        [
+          {
+            "node": "Respond 403",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Restaurar request": {
+      "main": [
+        [
+          {
+            "node": "Preparar create",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar create": {
+      "main": [
+        [
+          {
+            "node": "Chamar VALIDAR",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chamar VALIDAR": {
+      "main": [
+        [
+          {
+            "node": "Validação ok?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validação ok?": {
+      "main": [
+        [
+          {
+            "node": "Inserir DRAFT",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Erro validação",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Erro validação": {
+      "main": [
+        [
+          {
+            "node": "Preparar sucesso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Inserir DRAFT": {
+      "main": [
+        [
+          {
+            "node": "Montar create result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Montar create result": {
+      "main": [
+        [
+          {
+            "node": "Auditar create",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auditar create": {
+      "main": [
+        [
+          {
+            "node": "Repassar create",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Repassar create": {
+      "main": [
+        [
+          {
+            "node": "Preparar sucesso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

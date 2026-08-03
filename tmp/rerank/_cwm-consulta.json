@@ -1,0 +1,153 @@
+{
+  "names": [
+    "Webhook",
+    "Classificar pergunta",
+    "Message a model",
+    "Respond to Webhook",
+    "Buscar categorias e subcategorias",
+    "Validar auth",
+    "Auth ok?",
+    "Respond 401",
+    "Validar permissão",
+    "Permissão ok?",
+    "Respond 403",
+    "Restaurar request",
+    "Normalizar request",
+    "Montar resposta",
+    "Preparar sucesso",
+    "Preparar erro 401",
+    "Preparar erro 403",
+    "Registrar auditoria sucesso",
+    "Registrar auditoria 401",
+    "Registrar auditoria 403",
+    "Carregar prompt ativo",
+    "Aplicar prompt carregado",
+    "IA - RECUPERAR CONTEXTO",
+    "Aplicar contexto recuperado",
+    "IA - GERENCIAR JANELA DE CONTEXTO",
+    "Aplicar janela de contexto"
+  ],
+  "connections": {
+    "Classificar pergunta": [
+      [
+        "IA - RECUPERAR CONTEXTO"
+      ]
+    ],
+    "Buscar categorias e subcategorias": [
+      [
+        "Classificar pergunta"
+      ]
+    ],
+    "Validar auth": [
+      [
+        "Auth ok?"
+      ]
+    ],
+    "Auth ok?": [
+      [
+        "Validar permissão"
+      ],
+      [
+        "Preparar erro 401"
+      ]
+    ],
+    "Validar permissão": [
+      [
+        "Permissão ok?"
+      ]
+    ],
+    "Permissão ok?": [
+      [
+        "Restaurar request"
+      ],
+      [
+        "Preparar erro 403"
+      ]
+    ],
+    "Restaurar request": [
+      [
+        "Buscar categorias e subcategorias"
+      ]
+    ],
+    "Webhook": [
+      [
+        "Normalizar request"
+      ]
+    ],
+    "Normalizar request": [
+      [
+        "Validar auth"
+      ]
+    ],
+    "Message a model": [
+      [
+        "Montar resposta"
+      ]
+    ],
+    "Montar resposta": [
+      [
+        "Preparar sucesso"
+      ]
+    ],
+    "Preparar sucesso": [
+      [
+        "Registrar auditoria sucesso"
+      ]
+    ],
+    "Registrar auditoria sucesso": [
+      [
+        "Respond to Webhook"
+      ]
+    ],
+    "Preparar erro 401": [
+      [
+        "Registrar auditoria 401"
+      ]
+    ],
+    "Registrar auditoria 401": [
+      [
+        "Respond 401"
+      ]
+    ],
+    "Preparar erro 403": [
+      [
+        "Registrar auditoria 403"
+      ]
+    ],
+    "Registrar auditoria 403": [
+      [
+        "Respond 403"
+      ]
+    ],
+    "Carregar prompt ativo": [
+      [
+        "Aplicar prompt carregado"
+      ]
+    ],
+    "Aplicar prompt carregado": [
+      [
+        "IA - GERENCIAR JANELA DE CONTEXTO"
+      ]
+    ],
+    "IA - RECUPERAR CONTEXTO": [
+      [
+        "Aplicar contexto recuperado"
+      ]
+    ],
+    "Aplicar contexto recuperado": [
+      [
+        "Carregar prompt ativo"
+      ]
+    ],
+    "IA - GERENCIAR JANELA DE CONTEXTO": [
+      [
+        "Aplicar janela de contexto"
+      ]
+    ],
+    "Aplicar janela de contexto": [
+      [
+        "Message a model"
+      ]
+    ]
+  }
+}

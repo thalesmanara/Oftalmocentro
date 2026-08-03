@@ -1,0 +1,364 @@
+{
+  "at": "2026-08-03T22:11:06.584Z",
+  "workflows": [
+    {
+      "id": "8EXk5RkFW5cxnenL",
+      "name": "Consulta IA",
+      "active": true,
+      "activeVersionId": "a6957f72-0e75-480f-9b93-9235ec07cf52"
+    },
+    {
+      "id": "OSopSf635RVwD65J",
+      "name": "IA - CARREGAR PROMPT ATIVO",
+      "active": true,
+      "activeVersionId": "8183c897-2c40-481c-9620-79c9b8b12ebc"
+    },
+    {
+      "id": "sClDEVNVS0TGG2uq",
+      "name": "IA - CARREGAR RETRIEVAL CONFIG",
+      "active": true,
+      "activeVersionId": "a2741824-35bb-467c-a655-e0932b50fa85"
+    },
+    {
+      "id": "bae8872eeb164a27",
+      "name": "IA - RECUPERAR CONTEXTO",
+      "active": true,
+      "activeVersionId": "381a25c4-c9e3-49a7-8e9d-bd7bfc9b7b65"
+    },
+    {
+      "id": "NhWUkmzGhlttJC9S",
+      "name": "IA - VALIDAR RETRIEVAL CONFIG",
+      "active": true,
+      "activeVersionId": "860b5355-1b3a-4cc0-8639-335587d3631d"
+    }
+  ],
+  "consultaNames": [
+    "Webhook",
+    "Classificar pergunta",
+    "Message a model",
+    "Respond to Webhook",
+    "Buscar categorias e subcategorias",
+    "Validar auth",
+    "Auth ok?",
+    "Respond 401",
+    "Validar permissão",
+    "Permissão ok?",
+    "Respond 403",
+    "Restaurar request",
+    "Normalizar request",
+    "Montar resposta",
+    "Preparar sucesso",
+    "Preparar erro 401",
+    "Preparar erro 403",
+    "Registrar auditoria sucesso",
+    "Registrar auditoria 401",
+    "Registrar auditoria 403",
+    "Carregar prompt ativo",
+    "Aplicar prompt carregado",
+    "IA - RECUPERAR CONTEXTO",
+    "Aplicar contexto recuperado"
+  ],
+  "consultaConnections": {
+    "Classificar pergunta": [
+      [
+        "IA - RECUPERAR CONTEXTO"
+      ]
+    ],
+    "Buscar categorias e subcategorias": [
+      [
+        "Classificar pergunta"
+      ]
+    ],
+    "Validar auth": [
+      [
+        "Auth ok?"
+      ]
+    ],
+    "Auth ok?": [
+      [
+        "Validar permissão"
+      ],
+      [
+        "Preparar erro 401"
+      ]
+    ],
+    "Validar permissão": [
+      [
+        "Permissão ok?"
+      ]
+    ],
+    "Permissão ok?": [
+      [
+        "Restaurar request"
+      ],
+      [
+        "Preparar erro 403"
+      ]
+    ],
+    "Restaurar request": [
+      [
+        "Buscar categorias e subcategorias"
+      ]
+    ],
+    "Webhook": [
+      [
+        "Normalizar request"
+      ]
+    ],
+    "Normalizar request": [
+      [
+        "Validar auth"
+      ]
+    ],
+    "Message a model": [
+      [
+        "Montar resposta"
+      ]
+    ],
+    "Montar resposta": [
+      [
+        "Preparar sucesso"
+      ]
+    ],
+    "Preparar sucesso": [
+      [
+        "Registrar auditoria sucesso"
+      ]
+    ],
+    "Registrar auditoria sucesso": [
+      [
+        "Respond to Webhook"
+      ]
+    ],
+    "Preparar erro 401": [
+      [
+        "Registrar auditoria 401"
+      ]
+    ],
+    "Registrar auditoria 401": [
+      [
+        "Respond 401"
+      ]
+    ],
+    "Preparar erro 403": [
+      [
+        "Registrar auditoria 403"
+      ]
+    ],
+    "Registrar auditoria 403": [
+      [
+        "Respond 403"
+      ]
+    ],
+    "Carregar prompt ativo": [
+      [
+        "Aplicar prompt carregado"
+      ]
+    ],
+    "Aplicar prompt carregado": [
+      [
+        "Message a model"
+      ]
+    ],
+    "IA - RECUPERAR CONTEXTO": [
+      [
+        "Aplicar contexto recuperado"
+      ]
+    ],
+    "Aplicar contexto recuperado": [
+      [
+        "Carregar prompt ativo"
+      ]
+    ]
+  },
+  "recuperarNames": [
+    "Trigger",
+    "Preparar entrada",
+    "Auditar START",
+    "Após audit start",
+    "Carregar retrieval config",
+    "Aplicar modo",
+    "Precisa vetor?",
+    "Preparar embedding",
+    "Embed pergunta",
+    "Extrair vetor",
+    "Busca vetorial Qdrant",
+    "Guardar hits vetoriais",
+    "Pular vetor",
+    "Precisa texto?",
+    "Preparar busca texto",
+    "Buscar chunks relevantes",
+    "Guardar rows texto",
+    "Pular texto",
+    "Merge híbrido",
+    "Preparar seleção",
+    "Usar re-ranking?",
+    "Chamar RE-RANQUEAR",
+    "Corte hybrid padrão",
+    "Resolver ranking final",
+    "Montar contexto atual",
+    "Auditar SUCCESS",
+    "Retorno"
+  ],
+  "montarSnippet": "const t0=Date.now();\nconst wrap=$input.first().json||{};\nconst ranked=Array.isArray(wrap.ranked)?wrap.ranked:[];\nconst prep=wrap.prep||{};\nconst modeInfo=prep.modeInfo||{};\nconst rankingMetadata=wrap.rankingMetadata||{};\nconst pipelineMeta=rankingMetadata.pipelineMeta||prep.pipelineMeta||{};\nconst question=String(modeInfo.question||prep.question||'');\nconst classification={categoryId:modeInfo.categoryId??null,categoryName:modeInfo.categoryName??null,categoryDescription:null,subcategoryId:modeInfo.subcategoryId??null,subcategoryName:modeInfo.subcategoryName??null,subcategoryDescription:null};\nconst contextChunks=ranked.map((row,index)=>({\n  index:index+1, chunkId:row.chunkId||null, documentId:row.documentId, documentTitle:row.documentTitle,\n  sectorId:row.sectorId??null, sectorName:row.sectorName??null, categoryId:row.categoryId??null, categoryName:row.categoryName??null,\n  subcategoryId:row.subcategoryId??null, subcategoryName:row.subcategoryName??null, vigencyDate:row.vigencyDate??null,\n  chunkOrder:row.chunkOrder, relevance:row.relevance??0, text:row.chunkText??row.text??'',\n  vectorScore:row.vectorScore??null, textScore:row.textScore??null, hybridScore:row.hybridScore??row.mergedScore??null, rerankScore:row.rerankScore??null,\n}));\nconst context=contextChunks.map(s=>`[Fontes ${s.index}]\\n\\nDocumento: ${s.documentTitle||'Não informado'}\\nSetor: ${s.sectorName||'Não informado'}\\nCategoria: ${s.categoryName||'Não informada'}\\nSubcategoria: ${s.subcategoryName||'Não informada'}",
+  "promptLoadNames": [
+    "Trigger",
+    "Montar consulta",
+    "Carregar versão",
+    "Normalizar resposta"
+  ],
+  "aiTables": [
+    "ai_builder_temporary_workflow",
+    "ai_prompt_definitions",
+    "ai_prompt_versions",
+    "ai_retrieval_config_versions",
+    "ai_retrieval_configs",
+    "ai_test_cases",
+    "ai_test_metrics",
+    "ai_test_results",
+    "ai_test_runs"
+  ],
+  "retrievalVersionCols": [
+    {
+      "column_name": "id",
+      "data_type": "uuid"
+    },
+    {
+      "column_name": "retrieval_config_id",
+      "data_type": "uuid"
+    },
+    {
+      "column_name": "version_number",
+      "data_type": "integer"
+    },
+    {
+      "column_name": "version_label",
+      "data_type": "text"
+    },
+    {
+      "column_name": "status",
+      "data_type": "text"
+    },
+    {
+      "column_name": "mode",
+      "data_type": "text"
+    },
+    {
+      "column_name": "configuration",
+      "data_type": "jsonb"
+    },
+    {
+      "column_name": "content_hash",
+      "data_type": "text"
+    },
+    {
+      "column_name": "validation_run_id",
+      "data_type": "uuid"
+    },
+    {
+      "column_name": "validation_score",
+      "data_type": "numeric"
+    },
+    {
+      "column_name": "notes",
+      "data_type": "text"
+    },
+    {
+      "column_name": "created_by",
+      "data_type": "uuid"
+    },
+    {
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone"
+    },
+    {
+      "column_name": "published_at",
+      "data_type": "timestamp with time zone"
+    },
+    {
+      "column_name": "published_by",
+      "data_type": "uuid"
+    }
+  ],
+  "publishedPrompts": [],
+  "retrievalVersions": [
+    {
+      "id": "b9f10499-cf34-48dd-90b9-119b1410e84d",
+      "version_label": "hybrid-rerank-v1",
+      "mode": "HYBRID_RERANK",
+      "status": "DRAFT"
+    },
+    {
+      "id": "63631806-f1ba-4ff4-8b24-265a468229fb",
+      "version_label": "hybrid-v1",
+      "mode": "HYBRID",
+      "status": "PUBLISHED"
+    }
+  ],
+  "testResultCols": [
+    "id",
+    "run_id",
+    "case_id",
+    "case_code",
+    "question",
+    "answer",
+    "duration_ms",
+    "sources",
+    "chunk_refs",
+    "classification",
+    "matched_document",
+    "matched_category",
+    "matched_subcategory",
+    "required_words_hit",
+    "required_words_total",
+    "forbidden_words_hit",
+    "sources_correct",
+    "sources_incorrect",
+    "is_hallucination",
+    "is_empty_answer",
+    "is_internal_error",
+    "score",
+    "verdict",
+    "score_breakdown",
+    "extraction_method",
+    "ocr_quality_grade",
+    "ocr_used",
+    "sheet_name",
+    "headers_json",
+    "prompt_version",
+    "model_name",
+    "created_at",
+    "prompt_version_id",
+    "retrieval_mode",
+    "top_k",
+    "vector_score",
+    "text_score",
+    "merged_score",
+    "candidates_retrieved",
+    "candidates_reranked",
+    "expected_document_rank",
+    "retrieval_latency_ms",
+    "rerank_latency_ms",
+    "final_context_count",
+    "retrieval_config_version",
+    "fallback_used",
+    "rerank_score",
+    "source_precision",
+    "source_recall",
+    "retrieval_ranked_document_ids",
+    "recall_at_k",
+    "precision_at_k",
+    "mrr",
+    "hit_rate",
+    "expected_chunk_rank"
+  ],
+  "chunkStats": {
+    "chunks": 465,
+    "avg_chars": 1133,
+    "p50_chars": 1200,
+    "p90_chars": 1200,
+    "max_chars": 1200,
+    "tabular": 1,
+    "textual": 464
+  }
+}

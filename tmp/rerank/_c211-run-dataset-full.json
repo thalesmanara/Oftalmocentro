@@ -1,0 +1,30 @@
+{
+  "execDs": {
+    "mode": "once",
+    "options": {
+      "waitForSubWorkflow": true
+    },
+    "source": "database",
+    "workflowId": {
+      "__rl": true,
+      "cachedResultName": "IA - EXECUTAR DATASET",
+      "mode": "id",
+      "value": "12t0Ol6zWQJgAKPC"
+    },
+    "workflowInputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "authorization": "={{ $('Normalizar request').first().json.authorization || $('Normalizar request').first().json.headers.authorization || $('Normalizar request').first().json.headers.Authorization || '' }}",
+        "triggeredBy": "={{ $('Validar auth').first().json.userId || '' }}",
+        "groupName": "={{ ($('Webhook').first().json.body || {}).groupName || '' }}",
+        "includeMissingDocs": "={{ !!($('Webhook').first().json.body || {}).includeMissingDocs }}",
+        "caseId": "",
+        "caseCode": "",
+        "triggerMode": "dataset",
+        "promptVersionId": "={{ ($('Webhook').first().json.body || {}).promptVersionId || '' }}",
+        "retrievalConfigVersionId": "={{ ($json.body && $json.body.retrievalConfigVersionId) || ($('Normalizar request').first().json.body && $('Normalizar request').first().json.body.retrievalConfigVersionId) || '' }}"
+      }
+    }
+  },
+  "restaurarJs": "return [$('Normalizar request').first()];"
+}

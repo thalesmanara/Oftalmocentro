@@ -17,6 +17,7 @@ import { ConsultaIAPage } from '@/pages/ConsultaIAPage'
 import { AiValidationPage } from '@/pages/AiValidationPage'
 import { AiPromptsPage } from '@/pages/AiPromptsPage'
 import { AiRetrievalPage } from '@/pages/AiRetrievalPage'
+import { AiContextPage } from '@/pages/AiContextPage'
 import { QdrantAdminPage } from '@/pages/QdrantAdminPage'
 
 export function AppRoutes() {
@@ -62,6 +63,9 @@ export function AppRoutes() {
           </Route>
           <Route element={<ProtectedRoute permission="editar_configuracoes" />}>
             <Route path="ia/retrieval" element={<AiRetrievalPage />} />
+          </Route>
+          <Route element={<ProtectedRoute permission="editar_configuracoes" />}>
+            <Route path="ia/contexto" element={<AiContextPage />} />
           </Route>
           <Route element={<ProtectedRoute permission="editar_configuracoes" />}>
             <Route path="sistema/qdrant" element={<QdrantAdminPage />} />

@@ -355,6 +355,22 @@ export interface SystemHealth {
       lastSuccessfulRetrieval?: string | null
       lastDatasetValidation?: string | null
     }
+    contextWindow?: HealthComponent & {
+      activeMode?: string
+      modelName?: string
+      avgAvailableTokens?: number | null
+      avgUsedTokens?: number | null
+      avgUtilizationRate?: number | null
+      avgIncludedChunks?: number | null
+      avgExcludedChunks?: number | null
+      overflowCount7d?: number
+      fallbackCount7d?: number
+      failureCount7d?: number
+      insufficientContextCount7d?: number
+      avgBuildLatencyMs?: number | null
+      lastDatasetValidation?: string | null
+      draftCount?: number
+    }
   }
 }
 

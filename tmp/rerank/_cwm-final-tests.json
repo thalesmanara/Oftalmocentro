@@ -1,0 +1,111 @@
+{
+  "at": "2026-08-03T22:21:25.856Z",
+  "tests": [
+    {
+      "name": "login",
+      "pass": true
+    },
+    {
+      "name": "GET ai-context",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "items": 1
+      }
+    },
+    {
+      "name": "GET ai-context/detail",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "active": "context-v1",
+        "modes": [
+          "context-budget-v1:DRAFT",
+          "context-v1:PUBLISHED"
+        ]
+      }
+    },
+    {
+      "name": "health contextWindow",
+      "pass": true,
+      "detail": {
+        "status": "up",
+        "activeMode": "LEGACY",
+        "activeVersion": "context-v1",
+        "modelName": "gpt-4.1-mini",
+        "avgAvailableTokens": null,
+        "avgUsedTokens": null,
+        "avgUtilizationRate": null,
+        "avgIncludedChunks": null,
+        "avgExcludedChunks": null,
+        "overflowCount7d": 0,
+        "fallbackCount7d": 0,
+        "failureCount7d": 0,
+        "insufficientContextCount7d": 0,
+        "avgBuildLatencyMs": null,
+        "draftCount": 1
+      }
+    },
+    {
+      "name": "produção HYBRID/hybrid-v1",
+      "pass": true,
+      "detail": [
+        {
+          "version_label": "hybrid-rerank-v1",
+          "mode": "HYBRID_RERANK",
+          "status": "DRAFT"
+        },
+        {
+          "version_label": "hybrid-v1",
+          "mode": "HYBRID",
+          "status": "PUBLISHED"
+        }
+      ]
+    },
+    {
+      "name": "hybrid-rerank DRAFT",
+      "pass": true,
+      "detail": {
+        "version_label": "hybrid-rerank-v1",
+        "mode": "HYBRID_RERANK",
+        "status": "DRAFT"
+      }
+    },
+    {
+      "name": "context-v1 LEGACY PUBLISHED",
+      "pass": true,
+      "detail": [
+        {
+          "version_label": "context-v1",
+          "mode": "LEGACY",
+          "status": "PUBLISHED"
+        },
+        {
+          "version_label": "context-budget-v1",
+          "mode": "BUDGETED",
+          "status": "DRAFT"
+        }
+      ]
+    },
+    {
+      "name": "context-budget-v1 DRAFT",
+      "pass": true,
+      "detail": {
+        "version_label": "context-budget-v1",
+        "mode": "BUDGETED",
+        "status": "DRAFT"
+      }
+    },
+    {
+      "name": "Consulta tem CWM após prompt",
+      "pass": true,
+      "detail": [
+        "Carregar prompt ativo",
+        "Aplicar prompt carregado",
+        "IA - RECUPERAR CONTEXTO",
+        "IA - GERENCIAR JANELA DE CONTEXTO",
+        "Aplicar janela de contexto"
+      ]
+    }
+  ]
+}

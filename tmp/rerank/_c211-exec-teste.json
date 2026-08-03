@@ -1,0 +1,53 @@
+{
+  "name": "IA - EXECUTAR TESTE",
+  "names": [
+    "Trigger",
+    "Carregar caso",
+    "Chamar Consulta IA",
+    "Avaliar e montar insert",
+    "Inserir resultado",
+    "Normalizar saída"
+  ],
+  "interesting": [
+    {
+      "name": "Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "inputs": null,
+      "url": null,
+      "js": "",
+      "query": ""
+    },
+    {
+      "name": "Carregar caso",
+      "type": "n8n-nodes-base.postgres",
+      "inputs": null,
+      "url": null,
+      "js": "",
+      "query": "=SELECT c.id, c.code, c.name, c.group_name, c.test_type, c.category_name, c.subcategory_name,\n  c.expected_document_id, c.expected_document_ids, c.question, c.expected_answer,\n  c.required_words, c.forbidden_words, c.required_source_document_id, c.min_score,\n  c.expect_no_answer, c.notes, c.status, c.version, c.depends_on_missing_docs,\n  '{{ $json.runId }}'::text AS run_id,\n  '{{ String($json.auth"
+    },
+    {
+      "name": "Chamar Consulta IA",
+      "type": "n8n-nodes-base.httpRequest",
+      "inputs": null,
+      "url": "http://127.0.0.1:5678/webhook/consulta-ia",
+      "js": "",
+      "query": ""
+    },
+    {
+      "name": "Avaliar e montar insert",
+      "type": "n8n-nodes-base.code",
+      "inputs": null,
+      "url": null,
+      "js": "function normalizeText(s){return String(s??'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase().replace(/\\s+/g,' ').trim()}\nfunction includesWord(haystack,word){const h=normalizeText(haystack);const w=normalizeText(word);if(!w)return true;return h.includes(w)}\nfunction scoreCase(input){const{answer='',sources=[],classification={},durationMs=null,caseDef,refusalPhrase='Não encontrei essa informação na base documental disponível.',maxLatencyMs=30000,isInternalError=false}=input;const requiredWords=Array.isArray(caseDef.required_words||caseDef.requiredWords)?caseDef.required_words||caseDef.requiredWords:[];const forbiddenWords=Array.isArray(caseDef.forbidden_words||caseDef.forbiddenWords)?caseDef.forbidden_words||caseDef.forbiddenWords:[];const minScore=Number(caseDef.min_score??",
+      "query": ""
+    },
+    {
+      "name": "Normalizar saída",
+      "type": "n8n-nodes-base.code",
+      "inputs": null,
+      "url": null,
+      "js": "const row = $input.first().json || {};\nconst scored = $('Avaliar e montar insert').first().json || {};\nfunction camel(r) {\n  return {\n    id: r.id,\n    runId: r.run_id || scored.runId,\n    caseId: r.case_id || scored.caseId,\n    caseCode: r.case_code || scored.caseCode,\n    question: r.question || scored.question,\n    answer: r.answer != null ? r.answer : scored.answer,\n    durationMs: r.duration_ms != null ? Number(r.duration_ms) : scored.durationMs,\n    sources: r.sources || scored.sources || [],\n    chunkRefs: r.chunk_refs || scored.chunkRefs || [],\n    classification: r.classification || null,\n    matchedDocument: r.matched_document,\n    matchedCategory: r.matched_category,\n    matchedSubcategory: r.matched_subcategory,\n    requiredWordsHit: Number(r.required_words_hit || 0),\n    requi",
+      "query": ""
+    }
+  ]
+}

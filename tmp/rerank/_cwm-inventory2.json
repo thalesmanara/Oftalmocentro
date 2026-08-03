@@ -1,0 +1,242 @@
+{
+  "promptCols": [
+    {
+      "table_name": "ai_prompt_definitions",
+      "column_name": "id",
+      "data_type": "uuid"
+    },
+    {
+      "table_name": "ai_prompt_definitions",
+      "column_name": "code",
+      "data_type": "text"
+    },
+    {
+      "table_name": "ai_prompt_definitions",
+      "column_name": "name",
+      "data_type": "text"
+    },
+    {
+      "table_name": "ai_prompt_definitions",
+      "column_name": "description",
+      "data_type": "text"
+    },
+    {
+      "table_name": "ai_prompt_definitions",
+      "column_name": "purpose",
+      "data_type": "text"
+    },
+    {
+      "table_name": "ai_prompt_definitions",
+      "column_name": "active",
+      "data_type": "boolean"
+    },
+    {
+      "table_name": "ai_prompt_definitions",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone"
+    },
+    {
+      "table_name": "ai_prompt_definitions",
+      "column_name": "updated_at",
+      "data_type": "timestamp with time zone"
+    },
+    {
+      "table_name": "ai_prompt_versions",
+      "column_name": "id",
+      "data_type": "uuid"
+    },
+    {
+      "table_name": "ai_prompt_versions",
+      "column_name": "prompt_definition_id",
+      "data_type": "uuid"
+    },
+    {
+      "table_name": "ai_prompt_versions",
+      "column_name": "version_number",
+      "data_type": "integer"
+    },
+    {
+      "table_name": "ai_prompt_versions",
+      "column_name": "status",
+      "data_type": "text"
+    },
+    {
+      "table_name": "ai_prompt_versions",
+      "column_name": "environment",
+      "data_type": "text"
+    },
+    {
+      "table_name": "ai_prompt_versions",
+      "column_name": "content",
+      "data_type": "text"
+    },
+    {
+      "table_name": "ai_prompt_versions",
+      "column_name": "model_name",
+      "data_type": "text"
+    },
+    {
+      "table_name": "ai_prompt_versions",
+      "column_name": "temperature",
+      "data_type": "numeric"
+    },
+    {
+      "table_name": "ai_prompt_versions",
+      "column_name": "max_tokens",
+      "data_type": "integer"
+    },
+    {
+      "table_name": "ai_prompt_versions",
+      "column_name": "top_p",
+      "data_type": "numeric"
+    },
+    {
+      "table_name": "ai_prompt_versions",
+      "column_name": "response_format",
+      "data_type": "jsonb"
+    },
+    {
+      "table_name": "ai_prompt_versions",
+      "column_name": "parameters",
+      "data_type": "jsonb"
+    },
+    {
+      "table_name": "ai_prompt_versions",
+      "column_name": "change_summary",
+      "data_type": "text"
+    },
+    {
+      "table_name": "ai_prompt_versions",
+      "column_name": "created_by",
+      "data_type": "uuid"
+    },
+    {
+      "table_name": "ai_prompt_versions",
+      "column_name": "created_at",
+      "data_type": "timestamp with time zone"
+    },
+    {
+      "table_name": "ai_prompt_versions",
+      "column_name": "published_by",
+      "data_type": "uuid"
+    },
+    {
+      "table_name": "ai_prompt_versions",
+      "column_name": "published_at",
+      "data_type": "timestamp with time zone"
+    },
+    {
+      "table_name": "ai_prompt_versions",
+      "column_name": "archived_at",
+      "data_type": "timestamp with time zone"
+    },
+    {
+      "table_name": "ai_prompt_versions",
+      "column_name": "based_on_version_id",
+      "data_type": "uuid"
+    },
+    {
+      "table_name": "ai_prompt_versions",
+      "column_name": "content_hash",
+      "data_type": "text"
+    },
+    {
+      "table_name": "ai_prompt_versions",
+      "column_name": "validation_run_id",
+      "data_type": "uuid"
+    },
+    {
+      "table_name": "ai_prompt_versions",
+      "column_name": "validation_score",
+      "data_type": "numeric"
+    },
+    {
+      "table_name": "ai_prompt_versions",
+      "column_name": "metadata",
+      "data_type": "jsonb"
+    }
+  ],
+  "prompts": [
+    {
+      "code": "AI_QUERY_MAIN",
+      "purpose": "AI_QUERY_MAIN",
+      "version_number": 1,
+      "model_name": "gpt-4.1-mini",
+      "temperature": "0.100",
+      "max_tokens": 800,
+      "status": "PUBLISHED",
+      "environment": "PRODUCTION",
+      "content_len": 1788
+    }
+  ],
+  "retrievalConfig": {
+    "id": "5dd38fb3-11ba-4adf-8755-37b1329402bd",
+    "code": "AI_QUERY_RETRIEVAL",
+    "purpose": "AI_QUERY_RETRIEVAL",
+    "description": "Configuração de recuperação e re-ranking da Consulta IA",
+    "active": true,
+    "created_at": "2026-08-03T20:32:07.105Z",
+    "updated_at": "2026-08-03T20:32:07.105Z"
+  },
+  "retrievalPublishedConfig": {
+    "mode": "HYBRID",
+    "notes": "Produção atual — ranking híbrido sem re-ranking avançado",
+    "boosts": {
+      "ocrGood": 0.03,
+      "isCurrent": 0.05,
+      "titleMatch": 0.08,
+      "categoryMatch": 0.1,
+      "recentVigency": 0.04,
+      "exactIdentifier": 0.2,
+      "subcategoryMatch": 0.15,
+      "tabularStructure": 0.08
+    },
+    "weights": {
+      "lexical": 0.35,
+      "semantic": 0.65
+    },
+    "penalties": {
+      "staleDocument": 0.05,
+      "redundancyPerExtraChunk": 0.06
+    },
+    "finalLimit": 12,
+    "normalization": {
+      "text": "batchMax",
+      "hybrid": "passthrough",
+      "vector": "clip01"
+    },
+    "candidateLimit": 30,
+    "enableNeighbors": false,
+    "maxChunksPerDocument": 4
+  },
+  "snippets": {
+    "Aplicar prompt carregado": {
+      "type": "n8n-nodes-base.code",
+      "code": "const ctx = $('Aplicar contexto recuperado').first().json || {};\nconst loaded = $input.first().json || {};\nif (!loaded.ok) {\n  throw new Error('Falha ao carregar prompt ativo: ' + (loaded.code || 'PROMPT_NOT_FOUND'));\n}\nconst cls = ctx.classification || {};\nconst userContent = 'Pergunta do usuário:\\n\\n' + (ctx.question || '') +\n  '\\n\\nCategoria identificada:\\n\\n' + (cls.categoryName || 'Não identificada') +\n  '\\n\\nDescrição da categoria:\\n\\n' + (cls.categoryDescription || 'Não informada') +\n  '\\n\\nSubcategoria identificada:\\n\\n' + (cls.subcategoryName || 'Não identificada') +\n  '\\n\\nDescrição da subcategoria:\\n\\n' + (cls.subcategoryDescription || 'Não informada') +\n  '\\n\\nContexto documental recuperado:\\n\\n' + (ctx.context || '') +\n  '\\n\\nResponda exclusivamente com base no contexto documental acima.';\n\nreturn [{\n  json: {\n    ...ctx,\n    systemContent: loaded.content,\n    userContent,\n    modelName: loaded.modelName || 'gpt-4.1-mini',\n    temperature: loaded.temperature != null ? loaded.temperature : 0.1,\n    maxTokens: loaded.maxTokens != null ? loaded.maxTokens : 800,\n    promptVersionId: loaded.promptVersionId || null,\n    promptDefinitionId: loaded.promptDefinitionId || null,\n",
+      "inputs": null
+    },
+    "Aplicar contexto recuperado": {
+      "type": "n8n-nodes-base.code",
+      "code": "const ret=$input.first().json||{};\nreturn [{json:{\n  question: ret.question || $('Classificar pergunta').first().json.question || '',\n  classification: ret.classification || {\n    categoryId: $('Classificar pergunta').first().json.categoryId || null,\n    categoryName: $('Classificar pergunta').first().json.categoryName || null,\n    subcategoryId: $('Classificar pergunta').first().json.subcategoryId || null,\n    subcategoryName: $('Classificar pergunta').first().json.subcategoryName || null,\n  },\n  context: ret.context || '',\n  sources: Array.isArray(ret.sources) ? ret.sources : [],\n  retrievalMeta: ret.retrievalMeta || null,\n  diagnostic: ret.diagnostic || null,\n}}];",
+      "inputs": null
+    },
+    "Montar resposta": {
+      "type": "n8n-nodes-base.code",
+      "code": "const ctx = $('Aplicar contexto recuperado').first().json;\nconst prompt = $('Aplicar prompt carregado').first().json || {};\nconst answer = $json.output?.[0]?.content?.[0]?.text ?? '';\nconst sources = (ctx.sources || []).map((s) => ({\n  ...s,\n  expirationDate: s.expirationDate ?? s.vigencyDate ?? null,\n}));\nconst requestId = $('Normalizar request').first().json.requestId;\nconst retrievalMeta = ctx.retrievalMeta || null;\nreturn [{\n  json: {\n    data: {\n      question: ctx.question,\n      answer,\n      sources,\n      classification: ctx.classification,\n      retrievalMeta,\n    },\n    statusCode: 200,\n    requestId,\n    promptMeta: {\n      promptVersionId: prompt.promptVersionId || null,\n      promptCode: prompt.promptCode || null,\n      versionNumber: prompt.versionNumber != null ? prompt.versionNumber : null,\n      contentHash: prompt.contentHash || null,\n      modelName: prompt.modelName || null,\n    },\n  },\n}];",
+      "inputs": null
+    },
+    "IA - RECUPERAR CONTEXTO": {
+      "type": "n8n-nodes-base.executeWorkflow",
+      "code": null,
+      "inputs": {
+        "question": "={{ $('Classificar pergunta').first().json.question || '' }}",
+        "classificationJson": "={{ JSON.stringify($('Classificar pergunta').first().json || {}) }}",
+        "retrievalConfigVersionId": "={{ (() => { const b=$('Normalizar request').first().json.body||{}; const q=$('Normalizar request').first().json.query||{}; return String(b.retrievalConfigVersionId||q.retrievalConfigVersionId||'').trim(); })() }}",
+        "modeOverrideAllowed": "={{ (() => {\n  const b=$('Normalizar request').first().json.body||{};\n  const q=$('Normalizar request').first().json.query||{};\n  const flag=b.modeOverrideAllowed===true||b.modeOverrideAllowed==='true'||q.modeOverrideAllowed===true||q.modeOverrideAllowed==='true';\n  if(!flag) return 'false';\n  let allowed=false;\n  try {\n    const auth=$('Validar auth').first().json||{};\n    const user=auth.user||{};\n    const perms=[...(Array.isArray(auth.permissions)?auth.permissions:[]),...(Array.isArray(user.permissions)?user.permissions:[])].map(p=>String(p).toLowerCase());\n    allowed=auth.isMaster===true||user.isMaster===true||perms.includes('editar_configuracoes')||perms.some(p=>p.includes('ai_retrieval')||p.includes('admin'));\n  } catch(_) {}\n  return allowed ? 'true' : 'false';\n})() }}",
+        "requestId": "={{ $('Normalizar request').first().json.requestId || '' }}",
+        "userId": "={{ $('Validar auth').first().json.userId || '' }}",
+        "sessionId": "={{ $('Validar auth').first().json.sessionId || '' }}"
+      }
+    }
+  }
+}

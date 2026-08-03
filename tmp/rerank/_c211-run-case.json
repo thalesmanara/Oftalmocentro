@@ -1,0 +1,84 @@
+{
+  "name": "POST System AI Eval Run Case",
+  "names": [
+    "Webhook",
+    "Normalizar request",
+    "Validar auth",
+    "Auth ok?",
+    "Validar permissão",
+    "Permissão ok?",
+    "Restaurar request",
+    "Auditar início",
+    "Executar dataset",
+    "Montar resposta admin",
+    "Preparar sucesso",
+    "Auditar teste",
+    "Auditar métricas",
+    "Repassar resposta",
+    "Respond to Webhook",
+    "Preparar erro 403",
+    "Respond 403",
+    "Preparar erro 401",
+    "Respond 401"
+  ],
+  "interesting": [
+    {
+      "name": "Normalizar request",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "inputs": null,
+      "url": null,
+      "js": "",
+      "query": ""
+    },
+    {
+      "name": "Preparar sucesso",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "inputs": {
+        "asList": "={{ $json.asList }}",
+        "data": "={{ $json.data }}",
+        "requestId": "={{ $json.requestId || $('Normalizar request').first().json.requestId }}",
+        "statusCode": "={{ $json.statusCode }}",
+        "requestStartedAtMs": "={{ $('Normalizar request').first().json.requestStartedAtMs }}",
+        "method": "={{ $('Normalizar request').first().json.method }}",
+        "path": "={{ $('Normalizar request').first().json.path }}",
+        "userId": "={{ $('Validar auth').first().json.userId || '' }}",
+        "sessionId": "={{ $('Validar auth').first().json.sessionId || '' }}"
+      },
+      "url": null,
+      "js": "",
+      "query": ""
+    },
+    {
+      "name": "Preparar erro 403",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "inputs": {
+        "code": "={{ $json.error && $json.error.code ? $json.error.code : 'FORBIDDEN' }}",
+        "message": "={{ $json.error && $json.error.message ? $json.error.message : 'Você não possui permissão para executar esta ação.' }}",
+        "requestId": "={{ $('Normalizar request').first().json.requestId }}",
+        "statusCode": 403,
+        "requestStartedAtMs": "={{ $('Normalizar request').first().json.requestStartedAtMs }}",
+        "method": "={{ $('Normalizar request').first().json.method }}",
+        "path": "={{ $('Normalizar request').first().json.path }}"
+      },
+      "url": null,
+      "js": "",
+      "query": ""
+    },
+    {
+      "name": "Preparar erro 401",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "inputs": {
+        "code": "={{ $json.error && $json.error.code ? $json.error.code : 'UNAUTHORIZED' }}",
+        "message": "={{ $json.error && $json.error.message ? $json.error.message : 'Autenticação obrigatória.' }}",
+        "requestId": "={{ $('Normalizar request').first().json.requestId }}",
+        "statusCode": 401,
+        "requestStartedAtMs": "={{ $('Normalizar request').first().json.requestStartedAtMs }}",
+        "method": "={{ $('Normalizar request').first().json.method }}",
+        "path": "={{ $('Normalizar request').first().json.path }}"
+      },
+      "url": null,
+      "js": "",
+      "query": ""
+    }
+  ]
+}

@@ -22,6 +22,7 @@ const COMPONENT_LABELS: Record<string, string> = {
   qdrant: 'Qdrant',
   retrieval: 'Retrieval / Re-ranking',
   retrievalPipeline: 'Pipeline de retrieval',
+  contextWindow: 'Janela de contexto',
 }
 
 function statusLabel(status: UiState): string {
@@ -139,6 +140,25 @@ function componentDetails(key: string, component: HealthComponent): string {
     if (typeof pipe.fallbackCount7d === 'number') parts.push(`${pipe.fallbackCount7d} fallbacks/7d`)
     if (typeof component.failures === 'number') parts.push(`${component.failures} falhas`)
     if (component.lastRunAt) parts.push(formatCheckedAt(component.lastRunAt))
+  }
+  if (key === 'contextWindow') {
+    const cw = component as HealthComponent & {
+      activeMode?: string
+      modelName?: string
+      avgUtilizationRate?: number | null
+      avgIncludedChunks?: number | null
+      fallbackCount7d?: number
+      draftCount?: number
+    }
+    if (component.activeVersion) parts.push(String(component.activeVersion))
+    if (cw.activeMode) parts.push(String(cw.activeMode))
+    if (cw.modelName) parts.push(String(cw.modelName))
+    if (typeof cw.avgUtilizationRate === 'number') {
+      parts.push(`${Math.round(cw.avgUtilizationRate * 100)}% util`)
+    }
+    if (typeof cw.avgIncludedChunks === 'number') parts.push(`${cw.avgIncludedChunks} chunks`)
+    if (typeof cw.fallbackCount7d === 'number') parts.push(`${cw.fallbackCount7d} fallbacks/7d`)
+    if (typeof cw.draftCount === 'number') parts.push(`${cw.draftCount} drafts`)
   }
   return parts.join(' · ')
 }

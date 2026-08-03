@@ -1,0 +1,80 @@
+{
+  "trigger": {
+    "inputSource": "workflowInputs",
+    "workflowInputs": {
+      "values": [
+        {
+          "name": "runId",
+          "type": "string"
+        },
+        {
+          "name": "caseId",
+          "type": "string"
+        },
+        {
+          "name": "authorization",
+          "type": "string"
+        },
+        {
+          "name": "promptVersion",
+          "type": "string"
+        },
+        {
+          "name": "promptVersionId",
+          "type": "string"
+        },
+        {
+          "name": "modelName",
+          "type": "string"
+        },
+        {
+          "name": "refusalPhrase",
+          "type": "string"
+        },
+        {
+          "name": "maxLatencyMs",
+          "type": "number"
+        },
+        {
+          "name": "retrievalConfigVersionId",
+          "type": "string"
+        }
+      ]
+    }
+  },
+  "call": {
+    "method": "POST",
+    "url": "http://127.0.0.1:5678/webhook/consulta-ia",
+    "sendHeaders": true,
+    "headerParameters": {
+      "parameters": [
+        {
+          "name": "Authorization",
+          "value": "={{ $json.authorization }}"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "X-Request-Id",
+          "value": "={{ $json.run_id }}"
+        }
+      ]
+    },
+    "sendBody": true,
+    "contentType": "json",
+    "specifyBody": "json",
+    "jsonBody": "={{ JSON.stringify(Object.assign({ question: $json.question }, $json.prompt_version_id ? { promptVersionId: $json.prompt_version_id } : {}, $('Trigger').first().json.retrievalConfigVersionId ? { retrievalConfigVersionId: $('Trigger').first().json.retrievalConfigVersionId } : {})) }}",
+    "options": {
+      "timeout": 120000,
+      "response": {
+        "response": {
+          "fullResponse": true,
+          "neverError": true
+        }
+      }
+    }
+  },
+  "carregarQuery": "=SELECT c.id, c.code, c.name, c.group_name, c.test_type, c.category_name, c.subcategory_name,\n  c.expected_document_id, c.expected_document_ids, c.question, c.expected_answer,\n  c.required_words, c.forbidden_words, c.required_source_document_id, c.min_score,\n  c.expect_no_answer, c.notes, c.status, c.version, c.depends_on_missing_docs,\n  '{{ $json.runId }}'::text AS run_id,\n  '{{ String($json.authorization || \"\").replace(/'/g, \"''\") }}'::text AS authorization,\n  COALESCE(\n    NULLIF('{{ String($json.promptVersion || \"\").replace(/'/g, \"''\") }}', ''),\n    CASE WHEN pv.id IS NOT NULL THEN pv.prompt_code || '@v' || pv.version_number || ':' || substring(pv.content_hash from 1 for 12) END,\n    (SELECT value FROM app_secrets WHERE key='ai_eval_prompt_version' LIMIT 1),\n    'unknown'\n  ) AS prompt_version,\n  pv.id AS prompt_version_id,\n  COALESCE(NULLIF('{{ String($json.modelName || \"\").replace(/'/g, \"''\") }}', ''), (SELECT value FROM app_secrets WHERE key='ai_eval_model_name' LIMIT 1), 'unknown') AS model_name,\n  COALESCE(NULLIF('{{ String($json.refusalPhrase || \"\").replace(/'/g, \"''\") }}', ''), (SELECT value FROM app_secrets WHERE key='ai_eval_refusal_phrase' LIMIT 1), 'Não encontrei essa informação na base documental disponível.') AS refusal_phrase,\n  COALESCE(NULLIF('{{ $json.maxLatencyMs || \"\" }}', '')::int, (SELECT value::int FROM app_secrets WHERE key='ai_eval_max_latency_ms' LIMIT 1), 30000) AS max_latency_ms,\n  dv.extraction_method, dv.ocr_quality_grade, dv.ocr_status, ds.sheet_name, dc.headers_json\nFROM ai_test_cases c\nLEFT JOIN LATERAL (\n  SELECT extraction_method, ocr_quality_grade, ocr_status\n  FROM document_versions\n  WHERE document_id = c.expected_document_id AND status = 'CURRENT'\n  ORDER BY version_number DESC NULLS LAST LIMIT 1\n) dv ON true\nLEFT JOIN LATERAL (\n  SELECT sheet_name FROM document_sheets WHERE document_id = c.expected_document_id ORDER BY sheet_index LIMIT 1\n) ds ON true\nLEFT JOIN LATERAL (\n  SELECT headers_json FROM document_chunks WHERE document_id = c.expected_document_id AND chunk_kind = 'tabular' ORDER BY chunk_order LIMIT 1\n) dc ON true\nLEFT JOIN LATERAL (\n  SELECT v.id, d.code AS prompt_code, v.version_number, v.content_hash\n  FROM ai_prompt_versions v\n  JOIN ai_prompt_definitions d ON d.id = v.prompt_definition_id\n  WHERE NULLIF('{{ String($json.promptVersionId || \"\").replace(/'/g, \"''\") }}', '') IS NOT NULL\n    AND v.id = NULLIF('{{ String($json.promptVersionId || \"\").replace(/'/g, \"''\") }}', '')::uuid\n) pv ON true\nWHERE c.id = '{{ $json.caseId }}'::uuid\nLIMIT 1;"
+}

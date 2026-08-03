@@ -1,0 +1,76 @@
+{
+  "trigger": {
+    "inputSource": "workflowInputs",
+    "workflowInputs": {
+      "values": [
+        {
+          "name": "authorization",
+          "type": "string"
+        },
+        {
+          "name": "triggeredBy",
+          "type": "string"
+        },
+        {
+          "name": "groupName",
+          "type": "string"
+        },
+        {
+          "name": "includeMissingDocs",
+          "type": "boolean"
+        },
+        {
+          "name": "caseId",
+          "type": "string"
+        },
+        {
+          "name": "caseCode",
+          "type": "string"
+        },
+        {
+          "name": "triggerMode",
+          "type": "string"
+        },
+        {
+          "name": "promptVersionId",
+          "type": "string"
+        },
+        {
+          "name": "retrievalConfigVersionId",
+          "type": "string"
+        }
+      ]
+    }
+  },
+  "execCaso": {
+    "mode": "once",
+    "options": {
+      "waitForSubWorkflow": true
+    },
+    "source": "database",
+    "workflowId": {
+      "__rl": true,
+      "mode": "id",
+      "value": "KdpEmEGHNlPICOa4",
+      "cachedResultName": "IA - EXECUTAR TESTE"
+    },
+    "workflowInputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "runId": "={{ $('Inserir run').first().json.id }}",
+        "caseId": "={{ $json.id }}",
+        "authorization": "={{ $('Trigger').first().json.authorization }}",
+        "promptVersion": "={{ $('Inserir run').first().json.prompt_version }}",
+        "promptVersionId": "={{ $('Inserir run').first().json.prompt_version_id || '' }}",
+        "modelName": "={{ $('Inserir run').first().json.model_name }}",
+        "refusalPhrase": "",
+        "maxLatencyMs": "={{ 0 }}",
+        "retrievalConfigVersionId": "={{ $('Trigger').first().json.retrievalConfigVersionId || '' }}"
+      }
+    }
+  },
+  "inserirRun": {
+    "type": "n8n-nodes-base.postgres",
+    "query": "=INSERT INTO ai_test_runs (status, triggered_by, trigger_mode, prompt_version, model_name, ocr_engine_version, tabular_engine_version, prompt_version_id, embedding_model, embedding_version, retrieval_mode, retrieval_config_version, retrieval_config_version_id, mode_override_used)\nSELECT\n  'STARTED',\n  NULLIF('{{ $json.triggeredBy || \"\" }}', '')::uuid,\n  '{{ String($json.triggerMode || \"dataset\").replace(/'/g, \"''\") }}',\n  COALESCE(\n    CASE WHEN pv.id IS NOT NULL THEN pv.prompt_code || '@v' || pv.version_number || ':' || substring(pv.content_hash from 1 for 12) END,\n    (SELECT value FROM app_secrets WHERE key='ai_eval_prompt_version' LIMIT 1),\n    'unknown'\n  ),\n  COALESCE((SELECT value FROM app_secrets WHERE key='ai_eval_model_name' LIMIT 1), 'unknown'),\n  COALESCE((SELECT value FROM app_secrets WHERE key='ai_eval_ocr_engine_version' LIMIT 1), 'n/a'),\n  COALESCE((SELECT value FROM app_secrets WHERE key='ai_eval_tabular_engine_version' LIMIT 1), 'n/a'),\n  pv.id,\n  COALESCE((SELECT value FROM app_secrets WHERE key='embedding_model' LIMIT 1), 'unknown'),\n  COALESCE((SELECT value FROM app_secrets WHERE key='embedding_engine_version' LIMIT 1), 'unknown'),\n  CASE WHEN NULLIF(TRIM('{{ $json.retrievalConfigVersionId || \"\" }}'),'') IS NOT NULL THEN (SELECT mode FROM ai_retrieval_config_versions WHERE id=NULLIF(TRIM('{{ $json.retrievalConfigVersionId || \"\" }}'),'')::uuid) ELSE COALESCE((SELECT value FROM app_secrets WHERE key='retrieval_active_mode' LIMIT 1), 'HYBRID') END,\n  CASE WH"
+  }
+}

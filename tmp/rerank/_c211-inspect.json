@@ -1,0 +1,315 @@
+{
+  "at": "2026-08-03T22:24:48.551Z",
+  "workflows": [
+    {
+      "id": "8EXk5RkFW5cxnenL",
+      "name": "Consulta IA",
+      "active": true,
+      "activeVersionId": "a6957f72-0e75-480f-9b93-9235ec07cf52"
+    },
+    {
+      "id": "1uITQcJ5jSNXErOM",
+      "name": "IA - CALCULAR MÉTRICAS",
+      "active": true,
+      "activeVersionId": "78c1e762-8030-4745-81bd-c402a35b3023"
+    },
+    {
+      "id": "70fd9924711b45f1",
+      "name": "IA - CARREGAR CONTEXT CONFIG",
+      "active": true,
+      "activeVersionId": "fd7dec09-f540-4a94-9129-e171d7b76abc"
+    },
+    {
+      "id": "12t0Ol6zWQJgAKPC",
+      "name": "IA - EXECUTAR DATASET",
+      "active": true,
+      "activeVersionId": "96c73175-194e-4545-a2bb-2a30f32aff55"
+    },
+    {
+      "id": "KdpEmEGHNlPICOa4",
+      "name": "IA - EXECUTAR TESTE",
+      "active": true,
+      "activeVersionId": "cf853c27-7f7e-481c-9fe8-8490e6c637a4"
+    },
+    {
+      "id": "e95a92295d7c4deb",
+      "name": "IA - GERENCIAR JANELA DE CONTEXTO",
+      "active": true,
+      "activeVersionId": "b5c9b776-6572-408e-bd20-14a1d8bc3f4c"
+    },
+    {
+      "id": "0289408b8d774379",
+      "name": "IA - VALIDAR CONTEXT CONFIG",
+      "active": true,
+      "activeVersionId": "e7a977b0-195a-4c44-94eb-a71c4a1b48eb"
+    },
+    {
+      "id": "5fbdabb413c3405d",
+      "name": "SYSTEM - AI CONTEXT CREATE",
+      "active": true,
+      "activeVersionId": "6b8ec19e-8fb8-413e-8ccb-fafa360488fb"
+    },
+    {
+      "id": "e4c0829578124470",
+      "name": "SYSTEM - AI CONTEXT DETAIL",
+      "active": true,
+      "activeVersionId": "1918dd5c-d7f4-4b7a-88e1-5f107d09375b"
+    },
+    {
+      "id": "7995896871ed4947",
+      "name": "SYSTEM - AI CONTEXT LIST",
+      "active": true,
+      "activeVersionId": "86e9d9ab-277e-4f7b-8f50-b1ec350eff30"
+    },
+    {
+      "id": "f83073bfb4154115",
+      "name": "SYSTEM - AI CONTEXT PUBLISH",
+      "active": true,
+      "activeVersionId": "8e25ea0c-69d8-4d41-9100-c6659bf93463"
+    },
+    {
+      "id": "708bf587fb73467f",
+      "name": "SYSTEM - AI CONTEXT ROLLBACK",
+      "active": true,
+      "activeVersionId": "a0cd0651-0a5a-4e99-b154-22f1a71d7c6a"
+    },
+    {
+      "id": "68acc8f5d57d4fac",
+      "name": "SYSTEM - AI CONTEXT UPDATE",
+      "active": true,
+      "activeVersionId": "6033012c-74fc-4472-babf-e5f79443bbae"
+    },
+    {
+      "id": "5b6dcd491b8d449e",
+      "name": "SYSTEM - AI CONTEXT VALIDATE",
+      "active": true,
+      "activeVersionId": "3e52eb2e-79c8-47ec-84f3-c3ec480c03f4"
+    }
+  ],
+  "contextVersions": [
+    {
+      "id": "3007bd85-782e-4057-bd48-63e7cb060d73",
+      "version_label": "context-v1",
+      "mode": "LEGACY",
+      "status": "PUBLISHED",
+      "content_hash": "80caa9cafd156e337d82946c19421cac",
+      "validation_run_id": null,
+      "validation_score": null
+    },
+    {
+      "id": "7587c86b-8db3-44c0-9881-1e996abda89a",
+      "version_label": "context-budget-v1",
+      "mode": "BUDGETED",
+      "status": "DRAFT",
+      "content_hash": "9e7ec642420d2209915d6794bc2c50fa",
+      "validation_run_id": null,
+      "validation_score": null
+    }
+  ],
+  "retrievalVersions": [
+    {
+      "version_label": "hybrid-rerank-v1",
+      "mode": "HYBRID_RERANK",
+      "status": "DRAFT"
+    },
+    {
+      "version_label": "hybrid-v1",
+      "mode": "HYBRID",
+      "status": "PUBLISHED"
+    }
+  ],
+  "contextColumns": [
+    {
+      "column_name": "avg_available_context_tokens"
+    },
+    {
+      "column_name": "avg_context_build_latency_ms"
+    },
+    {
+      "column_name": "avg_context_utilization_rate"
+    },
+    {
+      "column_name": "avg_estimated_context_tokens"
+    },
+    {
+      "column_name": "context_fallback_count"
+    },
+    {
+      "column_name": "context_overflow_count"
+    },
+    {
+      "column_name": "empty_context_count"
+    },
+    {
+      "column_name": "insufficient_context_count"
+    },
+    {
+      "column_name": "available_context_tokens"
+    },
+    {
+      "column_name": "context_build_latency_ms"
+    },
+    {
+      "column_name": "context_config_version"
+    },
+    {
+      "column_name": "context_config_version_id"
+    },
+    {
+      "column_name": "context_fallback_used"
+    },
+    {
+      "column_name": "context_mode"
+    },
+    {
+      "column_name": "context_utilization_rate"
+    },
+    {
+      "column_name": "estimated_context_tokens"
+    },
+    {
+      "column_name": "final_context_count"
+    },
+    {
+      "column_name": "insufficient_context"
+    },
+    {
+      "column_name": "model_context_limit"
+    },
+    {
+      "column_name": "relevant_context_rate"
+    },
+    {
+      "column_name": "context_config_version_id"
+    },
+    {
+      "column_name": "context_mode_override_used"
+    }
+  ],
+  "wiring_IA - EXECUTAR TESTE": {
+    "id": "KdpEmEGHNlPICOa4",
+    "hasContextConfigVersionId": true,
+    "hasContextOverride": false,
+    "hasContextMeta": true,
+    "nodeNames": [
+      "Trigger",
+      "Carregar caso",
+      "Chamar Consulta IA",
+      "Avaliar e montar insert",
+      "Inserir resultado",
+      "Normalizar saída"
+    ]
+  },
+  "wiring_IA - EXECUTAR DATASET": {
+    "id": "12t0Ol6zWQJgAKPC",
+    "hasContextConfigVersionId": false,
+    "hasContextOverride": false,
+    "hasContextMeta": false,
+    "nodeNames": [
+      "Trigger",
+      "Inserir run",
+      "Montar filtro de casos",
+      "Carregar casos",
+      "Calcular métricas",
+      "Gerar relatório",
+      "Carregar resultados finais",
+      "Montar atualização do run",
+      "Atualizar run",
+      "Montar resposta",
+      "Executar caso",
+      "Loop casos"
+    ]
+  },
+  "wiring_POST System AI Eval Run Dataset": {
+    "id": "wTH2YV6pIlhzWDiY",
+    "hasContextConfigVersionId": false,
+    "hasContextOverride": false,
+    "hasContextMeta": false,
+    "nodeNames": [
+      "Webhook",
+      "Normalizar request",
+      "Validar auth",
+      "Auth ok?",
+      "Validar permissão",
+      "Permissão ok?",
+      "Restaurar request",
+      "Auditar início",
+      "Executar dataset",
+      "Montar resposta admin",
+      "Preparar sucesso",
+      "Auditar fim",
+      "Auditar métricas",
+      "Repassar resposta",
+      "Respond to Webhook",
+      "Preparar erro 403",
+      "Respond 403",
+      "Preparar erro 401",
+      "Respond 401"
+    ]
+  },
+  "wiring_POST System AI Eval Run Case": {
+    "id": "qVH5qtBf8IY32uiH",
+    "hasContextConfigVersionId": false,
+    "hasContextOverride": false,
+    "hasContextMeta": false,
+    "nodeNames": [
+      "Webhook",
+      "Normalizar request",
+      "Validar auth",
+      "Auth ok?",
+      "Validar permissão",
+      "Permissão ok?",
+      "Restaurar request",
+      "Auditar início",
+      "Executar dataset",
+      "Montar resposta admin",
+      "Preparar sucesso",
+      "Auditar teste",
+      "Auditar métricas",
+      "Repassar resposta",
+      "Respond to Webhook",
+      "Preparar erro 403",
+      "Respond 403",
+      "Preparar erro 401",
+      "Respond 401"
+    ]
+  },
+  "wiring_Consulta IA": {
+    "id": "8EXk5RkFW5cxnenL",
+    "hasContextConfigVersionId": true,
+    "hasContextOverride": true,
+    "hasContextMeta": true,
+    "nodeNames": [
+      "Webhook",
+      "Classificar pergunta",
+      "Message a model",
+      "Respond to Webhook",
+      "Buscar categorias e subcategorias",
+      "Validar auth",
+      "Auth ok?",
+      "Respond 401",
+      "Validar permissão",
+      "Permissão ok?",
+      "Respond 403",
+      "Restaurar request",
+      "Normalizar request",
+      "Montar resposta",
+      "Preparar sucesso",
+      "Preparar erro 401",
+      "Preparar erro 403",
+      "Registrar auditoria sucesso",
+      "Registrar auditoria 401",
+      "Registrar auditoria 403",
+      "Carregar prompt ativo",
+      "Aplicar prompt carregado",
+      "IA - RECUPERAR CONTEXTO",
+      "Aplicar contexto recuperado",
+      "IA - GERENCIAR JANELA DE CONTEXTO",
+      "Aplicar janela de contexto"
+    ]
+  },
+  "validateHasUnknown": true,
+  "validateHasBoolean": true,
+  "validateLen": 2814,
+  "drift": []
+}

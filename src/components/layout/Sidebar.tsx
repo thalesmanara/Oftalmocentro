@@ -13,6 +13,7 @@ import {
   ScrollText,
   Database,
   SlidersHorizontal,
+  Layers,
 } from 'lucide-react'
 import { useSettings } from '@/hooks/useSettings'
 import { useAuth } from '@/hooks/useAuth'
@@ -69,6 +70,12 @@ const navGroups: NavGroup[] = [
         to: '/ia/retrieval',
         label: 'Retrieval / Re-ranking',
         icon: SlidersHorizontal,
+        permission: 'editar_configuracoes',
+      },
+      {
+        to: '/ia/contexto',
+        label: 'Janela de Contexto',
+        icon: Layers,
         permission: 'editar_configuracoes',
       },
       {

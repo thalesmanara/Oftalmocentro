@@ -1,0 +1,1003 @@
+{
+  "at": "2026-08-03T22:41:07.130Z",
+  "tests": [
+    {
+      "name": "login",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "Create DRAFT",
+      "pass": false,
+      "detail": {
+        "status": 200,
+        "keys": []
+      }
+    },
+    {
+      "name": "Smoke LEGACY",
+      "pass": false,
+      "detail": {
+        "caseCode": "TC-053",
+        "status": 200,
+        "runId": "884ae130-d060-4100-a52e-64cf9710a0b8",
+        "runStatus": "FAILED",
+        "results": [
+          {
+            "id": "e8e29522-f9cb-4cac-b98d-15528b4073a2",
+            "runId": "884ae130-d060-4100-a52e-64cf9710a0b8",
+            "caseId": "1e040f78-0846-4bde-abbf-4a84694e9af5",
+            "caseCode": "TC-053",
+            "question": "Quem aparece na relação de funcionários em Excel?",
+            "answer": "A relação de funcionários em Excel, referente ao quadro de enfermagem do OFTALMOCENTRO UBERABA LTDA, contém os seguintes nomes e informações:\n\n- BARBARA APARECIDA MUNIZ DE LIMA, Técnica em Enfermagem, CPF 120.943.006-17, Registro COREN 2246508, Setor: Centro Cirúrgico/Exames/CME\n- BIANCA KATHEREIN FREITAS SILVA, Enfermeira, CPF 099.446.406-11, Registro COREN 795377, Setor: Centro Cirúrgico/Exames/CME\n- DAYANA SENE VIEIRA AS SILVA, Técnica de Enfermagem, CPF 079.209.996-69, Registro COREN 646,173, Setor: Centro Cirúrgico/Exames/CME\n- JORDANA BORGES, Enfermeira, CPF 075.482.896-42, Registro COREN 493,608, Responsável Técnica\n- MARIANA PEREIRA OLIVEIRA, Enfermeira, CPF 095.038.926-94, Registro COREN 271,377, Setor: Centro Cirúrgico/Exames/CME\n\nFonte: RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "durationMs": null,
+            "sources": [
+              {
+                "index": 1,
+                "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+                "categoryName": "ALVARÁS - LICENÇAS - ART",
+                "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+                "subcategoryName": "COREN"
+              },
+              {
+                "index": 2,
+                "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a",
+                "categoryName": "ENGENHARIA CLÍNICA",
+                "documentTitle": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+                "subcategoryName": "CONTRATOS DE MANUTENÇÃO"
+              },
+              {
+                "index": 3,
+                "documentId": "b533f80a-9b19-47c0-b4ab-210590846228",
+                "categoryName": "INFORMAÇÕES GERAIS",
+                "documentTitle": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+                "subcategoryName": "Texto Livre"
+              }
+            ],
+            "chunkRefs": [
+              {
+                "index": 1,
+                "chunkOrder": null,
+                "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+              },
+              {
+                "index": 2,
+                "chunkOrder": null,
+                "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+              },
+              {
+                "index": 3,
+                "chunkOrder": null,
+                "documentId": "b533f80a-9b19-47c0-b4ab-210590846228"
+              }
+            ],
+            "classification": {
+              "categoryId": "c2a99325-1439-4f1d-bec7-6f6006a0822f",
+              "categoryName": "TABELAS DE PREÇOS",
+              "subcategoryId": "8ff31a51-8732-48b3-9f40-742d4abe9b3e",
+              "subcategoryName": "Lente Intraocular Particular",
+              "categoryDescription": null,
+              "subcategoryDescription": null
+            },
+            "matchedDocument": true,
+            "matchedCategory": null,
+            "matchedSubcategory": null,
+            "requiredWordsHit": 1,
+            "requiredWordsTotal": 1,
+            "forbiddenWordsHit": 0,
+            "sourcesCorrect": true,
+            "sourcesIncorrect": false,
+            "isHallucination": false,
+            "isEmptyAnswer": false,
+            "isInternalError": false,
+            "score": 100,
+            "verdict": "PASS",
+            "scoreBreakdown": {
+              "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+              "latency": 10,
+              "sources": 30,
+              "weights": {
+                "latency": 10,
+                "sources": 30,
+                "document": 20,
+                "answerQuality": 40
+              },
+              "document": 20,
+              "answerQuality": 40
+            },
+            "extractionMethod": "tabular",
+            "ocrQualityGrade": null,
+            "ocrUsed": false,
+            "sheetName": "Planilha1",
+            "promptVersion": "AI_QUERY_MAIN@v1:9faa2e456571",
+            "promptVersionId": null,
+            "modelName": "gpt-4.1-mini",
+            "createdAt": "2026-08-03T22:41:16.222Z"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Smoke BUDGETED",
+      "pass": false,
+      "detail": {
+        "caseCode": "TC-053",
+        "status": 200,
+        "runId": "6337b795-15ea-4bbf-b909-4831568e867b",
+        "runStatus": "FAILED",
+        "results": [
+          {
+            "id": "2b518a7c-ec21-4c93-a3df-0d6f384254fd",
+            "runId": "6337b795-15ea-4bbf-b909-4831568e867b",
+            "caseId": "1e040f78-0846-4bde-abbf-4a84694e9af5",
+            "caseCode": "TC-053",
+            "question": "Quem aparece na relação de funcionários em Excel?",
+            "answer": "A relação de funcionários em Excel, referente ao quadro de enfermagem do OFTALMOCENTRO UBERABA LTDA, inclui os seguintes nomes e informações:\n\n- BARBARA APARECIDA MUNIZ DE LIMA, Técnica em Enfermagem, CPF 120.943.006-17, Registro COREN 2246508, Setor: Centro Cirúrgico/Exames/CME\n- BIANCA KATHEREIN FREITAS SILVA, Enfermeira, CPF 099.446.406-11, Registro COREN 795377, Setor: Centro Cirúrgico/Exames/CME\n- DAYANA SENE VIEIRA AS SILVA, Técnica de Enfermagem, CPF 079.209.996-69, Registro COREN 646,173, Setor: Centro Cirúrgico/Exames/CME\n- JORDANA BORGES, Enfermeira, CPF 075.482.896-42, Registro COREN 493,608, Responsável Técnica\n- MARIANA PEREIRA OLIVEIRA, Enfermeira, CPF 095.038.926-94, Registro COREN 271,377, Setor: Centro Cirúrgico/Exames/CME\n\nFonte: RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+            "durationMs": null,
+            "sources": [
+              {
+                "index": 1,
+                "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+                "categoryName": "ALVARÁS - LICENÇAS - ART",
+                "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+                "subcategoryName": "COREN"
+              },
+              {
+                "index": 2,
+                "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a",
+                "categoryName": "ENGENHARIA CLÍNICA",
+                "documentTitle": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+                "subcategoryName": "CONTRATOS DE MANUTENÇÃO"
+              },
+              {
+                "index": 3,
+                "documentId": "b533f80a-9b19-47c0-b4ab-210590846228",
+                "categoryName": "INFORMAÇÕES GERAIS",
+                "documentTitle": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+                "subcategoryName": "Texto Livre"
+              }
+            ],
+            "chunkRefs": [
+              {
+                "index": 1,
+                "chunkOrder": null,
+                "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+              },
+              {
+                "index": 2,
+                "chunkOrder": null,
+                "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+              },
+              {
+                "index": 3,
+                "chunkOrder": null,
+                "documentId": "b533f80a-9b19-47c0-b4ab-210590846228"
+              }
+            ],
+            "classification": {
+              "categoryId": "c2a99325-1439-4f1d-bec7-6f6006a0822f",
+              "categoryName": "TABELAS DE PREÇOS",
+              "subcategoryId": "8ff31a51-8732-48b3-9f40-742d4abe9b3e",
+              "subcategoryName": "Lente Intraocular Particular",
+              "categoryDescription": null,
+              "subcategoryDescription": null
+            },
+            "matchedDocument": true,
+            "matchedCategory": null,
+            "matchedSubcategory": null,
+            "requiredWordsHit": 1,
+            "requiredWordsTotal": 1,
+            "forbiddenWordsHit": 0,
+            "sourcesCorrect": true,
+            "sourcesIncorrect": false,
+            "isHallucination": false,
+            "isEmptyAnswer": false,
+            "isInternalError": false,
+            "score": 100,
+            "verdict": "PASS",
+            "scoreBreakdown": {
+              "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+              "latency": 10,
+              "sources": 30,
+              "weights": {
+                "latency": 10,
+                "sources": 30,
+                "document": 20,
+                "answerQuality": 40
+              },
+              "document": 20,
+              "answerQuality": 40
+            },
+            "extractionMethod": "tabular",
+            "ocrQualityGrade": null,
+            "ocrUsed": false,
+            "sheetName": "Planilha1",
+            "promptVersion": "AI_QUERY_MAIN@v1:9faa2e456571",
+            "promptVersionId": null,
+            "modelName": "gpt-4.1-mini",
+            "createdAt": "2026-08-03T22:41:22.976Z"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Métricas por caso",
+      "pass": true,
+      "detail": {
+        "context_mode": "LEGACY",
+        "estimated_context_tokens": 3161,
+        "included_chunk_count": 7,
+        "context_utilization_rate": "0.11296144087481685",
+        "relevant_context_rate": "0.3333333333333333",
+        "source_coverage": "1",
+        "redundancy_rate": "0",
+        "overflow_detected": false,
+        "empty_context": false,
+        "conflict_detected": false,
+        "conflict_type": "NO_CONFLICT",
+        "insufficient_context": false,
+        "context_fallback_used": false,
+        "score": "100.00",
+        "verdict": "PASS"
+      }
+    },
+    {
+      "name": "Conflito falso positivo reduzido (planilha)",
+      "pass": true,
+      "detail": {
+        "context_mode": "LEGACY",
+        "estimated_context_tokens": 3161,
+        "included_chunk_count": 7,
+        "context_utilization_rate": "0.11296144087481685",
+        "relevant_context_rate": "0.3333333333333333",
+        "source_coverage": "1",
+        "redundancy_rate": "0",
+        "overflow_detected": false,
+        "empty_context": false,
+        "conflict_detected": false,
+        "conflict_type": "NO_CONFLICT",
+        "insufficient_context": false,
+        "context_fallback_used": false,
+        "score": "100.00",
+        "verdict": "PASS"
+      }
+    },
+    {
+      "name": "A/B com resultados",
+      "pass": true,
+      "detail": {
+        "sumA": {
+          "n": 40,
+          "hall": 0,
+          "overflow": 0,
+          "empty": 0,
+          "insuff": 0,
+          "fallback": 0,
+          "conflicts": 8,
+          "passed": 36,
+          "failed": 4,
+          "scoreW": 3720,
+          "tokensW": 163682,
+          "utilW": 5.849809369826041,
+          "utilN": 40,
+          "avgScore": 93,
+          "avgTokens": 4092.05,
+          "avgUtil": 0.14624523424565103
+        },
+        "sumB": {
+          "n": 40,
+          "hall": 0,
+          "overflow": 0,
+          "empty": 0,
+          "insuff": 0,
+          "fallback": 0,
+          "conflicts": 8,
+          "passed": 36,
+          "failed": 4,
+          "scoreW": 3720,
+          "tokensW": 163682,
+          "utilW": 5.849809369826041,
+          "utilN": 40,
+          "avgScore": 93,
+          "avgTokens": 4092.05,
+          "avgUtil": 0.14624523424565103
+        },
+        "verdict": "NEUTRAL"
+      }
+    },
+    {
+      "name": "Compare",
+      "pass": true,
+      "detail": {
+        "verdict": "NEUTRAL",
+        "differences": {
+          "overallScore": 0,
+          "hallucinationCount": 0,
+          "avgDurationMs": 0,
+          "recallAtK": null,
+          "precisionAtK": null
+        }
+      }
+    },
+    {
+      "name": "Produção LEGACY",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "Retrieval HYBRID",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "Rerank DRAFT",
+      "pass": true,
+      "detail": null
+    }
+  ],
+  "ab": {
+    "smokeA": {
+      "caseCode": "TC-053",
+      "status": 200,
+      "runId": "884ae130-d060-4100-a52e-64cf9710a0b8",
+      "runStatus": "FAILED",
+      "results": [
+        {
+          "id": "e8e29522-f9cb-4cac-b98d-15528b4073a2",
+          "runId": "884ae130-d060-4100-a52e-64cf9710a0b8",
+          "caseId": "1e040f78-0846-4bde-abbf-4a84694e9af5",
+          "caseCode": "TC-053",
+          "question": "Quem aparece na relação de funcionários em Excel?",
+          "answer": "A relação de funcionários em Excel, referente ao quadro de enfermagem do OFTALMOCENTRO UBERABA LTDA, contém os seguintes nomes e informações:\n\n- BARBARA APARECIDA MUNIZ DE LIMA, Técnica em Enfermagem, CPF 120.943.006-17, Registro COREN 2246508, Setor: Centro Cirúrgico/Exames/CME\n- BIANCA KATHEREIN FREITAS SILVA, Enfermeira, CPF 099.446.406-11, Registro COREN 795377, Setor: Centro Cirúrgico/Exames/CME\n- DAYANA SENE VIEIRA AS SILVA, Técnica de Enfermagem, CPF 079.209.996-69, Registro COREN 646,173, Setor: Centro Cirúrgico/Exames/CME\n- JORDANA BORGES, Enfermeira, CPF 075.482.896-42, Registro COREN 493,608, Responsável Técnica\n- MARIANA PEREIRA OLIVEIRA, Enfermeira, CPF 095.038.926-94, Registro COREN 271,377, Setor: Centro Cirúrgico/Exames/CME\n\nFonte: RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+          "durationMs": null,
+          "sources": [
+            {
+              "index": 1,
+              "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+              "categoryName": "ALVARÁS - LICENÇAS - ART",
+              "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+              "subcategoryName": "COREN"
+            },
+            {
+              "index": 2,
+              "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a",
+              "categoryName": "ENGENHARIA CLÍNICA",
+              "documentTitle": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+              "subcategoryName": "CONTRATOS DE MANUTENÇÃO"
+            },
+            {
+              "index": 3,
+              "documentId": "b533f80a-9b19-47c0-b4ab-210590846228",
+              "categoryName": "INFORMAÇÕES GERAIS",
+              "documentTitle": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+              "subcategoryName": "Texto Livre"
+            }
+          ],
+          "chunkRefs": [
+            {
+              "index": 1,
+              "chunkOrder": null,
+              "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+            },
+            {
+              "index": 2,
+              "chunkOrder": null,
+              "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+            },
+            {
+              "index": 3,
+              "chunkOrder": null,
+              "documentId": "b533f80a-9b19-47c0-b4ab-210590846228"
+            }
+          ],
+          "classification": {
+            "categoryId": "c2a99325-1439-4f1d-bec7-6f6006a0822f",
+            "categoryName": "TABELAS DE PREÇOS",
+            "subcategoryId": "8ff31a51-8732-48b3-9f40-742d4abe9b3e",
+            "subcategoryName": "Lente Intraocular Particular",
+            "categoryDescription": null,
+            "subcategoryDescription": null
+          },
+          "matchedDocument": true,
+          "matchedCategory": null,
+          "matchedSubcategory": null,
+          "requiredWordsHit": 1,
+          "requiredWordsTotal": 1,
+          "forbiddenWordsHit": 0,
+          "sourcesCorrect": true,
+          "sourcesIncorrect": false,
+          "isHallucination": false,
+          "isEmptyAnswer": false,
+          "isInternalError": false,
+          "score": 100,
+          "verdict": "PASS",
+          "scoreBreakdown": {
+            "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+            "latency": 10,
+            "sources": 30,
+            "weights": {
+              "latency": 10,
+              "sources": 30,
+              "document": 20,
+              "answerQuality": 40
+            },
+            "document": 20,
+            "answerQuality": 40
+          },
+          "extractionMethod": "tabular",
+          "ocrQualityGrade": null,
+          "ocrUsed": false,
+          "sheetName": "Planilha1",
+          "promptVersion": "AI_QUERY_MAIN@v1:9faa2e456571",
+          "promptVersionId": null,
+          "modelName": "gpt-4.1-mini",
+          "createdAt": "2026-08-03T22:41:16.222Z"
+        }
+      ],
+      "metrics": [
+        {
+          "context_mode": "LEGACY",
+          "estimated_context_tokens": 3161,
+          "included_chunk_count": 7,
+          "context_utilization_rate": "0.11296144087481685",
+          "relevant_context_rate": "0.3333333333333333",
+          "source_coverage": "1",
+          "redundancy_rate": "0",
+          "overflow_detected": false,
+          "empty_context": false,
+          "conflict_detected": false,
+          "conflict_type": "NO_CONFLICT",
+          "insufficient_context": false,
+          "context_fallback_used": false,
+          "score": "100.00",
+          "verdict": "PASS"
+        }
+      ]
+    },
+    "smokeB": {
+      "caseCode": "TC-053",
+      "status": 200,
+      "runId": "6337b795-15ea-4bbf-b909-4831568e867b",
+      "runStatus": "FAILED",
+      "results": [
+        {
+          "id": "2b518a7c-ec21-4c93-a3df-0d6f384254fd",
+          "runId": "6337b795-15ea-4bbf-b909-4831568e867b",
+          "caseId": "1e040f78-0846-4bde-abbf-4a84694e9af5",
+          "caseCode": "TC-053",
+          "question": "Quem aparece na relação de funcionários em Excel?",
+          "answer": "A relação de funcionários em Excel, referente ao quadro de enfermagem do OFTALMOCENTRO UBERABA LTDA, inclui os seguintes nomes e informações:\n\n- BARBARA APARECIDA MUNIZ DE LIMA, Técnica em Enfermagem, CPF 120.943.006-17, Registro COREN 2246508, Setor: Centro Cirúrgico/Exames/CME\n- BIANCA KATHEREIN FREITAS SILVA, Enfermeira, CPF 099.446.406-11, Registro COREN 795377, Setor: Centro Cirúrgico/Exames/CME\n- DAYANA SENE VIEIRA AS SILVA, Técnica de Enfermagem, CPF 079.209.996-69, Registro COREN 646,173, Setor: Centro Cirúrgico/Exames/CME\n- JORDANA BORGES, Enfermeira, CPF 075.482.896-42, Registro COREN 493,608, Responsável Técnica\n- MARIANA PEREIRA OLIVEIRA, Enfermeira, CPF 095.038.926-94, Registro COREN 271,377, Setor: Centro Cirúrgico/Exames/CME\n\nFonte: RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+          "durationMs": null,
+          "sources": [
+            {
+              "index": 1,
+              "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+              "categoryName": "ALVARÁS - LICENÇAS - ART",
+              "documentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+              "subcategoryName": "COREN"
+            },
+            {
+              "index": 2,
+              "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a",
+              "categoryName": "ENGENHARIA CLÍNICA",
+              "documentTitle": "CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+              "subcategoryName": "CONTRATOS DE MANUTENÇÃO"
+            },
+            {
+              "index": 3,
+              "documentId": "b533f80a-9b19-47c0-b4ab-210590846228",
+              "categoryName": "INFORMAÇÕES GERAIS",
+              "documentTitle": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+              "subcategoryName": "Texto Livre"
+            }
+          ],
+          "chunkRefs": [
+            {
+              "index": 1,
+              "chunkOrder": null,
+              "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+            },
+            {
+              "index": 2,
+              "chunkOrder": null,
+              "documentId": "cd401398-9891-4259-9294-bdcb3be5a78a"
+            },
+            {
+              "index": 3,
+              "chunkOrder": null,
+              "documentId": "b533f80a-9b19-47c0-b4ab-210590846228"
+            }
+          ],
+          "classification": {
+            "categoryId": "c2a99325-1439-4f1d-bec7-6f6006a0822f",
+            "categoryName": "TABELAS DE PREÇOS",
+            "subcategoryId": "8ff31a51-8732-48b3-9f40-742d4abe9b3e",
+            "subcategoryName": "Lente Intraocular Particular",
+            "categoryDescription": null,
+            "subcategoryDescription": null
+          },
+          "matchedDocument": true,
+          "matchedCategory": null,
+          "matchedSubcategory": null,
+          "requiredWordsHit": 1,
+          "requiredWordsTotal": 1,
+          "forbiddenWordsHit": 0,
+          "sourcesCorrect": true,
+          "sourcesIncorrect": false,
+          "isHallucination": false,
+          "isEmptyAnswer": false,
+          "isInternalError": false,
+          "score": 100,
+          "verdict": "PASS",
+          "scoreBreakdown": {
+            "formula": "score = answerQuality(0-40) + sources(0-30) + document(0-20) + latency(0-10); PASS if score>=minScore && !hallucination",
+            "latency": 10,
+            "sources": 30,
+            "weights": {
+              "latency": 10,
+              "sources": 30,
+              "document": 20,
+              "answerQuality": 40
+            },
+            "document": 20,
+            "answerQuality": 40
+          },
+          "extractionMethod": "tabular",
+          "ocrQualityGrade": null,
+          "ocrUsed": false,
+          "sheetName": "Planilha1",
+          "promptVersion": "AI_QUERY_MAIN@v1:9faa2e456571",
+          "promptVersionId": null,
+          "modelName": "gpt-4.1-mini",
+          "createdAt": "2026-08-03T22:41:22.976Z"
+        }
+      ],
+      "metrics": [
+        {
+          "context_mode": "BUDGETED",
+          "estimated_context_tokens": 3161,
+          "included_chunk_count": 7,
+          "context_utilization_rate": "0.11296144087481685",
+          "relevant_context_rate": "0.3333333333333333",
+          "source_coverage": "1",
+          "redundancy_rate": "0",
+          "overflow_detected": false,
+          "empty_context": false,
+          "conflict_detected": false,
+          "conflict_type": "NO_CONFLICT",
+          "insufficient_context": false,
+          "context_fallback_used": false,
+          "score": "100.00",
+          "verdict": "PASS"
+        }
+      ]
+    },
+    "A": [
+      {
+        "group": "RH",
+        "status": 200,
+        "runId": "d1b6f719-6524-45d1-a007-e4c4c316bcb8",
+        "runStatus": "FAILED",
+        "total": 22,
+        "score": 89.55,
+        "hall": 0
+      },
+      {
+        "group": "Planilhas",
+        "status": 200,
+        "runId": "27cf2f00-e523-4e52-afb4-9d50384a31be",
+        "runStatus": "FAILED",
+        "total": 1,
+        "score": 100,
+        "hall": 0
+      },
+      {
+        "group": "Casos negativos",
+        "status": 200,
+        "runId": "775b9aed-a57e-4923-9e12-add9d9693036",
+        "runStatus": "FAILED",
+        "total": 3,
+        "score": 100,
+        "hall": 0
+      },
+      {
+        "group": "OCR",
+        "status": 200,
+        "runId": "6a637a46-1a37-43bb-8c17-2edbb0720a06",
+        "runStatus": "FAILED",
+        "total": 0,
+        "score": 0,
+        "hall": 0
+      },
+      {
+        "group": "Financeiro",
+        "status": 200,
+        "runId": "ead73797-8fbb-45d9-8109-59a00ef0b3f2",
+        "runStatus": "FAILED",
+        "total": 14,
+        "score": 96.43,
+        "hall": 0
+      }
+    ],
+    "B": [
+      {
+        "group": "RH",
+        "status": 200,
+        "runId": "3f1dec37-0442-4ed9-bf9e-59645a1e470f",
+        "runStatus": "FAILED",
+        "total": 22,
+        "score": 89.55,
+        "hall": 0
+      },
+      {
+        "group": "Planilhas",
+        "status": 200,
+        "runId": "65f45dc5-fe61-4299-9d07-733f1f3ba3e7",
+        "runStatus": "FAILED",
+        "total": 1,
+        "score": 100,
+        "hall": 0
+      },
+      {
+        "group": "Casos negativos",
+        "status": 200,
+        "runId": "aefda2a4-bee3-4e4f-9005-6f8200d4083b",
+        "runStatus": "FAILED",
+        "total": 3,
+        "score": 100,
+        "hall": 0
+      },
+      {
+        "group": "OCR",
+        "status": 200,
+        "runId": "fcc0ac33-98ee-4114-a2d4-2449db6e6a11",
+        "runStatus": "FAILED",
+        "total": 0,
+        "score": 0,
+        "hall": 0
+      },
+      {
+        "group": "Financeiro",
+        "status": 200,
+        "runId": "0f51aaa3-1456-4dd7-b3f0-facc05733cf7",
+        "runStatus": "FAILED",
+        "total": 14,
+        "score": 96.43,
+        "hall": 0
+      }
+    ],
+    "detailsA": [
+      {
+        "group": "RH",
+        "status": 200,
+        "runId": "d1b6f719-6524-45d1-a007-e4c4c316bcb8",
+        "runStatus": "FAILED",
+        "total": 22,
+        "score": 89.55,
+        "hall": 0,
+        "agg": {
+          "n": 22,
+          "avg_score": 89.54545454545455,
+          "hall": 0,
+          "avg_tokens": 4380.590909090909,
+          "avg_util": 0.156561644840259,
+          "avg_chunks": 10.636363636363637,
+          "avg_redundancy": 0,
+          "overflow": 0,
+          "empty_ctx": 0,
+          "insuff": 0,
+          "fallback": 0,
+          "conflicts": 2,
+          "passed": 19,
+          "failed": 3
+        }
+      },
+      {
+        "group": "Planilhas",
+        "status": 200,
+        "runId": "27cf2f00-e523-4e52-afb4-9d50384a31be",
+        "runStatus": "FAILED",
+        "total": 1,
+        "score": 100,
+        "hall": 0,
+        "agg": {
+          "n": 1,
+          "avg_score": 100,
+          "hall": 0,
+          "avg_tokens": 3161,
+          "avg_util": 0.11296144087481685,
+          "avg_chunks": 7,
+          "avg_redundancy": 0,
+          "overflow": 0,
+          "empty_ctx": 0,
+          "insuff": 0,
+          "fallback": 0,
+          "conflicts": 0,
+          "passed": 1,
+          "failed": 0
+        }
+      },
+      {
+        "group": "Casos negativos",
+        "status": 200,
+        "runId": "775b9aed-a57e-4923-9e12-add9d9693036",
+        "runStatus": "FAILED",
+        "total": 3,
+        "score": 100,
+        "hall": 0,
+        "agg": {
+          "n": 3,
+          "avg_score": 100,
+          "hall": 0,
+          "avg_tokens": 3455.6666666666665,
+          "avg_util": 0.12351067676996637,
+          "avg_chunks": 7.666666666666667,
+          "avg_redundancy": 0.05555555555555555,
+          "overflow": 0,
+          "empty_ctx": 0,
+          "insuff": 0,
+          "fallback": 0,
+          "conflicts": 0,
+          "passed": 3,
+          "failed": 0
+        }
+      },
+      {
+        "group": "OCR",
+        "status": 200,
+        "runId": "6a637a46-1a37-43bb-8c17-2edbb0720a06",
+        "runStatus": "FAILED",
+        "total": 0,
+        "score": 0,
+        "hall": 0,
+        "agg": {
+          "n": 0,
+          "avg_score": null,
+          "hall": null,
+          "avg_tokens": null,
+          "avg_util": null,
+          "avg_chunks": null,
+          "avg_redundancy": null,
+          "overflow": null,
+          "empty_ctx": null,
+          "insuff": null,
+          "fallback": null,
+          "conflicts": null,
+          "passed": null,
+          "failed": null
+        }
+      },
+      {
+        "group": "Financeiro",
+        "status": 200,
+        "runId": "ead73797-8fbb-45d9-8109-59a00ef0b3f2",
+        "runStatus": "FAILED",
+        "total": 14,
+        "score": 96.43,
+        "hall": 0,
+        "agg": {
+          "n": 14,
+          "avg_score": 96.42857142857143,
+          "hall": 0,
+          "avg_tokens": 3841.5,
+          "avg_util": 0.13728283658254478,
+          "avg_chunks": 8.142857142857142,
+          "avg_redundancy": 0.05357142857142857,
+          "overflow": 0,
+          "empty_ctx": 0,
+          "insuff": 0,
+          "fallback": 0,
+          "conflicts": 6,
+          "passed": 13,
+          "failed": 1
+        }
+      }
+    ],
+    "detailsB": [
+      {
+        "group": "RH",
+        "status": 200,
+        "runId": "3f1dec37-0442-4ed9-bf9e-59645a1e470f",
+        "runStatus": "FAILED",
+        "total": 22,
+        "score": 89.55,
+        "hall": 0,
+        "agg": {
+          "n": 22,
+          "avg_score": 89.54545454545455,
+          "hall": 0,
+          "avg_tokens": 4380.590909090909,
+          "avg_util": 0.156561644840259,
+          "avg_chunks": 10.636363636363637,
+          "avg_redundancy": 0,
+          "overflow": 0,
+          "empty_ctx": 0,
+          "insuff": 0,
+          "fallback": 0,
+          "conflicts": 2,
+          "passed": 19,
+          "failed": 3
+        }
+      },
+      {
+        "group": "Planilhas",
+        "status": 200,
+        "runId": "65f45dc5-fe61-4299-9d07-733f1f3ba3e7",
+        "runStatus": "FAILED",
+        "total": 1,
+        "score": 100,
+        "hall": 0,
+        "agg": {
+          "n": 1,
+          "avg_score": 100,
+          "hall": 0,
+          "avg_tokens": 3161,
+          "avg_util": 0.11296144087481685,
+          "avg_chunks": 7,
+          "avg_redundancy": 0,
+          "overflow": 0,
+          "empty_ctx": 0,
+          "insuff": 0,
+          "fallback": 0,
+          "conflicts": 0,
+          "passed": 1,
+          "failed": 0
+        }
+      },
+      {
+        "group": "Casos negativos",
+        "status": 200,
+        "runId": "aefda2a4-bee3-4e4f-9005-6f8200d4083b",
+        "runStatus": "FAILED",
+        "total": 3,
+        "score": 100,
+        "hall": 0,
+        "agg": {
+          "n": 3,
+          "avg_score": 100,
+          "hall": 0,
+          "avg_tokens": 3455.6666666666665,
+          "avg_util": 0.12351067676996637,
+          "avg_chunks": 7.666666666666667,
+          "avg_redundancy": 0.05555555555555555,
+          "overflow": 0,
+          "empty_ctx": 0,
+          "insuff": 0,
+          "fallback": 0,
+          "conflicts": 0,
+          "passed": 3,
+          "failed": 0
+        }
+      },
+      {
+        "group": "OCR",
+        "status": 200,
+        "runId": "fcc0ac33-98ee-4114-a2d4-2449db6e6a11",
+        "runStatus": "FAILED",
+        "total": 0,
+        "score": 0,
+        "hall": 0,
+        "agg": {
+          "n": 0,
+          "avg_score": null,
+          "hall": null,
+          "avg_tokens": null,
+          "avg_util": null,
+          "avg_chunks": null,
+          "avg_redundancy": null,
+          "overflow": null,
+          "empty_ctx": null,
+          "insuff": null,
+          "fallback": null,
+          "conflicts": null,
+          "passed": null,
+          "failed": null
+        }
+      },
+      {
+        "group": "Financeiro",
+        "status": 200,
+        "runId": "0f51aaa3-1456-4dd7-b3f0-facc05733cf7",
+        "runStatus": "FAILED",
+        "total": 14,
+        "score": 96.43,
+        "hall": 0,
+        "agg": {
+          "n": 14,
+          "avg_score": 96.42857142857143,
+          "hall": 0,
+          "avg_tokens": 3841.5,
+          "avg_util": 0.13728283658254478,
+          "avg_chunks": 8.142857142857142,
+          "avg_redundancy": 0.05357142857142857,
+          "overflow": 0,
+          "empty_ctx": 0,
+          "insuff": 0,
+          "fallback": 0,
+          "conflicts": 6,
+          "passed": 13,
+          "failed": 1
+        }
+      }
+    ],
+    "sumA": {
+      "n": 40,
+      "hall": 0,
+      "overflow": 0,
+      "empty": 0,
+      "insuff": 0,
+      "fallback": 0,
+      "conflicts": 8,
+      "passed": 36,
+      "failed": 4,
+      "scoreW": 3720,
+      "tokensW": 163682,
+      "utilW": 5.849809369826041,
+      "utilN": 40,
+      "avgScore": 93,
+      "avgTokens": 4092.05,
+      "avgUtil": 0.14624523424565103
+    },
+    "sumB": {
+      "n": 40,
+      "hall": 0,
+      "overflow": 0,
+      "empty": 0,
+      "insuff": 0,
+      "fallback": 0,
+      "conflicts": 8,
+      "passed": 36,
+      "failed": 4,
+      "scoreW": 3720,
+      "tokensW": 163682,
+      "utilW": 5.849809369826041,
+      "utilN": 40,
+      "avgScore": 93,
+      "avgTokens": 4092.05,
+      "avgUtil": 0.14624523424565103
+    },
+    "verdict": "NEUTRAL",
+    "publishRecommendation": "NÃO PUBLICAR automaticamente — manter DRAFT; critérios de qualidade ok no subset, mas publicação exige aprovação explícita."
+  },
+  "admin": {},
+  "production": {
+    "secrets": [
+      {
+        "key": "retrieval_active_mode",
+        "value": "HYBRID"
+      },
+      {
+        "key": "retrieval_active_version",
+        "value": "hybrid-v1"
+      },
+      {
+        "key": "retrieval_config_code",
+        "value": "AI_QUERY_RETRIEVAL"
+      }
+    ],
+    "context": [
+      {
+        "version_label": "context-v1",
+        "mode": "LEGACY",
+        "status": "PUBLISHED"
+      },
+      {
+        "version_label": "context-budget-v1",
+        "mode": "BUDGETED",
+        "status": "DRAFT"
+      }
+    ],
+    "retrieval": [
+      {
+        "version_label": "hybrid-rerank-v1",
+        "mode": "HYBRID_RERANK",
+        "status": "DRAFT"
+      },
+      {
+        "version_label": "hybrid-v1",
+        "mode": "HYBRID",
+        "status": "PUBLISHED"
+      }
+    ]
+  }
+}
