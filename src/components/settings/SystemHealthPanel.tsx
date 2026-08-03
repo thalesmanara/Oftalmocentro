@@ -23,6 +23,7 @@ const COMPONENT_LABELS: Record<string, string> = {
   retrieval: 'Retrieval / Re-ranking',
   retrievalPipeline: 'Pipeline de retrieval',
   contextWindow: 'Janela de contexto',
+  semanticCache: 'Cache semântico',
 }
 
 function statusLabel(status: UiState): string {
@@ -159,6 +160,23 @@ function componentDetails(key: string, component: HealthComponent): string {
     if (typeof cw.avgIncludedChunks === 'number') parts.push(`${cw.avgIncludedChunks} chunks`)
     if (typeof cw.fallbackCount7d === 'number') parts.push(`${cw.fallbackCount7d} fallbacks/7d`)
     if (typeof cw.draftCount === 'number') parts.push(`${cw.draftCount} drafts`)
+  }
+  if (key === 'semanticCache') {
+    const sc = component as HealthComponent & {
+      activeMode?: string
+      hitRate7d?: number | null
+      entryCount?: number
+      validCount?: number
+      draftCount?: number
+      qdrantIndexAvailable?: boolean
+    }
+    if (component.activeVersion) parts.push(String(component.activeVersion))
+    if (sc.activeMode) parts.push(String(sc.activeMode))
+    if (typeof sc.hitRate7d === 'number') parts.push(`${Math.round(sc.hitRate7d * 100)}% hit/7d`)
+    if (typeof sc.validCount === 'number') parts.push(`${sc.validCount} válidas`)
+    if (typeof sc.entryCount === 'number') parts.push(`${sc.entryCount} entradas`)
+    if (typeof sc.draftCount === 'number') parts.push(`${sc.draftCount} drafts`)
+    if (sc.qdrantIndexAvailable === false) parts.push('índice Qdrant off')
   }
   return parts.join(' · ')
 }

@@ -1,0 +1,11 @@
+{
+  "detail": "5caeabbe-efb7-4063-ba0c-7779b8407477",
+  "create": "fa66611e-3f68-4bb9-bbfd-6479cc39f2f1",
+  "validate": "1c2f994d-1d9e-44f4-9a73-b53fe759c710",
+  "publish": "75143c63-f1c1-4ff5-89ae-aba20e4269d2",
+  "rollback": "af1de878-1ac0-4203-9173-897490f86a0e",
+  "invalidate": "3989fc3a-5578-4a0e-923c-f80285a4bc05",
+  "cleanup": "6bed7ba6-ede2-4ba4-94ae-9337409aed47",
+  "compare": "ea80c13a-212f-4c6d-adfe-9e7889ee4a6c",
+  "update": "85f29cd0-fa45-46c5-a3bf-cae27e69e4e1"
+}

@@ -1,0 +1,345 @@
+{
+  "at": "2026-08-03T23:54:58.792Z",
+  "tests": [
+    {
+      "name": "normalize exact/normalized",
+      "pass": true,
+      "detail": {
+        "a": "qual o cpf da bianca",
+        "b": "qual é o cpf da bianca",
+        "c": "cpf bianca"
+      }
+    },
+    {
+      "name": "sensitive CPF",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "validate ok",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "validate bad mode",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "validate ttl string",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "validate conflict true",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "scope hash stable",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "401 list",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "code": 401
+      }
+    },
+    {
+      "name": "list 200",
+      "pass": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "list SHADOW",
+      "pass": true,
+      "detail": {
+        "id": "d6da4379-ce37-48d1-8547-36f466ab3a81",
+        "code": "AI_QUERY_CACHE",
+        "stats": {
+          "entryCount": 1,
+          "validCount": 1,
+          "expiredCount": 0,
+          "invalidatedCount": 0
+        },
+        "active": true,
+        "purpose": "AI_QUERY_CACHE",
+        "createdAt": "2026-08-03T23:41:05.782599+00:00",
+        "updatedAt": "2026-08-03T23:41:05.782599+00:00",
+        "activeMode": "SHADOW",
+        "draftCount": 0,
+        "description": "Cache semântico da Consulta IA",
+        "publishedVersion": {
+          "id": "d253bb86-e5df-4bfb-a581-18834e61b03d",
+          "mode": "SHADOW",
+          "contentHash": "seed-cache-shadow-v1",
+          "publishedAt": "2026-08-03T23:41:05.782599+00:00",
+          "versionLabel": "cache-shadow-v1",
+          "configuration": {
+            "mode": "SHADOW",
+            "scopeMode": "PERMISSION_SET",
+            "maxEntries": 5000,
+            "ttlSeconds": 86400,
+            "exactEnabled": true,
+            "semanticEnabled": false,
+            "qdrantCollection": "oftalmocentro_query_cache",
+            "requireSameModel": true,
+            "normalizedEnabled": true,
+            "semanticThreshold": 0.92,
+            "cacheSchemaVersion": "v1",
+            "maxEntriesPerScope": 500,
+            "requireSameSources": true,
+            "cacheNegativeAnswers": false,
+            "cacheSensitiveQueries": false,
+            "cacheConflictResponses": false,
+            "cacheInsufficientContext": false,
+            "requireSamePromptVersion": true,
+            "requireSameContextVersion": true,
+            "requireSameDocumentVersions": true,
+            "requireSameRetrievalVersion": true
+          },
+          "versionNumber": 1,
+          "validationScore": null
+        },
+        "activeVersionLabel": "cache-shadow-v1"
+      }
+    },
+    {
+      "name": "detail 200",
+      "pass": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "validate rejects bad ttl",
+      "pass": true,
+      "detail": {
+        "status": 400
+      }
+    },
+    {
+      "name": "validate ok http",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "goodOk": true
+      }
+    },
+    {
+      "name": "consulta 200",
+      "pass": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "shadow not answerFromCache",
+      "pass": true,
+      "detail": {
+        "mode": "SHADOW",
+        "configVersion": "cache-shadow-v1",
+        "configVersionId": "d253bb86-e5df-4bfb-a581-18834e61b03d",
+        "lookupPerformed": true,
+        "hit": false,
+        "hitType": null,
+        "missReason": "SHADOW_MODE",
+        "lookupLatencyMs": 12,
+        "semanticSimilarity": null,
+        "entryAgeSeconds": 23,
+        "scopeHashMatched": true,
+        "sourceFingerprintMatched": true,
+        "answerFromCache": false,
+        "shadowCandidateFound": true,
+        "shadowAgreement": false,
+        "estimatedTokensSaved": 0,
+        "estimatedCostSaved": 0,
+        "estimatedLatencySavedMs": 0,
+        "fallbackUsed": false,
+        "fallbackReason": null,
+        "requestId": "a77dc698-9d88-47f7-9c9c-1610ac5db2ff",
+        "answerAgreement": false,
+        "sourceAgreement": true,
+        "falseHit": true,
+        "saved": true
+      }
+    },
+    {
+      "name": "shadow mode",
+      "pass": true,
+      "detail": {
+        "mode": "SHADOW",
+        "configVersion": "cache-shadow-v1",
+        "configVersionId": "d253bb86-e5df-4bfb-a581-18834e61b03d",
+        "lookupPerformed": true,
+        "hit": false,
+        "hitType": null,
+        "missReason": "SHADOW_MODE",
+        "lookupLatencyMs": 12,
+        "semanticSimilarity": null,
+        "entryAgeSeconds": 23,
+        "scopeHashMatched": true,
+        "sourceFingerprintMatched": true,
+        "answerFromCache": false,
+        "shadowCandidateFound": true,
+        "shadowAgreement": false,
+        "estimatedTokensSaved": 0,
+        "estimatedCostSaved": 0,
+        "estimatedLatencySavedMs": 0,
+        "fallbackUsed": false,
+        "fallbackReason": null,
+        "requestId": "a77dc698-9d88-47f7-9c9c-1610ac5db2ff",
+        "answerAgreement": false,
+        "sourceAgreement": true,
+        "falseHit": true,
+        "saved": true
+      }
+    },
+    {
+      "name": "repeat still not served",
+      "pass": true,
+      "detail": {
+        "mode": "SHADOW",
+        "configVersion": "cache-shadow-v1",
+        "configVersionId": "d253bb86-e5df-4bfb-a581-18834e61b03d",
+        "lookupPerformed": true,
+        "hit": false,
+        "hitType": null,
+        "missReason": "SHADOW_MODE",
+        "lookupLatencyMs": 12,
+        "semanticSimilarity": null,
+        "entryAgeSeconds": 28,
+        "scopeHashMatched": true,
+        "sourceFingerprintMatched": true,
+        "answerFromCache": false,
+        "shadowCandidateFound": true,
+        "shadowAgreement": false,
+        "estimatedTokensSaved": 0,
+        "estimatedCostSaved": 0,
+        "estimatedLatencySavedMs": 0,
+        "fallbackUsed": false,
+        "fallbackReason": null,
+        "requestId": "1c814b90-6825-4c89-a719-782e2b70f4f1",
+        "answerAgreement": false,
+        "sourceAgreement": true,
+        "falseHit": true,
+        "saved": true
+      }
+    },
+    {
+      "name": "health semanticCache",
+      "pass": true,
+      "detail": {
+        "status": "ok",
+        "activeMode": "SHADOW",
+        "activeVersion": "cache-shadow-v1",
+        "entryCount": 1,
+        "validCount": 1,
+        "expiredCount": 0,
+        "invalidatedCount": 0,
+        "hitRate7d": 0,
+        "exactHitRate7d": 0,
+        "semanticHitRate7d": 0,
+        "falseHitCount7d": 0,
+        "qdrantIndexAvailable": false,
+        "draftCount": 0,
+        "secretsMatchPublished": true,
+        "multiplePublishedCount": 0
+      }
+    },
+    {
+      "name": "production secrets",
+      "pass": true,
+      "detail": [
+        {
+          "key": "cache_active_mode",
+          "value": "SHADOW"
+        },
+        {
+          "key": "cache_active_version",
+          "value": "cache-shadow-v1"
+        },
+        {
+          "key": "context_active_mode",
+          "value": "LEGACY"
+        },
+        {
+          "key": "context_active_version",
+          "value": "context-v1"
+        },
+        {
+          "key": "retrieval_active_mode",
+          "value": "HYBRID"
+        },
+        {
+          "key": "retrieval_active_version",
+          "value": "hybrid-v1"
+        }
+      ]
+    },
+    {
+      "name": "unique published shadow",
+      "pass": true,
+      "detail": [
+        {
+          "version_label": "cache-shadow-v1",
+          "status": "PUBLISHED",
+          "mode": "SHADOW"
+        }
+      ]
+    },
+    {
+      "name": "cleanup",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "data": {
+          "statusCode": 200,
+          "requestId": "3c4596f9-1d16-455a-8955-78952b4d282e",
+          "durationMs": 32,
+          "response": {
+            "success": true,
+            "data": {
+              "ok": true,
+              "deleted": 0,
+              "expired": 0
+            },
+            "meta": {
+              "requestId": "3c4596f9-1d16-455a-8955-78952b4d282e",
+              "timestamp": "2026-08-03T23:55:13.118Z",
+              "durationMs": 24
+            }
+          },
+          "responseHeaders": {
+            "X-Request-Id": "3c4596f9-1d16-455a-8955-78952b4d282e",
+            "X-Response-Time-Ms": "24"
+          },
+          "tracking": {
+            "requestId": "3c4596f9-1d16-455a-8955-78952b4d282e",
+            "requestStartedAt": "2026-08-03T23:55:13.094Z",
+            "durationMs": 24,
+            "userId": "06e0915e-0f90-42b1-a32c-ae5e0f7de1c6",
+            "sessionId": "d59cf2a4-f693-4a55-b9b1-8cc895bd9d77",
+            "method": "POST",
+            "path": "/webhook/system/ai-cache/cleanup",
+            "success": true,
+            "statusCode": 200,
+            "errorCode": null
+          },
+          "audit": {
+            "attempted": false,
+            "skipped": true,
+            "reason": "missing_resourceType",
+            "ok": false,
+            "id": null
+          }
+        }
+      }
+    }
+  ]
+}

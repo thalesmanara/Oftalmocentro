@@ -1,0 +1,269 @@
+{
+  "Classificar pergunta": {
+    "main": [
+      [
+        {
+          "node": "IA - RECUPERAR CONTEXTO",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Buscar categorias e subcategorias": {
+    "main": [
+      [
+        {
+          "node": "Classificar pergunta",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Validar auth": {
+    "main": [
+      [
+        {
+          "node": "Auth ok?",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Auth ok?": {
+    "main": [
+      [
+        {
+          "node": "Validar permissão",
+          "type": "main",
+          "index": 0
+        }
+      ],
+      [
+        {
+          "node": "Preparar erro 401",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Validar permissão": {
+    "main": [
+      [
+        {
+          "node": "Permissão ok?",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Permissão ok?": {
+    "main": [
+      [
+        {
+          "node": "Restaurar request",
+          "type": "main",
+          "index": 0
+        }
+      ],
+      [
+        {
+          "node": "Preparar erro 403",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Restaurar request": {
+    "main": [
+      [
+        {
+          "node": "Buscar categorias e subcategorias",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Webhook": {
+    "main": [
+      [
+        {
+          "node": "Normalizar request",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Normalizar request": {
+    "main": [
+      [
+        {
+          "node": "Validar auth",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Message a model": {
+    "main": [
+      [
+        {
+          "node": "Montar resposta",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Montar resposta": {
+    "main": [
+      [
+        {
+          "node": "Preparar sucesso",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Preparar sucesso": {
+    "main": [
+      [
+        {
+          "node": "Registrar auditoria sucesso",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Registrar auditoria sucesso": {
+    "main": [
+      [
+        {
+          "node": "Respond to Webhook",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Preparar erro 401": {
+    "main": [
+      [
+        {
+          "node": "Registrar auditoria 401",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Registrar auditoria 401": {
+    "main": [
+      [
+        {
+          "node": "Respond 401",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Preparar erro 403": {
+    "main": [
+      [
+        {
+          "node": "Registrar auditoria 403",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Registrar auditoria 403": {
+    "main": [
+      [
+        {
+          "node": "Respond 403",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Carregar prompt ativo": {
+    "main": [
+      [
+        {
+          "node": "Aplicar prompt carregado",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Aplicar prompt carregado": {
+    "main": [
+      [
+        {
+          "node": "IA - GERENCIAR JANELA DE CONTEXTO",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "IA - RECUPERAR CONTEXTO": {
+    "main": [
+      [
+        {
+          "node": "Aplicar contexto recuperado",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Aplicar contexto recuperado": {
+    "main": [
+      [
+        {
+          "node": "Carregar prompt ativo",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "IA - GERENCIAR JANELA DE CONTEXTO": {
+    "main": [
+      [
+        {
+          "node": "Aplicar janela de contexto",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  },
+  "Aplicar janela de contexto": {
+    "main": [
+      [
+        {
+          "node": "Message a model",
+          "type": "main",
+          "index": 0
+        }
+      ]
+    ]
+  }
+}

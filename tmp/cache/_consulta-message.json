@@ -1,0 +1,41 @@
+{
+  "parameters": {
+    "modelId": {
+      "__rl": true,
+      "mode": "id",
+      "value": "={{ $json.modelName }}"
+    },
+    "responses": {
+      "values": [
+        {
+          "role": "system",
+          "content": "={{ $json.systemContent }}"
+        },
+        {
+          "content": "={{ $json.userContent }}"
+        }
+      ]
+    },
+    "builtInTools": {},
+    "options": {
+      "maxTokens": "={{ $json.maxTokens }}",
+      "temperature": "={{ $json.temperature }}"
+    },
+    "resource": "text",
+    "operation": "response"
+  },
+  "type": "@n8n/n8n-nodes-langchain.openAi",
+  "typeVersion": 2.3,
+  "position": [
+    1040,
+    0
+  ],
+  "id": "59d5e391-c3e1-4a64-9f6c-a3912a02d584",
+  "name": "Message a model",
+  "credentials": {
+    "openAiApi": {
+      "id": "g6QTP6n02dss9A0d",
+      "name": "OpenAI account"
+    }
+  }
+}

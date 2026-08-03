@@ -14,6 +14,7 @@ import {
   Database,
   SlidersHorizontal,
   Layers,
+  HardDrive,
 } from 'lucide-react'
 import { useSettings } from '@/hooks/useSettings'
 import { useAuth } from '@/hooks/useAuth'
@@ -76,6 +77,12 @@ const navGroups: NavGroup[] = [
         to: '/ia/contexto',
         label: 'Janela de Contexto',
         icon: Layers,
+        permission: 'editar_configuracoes',
+      },
+      {
+        to: '/ia/cache',
+        label: 'Cache da IA',
+        icon: HardDrive,
         permission: 'editar_configuracoes',
       },
       {

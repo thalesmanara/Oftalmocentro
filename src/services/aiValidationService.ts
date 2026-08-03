@@ -253,6 +253,8 @@ export interface AiRunCaseInput {
   /** Laboratório: override isolado da janela de contexto. */
   contextConfigVersionId?: string
   contextConfigOverrideAllowed?: boolean
+  /** Laboratório: override isolado de cache. */
+  cacheConfigVersionId?: string
   /** Laboratório interno: falha controlada do CWM. */
   forceContextFailureForTest?: boolean
 }
@@ -272,6 +274,8 @@ export interface AiRunDatasetInput {
   /** Laboratório: override isolado da janela de contexto. */
   contextConfigVersionId?: string
   contextConfigOverrideAllowed?: boolean
+  /** Laboratório: override isolado de cache. */
+  cacheConfigVersionId?: string
   /** Laboratório interno: falha controlada do CWM. */
   forceContextFailureForTest?: boolean
 }

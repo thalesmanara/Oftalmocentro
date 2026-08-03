@@ -1,0 +1,406 @@
+{
+  "at": "2026-08-03T23:40:05.967Z",
+  "context": [
+    {
+      "version_label": "context-budget-v1",
+      "status": "DRAFT",
+      "mode": "BUDGETED"
+    },
+    {
+      "version_label": "context-v1",
+      "status": "PUBLISHED",
+      "mode": "LEGACY"
+    }
+  ],
+  "retrieval": [
+    {
+      "version_label": "hybrid-rerank-v1",
+      "status": "DRAFT",
+      "mode": "HYBRID_RERANK"
+    },
+    {
+      "version_label": "hybrid-v1",
+      "status": "PUBLISHED",
+      "mode": "HYBRID"
+    }
+  ],
+  "secrets": [
+    {
+      "key": "context_active_mode",
+      "value": "LEGACY"
+    },
+    {
+      "key": "context_active_version",
+      "value": "context-v1"
+    },
+    {
+      "key": "retrieval_active_mode",
+      "value": "HYBRID"
+    },
+    {
+      "key": "retrieval_active_version",
+      "value": "hybrid-v1"
+    }
+  ],
+  "cacheTables": [],
+  "consulta": {
+    "versionId": "7c7f5f7b-351e-4e15-9e21-98ccd90c4de6",
+    "active": true,
+    "nodeOrder": [
+      "Webhook",
+      "Classificar pergunta",
+      "Message a model",
+      "Respond to Webhook",
+      "Buscar categorias e subcategorias",
+      "Validar auth",
+      "Auth ok?",
+      "Respond 401",
+      "Validar permissão",
+      "Permissão ok?",
+      "Respond 403",
+      "Restaurar request",
+      "Normalizar request",
+      "Montar resposta",
+      "Preparar sucesso",
+      "Preparar erro 401",
+      "Preparar erro 403",
+      "Registrar auditoria sucesso",
+      "Registrar auditoria 401",
+      "Registrar auditoria 403",
+      "Carregar prompt ativo",
+      "Aplicar prompt carregado",
+      "IA - RECUPERAR CONTEXTO",
+      "Aplicar contexto recuperado",
+      "IA - GERENCIAR JANELA DE CONTEXTO",
+      "Aplicar janela de contexto"
+    ],
+    "executeWorkflows": [
+      {
+        "name": "Validar auth",
+        "workflowId": "P5E43ZXSJiI9wFYD",
+        "inputs": [
+          "authorization",
+          "requestId"
+        ]
+      },
+      {
+        "name": "Validar permissão",
+        "workflowId": "yXW3rW8EbHXuprRJ",
+        "inputs": [
+          "isMaster",
+          "permissions",
+          "requiredAnyOf",
+          "requiredPermission",
+          "sessionId",
+          "user",
+          "userId",
+          "requestId"
+        ]
+      },
+      {
+        "name": "Normalizar request",
+        "workflowId": "N3zLpj7Dij4n5p5p",
+        "inputs": []
+      },
+      {
+        "name": "Preparar sucesso",
+        "workflowId": "zE5LRjZfbXw8Ymll",
+        "inputs": [
+          "data",
+          "requestId",
+          "statusCode",
+          "requestStartedAtMs",
+          "method",
+          "path",
+          "userId",
+          "sessionId"
+        ]
+      },
+      {
+        "name": "Preparar erro 401",
+        "workflowId": "r3iSBV1ClKOxS2UI",
+        "inputs": [
+          "code",
+          "message",
+          "requestId",
+          "statusCode",
+          "requestStartedAtMs",
+          "method",
+          "path"
+        ]
+      },
+      {
+        "name": "Preparar erro 403",
+        "workflowId": "r3iSBV1ClKOxS2UI",
+        "inputs": [
+          "code",
+          "message",
+          "requestId",
+          "statusCode",
+          "requestStartedAtMs",
+          "method",
+          "path"
+        ]
+      },
+      {
+        "name": "Registrar auditoria sucesso",
+        "workflowId": "jtQvQlqRZ5X5WF9I",
+        "inputs": [
+          "action",
+          "durationMs",
+          "errorCode",
+          "headers",
+          "metadata",
+          "method",
+          "path",
+          "requestId",
+          "resourceId",
+          "resourceType",
+          "response",
+          "responseHeaders",
+          "sessionId",
+          "statusCode",
+          "success",
+          "tracking",
+          "userId"
+        ]
+      },
+      {
+        "name": "Registrar auditoria 401",
+        "workflowId": "jtQvQlqRZ5X5WF9I",
+        "inputs": [
+          "action",
+          "durationMs",
+          "errorCode",
+          "headers",
+          "method",
+          "path",
+          "requestId",
+          "resourceId",
+          "resourceType",
+          "response",
+          "responseHeaders",
+          "sessionId",
+          "statusCode",
+          "success",
+          "tracking",
+          "userId"
+        ]
+      },
+      {
+        "name": "Registrar auditoria 403",
+        "workflowId": "jtQvQlqRZ5X5WF9I",
+        "inputs": [
+          "action",
+          "durationMs",
+          "errorCode",
+          "headers",
+          "method",
+          "path",
+          "requestId",
+          "resourceId",
+          "resourceType",
+          "response",
+          "responseHeaders",
+          "sessionId",
+          "statusCode",
+          "success",
+          "tracking",
+          "userId"
+        ]
+      },
+      {
+        "name": "Carregar prompt ativo",
+        "workflowId": "OSopSf635RVwD65J",
+        "inputs": [
+          "purpose",
+          "code",
+          "environment",
+          "promptVersionId",
+          "requestId"
+        ]
+      },
+      {
+        "name": "IA - RECUPERAR CONTEXTO",
+        "workflowId": "bae8872eeb164a27",
+        "inputs": [
+          "question",
+          "classificationJson",
+          "retrievalConfigVersionId",
+          "modeOverrideAllowed",
+          "requestId",
+          "userId",
+          "sessionId"
+        ]
+      },
+      {
+        "name": "IA - GERENCIAR JANELA DE CONTEXTO",
+        "workflowId": "e95a92295d7c4deb",
+        "inputs": [
+          "question",
+          "classificationJson",
+          "selectedChunksJson",
+          "retrievalMetaJson",
+          "promptConfigurationJson",
+          "legacyContext",
+          "sourcesJson",
+          "contextConfigVersionId",
+          "contextConfigOverrideAllowed",
+          "requestId",
+          "userId",
+          "sessionId",
+          "forceContextFailureForTest"
+        ]
+      }
+    ]
+  },
+  "resultsCols": [
+    "answer",
+    "available_context_tokens",
+    "candidates_reranked",
+    "candidates_retrieved",
+    "case_code",
+    "case_id",
+    "chunk_refs",
+    "classification",
+    "conflict_detected",
+    "conflict_type",
+    "context_build_latency_ms",
+    "context_config_version",
+    "context_config_version_id",
+    "context_fallback_used",
+    "context_mode",
+    "context_utilization_rate",
+    "created_at",
+    "duration_ms",
+    "empty_context",
+    "estimated_context_tokens",
+    "excluded_chunk_count",
+    "expected_chunk_rank",
+    "expected_document_rank",
+    "extraction_method",
+    "fallback_used",
+    "final_context_count",
+    "forbidden_words_hit",
+    "headers_json",
+    "hit_rate",
+    "id",
+    "included_chunk_count",
+    "included_document_count",
+    "insufficient_context",
+    "is_empty_answer",
+    "is_hallucination",
+    "is_internal_error",
+    "matched_category",
+    "matched_document",
+    "matched_subcategory",
+    "merged_score",
+    "model_context_limit",
+    "model_name",
+    "mrr",
+    "neighbors_added_count",
+    "ocr_quality_grade",
+    "ocr_used",
+    "overflow_detected",
+    "precision_at_k",
+    "prompt_version",
+    "prompt_version_id",
+    "question",
+    "recall_at_k",
+    "redundancy_rate",
+    "redundancy_removed_count",
+    "relevant_context_rate",
+    "required_words_hit",
+    "required_words_total",
+    "rerank_latency_ms",
+    "rerank_score",
+    "retrieval_config_version",
+    "retrieval_latency_ms",
+    "retrieval_mode",
+    "retrieval_ranked_document_ids",
+    "run_id",
+    "score",
+    "score_breakdown",
+    "sheet_name",
+    "source_count",
+    "source_coverage",
+    "source_precision",
+    "source_recall",
+    "sources",
+    "sources_correct",
+    "sources_incorrect",
+    "text_score",
+    "top_k",
+    "vector_score",
+    "verdict"
+  ],
+  "runsCols": [
+    "context_config_version_id",
+    "context_mode_override_used",
+    "created_at",
+    "duration_ms",
+    "embedding_model",
+    "embedding_version",
+    "error_count",
+    "failed_count",
+    "fallback_used",
+    "finished_at",
+    "id",
+    "metadata",
+    "mode_override_used",
+    "model_name",
+    "ocr_engine_version",
+    "overall_score",
+    "passed_count",
+    "prompt_version",
+    "prompt_version_id",
+    "report",
+    "rerank_latency_ms",
+    "retrieval_config_version",
+    "retrieval_config_version_id",
+    "retrieval_latency_ms",
+    "retrieval_mode",
+    "skipped_count",
+    "started_at",
+    "status",
+    "tabular_engine_version",
+    "total_cases",
+    "trigger_mode",
+    "triggered_by"
+  ],
+  "results7d": {
+    "n": 142,
+    "runs": 36,
+    "avg_ms": null,
+    "p50_ms": null,
+    "p90_ms": null
+  },
+  "auditConsulta7d": {
+    "n": 238
+  },
+  "users": {
+    "n": 5
+  },
+  "sessions": {
+    "n": 54
+  },
+  "docs": {
+    "active": 57,
+    "updated_7d": 4
+  },
+  "promptPublished": {
+    "id": "a23741ae-2cef-46c6-8690-f603fc3fe569",
+    "version_number": 1,
+    "model_name": "gpt-4.1-mini"
+  },
+  "publishedContext": {
+    "id": "3007bd85-782e-4057-bd48-63e7cb060d73",
+    "version_label": "context-v1",
+    "content_hash": "80caa9cafd156e337d82946c19421cac"
+  },
+  "publishedRetrieval": {
+    "id": "63631806-f1ba-4ff4-8b24-265a468229fb",
+    "version_label": "hybrid-v1",
+    "content_hash": "8f20c4f8dac00019b2a67e8133f149f26b59eb2ba13b5cc10fd47c843909e1ec"
+  }
+}
