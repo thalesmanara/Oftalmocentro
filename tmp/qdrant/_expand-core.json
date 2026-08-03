@@ -1,0 +1,16 @@
+{
+  "ids": {
+    "UPSERT": "ihR1aNY04ZgeW0lm",
+    "ORQUESTRAR": "7d7ZE8O6DjqMAk2d",
+    "VALIDAR": "q3ntUS5qHRsitZA0",
+    "DELETE": "L61YCjalRxpWU9Un",
+    "REINDEXAR": "UrDNrDkE9WuwEK7H",
+    "BUSCAR": "YDnrXjzYUOrZVE6N"
+  },
+  "UPSERT": true,
+  "VALIDAR": true,
+  "ORQUESTRAR": true,
+  "BUSCAR": true,
+  "REINDEXAR": true,
+  "DELETE": true
+}

@@ -18,6 +18,8 @@ import {
   ocrQualityGradeVariant,
   embeddingStatusLabel,
   embeddingStatusVariant,
+  qdrantSyncStatusLabel,
+  qdrantSyncStatusVariant,
   ocrStatusLabel,
   ocrStatusVariant,
   validationStatusLabel,
@@ -281,6 +283,19 @@ export function DocumentVersionsPanel({
                           {version.embeddingCompletedAt
                             ? ` · ${formatDateTime(version.embeddingCompletedAt)}`
                             : ''}
+                        </p>
+                      )}
+                      {version.qdrantSyncStatus ? (
+                        <Badge variant={qdrantSyncStatusVariant(version.qdrantSyncStatus)}>
+                          Qdrant: {qdrantSyncStatusLabel(version.qdrantSyncStatus)}
+                        </Badge>
+                      ) : null}
+                      {version.qdrantCollection && (
+                        <p className="text-xs text-slate-500">{version.qdrantCollection}</p>
+                      )}
+                      {version.qdrantSyncedAt && (
+                        <p className="text-xs text-slate-500">
+                          Sync {formatDateTime(version.qdrantSyncedAt)}
                         </p>
                       )}
                     </div>

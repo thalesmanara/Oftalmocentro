@@ -11,6 +11,7 @@ import {
   Settings,
   FlaskConical,
   ScrollText,
+  Database,
 } from 'lucide-react'
 import { useSettings } from '@/hooks/useSettings'
 import { useAuth } from '@/hooks/useAuth'
@@ -61,6 +62,12 @@ const navGroups: NavGroup[] = [
         to: '/ia/prompts',
         label: 'Prompts da IA',
         icon: ScrollText,
+        permission: 'editar_configuracoes',
+      },
+      {
+        to: '/sistema/qdrant',
+        label: 'Qdrant',
+        icon: Database,
         permission: 'editar_configuracoes',
       },
       { to: '/auditoria', label: 'Auditoria', icon: ClipboardList, permission: 'visualizar_auditoria' },

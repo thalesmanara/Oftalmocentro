@@ -1,0 +1,39 @@
+{
+  "updatedAt": "2026-08-03T20:30:00.000Z",
+  "qdrant": {
+    "container": "qdrant-vrv8r1yp224hzobdqqcenajo",
+    "image": "qdrant/qdrant:v1.13.4",
+    "network": "vrv8r1yp224hzobdqqcenajo",
+    "publicPorts": false,
+    "urlInternal": "http://qdrant:6333",
+    "collection": "oftalmocentro_chunks",
+    "points": 465,
+    "vectors": { "size": 1536, "distance": "Cosine" },
+    "status": "green"
+  },
+  "postgresSync": {
+    "synced": 465,
+    "pending": 0
+  },
+  "workflows": {
+    "UPSERT": "ihR1aNY04ZgeW0lm",
+    "ORQUESTRAR": "7d7ZE8O6DjqMAk2d",
+    "VALIDAR": "q3ntUS5qHRsitZA0",
+    "DELETE": "L61YCjalRxpWU9Un",
+    "REINDEXAR": "UrDNrDkE9WuwEK7H",
+    "BUSCAR": "YDnrXjzYUOrZVE6N",
+    "SCHEDULE": "By7xP0i0JmWy1AZD",
+    "WEBHOOK_REINDEX": "zBMDF4cbf7kMk7u2"
+  },
+  "integrations": {
+    "processarHasQdrantGate": true,
+    "consultaIaHasHybridMerge": true,
+    "healthHasQdrant": true,
+    "backupHasQdrantMeta": true,
+    "datasetRetrievalMode": true
+  },
+  "react": {
+    "adminPage": "/sistema/qdrant",
+    "build": "ok"
+  }
+}

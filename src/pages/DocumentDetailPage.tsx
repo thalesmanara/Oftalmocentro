@@ -23,6 +23,8 @@ import {
   ocrQualityGradeVariant,
   embeddingStatusLabel,
   embeddingStatusVariant,
+  qdrantSyncStatusLabel,
+  qdrantSyncStatusVariant,
   ocrStatusLabel,
   ocrStatusVariant,
   validationStatusLabel,
@@ -365,6 +367,44 @@ export function DocumentDetailPage() {
                     <div className="flex flex-wrap gap-x-2">
                       <dt className="text-slate-500">Embedding em</dt>
                       <dd className="text-slate-700">{formatDateTime(doc.embeddingCompletedAt)}</dd>
+                    </div>
+                  )}
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                    <dt className="text-slate-500">Vetorizado (Qdrant)</dt>
+                    <dd>
+                      {doc.qdrantSyncStatus ? (
+                        <Badge variant={qdrantSyncStatusVariant(doc.qdrantSyncStatus)}>
+                          {qdrantSyncStatusLabel(doc.qdrantSyncStatus)}
+                        </Badge>
+                      ) : (
+                        <span className="text-slate-700">—</span>
+                      )}
+                    </dd>
+                  </div>
+                  {doc.qdrantCollection && (
+                    <div className="flex flex-wrap gap-x-2">
+                      <dt className="text-slate-500">Coleção</dt>
+                      <dd className="text-slate-700">{doc.qdrantCollection}</dd>
+                    </div>
+                  )}
+                  {(doc.qdrantSyncedCount != null || doc.qdrantPendingCount != null) && (
+                    <div className="flex flex-wrap gap-x-2">
+                      <dt className="text-slate-500">Pontos sync</dt>
+                      <dd className="text-slate-700">
+                        {doc.qdrantSyncedCount ?? 0} sincronizados
+                        {(doc.qdrantPendingCount ?? 0) > 0
+                          ? ` · ${doc.qdrantPendingCount} pendentes`
+                          : ''}
+                        {(doc.qdrantFailedCount ?? 0) > 0
+                          ? ` · ${doc.qdrantFailedCount} falhas`
+                          : ''}
+                      </dd>
+                    </div>
+                  )}
+                  {doc.qdrantSyncedAt && (
+                    <div className="flex flex-wrap gap-x-2">
+                      <dt className="text-slate-500">Sincronizado em</dt>
+                      <dd className="text-slate-700">{formatDateTime(doc.qdrantSyncedAt)}</dd>
                     </div>
                   )}
                   <div className="flex flex-wrap items-center gap-x-2 gap-y-1">

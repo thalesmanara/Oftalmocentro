@@ -144,6 +144,12 @@ export interface Document {
   embeddingFailedCount?: number | null
   embeddingCompletedAt?: string | null
   embeddingAvgMs?: number | null
+  qdrantSyncStatus?: string | null
+  qdrantSyncedCount?: number | null
+  qdrantPendingCount?: number | null
+  qdrantFailedCount?: number | null
+  qdrantCollection?: string | null
+  qdrantSyncedAt?: string | null
 }
 
 export interface TableSheetSummary {
@@ -253,6 +259,12 @@ export interface DocumentVersion {
   embeddingFailedCount?: number | null
   embeddingCompletedAt?: string | null
   embeddingAvgMs?: number | null
+  qdrantSyncStatus?: string | null
+  qdrantSyncedCount?: number | null
+  qdrantPendingCount?: number | null
+  qdrantFailedCount?: number | null
+  qdrantCollection?: string | null
+  qdrantSyncedAt?: string | null
 }
 
 export interface SystemSettings {
@@ -304,6 +316,8 @@ export interface HealthComponent {
   activeVersion?: string
   model?: string
   draftsCount?: number
+  online?: boolean
+  collection?: string
 }
 
 export interface SystemHealth {
@@ -324,6 +338,7 @@ export interface SystemHealth {
     aiEval?: HealthComponent
     aiPrompts?: HealthComponent
     embeddings?: HealthComponent
+    qdrant?: HealthComponent
   }
 }
 

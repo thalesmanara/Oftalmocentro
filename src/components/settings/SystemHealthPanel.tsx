@@ -19,6 +19,7 @@ const COMPONENT_LABELS: Record<string, string> = {
   aiEval: 'Validação IA',
   aiPrompts: 'Prompts da IA',
   embeddings: 'Embeddings',
+  qdrant: 'Qdrant',
 }
 
 function statusLabel(status: UiState): string {
@@ -102,6 +103,17 @@ function componentDetails(key: string, component: HealthComponent): string {
     if (typeof component.total === 'number') parts.push(`${component.total} válidos`)
     if (typeof component.failures === 'number') parts.push(`${component.failures} falhas`)
     if (typeof component.queue === 'number') parts.push(`fila ${component.queue}`)
+    if (typeof component.avgDurationMs === 'number') parts.push(`${component.avgDurationMs} ms`)
+    if (component.lastRunAt) parts.push(formatCheckedAt(component.lastRunAt))
+  }
+  if (key === 'qdrant') {
+    if (typeof component.online === 'boolean') {
+      parts.push(component.online ? 'online' : 'offline')
+    }
+    if (component.collection) parts.push(component.collection)
+    if (typeof component.total === 'number') parts.push(`${component.total} pontos`)
+    if (typeof component.pending === 'number') parts.push(`${component.pending} pendentes`)
+    if (typeof component.failures === 'number') parts.push(`${component.failures} falhas`)
     if (typeof component.avgDurationMs === 'number') parts.push(`${component.avgDurationMs} ms`)
     if (component.lastRunAt) parts.push(formatCheckedAt(component.lastRunAt))
   }

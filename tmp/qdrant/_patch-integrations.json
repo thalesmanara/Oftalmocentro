@@ -1,0 +1,8 @@
+{
+  "processar": true,
+  "consultaIa": true,
+  "health": true,
+  "getHealth": true,
+  "backup": true,
+  "dataset": true
+}

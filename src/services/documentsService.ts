@@ -124,6 +124,12 @@ function normalizeOcrFields(record: Record<string, unknown>) {
     embeddingFailedCount: pickNumber(record, 'embeddingFailedCount', 'embedding_failed_count'),
     embeddingCompletedAt: pickString(record, 'embeddingCompletedAt', 'embedding_completed_at'),
     embeddingAvgMs: pickNumber(record, 'embeddingAvgMs', 'embedding_avg_ms'),
+    qdrantSyncStatus: pickString(record, 'qdrantSyncStatus', 'qdrant_sync_status'),
+    qdrantSyncedCount: pickNumber(record, 'qdrantSyncedCount', 'qdrant_synced_count'),
+    qdrantPendingCount: pickNumber(record, 'qdrantPendingCount', 'qdrant_pending_count'),
+    qdrantFailedCount: pickNumber(record, 'qdrantFailedCount', 'qdrant_failed_count'),
+    qdrantCollection: pickString(record, 'qdrantCollection', 'qdrant_collection'),
+    qdrantSyncedAt: pickString(record, 'qdrantSyncedAt', 'qdrant_synced_at'),
   }
 }
 

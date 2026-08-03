@@ -243,6 +243,37 @@ export function embeddingStatusVariant(
   }
 }
 
+const QDRANT_SYNC_STATUS_LABELS: Record<string, string> = {
+  PENDING: 'Pendente',
+  PROCESSING: 'Sincronizando',
+  SYNCED: 'Sincronizado',
+  FAILED: 'Falhou',
+  SKIPPED: 'Ignorado',
+}
+
+export function qdrantSyncStatusLabel(status?: string | null): string {
+  if (!status) return '—'
+  return QDRANT_SYNC_STATUS_LABELS[status.toUpperCase()] ?? status
+}
+
+export function qdrantSyncStatusVariant(
+  status?: string | null
+): 'default' | 'success' | 'warning' | 'danger' | 'info' {
+  switch ((status ?? '').toUpperCase()) {
+    case 'SYNCED':
+      return 'success'
+    case 'PENDING':
+    case 'PROCESSING':
+      return 'warning'
+    case 'FAILED':
+      return 'danger'
+    case 'SKIPPED':
+      return 'info'
+    default:
+      return 'default'
+  }
+}
+
 export function extractionMethodLabel(method?: string | null): string {
   if (!method) return '—'
   return EXTRACTION_METHOD_LABELS[method.toLowerCase()] ?? method
