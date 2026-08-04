@@ -10,6 +10,7 @@ import {
   Trash2,
 } from 'lucide-react'
 import { PageHeader } from '@/components/ui/PageHeader'
+import { TechnicalAreaBanner } from '@/components/ui/TechnicalAreaBanner'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -275,6 +276,7 @@ export function AiCachePage() {
 
   return (
     <div className="space-y-6">
+      <TechnicalAreaBanner />
       <PageHeader
         title="Cache da IA"
         description="Cache semântico em modo conservador. Produção inicia em SHADOW (não serve resposta do cache)."

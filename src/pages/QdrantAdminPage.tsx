@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Database, RefreshCw } from 'lucide-react'
 import { PageHeader } from '@/components/ui/PageHeader'
+import { TechnicalAreaBanner } from '@/components/ui/TechnicalAreaBanner'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -79,6 +80,7 @@ export function QdrantAdminPage() {
 
   return (
     <div className="space-y-6">
+      <TechnicalAreaBanner />
       <PageHeader
         title="Qdrant"
         description="Status do banco vetorial, sincronização de embeddings e reindexação administrativa."

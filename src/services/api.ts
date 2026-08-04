@@ -258,17 +258,31 @@ function mergeAbortSignals(signals: Array<AbortSignal | undefined | null>): Abor
   const active = signals.filter((s): s is AbortSignal => Boolean(s))
   if (active.length === 0) return undefined
   if (active.length === 1) return active[0]
-  if (typeof AbortSignal !== 'undefined' && 'any' in AbortSignal) {
+  if (typeof AbortSignal !== 'undefined' && typeof AbortSignal.any === 'function') {
     return AbortSignal.any(active)
   }
-  return active[0]
+  // Fallback: abort combined controller when any input aborts
+  const combined = new AbortController()
+  const onAbort = () => {
+    if (!combined.signal.aborted) combined.abort()
+  }
+  for (const s of active) {
+    if (s.aborted) {
+      combined.abort()
+      break
+    }
+    s.addEventListener('abort', onAbort, { once: true })
+  }
+  return combined.signal
 }
+
+const DEFAULT_TIMEOUT_MS = 30_000
 
 async function rawFetch(endpoint: string, options: ApiClientOptions = {}): Promise<Response> {
   const {
     public: isPublic = false,
     skipAuthRedirect = false,
-    timeoutMs,
+    timeoutMs = DEFAULT_TIMEOUT_MS,
     headers: initHeaders,
     signal,
     body,
@@ -288,11 +302,15 @@ async function rawFetch(endpoint: string, options: ApiClientOptions = {}): Promi
   }
 
   let timeoutId: ReturnType<typeof setTimeout> | undefined
+  let timedOut = false
   let timeoutSignal: AbortSignal | undefined
   if (timeoutMs && timeoutMs > 0) {
     const controller = new AbortController()
     timeoutSignal = controller.signal
-    timeoutId = setTimeout(() => controller.abort(), timeoutMs)
+    timeoutId = setTimeout(() => {
+      timedOut = true
+      controller.abort()
+    }, timeoutMs)
   }
 
   try {
@@ -313,8 +331,10 @@ async function rawFetch(endpoint: string, options: ApiClientOptions = {}): Promi
     if (error instanceof DOMException && error.name === 'AbortError') {
       throw new ApiError({
         status: 499,
-        code: 'REQUEST_ABORTED',
-        message: 'Requisição cancelada.',
+        code: timedOut ? 'REQUEST_TIMEOUT' : 'REQUEST_ABORTED',
+        message: timedOut
+          ? 'A solicitação excedeu o tempo limite. Tente novamente.'
+          : 'Requisição cancelada.',
       })
     }
     throw new ApiError({

@@ -103,8 +103,8 @@ export function ConsultaIAPage() {
 
         {loading && (
           <Card className="mb-6">
-            <div className="flex items-center gap-3 text-sm text-slate-600">
-              <Loader2 size={20} className="animate-spin text-[var(--color-primary,#0d4f8b)]" />
+            <div className="flex items-center gap-3 text-sm text-slate-600" role="status" aria-live="polite">
+              <Loader2 size={20} className="animate-spin text-[var(--color-primary,#0d4f8b)]" aria-hidden />
               Consultando a base de conhecimento...
             </div>
           </Card>
@@ -112,7 +112,9 @@ export function ConsultaIAPage() {
 
         {error && !loading && (
           <Card className="mb-6 border-red-100 bg-red-50">
-            <p className="text-sm text-red-700">{error}</p>
+            <p className="text-sm text-red-700" role="alert">
+              {error}
+            </p>
           </Card>
         )}
 
@@ -193,7 +195,7 @@ export function ConsultaIAPage() {
               </ul>
             ) : (
               <p className="text-sm text-slate-500">
-                A IA respondeu, mas nenhuma fonte foi retornada para esta consulta.
+                Nenhuma fonte documental foi apresentada para esta resposta.
               </p>
             )}
           </Card>

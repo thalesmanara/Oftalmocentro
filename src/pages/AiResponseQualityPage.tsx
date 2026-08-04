@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/Badge'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { Modal } from '@/components/ui/Modal'
 import { getErrorMessage } from '@/utils/apiError'
+import { TechnicalAreaBanner } from '@/components/ui/TechnicalAreaBanner'
 import {
   compareAiResponseQuality,
   createAiResponseQualityVersion,
@@ -276,7 +277,7 @@ export function AiResponseQualityPage() {
     <div className="space-y-6">
       <PageHeader
         title="Qualidade da Resposta"
-        description="Camada estruturada entre Retrieval e Janela de Contexto. Produção: response-quality-v1."
+        description="Governança da Response Quality Layer e Política de Resposta. Produção: response-quality-v2."
         actions={
           <div className="flex flex-wrap gap-2">
             <Button variant="secondary" onClick={() => void loadDetail()}>
@@ -288,6 +289,7 @@ export function AiResponseQualityPage() {
           </div>
         }
       />
+      <TechnicalAreaBanner />
 
       {feedback && (
         <div

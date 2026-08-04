@@ -47,7 +47,6 @@ export function DocumentUploadPage() {
 
     try {
       const createdDocument = await createDocument(data, user.id, user.name)
-      console.log('Documento criado:', createdDocument)
 
       if (!createdDocument?.id) {
         throw new Error('Documento criado, mas o ID não foi retornado')
@@ -98,9 +97,6 @@ export function DocumentUploadPage() {
       setSaving(false)
       return
     }
-
-    console.log('ID para navegação:', documentId)
-    console.log('Navegando para:', `/documentos/${documentId}`)
 
     navigate(`/documentos/${documentId}`, {
       replace: true,

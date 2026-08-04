@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FilePlus2, RotateCcw, Save, ShieldCheck, Fingerprint } from 'lucide-react'
 import { PageHeader } from '@/components/ui/PageHeader'
+import { TechnicalAreaBanner } from '@/components/ui/TechnicalAreaBanner'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -233,6 +234,7 @@ export function AiEvidencePage() {
 
   return (
     <div className="space-y-6">
+      <TechnicalAreaBanner />
       <PageHeader
         title="Evidências da IA"
         description="Camada estruturada entre Retrieval e Janela de Contexto. Produção: evidence-v1."

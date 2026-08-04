@@ -17,6 +17,8 @@ import {
   HardDrive,
   Fingerprint,
   ShieldCheck,
+  Activity,
+  Archive,
 } from 'lucide-react'
 import { useSettings } from '@/hooks/useSettings'
 import { useAuth } from '@/hooks/useAuth'
@@ -30,33 +32,48 @@ interface NavItem {
 }
 
 interface NavGroup {
-  title?: string
+  title: string
   items: NavItem[]
 }
 
 const navGroups: NavGroup[] = [
   {
-    items: [{ to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard }],
-  },
-  {
-    title: 'DOCUMENTOS',
+    title: 'OPERAÇÃO',
     items: [
-      { to: '/documentos', label: 'Biblioteca', icon: Library, permission: 'visualizar_documentos' },
+      { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
+      { to: '/documentos', label: 'Documentos', icon: Library, permission: 'visualizar_documentos' },
       { to: '/documentos/novo', label: 'Upload', icon: Upload, permission: 'cadastrar_documentos' },
+      { to: '/consulta-ia', label: 'Consulta IA', icon: Bot, permission: 'usar_consulta_ia' },
     ],
   },
   {
-    title: 'CADASTROS',
+    title: 'ADMINISTRAÇÃO',
     items: [
       { to: '/usuarios', label: 'Usuários', icon: Users, permission: 'gerenciar_usuarios' },
       { to: '/setores', label: 'Setores', icon: Building2, permission: 'gerenciar_setores' },
-      { to: '/categorias', label: 'Categorias do documento', icon: FolderOpen, permission: 'gerenciar_categorias' },
+      {
+        to: '/categorias',
+        label: 'Categorias e Subcategorias',
+        icon: FolderOpen,
+        permission: 'gerenciar_categorias',
+      },
+      {
+        to: '/configuracoes',
+        label: 'Configurações',
+        icon: Settings,
+        permission: 'editar_configuracoes',
+      },
+      {
+        to: '/auditoria',
+        label: 'Auditoria',
+        icon: ClipboardList,
+        permission: 'visualizar_auditoria',
+      },
     ],
   },
   {
-    title: 'SISTEMA',
+    title: 'ADMINISTRAÇÃO TÉCNICA',
     items: [
-      { to: '/consulta-ia', label: 'Consulta IA', icon: Bot, permission: 'usar_consulta_ia' },
       {
         to: '/ia/validacao',
         label: 'Validação IA',
@@ -105,8 +122,18 @@ const navGroups: NavGroup[] = [
         icon: Database,
         permission: 'editar_configuracoes',
       },
-      { to: '/auditoria', label: 'Auditoria', icon: ClipboardList, permission: 'visualizar_auditoria' },
-      { to: '/configuracoes', label: 'Configurações', icon: Settings, permission: 'editar_configuracoes' },
+      {
+        to: '/configuracoes',
+        label: 'Health',
+        icon: Activity,
+        permission: 'editar_configuracoes',
+      },
+      {
+        to: '/configuracoes',
+        label: 'Backups',
+        icon: Archive,
+        permission: 'editar_configuracoes',
+      },
     ],
   },
 ]
@@ -122,10 +149,18 @@ export function Sidebar() {
         : 'text-white/80 hover:bg-white/10 hover:text-white'
     }`
 
+  const visibleGroups = navGroups
+    .map((group) => ({
+      ...group,
+      items: group.items.filter((item) => !item.permission || hasPermission(item.permission)),
+    }))
+    .filter((group) => group.items.length > 0)
+
   return (
     <aside
       className="fixed left-0 top-0 z-30 flex h-full w-64 flex-col text-white shadow-lg"
       style={{ backgroundColor: settings.primaryColor }}
+      aria-label="Menu principal"
     >
       <div className="border-b border-white/10 px-5 py-5">
         {settings.logoUrl ? (
@@ -140,24 +175,25 @@ export function Sidebar() {
       </div>
 
       <nav className="flex-1 overflow-y-auto px-3 py-4">
-        {navGroups.map((group, gi) => (
-          <div key={gi} className={gi > 0 ? 'mt-5' : ''}>
-            {group.title && (
-              <p className="mb-2 px-3 text-[10px] font-semibold tracking-wider text-white/50">
-                {group.title}
-              </p>
-            )}
+        {visibleGroups.map((group, gi) => (
+          <div key={group.title} className={gi > 0 ? 'mt-5' : ''}>
+            <p className="mb-2 px-3 text-[10px] font-semibold tracking-wider text-white/50">
+              {group.title}
+            </p>
             <ul className="space-y-0.5">
-              {group.items
-                .filter((item) => !item.permission || hasPermission(item.permission))
-                .map((item) => (
-                  <li key={item.to}>
-                    <NavLink to={item.to} className={linkClass} end={item.to === '/documentos'}>
-                      <item.icon size={18} />
-                      {item.label}
-                    </NavLink>
-                  </li>
-                ))}
+              {group.items.map((item) => (
+                <li key={`${item.to}-${item.label}`}>
+                  <NavLink
+                    to={item.to}
+                    className={linkClass}
+                    end={item.to === '/documentos'}
+                    aria-label={item.label}
+                  >
+                    <item.icon size={18} aria-hidden />
+                    {item.label}
+                  </NavLink>
+                </li>
+              ))}
             </ul>
           </div>
         ))}

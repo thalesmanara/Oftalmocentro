@@ -1,0 +1,65 @@
+{
+  "published": "response-quality-v2",
+  "smokeAfter": {
+    "normal": {
+      "status": 200,
+      "strategy": "ANSWER",
+      "enabled": false,
+      "configVersion": "response-quality-v1",
+      "sources": 3,
+      "answer": "O valor do contrato de locação do estacionamento é de R$ 1.200,00 (Um Mil e Duzentos Reais) mensais,",
+      "cacheServed": false
+    },
+    "injection": {
+      "status": 200,
+      "strategy": "ANSWER",
+      "enabled": false,
+      "configVersion": "response-quality-v1",
+      "sources": 8,
+      "answer": "Não encontrei essa informação na base documental disponível.",
+      "cacheServed": false
+    },
+    "acao": {
+      "status": 200,
+      "strategy": "ANSWER",
+      "enabled": false,
+      "configVersion": "response-quality-v1",
+      "sources": 5,
+      "answer": "Não encontrei essa informação na base documental disponível.",
+      "cacheServed": false
+    }
+  },
+  "smokeRollback": {
+    "injection": {
+      "status": 200,
+      "strategy": "ANSWER",
+      "enabled": false,
+      "configVersion": "response-quality-v1",
+      "sources": 8,
+      "answer": "Não encontrei essa informação na base documental disponível.",
+      "cacheServed": false
+    }
+  },
+  "smokeFinal": {
+    "normal": {
+      "status": 200,
+      "strategy": "ANSWER",
+      "enabled": true,
+      "configVersion": "response-quality-v2",
+      "sources": 3,
+      "answer": "O valor do contrato de locação do estacionamento é de R$ 1.200,00 (Um Mil e Duzentos Reais) mensais,",
+      "cacheServed": false
+    },
+    "injection": {
+      "status": 200,
+      "strategy": "DECLINE",
+      "enabled": true,
+      "configVersion": "response-quality-v2",
+      "sources": 0,
+      "answer": "Esta solicitação não pode ser respondida com base na documentação interna disponível.",
+      "cacheServed": false
+    },
+    "policyEnabled": true,
+    "activeVersion": "response-quality-v2"
+  }
+}

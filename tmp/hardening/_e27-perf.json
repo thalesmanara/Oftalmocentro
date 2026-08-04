@@ -1,0 +1,56 @@
+{
+  "at": "2026-08-04T01:48:58.316Z",
+  "healthComponents": [
+    "n8n",
+    "database",
+    "storage",
+    "tika",
+    "ocr",
+    "tabular",
+    "embeddings",
+    "configuration",
+    "sessions",
+    "audit",
+    "documents",
+    "backup",
+    "aiEval",
+    "aiPrompts",
+    "qdrant",
+    "retrieval",
+    "retrievalPipeline",
+    "contextWindow",
+    "semanticCache",
+    "evidenceLayer",
+    "responseQuality"
+  ],
+  "latencyMs": {
+    "health": {
+      "n": 5,
+      "avg": 1024,
+      "p50": 948,
+      "p90": 1367,
+      "p99": 1367,
+      "min": 885,
+      "max": 1367
+    },
+    "documentsList": {
+      "n": 5,
+      "avg": 518,
+      "p50": 488,
+      "p90": 796,
+      "p99": 796,
+      "min": 361,
+      "max": 796
+    },
+    "consultaIA": {
+      "n": 3,
+      "avg": 5198,
+      "p50": 5367,
+      "p90": 5600,
+      "p99": 5600,
+      "min": 4626,
+      "max": 5600
+    }
+  },
+  "note": "Bench amostral (não carga). OCR/upload/backup não executados em destrutivo nesta rodada."
+}

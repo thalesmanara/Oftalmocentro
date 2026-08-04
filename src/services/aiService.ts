@@ -88,7 +88,8 @@ export async function askAI(question: string): Promise<AIResponse> {
 
   const data = await apiPost<unknown>(
     '/webhook/consulta-ia',
-    { question: trimmed }
+    { question: trimmed },
+    { timeoutMs: 120_000 },
   )
 
   const parsed = parseAIResponse(data)

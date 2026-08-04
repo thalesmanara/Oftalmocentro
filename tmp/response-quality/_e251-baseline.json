@@ -1,0 +1,126 @@
+{
+  "versions": [
+    {
+      "id": "731f4a54-4472-45dd-8c9e-3777a67b58dc",
+      "label": "response-quality-v1",
+      "status": "PUBLISHED",
+      "mode": "VALIDATE",
+      "policyEnabled": false,
+      "strategies": {
+        "ANSWER": true,
+        "ABSTAIN": true,
+        "DECLINE": true,
+        "ANSWER_WITH_WARNING": true,
+        "REQUEST_CLARIFICATION": true,
+        "ANSWER_WITH_LIMITATION": true
+      },
+      "thresholds": {
+        "lowGradeLimitation": true,
+        "minSourcesForAnswer": 1,
+        "minCoverageForAnswer": 0.35,
+        "conflictRequiresWarning": true,
+        "lowConfidenceLimitation": true,
+        "ambiguousRequiresClarification": true,
+        "poorGradeAbstainWithoutSources": true,
+        "potentialConflictRequiresWarning": true
+      },
+      "phrases": {
+        "abstain": "Não foi localizada documentação interna suficiente para responder com segurança.",
+        "decline": "Esta solicitação não pode ser respondida com base na documentação interna disponível.",
+        "conflictPrefix": "Há divergência entre os documentos disponíveis. A informação mais recente indica:",
+        "limitationPrefix": "Os documentos disponíveis permitem uma resposta parcial:",
+        "clarificationPrefix": "Para consultar a documentação correta, preciso que você especifique:"
+      }
+    },
+    {
+      "id": "a33ead1f-6032-476a-b629-8ffbbadc8e37",
+      "label": "response-quality-v2",
+      "status": "DRAFT",
+      "mode": "VALIDATE_STRICT",
+      "policyEnabled": true,
+      "strategies": {
+        "ANSWER": true,
+        "ABSTAIN": true,
+        "DECLINE": true,
+        "ANSWER_WITH_WARNING": true,
+        "REQUEST_CLARIFICATION": true,
+        "ANSWER_WITH_LIMITATION": true
+      },
+      "thresholds": {
+        "lowGradeLimitation": true,
+        "minSourcesForAnswer": 1,
+        "minCoverageForAnswer": 0.35,
+        "conflictRequiresWarning": true,
+        "lowConfidenceLimitation": true,
+        "ambiguousRequiresClarification": true,
+        "poorGradeAbstainWithoutSources": true,
+        "potentialConflictRequiresWarning": true
+      },
+      "phrases": {
+        "abstain": "Não foi localizada documentação interna suficiente para responder com segurança.",
+        "decline": "Esta solicitação não pode ser respondida com base na documentação interna disponível.",
+        "conflictPrefix": "Há divergência entre os documentos disponíveis. A informação mais recente indica:",
+        "limitationPrefix": "Os documentos disponíveis permitem uma resposta parcial:",
+        "clarificationPrefix": "Para consultar a documentação correta, preciso que você especifique:"
+      }
+    }
+  ],
+  "secrets": [
+    {
+      "key": "cache_active_mode",
+      "value": "SHADOW"
+    },
+    {
+      "key": "cache_active_version",
+      "value": "cache-shadow-v1"
+    },
+    {
+      "key": "context_active_mode",
+      "value": "LEGACY"
+    },
+    {
+      "key": "context_active_version",
+      "value": "context-v1"
+    },
+    {
+      "key": "evidence_active_mode",
+      "value": "STRUCTURED"
+    },
+    {
+      "key": "evidence_active_version",
+      "value": "evidence-v1"
+    },
+    {
+      "key": "response_quality_active_mode",
+      "value": "VALIDATE"
+    },
+    {
+      "key": "response_quality_active_version",
+      "value": "response-quality-v1"
+    },
+    {
+      "key": "retrieval_active_mode",
+      "value": "HYBRID"
+    },
+    {
+      "key": "retrieval_active_version",
+      "value": "hybrid-v1"
+    },
+    {
+      "key": "retrieval_config_code",
+      "value": "AI_QUERY_RETRIEVAL"
+    }
+  ],
+  "permissions": [
+    "cadastrar_documentos",
+    "editar_configuracoes",
+    "editar_documentos",
+    "excluir_documentos",
+    "gerenciar_categorias",
+    "gerenciar_setores",
+    "gerenciar_usuarios",
+    "usar_consulta_ia",
+    "visualizar_auditoria",
+    "visualizar_documentos"
+  ]
+}

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { FlaskConical, PlayCircle, Download } from 'lucide-react'
 import { PageHeader } from '@/components/ui/PageHeader'
+import { TechnicalAreaBanner } from '@/components/ui/TechnicalAreaBanner'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -326,6 +327,7 @@ export function AiValidationPage() {
 
   return (
     <div>
+      <TechnicalAreaBanner />
       <PageHeader
         title="Validação IA"
         description="Framework de avaliação automatizada da Consulta IA"

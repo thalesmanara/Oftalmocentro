@@ -253,7 +253,11 @@ const QDRANT_SYNC_STATUS_LABELS: Record<string, string> = {
 
 export function qdrantSyncStatusLabel(status?: string | null): string {
   if (!status) return '—'
-  return QDRANT_SYNC_STATUS_LABELS[status.toUpperCase()] ?? status
+  const key = status.toUpperCase()
+  if (key === 'FAILED' || key === 'QDRANT_SYNC_FAILED') {
+    return 'Falha na indexação para consulta'
+  }
+  return QDRANT_SYNC_STATUS_LABELS[key] ?? status
 }
 
 export function qdrantSyncStatusVariant(

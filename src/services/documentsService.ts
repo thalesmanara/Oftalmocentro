@@ -394,7 +394,9 @@ export async function uploadDocumentFile(
   formData.append('documentId', documentId)
   formData.append('file', file)
 
-  const result = await apiUpload<unknown>('/webhook/documents/upload', formData)
+  const result = await apiUpload<unknown>('/webhook/documents/upload', formData, {
+    timeoutMs: 120_000,
+  })
 
   const parsed = parseUploadResult(result)
   if (parsed) return parsed
@@ -420,7 +422,11 @@ export async function uploadDocumentFile(
 }
 
 export async function processDocument(documentId: string): Promise<DocumentProcessResult> {
-  const result = await apiPost<unknown>('/webhook/documents/process', { documentId })
+  const result = await apiPost<unknown>(
+    '/webhook/documents/process',
+    { documentId },
+    { timeoutMs: 180_000 },
+  )
 
   if (Array.isArray(result)) {
     return {
@@ -615,11 +621,15 @@ export async function runDocumentOcr(
   documentId: string,
   options?: { versionId?: string; force?: boolean }
 ): Promise<DocumentOcrResult> {
-  const data = await apiPost<unknown>('/webhook/documents/ocr', {
-    documentId,
-    versionId: options?.versionId ?? null,
-    force: options?.force ?? true,
-  })
+  const data = await apiPost<unknown>(
+    '/webhook/documents/ocr',
+    {
+      documentId,
+      versionId: options?.versionId ?? null,
+      force: options?.force ?? true,
+    },
+    { timeoutMs: 180_000 },
+  )
 
   const record =
     data && typeof data === 'object'

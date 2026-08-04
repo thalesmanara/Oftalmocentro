@@ -12,6 +12,7 @@ import {
   ShieldCheck,
 } from 'lucide-react'
 import { PageHeader } from '@/components/ui/PageHeader'
+import { TechnicalAreaBanner } from '@/components/ui/TechnicalAreaBanner'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -394,6 +395,7 @@ export function AiPromptsPage() {
 
   return (
     <div>
+      <TechnicalAreaBanner />
       <PageHeader
         title="Prompts da IA"
         description="Governança de versões dos prompts utilizados pela Consulta IA e validações"

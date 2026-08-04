@@ -3,6 +3,7 @@ import type { SystemSettings } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
 import { useSettings } from '@/hooks/useSettings'
 import { PageHeader } from '@/components/ui/PageHeader'
+import { TechnicalAreaBanner } from '@/components/ui/TechnicalAreaBanner'
 import { Card } from '@/components/ui/Card'
 import { Input } from '@/components/ui/Input'
 import { Button } from '@/components/ui/Button'
@@ -46,6 +47,7 @@ export function SettingsPage() {
 
   return (
     <div>
+      <TechnicalAreaBanner />
       <PageHeader
         title="Configurações"
         description="Personalização visual e identidade do sistema"
