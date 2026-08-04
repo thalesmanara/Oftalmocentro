@@ -141,11 +141,11 @@ export function ConsultaIAPage() {
             </p>
           </div>
 
-          <Card title="Pergunta" className="print-section">
+          <Card title="Pergunta" className="print-section-keep">
             <p className="whitespace-pre-wrap text-sm text-slate-700">{question.trim()}</p>
           </Card>
 
-          <Card title="Resposta" className="print-section">
+          <Card title="Resposta" className="print-section print-answer">
             <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
               <SimpleMarkdown content={response.answer} />
             </div>
@@ -160,7 +160,7 @@ export function ConsultaIAPage() {
                 {uniqueSources.map((source) => (
                   <li
                     key={source.documentId}
-                    className="rounded-lg border border-slate-200 bg-white p-4 text-sm text-slate-700"
+                    className="print-source-item rounded-lg border border-slate-200 bg-white p-4 text-sm text-slate-700"
                   >
                     <p>
                       <span className="font-medium text-slate-900">Documento:</span>{' '}

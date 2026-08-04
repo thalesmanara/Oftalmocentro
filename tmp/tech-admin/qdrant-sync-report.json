@@ -1,0 +1,39 @@
+{
+  "at": "2026-08-04T15:40:53.950Z",
+  "counts": [
+    {
+      "processing_status": "processed",
+      "n": 56
+    }
+  ],
+  "remaining": [],
+  "report": [
+    {
+      "title": "8ª",
+      "id": "a2d13fce-7562-4682-99eb-c48d9ca1655c",
+      "valid": 37,
+      "synced": 37,
+      "total": 37,
+      "upsertSynced": 37,
+      "upsertFailed": 0
+    },
+    {
+      "title": "9ª",
+      "id": "b23f6c91-1a54-45ce-bb6a-ed970b667add",
+      "valid": 82,
+      "synced": 82,
+      "total": 82,
+      "upsertSynced": 82,
+      "upsertFailed": 0
+    },
+    {
+      "title": "10ª",
+      "id": "e4e8cf29-375f-4e87-bb5c-8d4558a314ff",
+      "valid": 50,
+      "synced": 50,
+      "total": 50,
+      "upsertSynced": 50,
+      "upsertFailed": 0
+    }
+  ]
+}
