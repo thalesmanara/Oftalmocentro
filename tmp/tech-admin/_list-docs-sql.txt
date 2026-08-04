@@ -1,0 +1,108 @@
+=SELECT
+  d.id,
+  d.title,
+  d.sector_id AS "sectorId",
+  s.name AS "sectorName",
+  d.category_id AS "categoryId",
+  c.name AS "categoryName",
+  c.description AS "categoryDescription",
+  d.subcategory_id AS "subcategoryId",
+  sc.name AS "subcategoryName",
+  sc.description AS "subcategoryDescription",
+  d.semantic_description AS "semanticDescription",
+  d.expiration_date AS "expirationDate",
+  COALESCE(dv.original_file_name, d.file_name) AS "fileName",
+  COALESCE(dv.detected_mime_type, d.file_type) AS "fileType",
+  COALESCE(dv.file_size, d.file_size) AS "fileSize",
+  d.processing_status AS "processingStatus",
+  d.processed_at AS "processedAt",
+  d.responsible_user_id AS "responsibleUserId",
+  ru.name AS "responsibleUserName",
+  d.created_by AS "createdBy",
+  cb.name AS "createdByName",
+  d.updated_by AS "updatedBy",
+  ub.name AS "updatedByName",
+  d.created_at AS "createdAt",
+  d.updated_at AS "updatedAt",
+  d.current_version_id AS "currentVersionId",
+  d.current_version_number AS "currentVersionNumber",
+  dv.original_file_name AS "originalFileName",
+  dv.file_extension AS "fileExtension",
+  dv.browser_mime_type AS "browserMimeType",
+  dv.detected_mime_type AS "detectedMimeType",
+  LEFT(dv.checksum, 64) AS "checksum",
+  dv.checksum_algorithm AS "checksumAlgorithm",
+  dv.validation_status AS "validationStatus",
+  dv.validation_error_code AS "validationErrorCode",
+  dv.validated_at AS "validatedAt",
+  dv.page_count AS "pageCount",
+  dv.ocr_status AS "ocrStatus",
+  dv.ocr_engine AS "ocrEngine",
+  dv.ocr_languages AS "ocrLanguages",
+  dv.ocr_attempts AS "ocrAttempts",
+  dv.ocr_error_code AS "ocrErrorCode",
+  dv.ocr_started_at AS "ocrStartedAt",
+  dv.ocr_finished_at AS "ocrFinishedAt",
+  dv.ocr_duration_ms AS "ocrDurationMs",
+  dv.extraction_method AS "extractionMethod",
+  dv.ocr_derived_file_name AS "ocrDerivedFileName",
+  dv.ocr_page_count AS "ocrPageCount",
+  (dv.ocr_derived_file_path IS NOT NULL) AS "hasOcrDerivedFile",
+  dv.ocr_quality_score AS "ocrQualityScore",
+  dv.ocr_quality_grade AS "ocrQualityGrade",
+  dv.ocr_word_count AS "ocrWordCount",
+  dv.ocr_unique_word_count AS "ocrUniqueWordCount",
+  dv.ocr_character_count AS "ocrCharacterCount",
+  dv.ocr_characters_per_page AS "ocrCharactersPerPage",
+  dv.ocr_quality_reason AS "ocrQualityReason",
+  dv.ocr_review_reason AS "ocrReviewReason",
+  dv.ocr_mode AS "ocrMode",
+  dv.sheet_count AS "sheetCount",
+  dv.table_row_count AS "tableRowCount",
+  dv.table_column_count AS "tableColumnCount",
+  dv.table_summary AS "tableSummary",
+  (dv.table_preview IS NOT NULL) AS "hasTablePreview",
+  dv.embedding_status AS "embeddingStatus",
+  dv.embedding_model AS "embeddingModel",
+  dv.embedding_dimensions AS "embeddingDimensions",
+  dv.embedding_pending_count AS "embeddingPendingCount",
+  dv.embedding_valid_count AS "embeddingValidCount",
+  dv.embedding_failed_count AS "embeddingFailedCount",
+  dv.embedding_completed_at AS "embeddingCompletedAt",
+  dv.embedding_avg_ms AS "embeddingAvgMs",
+  dv.qdrant_sync_status AS "qdrantSyncStatus",
+  dv.qdrant_synced_count AS "qdrantSyncedCount",
+  dv.qdrant_pending_count AS "qdrantPendingCount",
+  dv.qdrant_failed_count AS "qdrantFailedCount",
+  dv.qdrant_collection AS "qdrantCollection",
+  dv.qdrant_synced_at AS "qdrantSyncedAt"
+FROM documents d
+LEFT JOIN document_versions dv ON dv.id = d.current_version_id
+LEFT JOIN sectors s ON s.id = d.sector_id
+LEFT JOIN categories c ON c.id = d.category_id
+LEFT JOIN subcategories sc ON sc.id = d.subcategory_id
+LEFT JOIN users ru ON ru.id = d.responsible_user_id
+LEFT JOIN users cb ON cb.id = d.created_by
+LEFT JOIN users ub ON ub.id = d.updated_by
+WHERE d.deleted_at IS NULL
+  AND (
+    NULLIF('{{ $json.query.title || "" }}', '') IS NULL
+    OR d.title ILIKE '%' || NULLIF('{{ $json.query.title || "" }}', '') || '%'
+  )
+  AND (
+    NULLIF('{{ $json.query.sectorId || "" }}', '') IS NULL
+    OR d.sector_id = NULLIF('{{ $json.query.sectorId || "" }}', '')::uuid
+  )
+  AND (
+    NULLIF('{{ $json.query.categoryId || "" }}', '') IS NULL
+    OR d.category_id = NULLIF('{{ $json.query.categoryId || "" }}', '')::uuid
+  )
+  AND (
+    NULLIF('{{ $json.query.subcategoryId || "" }}', '') IS NULL
+    OR d.subcategory_id = NULLIF('{{ $json.query.subcategoryId || "" }}', '')::uuid
+  )
+  AND (
+    NULLIF('{{ $json.query.processingStatus || "" }}', '') IS NULL
+    OR d.processing_status = NULLIF('{{ $json.query.processingStatus || "" }}', '')
+  )
+ORDER BY d.expiration_date DESC NULLS LAST, d.updated_at DESC;

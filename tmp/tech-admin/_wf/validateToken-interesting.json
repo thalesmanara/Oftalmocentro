@@ -1,0 +1,79 @@
+[
+  {
+    "name": "Carregar secret",
+    "type": "n8n-nodes-base.postgres",
+    "query": "SELECT value AS \"jwtSecret\" FROM app_secrets WHERE key = 'jwt_hs256_secret' LIMIT 1;",
+    "jsCode": null,
+    "workflowInputs": null,
+    "values": null
+  },
+  {
+    "name": "Validar JWT",
+    "type": "n8n-nodes-base.code",
+    "query": null,
+    "jsCode": "const crypto = require('crypto');\nconst triggerItem = $('Trigger').first().json;\nconst auth = String(triggerItem.authorization || (triggerItem.headers && (triggerItem.headers.authorization || triggerItem.headers.Authorization)) || '');\nconst secret = String($input.first().json.jwtSecret || '');\nconst match = auth.match(/^Bearer\\s+(.+)$/i);\nfunction fail(message) {\n  return [{\n    json: {\n      ok: false,\n      success: false,\n      statusCode: 401,\n      message,\n      error: { code: 'UNAUTHORIZED', message },\n      requestId: String(($('Trigger').first().json.requestId) || ''),\n    },\n  }];\n}\nif (!match || !secret) return fail('Autenticação obrigatória.');\nconst token = match[1].trim();\nconst parts = token.split('.');\nif (parts.length !== 3) return fail('Autenticação obrigatória.');\nconst h = parts[0];\nconst p = parts[1];\nconst s = parts[2];\nconst expected = crypto.createHmac('sha256', secret).update(h + '.' + p).digest('base64url');\nconst a = Buffer.from(s);\nconst b = Buffer.from(expected);\nif (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return fail('Autenticação obrigatória.');\nlet payload;\ntry { payload = JSON.parse(Buffer.from(p, 'base64url').toString('utf8')); } catch { return fail('Autenticação obrigatória.'); }\nconst now = Math.floor(Date.now() / 1000);\nif (payload.exp && now >= Number(payload.exp)) return fail('Autenticação obrigatória.');\nconst sessionId = payload.sessionId || payload.sid;\nconst userId = payload.userId || payload.sub;\nif (!sessionId || !userId) return fail('Autenticação obrigatória.');\nreturn [{ json: { ok: true, sessionId: String(sessionId), userId: String(userId), tokenId: payload.jti ? String(payload.jti) : '', requestId: String(($('Trigger').first().json.requestId) || '') } }];",
+    "workflowInputs": null,
+    "values": null
+  },
+  {
+    "name": "Validar sessão",
+    "type": "n8n-nodes-base.postgres",
+    "query": "WITH touched AS (\n  UPDATE user_sessions\n  SET last_activity = NOW()\n  WHERE id = '{{ $json.sessionId }}'::uuid\n    AND user_id = '{{ $json.userId }}'::uuid\n    AND revoked = FALSE\n    AND expires_at > NOW()\n  RETURNING id, user_id, expires_at\n)\nSELECT\n  s.id AS \"sessionId\",\n  u.id AS \"userId\",\n  u.name,\n  u.email,\n  u.sector_id AS \"sectorId\",\n  sec.name AS \"sectorName\",\n  u.active,\n  u.is_master AS \"isMaster\",\n  s.expires_at AS \"expiresAt\",\n  CASE\n    WHEN u.is_master = TRUE THEN (\n      SELECT COALESCE(json_agg(p_all.code ORDER BY p_all.name), '[]'::json)\n      FROM permissions p_all WHERE p_all.code <> 'gerenciar_tags'\n    )\n    ELSE COALESCE((\n      SELECT json_agg(p.code ORDER BY p.code)\n      FROM user_permissions up\n      JOIN permissions p ON p.id = up.permission_id\n      WHERE up.user_id = u.id AND p.code <> 'gerenciar_tags'\n    ), '[]'::json)\n  END AS permissions\nFROM touched s\nJOIN users u ON u.id = s.user_id\nLEFT JOIN sectors sec ON sec.id = u.sector_id\nWHERE u.active = TRUE;",
+    "jsCode": null,
+    "workflowInputs": null,
+    "values": null
+  },
+  {
+    "name": "Auth OK",
+    "type": "n8n-nodes-base.set",
+    "query": null,
+    "jsCode": null,
+    "workflowInputs": null,
+    "values": {
+      "assignments": [
+        {
+          "id": "1",
+          "name": "ok",
+          "value": true,
+          "type": "boolean"
+        },
+        {
+          "id": "2",
+          "name": "success",
+          "value": true,
+          "type": "boolean"
+        },
+        {
+          "id": "3",
+          "name": "sessionId",
+          "value": "={{ $json.sessionId }}",
+          "type": "string"
+        },
+        {
+          "id": "4",
+          "name": "userId",
+          "value": "={{ $json.userId }}",
+          "type": "string"
+        },
+        {
+          "id": "5",
+          "name": "permissions",
+          "value": "={{ $json.permissions }}",
+          "type": "array"
+        },
+        {
+          "id": "6",
+          "name": "user",
+          "value": "={{ ({ id: $json.userId, name: $json.name, email: $json.email, sectorId: $json.sectorId, sectorName: $json.sectorName, active: $json.active, isMaster: $json.isMaster, permissions: Array.isArray($json.permissions) ? $json.permissions : [] }) }}",
+          "type": "object"
+        },
+        {
+          "id": "7",
+          "name": "requestId",
+          "value": "={{ $('Trigger').first().json.requestId || '' }}",
+          "type": "string"
+        }
+      ]
+    }
+  }
+]

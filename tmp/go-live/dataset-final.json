@@ -1,0 +1,470 @@
+{
+  "at": "2026-08-04T13:55:14.112Z",
+  "note": "Run limpo após correção SyntaxError em IA - EXECUTAR TESTE (Avaliar e montar insert).",
+  "fixVersionId": "16b5ffbc-7d2e-42de-b1e2-a005915f5681",
+  "triggered": {
+    "status": 0,
+    "error": "fetch failed"
+  },
+  "latestRun": {
+    "id": "f2c18773-4121-4feb-97dd-abb61c0494fd",
+    "status": "PARTIAL",
+    "total_cases": 100,
+    "passed_count": 83,
+    "failed_count": 17,
+    "error_count": 0,
+    "skipped_count": 0,
+    "overall_score": "87.30",
+    "started_at": "2026-08-04T16:41:20.260Z",
+    "finished_at": "2026-08-04T16:55:09.967Z",
+    "trigger_mode": "dataset",
+    "retrieval_mode": "HYBRID",
+    "retrieval_config_version": "hybrid-v1",
+    "prompt_version": "AI_QUERY_MAIN@v1:9faa2e456571",
+    "model_name": "gpt-4.1-mini"
+  },
+  "totals": {
+    "total": 100,
+    "passed": 83,
+    "failed": 17,
+    "errors": 0,
+    "skipped": 0,
+    "score": "87.30",
+    "status": "PARTIAL"
+  },
+  "policy": {
+    "abstain": 0,
+    "decline": 0,
+    "warning": 0
+  },
+  "hallucinations": 0,
+  "technicalErrors": 0,
+  "failedCases": [
+    {
+      "code": "TC-001",
+      "score": "50.00",
+      "strategy": "ANSWER_WITH_LIMITATION"
+    },
+    {
+      "code": "TC-002",
+      "score": "10.00",
+      "strategy": "ANSWER"
+    },
+    {
+      "code": "TC-013",
+      "score": "50.00",
+      "strategy": "ANSWER"
+    },
+    {
+      "code": "TC-025",
+      "score": "10.00",
+      "strategy": "ANSWER"
+    },
+    {
+      "code": "TC-037",
+      "score": "50.00",
+      "strategy": "ANSWER_WITH_LIMITATION"
+    },
+    {
+      "code": "TC-038",
+      "score": "50.00",
+      "strategy": "ANSWER_WITH_LIMITATION"
+    },
+    {
+      "code": "TC-054",
+      "score": "50.00",
+      "strategy": "ANSWER"
+    },
+    {
+      "code": "TC-061",
+      "score": "50.00",
+      "strategy": "ANSWER_WITH_LIMITATION"
+    },
+    {
+      "code": "TC-069",
+      "score": "10.00",
+      "strategy": "ANSWER"
+    },
+    {
+      "code": "TC-073",
+      "score": "10.00",
+      "strategy": "ANSWER"
+    },
+    {
+      "code": "TC-077",
+      "score": "10.00",
+      "strategy": "ANSWER"
+    },
+    {
+      "code": "TC-082",
+      "score": "10.00",
+      "strategy": "ANSWER"
+    },
+    {
+      "code": "TC-091",
+      "score": "10.00",
+      "strategy": "ANSWER"
+    },
+    {
+      "code": "TC-092",
+      "score": "10.00",
+      "strategy": "ANSWER"
+    },
+    {
+      "code": "TC-094",
+      "score": "10.00",
+      "strategy": "ANSWER"
+    },
+    {
+      "code": "TC-095",
+      "score": "50.00",
+      "strategy": "ANSWER_WITH_LIMITATION"
+    },
+    {
+      "code": "TC-096",
+      "score": "10.00",
+      "strategy": "ANSWER"
+    }
+  ],
+  "metrics": {
+    "id": "3e83c54d-0bfd-459f-870c-c65fe2d0638c",
+    "run_id": "f2c18773-4121-4feb-97dd-abb61c0494fd",
+    "precision": "83.00",
+    "recall": "83.87",
+    "document_coverage": "95.35",
+    "category_coverage": {
+      "RH": {
+        "total": 22,
+        "passed": 17,
+        "precision": 77.27
+      },
+      "OCR": {
+        "total": 1,
+        "passed": 0,
+        "precision": 0
+      },
+      "POP": {
+        "total": 2,
+        "passed": 2,
+        "precision": 100
+      },
+      "Exames": {
+        "total": 6,
+        "passed": 5,
+        "precision": 83.33
+      },
+      "Normas": {
+        "total": 8,
+        "passed": 6,
+        "precision": 75
+      },
+      "Médicos": {
+        "total": 10,
+        "passed": 9,
+        "precision": 90
+      },
+      "Planilhas": {
+        "total": 2,
+        "passed": 2,
+        "precision": 100
+      },
+      "Convênios": {
+        "total": 1,
+        "passed": 0,
+        "precision": 0
+      },
+      "Documentos": {
+        "total": 24,
+        "passed": 19,
+        "precision": 79.17
+      },
+      "Financeiro": {
+        "total": 14,
+        "passed": 13,
+        "precision": 92.86
+      },
+      "Casos vencidos": {
+        "total": 4,
+        "passed": 4,
+        "precision": 100
+      },
+      "Casos ambíguos": {
+        "total": 1,
+        "passed": 1,
+        "precision": 100
+      },
+      "Casos negativos": {
+        "total": 4,
+        "passed": 4,
+        "precision": 100
+      },
+      "Casos conflitantes": {
+        "total": 1,
+        "passed": 1,
+        "precision": 100
+      }
+    },
+    "avg_duration_ms": "0.00",
+    "min_duration_ms": 0,
+    "max_duration_ms": 0,
+    "sources_correct_count": 85,
+    "sources_incorrect_count": 10,
+    "document_correct_count": 85,
+    "category_correct_count": 5,
+    "subcategory_correct_count": 5,
+    "hallucination_count": 0,
+    "empty_answer_count": 0,
+    "internal_error_count": 0,
+    "passed_count": 83,
+    "failed_count": 17,
+    "total_count": 100,
+    "overall_score": "87.30",
+    "top_errors": [
+      {
+        "score": 50,
+        "verdict": "FAIL",
+        "caseCode": "TC-001",
+        "question": "Qual o CPF da enfermeira Bianca na relação de funcionários?"
+      },
+      {
+        "score": 10,
+        "verdict": "FAIL",
+        "caseCode": "TC-002",
+        "question": "Em qual setor trabalha Barbara Aparecida Muniz de Lima?"
+      },
+      {
+        "score": 50,
+        "verdict": "FAIL",
+        "caseCode": "TC-013",
+        "question": "Há anotação de responsabilidade técnica para elaboração de projeto de incêndio?"
+      },
+      {
+        "score": 10,
+        "verdict": "FAIL",
+        "caseCode": "TC-025",
+        "question": "Existe FISPQ de nitrogênio medicinal?"
+      },
+      {
+        "score": 50,
+        "verdict": "FAIL",
+        "caseCode": "TC-037",
+        "question": "Há cartão CNPJ da Oftalmocentro?"
+      },
+      {
+        "score": 50,
+        "verdict": "FAIL",
+        "caseCode": "TC-038",
+        "question": "Existe cadastro mobiliário da Prefeitura de Uberaba?"
+      },
+      {
+        "score": 50,
+        "verdict": "FAIL",
+        "caseCode": "TC-054",
+        "question": "A relação de funcionários também existe em Word?"
+      },
+      {
+        "score": 50,
+        "verdict": "FAIL",
+        "caseCode": "TC-061",
+        "question": "Cadastro mobiliário municipal existe?"
+      },
+      {
+        "score": 10,
+        "verdict": "FAIL",
+        "caseCode": "TC-069",
+        "question": "Contrato de estacionamento Satyro existe?"
+      },
+      {
+        "score": 10,
+        "verdict": "FAIL",
+        "caseCode": "TC-073",
+        "question": "PGT revisão 03 está cadastrado?"
+      },
+      {
+        "score": 10,
+        "verdict": "FAIL",
+        "caseCode": "TC-077",
+        "question": "Documento de biometria e cálculo de LIO existe?"
+      },
+      {
+        "score": 10,
+        "verdict": "FAIL",
+        "caseCode": "TC-082",
+        "question": "Comodato da Dra Maria Flávia existe?"
+      },
+      {
+        "score": 10,
+        "verdict": "FAIL",
+        "caseCode": "TC-091",
+        "question": "ART de projeto de incêndio existe?"
+      },
+      {
+        "score": 10,
+        "verdict": "FAIL",
+        "caseCode": "TC-092",
+        "question": "Qual o código e valor do exame OCT no convênio Unimed?"
+      },
+      {
+        "score": 10,
+        "verdict": "FAIL",
+        "caseCode": "TC-094",
+        "question": "Qual o texto OCR do contrato social escaneado de baixa qualidade?"
+      },
+      {
+        "score": 50,
+        "verdict": "FAIL",
+        "caseCode": "TC-095",
+        "question": "Qual o CPF da enfermeira Bianca na relação de funcionários na base documental?"
+      },
+      {
+        "score": 10,
+        "verdict": "FAIL",
+        "caseCode": "TC-096",
+        "question": "Em qual setor trabalha Barbara Aparecida Muniz de Lima na base documental?"
+      }
+    ],
+    "top_documents": [
+      {
+        "count": 43,
+        "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+        "documentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139"
+      },
+      {
+        "count": 23,
+        "title": "REQUERIMENTO DE REGISTRO DE ANOTAÇÃO DE RESPONSABILIDADE TECNICA COREN - ARQUIVO WORD",
+        "documentId": "a01d3c51-0b1f-48a0-8f12-f8bcdf6dcd2a"
+      },
+      {
+        "count": 20,
+        "title": "CERTIDÃO DE REGULARIDADE COREN - TÉCNICA DE ENFERMAGEM DAYANA",
+        "documentId": "7d995627-21ac-4607-b221-8ff59c15d389"
+      },
+      {
+        "count": 18,
+        "title": "ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026",
+        "documentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1"
+      },
+      {
+        "count": 18,
+        "title": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA MARIANA",
+        "documentId": "c8f367df-8ada-4424-baf7-24c6bc5dff09"
+      },
+      {
+        "count": 17,
+        "title": "TABELA DE PREÇOS CONSULTAS E EXAMES PARTICULARES",
+        "documentId": "791232df-765c-412d-8bc2-2b2ecfd15f4f"
+      },
+      {
+        "count": 16,
+        "title": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO WORD",
+        "documentId": "dc44a492-d463-4028-b907-37117124163d"
+      },
+      {
+        "count": 14,
+        "title": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA",
+        "documentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207"
+      },
+      {
+        "count": 14,
+        "title": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA",
+        "documentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad"
+      },
+      {
+        "count": 14,
+        "title": "AVCB - AUTO DE VISTORIA DO CORPO DE BOMBEIROS 21/11/2029",
+        "documentId": "a302ac20-dc23-4e4c-b49b-9d57808a8f77"
+      },
+      {
+        "count": 13,
+        "title": "TERMO DE CIENCIA - LENTE INTRA OCULAR",
+        "documentId": "a02d647e-6487-47ce-9b37-6ea7ee5e8c09"
+      },
+      {
+        "count": 12,
+        "title": "CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA - ARQUIVO WORD",
+        "documentId": "71e5029f-4881-4fe4-9dc9-048f178b1165"
+      },
+      {
+        "count": 11,
+        "title": "CERTIFICADO DE LICENCIAMENTO AMBIENTAL",
+        "documentId": "ed7aa0c2-1b20-4480-84d1-f7627b45a7d8"
+      },
+      {
+        "count": 10,
+        "title": "ALVARÁ DE LICENÇA SANITÁTIA EMITIDO EM 13/07/2023",
+        "documentId": "d19ac5f2-cc0d-4da4-abdb-9ebbb38fd6f3"
+      },
+      {
+        "count": 10,
+        "title": "ALVARÁ DE LICENÇA, LOCALIZAÇÃO E FUNCIONAMENTO",
+        "documentId": "d3d4dc55-648f-4e56-bf8e-086dd6272a3f"
+      }
+    ],
+    "score_formula": "Per-case: answerQuality40 + sources30 + document20 + latency10. Run overall = average(case scores). Precision = passed/total.",
+    "created_at": "2026-08-04T16:55:09.848Z",
+    "recall_at_k": null,
+    "precision_at_k": null,
+    "mrr": "0",
+    "hit_rate": "0",
+    "avg_retrieval_latency_ms": null,
+    "avg_rerank_latency_ms": "0",
+    "fallback_count": 0,
+    "retrieval_cases_evaluated": 91,
+    "retrieval_cases_skipped": 9,
+    "source_precision": null,
+    "source_recall": null,
+    "avg_available_context_tokens": null,
+    "avg_estimated_context_tokens": null,
+    "avg_context_utilization_rate": null,
+    "avg_included_chunks": null,
+    "avg_excluded_chunks": null,
+    "context_overflow_count": null,
+    "empty_context_count": null,
+    "context_fallback_count": null,
+    "insufficient_context_count": null,
+    "avg_context_build_latency_ms": null,
+    "cache_hit_rate": null,
+    "cache_exact_hit_rate": null,
+    "cache_semantic_hit_rate": null,
+    "cache_false_hit_rate": null,
+    "cache_miss_rate": null,
+    "cache_cacheable_query_rate": null,
+    "cache_avg_lookup_latency_ms": null,
+    "cache_estimated_tokens_saved": null,
+    "cache_estimated_cost_saved": null,
+    "cache_estimated_latency_saved_ms": null,
+    "cache_answer_agreement_rate": null,
+    "cache_source_agreement_rate": null,
+    "cache_shadow_candidate_count": null,
+    "avg_evidence_score": null,
+    "avg_evidence_count": null,
+    "evidence_conflict_rate": null,
+    "evidence_redundancy_rate": null,
+    "avg_evidence_coverage": null,
+    "avg_evidence_confidence": null,
+    "avg_evidence_diversity": null,
+    "avg_evidence_build_latency_ms": null,
+    "avg_quality_score": null,
+    "avg_source_coverage": null,
+    "consistency_ok_rate": null,
+    "conflict_rate": null,
+    "hallucination_rate": null,
+    "missing_sources_rate": null,
+    "avg_citation_quality": null,
+    "avg_response_quality_latency_ms": null,
+    "response_policy_warning_rate": "0",
+    "response_policy_limitation_rate": "0",
+    "response_policy_clarification_rate": "0",
+    "response_policy_abstention_rate": "0",
+    "response_policy_decline_rate": "0",
+    "response_policy_conflict_explanation_rate": "0",
+    "response_policy_low_confidence_handling_rate": "0",
+    "avg_response_policy_latency_ms": "0"
+  },
+  "criteria": {
+    "zeroStructuralError": true,
+    "hasRun": true,
+    "fullOrNearFull": true,
+    "zeroHallucination": true
+  }
+}

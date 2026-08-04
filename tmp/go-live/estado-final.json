@@ -1,0 +1,75 @@
+{
+  "at": "2026-08-04T13:55:43.868Z",
+  "decision": "GO_CONDICIONAL",
+  "decisionNote": "Homologação técnica OK. Go Live oficial depende de assinatura humana em docs/TERMO_ACEITE.md (risco backup externo / DR).",
+  "secrets": {
+    "cache_active_mode": "SHADOW",
+    "cache_active_version": "cache-shadow-v1",
+    "context_active_mode": "LEGACY",
+    "context_active_version": "context-v1",
+    "evidence_active_mode": "STRUCTURED",
+    "evidence_active_version": "evidence-v1",
+    "response_quality_active_mode": "VALIDATE_STRICT",
+    "response_quality_active_version": "response-quality-v2",
+    "retrieval_active_mode": "HYBRID",
+    "retrieval_active_version": "hybrid-v1"
+  },
+  "published": [
+    {
+      "layer": "retrieval",
+      "version_label": "hybrid-v1",
+      "status": "PUBLISHED",
+      "mode": "HYBRID"
+    },
+    {
+      "layer": "context",
+      "version_label": "context-v1",
+      "status": "PUBLISHED",
+      "mode": "LEGACY"
+    },
+    {
+      "layer": "cache",
+      "version_label": "cache-shadow-v1",
+      "status": "PUBLISHED",
+      "mode": "SHADOW"
+    },
+    {
+      "layer": "evidence",
+      "version_label": "evidence-v1",
+      "status": "PUBLISHED",
+      "mode": "STRUCTURED"
+    },
+    {
+      "layer": "response_quality",
+      "version_label": "response-quality-v2",
+      "status": "PUBLISHED",
+      "mode": "VALIDATE_STRICT"
+    }
+  ],
+  "drafts": [
+    {
+      "layer": "retrieval",
+      "version_label": "hybrid-rerank-v1",
+      "status": "DRAFT",
+      "mode": "HYBRID_RERANK"
+    },
+    {
+      "layer": "context",
+      "version_label": "context-budget-v1",
+      "status": "DRAFT",
+      "mode": "BUDGETED"
+    }
+  ],
+  "datasetFinal": {
+    "runId": "f2c18773-4121-4bef-97dd-abb61c0494fd",
+    "total": 100,
+    "pass": 83,
+    "fail": 17,
+    "errors": 0,
+    "score": 87.3,
+    "hallucinations": 0
+  },
+  "architecturePreserved": true,
+  "cacheServeDisabled": true,
+  "draftsNotPublished": true
+}

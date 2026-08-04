@@ -1,0 +1,68 @@
+{
+  "at": "2026-08-04T13:17:23.834Z",
+  "latencyMs": {
+    "health": {
+      "n": 5,
+      "avg": 1010,
+      "p50": 940,
+      "p90": 1321,
+      "p99": 1321,
+      "min": 891,
+      "max": 1321
+    },
+    "documents": {
+      "n": 5,
+      "avg": 552,
+      "p50": 430,
+      "p90": 888,
+      "p99": 888,
+      "min": 346,
+      "max": 888
+    },
+    "consultaIA": {
+      "n": 3,
+      "avg": 7359,
+      "p50": 7550,
+      "p90": 7608,
+      "p99": 7608,
+      "min": 6920,
+      "max": 7608
+    }
+  },
+  "concurrency5": {
+    "results": [
+      {
+        "ms": 11370,
+        "ok": true,
+        "status": 200
+      },
+      {
+        "ms": 12621,
+        "ok": true,
+        "status": 200
+      },
+      {
+        "ms": 15091,
+        "ok": true,
+        "status": 200
+      },
+      {
+        "ms": 12945,
+        "ok": true,
+        "status": 200
+      },
+      {
+        "ms": 14216,
+        "ok": true,
+        "status": 200
+      }
+    ],
+    "okCount": 5,
+    "avgMs": 13249,
+    "maxMs": 15091
+  },
+  "limitsSuggested": {
+    "maxConcurrentConsultaIA": 5,
+    "note": "VPS 1 vCPU — evitar 10+ consultas simultâneas em produção sem scaling"
+  }
+}

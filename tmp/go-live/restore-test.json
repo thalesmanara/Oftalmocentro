@@ -1,0 +1,16 @@
+{
+  "at": "2026-08-04T13:31:40Z",
+  "result": "OK_ISOLATED_SUBSET_RESTORE",
+  "fullDisasterRecoveryClaim": false,
+  "externalBackup": false,
+  "countsMatched": {
+    "documents": { "prod": 58, "restore": 58 },
+    "users": { "prod": 5, "restore": 5 },
+    "ai_test_cases": { "prod": 100, "restore": 100 },
+    "app_secrets": { "prod": 64, "restore": 64 },
+    "backup_runs": { "prod": 24, "restore": 24 }
+  },
+  "checksumSha256": "e1ae3cb4f631c93e1f9e77463ccec41b1b7021b9953bea8fdbc972364189d948",
+  "tempDbRemoved": true,
+  "productionUntouched": true
+}

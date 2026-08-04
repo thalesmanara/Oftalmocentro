@@ -1,0 +1,93 @@
+{
+  "at": "2026-08-04T14:23:58.094Z",
+  "passed": 17,
+  "total": 17,
+  "failed": [],
+  "results": [
+    {
+      "name": "1 migration column",
+      "pass": true,
+      "detail": "{\"column_default\":\"false\",\"is_nullable\":\"NO\"}"
+    },
+    {
+      "name": "2 existing false",
+      "pass": true,
+      "detail": "{\"n\":5,\"t\":0}"
+    },
+    {
+      "name": "7 login returns isTechnicalAdmin",
+      "pass": true,
+      "detail": "keys=id,name,email,sectorId,sectorName,active,isMaster,isTechnicalAdmin,permissions"
+    },
+    {
+      "name": "lab not master",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "8 validate session isTechnicalAdmin",
+      "pass": true,
+      "detail": "status=200 user={\"id\":\"06e0915e-0f90-42b1-a32c-ae5e0f7de1c6\",\"name\":\"Livia Maria Vieira de Sousa\",\"email\":\"compras@oftalmocentrouberaba.com.br\",\"sectorId\":\"b0d15c63-9c28-4c2d-b9ad-fa95a11fecfb\",\"sectorName\":\"COMPRAS\""
+    },
+    {
+      "name": "22 common tech endpoint 403",
+      "pass": true,
+      "detail": "status=403"
+    },
+    {
+      "name": "22b prompts 403",
+      "pass": true,
+      "detail": "status=403"
+    },
+    {
+      "name": "settings institutional not blocked solely by tech gate",
+      "pass": true,
+      "detail": "status=200 (403 ok if sem editar_configuracoes)"
+    },
+    {
+      "name": "7b login after grant",
+      "pass": true,
+      "detail": "{\"isTechnicalAdmin\":true,\"isMaster\":false}"
+    },
+    {
+      "name": "12-20 tech admin health",
+      "pass": true,
+      "detail": "status=200"
+    },
+    {
+      "name": "13 tech admin prompts",
+      "pass": true,
+      "detail": "status=200"
+    },
+    {
+      "name": "14 tech admin retrieval",
+      "pass": true,
+      "detail": "status=200"
+    },
+    {
+      "name": "25 tech admin cannot assign master",
+      "pass": true,
+      "detail": "status=403"
+    },
+    {
+      "name": "24 no general bypass — users depends on permission",
+      "pass": true,
+      "detail": "status=403"
+    },
+    {
+      "name": "6 revoke persists",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "11 after revoke health 403",
+      "pass": true,
+      "detail": "status=403"
+    },
+    {
+      "name": "26/27 common cannot assign tech admin",
+      "pass": true,
+      "detail": "status=403"
+    }
+  ]
+}

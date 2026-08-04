@@ -6,6 +6,7 @@ import { getPermissions } from '@/services/permissionsService'
 import type { User, UserFormData, Permission, Sector } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
 import { getSectorNameById } from '@/utils/entities'
+import { getUserRoleBadge } from '@/utils/permissions'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { Card } from '@/components/ui/Card'
 import { Button } from '@/components/ui/Button'
@@ -25,12 +26,14 @@ const emptyForm: UserFormData = {
   sectorId: null,
   active: true,
   isMaster: false,
+  isTechnicalAdmin: false,
   permissions: [],
 }
 
 export function UsersPage() {
   const { user: currentUser, hasPermission } = useAuth()
   const canManage = hasPermission('gerenciar_usuarios')
+  const canEditPrivileges = currentUser?.isMaster === true
 
   const [users, setUsers] = useState<User[]>([])
   const [loading, setLoading] = useState(true)
@@ -89,6 +92,7 @@ export function UsersPage() {
       sectorId: u.sectorId,
       active: u.active,
       isMaster: u.isMaster,
+      isTechnicalAdmin: u.isTechnicalAdmin,
       permissions: [...u.permissions],
     })
     setModalOpen(true)
@@ -114,23 +118,28 @@ export function UsersPage() {
 
     setSaving(true)
     try {
+      const payload = {
+        name: form.name.trim(),
+        email: form.email.trim(),
+        password: form.password,
+        sectorId: form.sectorId,
+        active: form.active,
+        isMaster: canEditPrivileges ? form.isMaster : false,
+        isTechnicalAdmin: canEditPrivileges ? form.isTechnicalAdmin : false,
+        permissions: form.permissions,
+      }
+
       if (editing) {
         await updateUser(editing.id, {
-          name: form.name.trim(),
-          email: form.email.trim(),
-          password: form.password,
-          sectorId: form.sectorId,
-          active: form.active,
-          isMaster: form.isMaster,
-          permissions: form.permissions,
+          ...payload,
+          isMaster: canEditPrivileges ? form.isMaster : editing.isMaster,
+          isTechnicalAdmin: canEditPrivileges
+            ? form.isTechnicalAdmin
+            : editing.isTechnicalAdmin,
         })
         showFeedback({ type: 'success', message: 'Usuário atualizado com sucesso.' })
       } else {
-        await createUser({
-          ...form,
-          name: form.name.trim(),
-          email: form.email.trim(),
-        })
+        await createUser(payload)
         showFeedback({ type: 'success', message: 'Usuário criado com sucesso.' })
       }
 
@@ -202,42 +211,45 @@ export function UsersPage() {
               <th className="px-4 py-3 font-medium">E-mail</th>
               <th className="px-4 py-3 font-medium">Setor</th>
               <th className="px-4 py-3 font-medium">Status</th>
-              <th className="px-4 py-3 font-medium">Master</th>
+              <th className="px-4 py-3 font-medium">Perfil</th>
               <th className="px-4 py-3 font-medium">Permissões</th>
               {canManage && <th className="px-4 py-3 font-medium">Ações</th>}
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
-            {users.map((u) => (
-              <tr key={u.id} className="hover:bg-slate-50">
-                <td className="px-4 py-3 font-medium">{u.name}</td>
-                <td className="px-4 py-3">{u.email}</td>
-                <td className="px-4 py-3">{sectorLabel(u)}</td>
-                <td className="px-4 py-3">
-                  <Badge variant={u.active ? 'success' : 'danger'}>
-                    {u.active ? 'Ativo' : 'Inativo'}
-                  </Badge>
-                </td>
-                <td className="px-4 py-3">
-                  <Badge variant={u.isMaster ? 'info' : 'default'}>
-                    {u.isMaster ? 'Sim' : 'Não'}
-                  </Badge>
-                </td>
-                <td className="px-4 py-3 text-xs text-slate-500">{u.permissions.length} permissões</td>
-                {canManage && (
+            {users.map((u) => {
+              const role = getUserRoleBadge(u)
+              return (
+                <tr key={u.id} className="hover:bg-slate-50">
+                  <td className="px-4 py-3 font-medium">{u.name}</td>
+                  <td className="px-4 py-3">{u.email}</td>
+                  <td className="px-4 py-3">{sectorLabel(u)}</td>
                   <td className="px-4 py-3">
-                    <div className="flex gap-1">
-                      <Button variant="ghost" size="sm" onClick={() => openEdit(u)}>
-                        <Pencil size={14} />
-                      </Button>
-                      <Button variant="ghost" size="sm" onClick={() => setDeleteId(u.id)}>
-                        <Trash2 size={14} className="text-red-600" />
-                      </Button>
-                    </div>
+                    <Badge variant={u.active ? 'success' : 'danger'}>
+                      {u.active ? 'Ativo' : 'Inativo'}
+                    </Badge>
                   </td>
-                )}
-              </tr>
-            ))}
+                  <td className="px-4 py-3">
+                    <Badge variant={role.variant}>{role.label}</Badge>
+                  </td>
+                  <td className="px-4 py-3 text-xs text-slate-500">
+                    {u.permissions.length} permissões
+                  </td>
+                  {canManage && (
+                    <td className="px-4 py-3">
+                      <div className="flex gap-1">
+                        <Button variant="ghost" size="sm" onClick={() => openEdit(u)}>
+                          <Pencil size={14} />
+                        </Button>
+                        <Button variant="ghost" size="sm" onClick={() => setDeleteId(u.id)}>
+                          <Trash2 size={14} className="text-red-600" />
+                        </Button>
+                      </div>
+                    </td>
+                  )}
+                </tr>
+              )
+            })}
           </tbody>
         </table>
       </Card>
@@ -266,8 +278,19 @@ export function UsersPage() {
         }
       >
         <div className="space-y-4">
-          <Input label="Nome" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
-          <Input label="E-mail" type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} required />
+          <Input
+            label="Nome"
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+            required
+          />
+          <Input
+            label="E-mail"
+            type="email"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            required
+          />
           <Input
             label={editing ? 'Nova senha (opcional)' : 'Senha provisória'}
             type="password"
@@ -285,20 +308,60 @@ export function UsersPage() {
             ]}
           />
           <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" checked={form.active} onChange={(e) => setForm({ ...form, active: e.target.checked })} className="rounded" />
+            <input
+              type="checkbox"
+              checked={form.active}
+              onChange={(e) => setForm({ ...form, active: e.target.checked })}
+              className="rounded"
+            />
             Usuário ativo
           </label>
-          {currentUser?.isMaster && (
-            <label className="flex items-center gap-2 text-sm">
+
+          <div className="space-y-3 rounded-lg border border-slate-200 bg-slate-50 p-3">
+            <label className="flex items-start gap-2 text-sm">
               <input
                 type="checkbox"
                 checked={form.isMaster}
-                onChange={(e) => setForm({ ...form, isMaster: e.target.checked })}
-                className="rounded"
+                disabled={!canEditPrivileges}
+                onChange={(e) =>
+                  setForm({
+                    ...form,
+                    isMaster: e.target.checked,
+                    // Master já cobre o técnico; mantém flag independente se desmarcar master
+                  })
+                }
+                className="mt-0.5 rounded"
               />
-              Usuário master (acesso total)
+              <span>
+                <span className="font-medium">Usuário master</span>
+                <span className="mt-0.5 block text-xs text-slate-500">
+                  Acesso total ao sistema (bypass de permissões).
+                </span>
+              </span>
             </label>
-          )}
+            <label className="flex items-start gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={form.isTechnicalAdmin}
+                disabled={!canEditPrivileges}
+                onChange={(e) => setForm({ ...form, isTechnicalAdmin: e.target.checked })}
+                className="mt-0.5 rounded"
+              />
+              <span>
+                <span className="font-medium">Administrador técnico</span>
+                <span className="mt-0.5 block text-xs text-slate-500">
+                  Permite acesso às configurações avançadas, monitoramento e governança técnica do
+                  sistema. Não equivale a Master e não ignora permissões operacionais.
+                </span>
+              </span>
+            </label>
+            {!canEditPrivileges && (
+              <p className="text-xs text-amber-700">
+                Somente um usuário master pode alterar Master ou Administrador técnico.
+              </p>
+            )}
+          </div>
+
           <div>
             <p className="mb-2 text-sm font-medium text-slate-700">Permissões individuais</p>
             {permissionsLoading ? (

@@ -24,6 +24,8 @@ function normalizeUser(record: Record<string, unknown>): User {
         : String(record.sectorName),
     active: record.active !== false,
     isMaster: record.isMaster === true || record.is_master === true,
+    isTechnicalAdmin:
+      record.isTechnicalAdmin === true || record.is_technical_admin === true,
     permissions: normalizePermissionCodes(record.permissions),
     createdAt: String(record.createdAt ?? record.created_at ?? ''),
     updatedAt: String(record.updatedAt ?? record.updated_at ?? ''),
@@ -75,6 +77,7 @@ export async function createUser(data: UserFormData): Promise<User> {
     sectorId: data.sectorId,
     active: data.active,
     isMaster: data.isMaster,
+    isTechnicalAdmin: data.isTechnicalAdmin,
     permissions: data.permissions,
   }
 
@@ -98,7 +101,14 @@ export async function updateUser(
   id: string,
   data: Pick<
     UserFormData,
-    'name' | 'email' | 'password' | 'sectorId' | 'active' | 'isMaster' | 'permissions'
+    | 'name'
+    | 'email'
+    | 'password'
+    | 'sectorId'
+    | 'active'
+    | 'isMaster'
+    | 'isTechnicalAdmin'
+    | 'permissions'
   >
 ): Promise<User> {
   const payload: Record<string, unknown> = {
@@ -108,6 +118,7 @@ export async function updateUser(
     sectorId: data.sectorId,
     active: data.active,
     isMaster: data.isMaster,
+    isTechnicalAdmin: data.isTechnicalAdmin,
     permissions: data.permissions,
   }
 

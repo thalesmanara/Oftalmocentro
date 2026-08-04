@@ -58,28 +58,28 @@ export function AppRoutes() {
           <Route element={<ProtectedRoute permission="usar_consulta_ia" />}>
             <Route path="consulta-ia" element={<ConsultaIAPage />} />
           </Route>
-          <Route element={<ProtectedRoute permission="editar_configuracoes" />}>
+          <Route element={<ProtectedRoute requireTechnicalAdmin />}>
             <Route path="ia/validacao" element={<AiValidationPage />} />
           </Route>
-          <Route element={<ProtectedRoute permission="editar_configuracoes" />}>
+          <Route element={<ProtectedRoute requireTechnicalAdmin />}>
             <Route path="ia/prompts" element={<AiPromptsPage />} />
           </Route>
-          <Route element={<ProtectedRoute permission="editar_configuracoes" />}>
+          <Route element={<ProtectedRoute requireTechnicalAdmin />}>
             <Route path="ia/retrieval" element={<AiRetrievalPage />} />
           </Route>
-          <Route element={<ProtectedRoute permission="editar_configuracoes" />}>
+          <Route element={<ProtectedRoute requireTechnicalAdmin />}>
             <Route path="ia/contexto" element={<AiContextPage />} />
           </Route>
-          <Route element={<ProtectedRoute permission="editar_configuracoes" />}>
+          <Route element={<ProtectedRoute requireTechnicalAdmin />}>
             <Route path="ia/cache" element={<AiCachePage />} />
           </Route>
-          <Route element={<ProtectedRoute permission="editar_configuracoes" />}>
+          <Route element={<ProtectedRoute requireTechnicalAdmin />}>
             <Route path="ia/evidencias" element={<AiEvidencePage />} />
           </Route>
-          <Route element={<ProtectedRoute permission="editar_configuracoes" />}>
+          <Route element={<ProtectedRoute requireTechnicalAdmin />}>
             <Route path="ia/qualidade" element={<AiResponseQualityPage />} />
           </Route>
-          <Route element={<ProtectedRoute permission="editar_configuracoes" />}>
+          <Route element={<ProtectedRoute requireTechnicalAdmin />}>
             <Route path="sistema/qdrant" element={<QdrantAdminPage />} />
           </Route>
           <Route element={<ProtectedRoute permission="visualizar_auditoria" />}>

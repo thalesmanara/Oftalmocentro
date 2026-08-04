@@ -15,6 +15,8 @@ type Feedback = { type: 'success' | 'error'; message: string }
 
 export function SettingsPage() {
   const { user } = useAuth()
+  const showHealthPanel = user?.isTechnicalAdmin === true
+  const showBackupPanel = user?.isMaster === true || user?.isTechnicalAdmin === true
   const { settings, settingsSource, loading, loadError, updateSettings, refreshSettings } =
     useSettings()
   const [form, setForm] = useState<SystemSettings | null>(null)
@@ -47,7 +49,7 @@ export function SettingsPage() {
 
   return (
     <div>
-      <TechnicalAreaBanner />
+      {(showHealthPanel || showBackupPanel) && <TechnicalAreaBanner />}
       <PageHeader
         title="Configurações"
         description="Personalização visual e identidade do sistema"
@@ -141,8 +143,8 @@ export function SettingsPage() {
         </div>
       </Card>
 
-      <SystemHealthPanel />
-      <BackupPanel />
+      {showHealthPanel && <SystemHealthPanel />}
+      {showBackupPanel && <BackupPanel />}
     </div>
   )
 }

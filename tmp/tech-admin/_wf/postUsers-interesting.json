@@ -1,0 +1,101 @@
+[
+  {
+    "name": "Execute a SQL query",
+    "type": "n8n-nodes-base.postgres",
+    "query": "WITH new_user AS (\n  INSERT INTO users (\n    name,\n    email,\n    password_hash,\n    sector_id,\n    active,\n    is_master\n  )\n  VALUES (\n    '{{ String(($(\"Webhook\").item.json.body.name || \"\")).replace(/'/g, \"''\") }}',\n    '{{ String(($(\"Webhook\").item.json.body.email || \"\")).trim().toLowerCase().replace(/'/g, \"''\") }}',\n    crypt(\n      '{{ String(($(\"Webhook\").item.json.body.passwordHash || $(\"Webhook\").item.json.body.password || \"\")).replace(/'/g, \"''\") }}',\n      gen_salt('bf', 10)\n    ),\n    NULLIF('{{ $(\"Webhook\").item.json.body.sectorId || \"\" }}', '')::uuid,\n    {{ $(\"Webhook\").item.json.body.active === false || $(\"Webhook\").item.json.body.active === 'false' ? 'FALSE' : 'TRUE' }},\n    {{ $(\"Webhook\").item.json.body.isMaster === true || $(\"Webhook\").item.json.body.isMaster === 'true' ? 'TRUE' : 'FALSE' }}\n  )\n  RETURNING id, name, email, sector_id, active, is_master, created_at, updated_at\n),\ninserted_permissions AS (\n  INSERT INTO user_permissions (user_id, permission_id)\n  SELECT DISTINCT\n    new_user.id,\n    p.id\n  FROM new_user\n  CROSS JOIN permissions p\n  WHERE p.code <> 'gerenciar_tags'\n    AND p.code IN (\n      SELECT DISTINCT jsonb_array_elements_text(\n        '{{ JSON.stringify($(\"Webhook\").item.json.body.permissions || []) }}'::jsonb\n      )\n    )\n  ON CONFLICT (user_id, permission_id) DO NOTHING\n  RETURNING permission_id\n)\nSELECT\n  u.id,\n  u.name,\n  u.email,\n  u.sector_id AS \"sectorId\",\n  s.name AS \"sectorName\",\n  u.active,\n  u.is_master AS \"isMaster\",\n  COALESCE(\n    (\n      SELECT json_agg(p.code ORDER BY p.code)\n      FROM inserted_permissions ip\n      JOIN permissions p ON p.id = ip.permission_id\n      WHERE p.code <> 'gerenciar_tags'\n    ),\n    '[]'::json\n  ) AS permissions,\n  u.created_at AS \"createdAt\",\n  u.updated_at AS \"updatedAt\"\nFROM new_user u\nLEFT JOIN sectors s ON s.id = u.sector_id;",
+    "jsCode": null,
+    "workflowInputs": null,
+    "values": null
+  },
+  {
+    "name": "Validar permissão",
+    "type": "n8n-nodes-base.executeWorkflow",
+    "query": null,
+    "jsCode": null,
+    "workflowInputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "permissions": "={{ $json.permissions || ($json.user && $json.user.permissions) || [] }}",
+        "requiredPermission": "gerenciar_usuarios",
+        "requiredAnyOf": "={{ [] }}",
+        "isMaster": "={{ $json.user ? $json.user.isMaster === true : false }}",
+        "userId": "={{ $json.userId || ($json.user && $json.user.id) || '' }}",
+        "sessionId": "={{ $json.sessionId || '' }}",
+        "user": "={{ $json.user || null }}",
+        "requestId": "={{ $json.requestId || $('Normalizar request').first().json.requestId || '' }}"
+      }
+    },
+    "values": null
+  },
+  {
+    "name": "Montar data",
+    "type": "n8n-nodes-base.code",
+    "query": null,
+    "jsCode": "const row = $input.first().json || {};\nconst norm = $('Normalizar request').first().json;\nlet userId = '';\nlet sessionId = '';\ntry { const auth = $('Validar auth').first().json; userId = auth.userId || ''; sessionId = auth.sessionId || ''; } catch (_) {}\nconst hasId = Boolean(row && row.id);\nreturn [{ json: { data: hasId ? row : row, asList: false, statusCode: 201, requestId: norm.requestId, requestStartedAtMs: norm.requestStartedAtMs, method: norm.method, path: norm.path, userId, sessionId } }];",
+    "workflowInputs": null,
+    "values": null
+  },
+  {
+    "name": "Detectar duplicate email",
+    "type": "n8n-nodes-base.code",
+    "query": null,
+    "jsCode": "const err = $input.first().json || {};\nconst msg = String(err.message || err.error?.message || err.description || JSON.stringify(err));\nconst isDuplicate = /users_email_key|duplicate key.*email|unique constraint.*email/i.test(msg);\nconst requestId = $('Normalizar request').first().json.requestId;\nif (isDuplicate) {\n  return [{ json: { code: 'USER_EMAIL_ALREADY_EXISTS', message: 'Já existe um usuário com este e-mail.', statusCode: 409, requestId } }];\n}\nreturn [{ json: { code: 'INTERNAL_ERROR', message: 'Ocorreu um erro inesperado.', statusCode: 500, requestId } }];",
+    "workflowInputs": null,
+    "values": null
+  },
+  {
+    "name": "Registrar auditoria",
+    "type": "n8n-nodes-base.executeWorkflow",
+    "query": null,
+    "jsCode": null,
+    "workflowInputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "requestId": "={{ $json.requestId }}",
+        "tracking": "={{ $json.tracking }}",
+        "response": "={{ $json.response }}",
+        "responseHeaders": "={{ $json.responseHeaders }}",
+        "headers": "={{ $('Normalizar request').first().json.headers || {} }}",
+        "action": "USER_CREATE",
+        "resourceType": "user",
+        "resourceId": "={{ $json.response?.data?.id || $('Webhook').first().json.body?.id || '' }}",
+        "success": "={{ $json.tracking?.success !== false }}",
+        "userId": "={{ $json.tracking?.userId || '' }}",
+        "sessionId": "={{ $json.tracking?.sessionId || '' }}",
+        "method": "={{ $json.tracking?.method || $('Normalizar request').first().json.method }}",
+        "path": "={{ $json.tracking?.path || $('Normalizar request').first().json.path }}",
+        "statusCode": "={{ $json.statusCode }}",
+        "durationMs": "={{ $json.durationMs }}",
+        "errorCode": "={{ $json.tracking?.errorCode || ($json.response?.error?.code ?? null) }}",
+        "beforeData": "={{ null }}",
+        "afterData": "={{ (() => { const d = $json.response?.data || {}; return { name: d.name, email: d.email, sectorId: d.sectorId, active: d.active, isMaster: d.isMaster, permissions: d.permissions }; })() }}",
+        "metadata": "={{ {} }}"
+      }
+    },
+    "values": null
+  },
+  {
+    "name": "Repassar resposta",
+    "type": "n8n-nodes-base.code",
+    "query": null,
+    "jsCode": "const prep = $('Preparar sucesso').first().json || {};\nconst audit = $input.first().json || {};\nreturn [{ json: audit.response != null ? audit : prep }];",
+    "workflowInputs": null,
+    "values": null
+  },
+  {
+    "name": "Repassar resposta 403",
+    "type": "n8n-nodes-base.code",
+    "query": null,
+    "jsCode": "const prep = $('Preparar erro 403').first().json || {};\nconst audit = $input.first().json || {};\nreturn [{ json: audit.response != null ? audit : prep }];",
+    "workflowInputs": null,
+    "values": null
+  },
+  {
+    "name": "Repassar resposta 409",
+    "type": "n8n-nodes-base.code",
+    "query": null,
+    "jsCode": "const prep = $('Preparar erro 409').first().json || {};\nconst audit = $input.first().json || {};\nreturn [{ json: audit.response != null ? audit : prep }];",
+    "workflowInputs": null,
+    "values": null
+  }
+]

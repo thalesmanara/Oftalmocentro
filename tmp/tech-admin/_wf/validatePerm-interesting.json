@@ -1,0 +1,53 @@
+[
+  {
+    "name": "Trigger",
+    "type": "n8n-nodes-base.executeWorkflowTrigger",
+    "query": null,
+    "jsCode": null,
+    "workflowInputs": {
+      "values": [
+        {
+          "name": "permissions",
+          "type": "array"
+        },
+        {
+          "name": "requiredPermission",
+          "type": "string"
+        },
+        {
+          "name": "requiredAnyOf",
+          "type": "array"
+        },
+        {
+          "name": "isMaster",
+          "type": "boolean"
+        },
+        {
+          "name": "userId",
+          "type": "string"
+        },
+        {
+          "name": "sessionId",
+          "type": "string"
+        },
+        {
+          "name": "user",
+          "type": "object"
+        },
+        {
+          "name": "requestId",
+          "type": "string"
+        }
+      ]
+    },
+    "values": null
+  },
+  {
+    "name": "Checar permissão",
+    "type": "n8n-nodes-base.code",
+    "query": null,
+    "jsCode": "const item = $input.first().json;\nconst required = String(item.requiredPermission || '').trim();\nconst anyOf = Array.isArray(item.requiredAnyOf) ? item.requiredAnyOf.map(String).filter(Boolean) : [];\nconst isMaster = item.isMaster === true || (item.user && item.user.isMaster === true);\nconst permissions = Array.isArray(item.permissions)\n  ? item.permissions.map(String)\n  : (item.user && Array.isArray(item.user.permissions) ? item.user.permissions.map(String) : []);\n\nlet allowed = false;\nif (isMaster) allowed = true;\nelse if (required === '*') allowed = true;\nelse if (required && permissions.includes(required)) allowed = true;\nelse if (anyOf.length > 0 && anyOf.some((p) => permissions.includes(p))) allowed = true;\n\nreturn [{\n  json: {\n    ok: allowed,\n    success: allowed,\n    allowed,\n    statusCode: allowed ? 200 : 403,\n    requiredPermission: required || null,\n    requiredAnyOf: anyOf,\n    message: allowed\n      ? 'Permissão concedida.'\n      : 'Você não possui permissão para executar esta ação.',\n    error: allowed\n      ? null\n      : {\n          code: 'FORBIDDEN',\n          message: 'Você não possui permissão para executar esta ação.',\n        },\n    userId: item.userId || (item.user && item.user.id) || null,\n    sessionId: item.sessionId || null,\n    permissions,\n    user: item.user || null,\n    requestId: String(item.requestId || ''),\n  },\n}];",
+    "workflowInputs": null,
+    "values": null
+  }
+]

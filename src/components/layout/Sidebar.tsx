@@ -22,6 +22,7 @@ import {
 } from 'lucide-react'
 import { useSettings } from '@/hooks/useSettings'
 import { useAuth } from '@/hooks/useAuth'
+import { canSeeTechnicalAdministrationMenu } from '@/utils/permissions'
 import type { PermissionCode } from '@/types'
 
 interface NavItem {
@@ -29,11 +30,16 @@ interface NavItem {
   label: string
   icon: typeof LayoutDashboard
   permission?: PermissionCode
+  technicalAdmin?: boolean
+  /** Visível para Master ou Administrador técnico */
+  masterOrTechnicalAdmin?: boolean
 }
 
 interface NavGroup {
   title: string
   items: NavItem[]
+  /** Grupo inteiro restrito a Master / Administrador Técnico */
+  technicalAdmin?: boolean
 }
 
 const navGroups: NavGroup[] = [
@@ -64,6 +70,12 @@ const navGroups: NavGroup[] = [
         permission: 'editar_configuracoes',
       },
       {
+        to: '/configuracoes',
+        label: 'Backups',
+        icon: Archive,
+        masterOrTechnicalAdmin: true,
+      },
+      {
         to: '/auditoria',
         label: 'Auditoria',
         icon: ClipboardList,
@@ -73,74 +85,36 @@ const navGroups: NavGroup[] = [
   },
   {
     title: 'ADMINISTRAÇÃO TÉCNICA',
+    technicalAdmin: true,
     items: [
-      {
-        to: '/ia/validacao',
-        label: 'Validação IA',
-        icon: FlaskConical,
-        permission: 'editar_configuracoes',
-      },
-      {
-        to: '/ia/prompts',
-        label: 'Prompts da IA',
-        icon: ScrollText,
-        permission: 'editar_configuracoes',
-      },
+      { to: '/ia/validacao', label: 'Validação IA', icon: FlaskConical, technicalAdmin: true },
+      { to: '/ia/prompts', label: 'Prompts da IA', icon: ScrollText, technicalAdmin: true },
       {
         to: '/ia/retrieval',
         label: 'Retrieval / Re-ranking',
         icon: SlidersHorizontal,
-        permission: 'editar_configuracoes',
+        technicalAdmin: true,
       },
-      {
-        to: '/ia/contexto',
-        label: 'Janela de Contexto',
-        icon: Layers,
-        permission: 'editar_configuracoes',
-      },
-      {
-        to: '/ia/cache',
-        label: 'Cache da IA',
-        icon: HardDrive,
-        permission: 'editar_configuracoes',
-      },
-      {
-        to: '/ia/evidencias',
-        label: 'Evidências',
-        icon: Fingerprint,
-        permission: 'editar_configuracoes',
-      },
+      { to: '/ia/contexto', label: 'Janela de Contexto', icon: Layers, technicalAdmin: true },
+      { to: '/ia/cache', label: 'Cache da IA', icon: HardDrive, technicalAdmin: true },
+      { to: '/ia/evidencias', label: 'Evidências', icon: Fingerprint, technicalAdmin: true },
       {
         to: '/ia/qualidade',
         label: 'Qualidade da Resposta',
         icon: ShieldCheck,
-        permission: 'editar_configuracoes',
+        technicalAdmin: true,
       },
-      {
-        to: '/sistema/qdrant',
-        label: 'Qdrant',
-        icon: Database,
-        permission: 'editar_configuracoes',
-      },
-      {
-        to: '/configuracoes',
-        label: 'Health',
-        icon: Activity,
-        permission: 'editar_configuracoes',
-      },
-      {
-        to: '/configuracoes',
-        label: 'Backups',
-        icon: Archive,
-        permission: 'editar_configuracoes',
-      },
+      { to: '/sistema/qdrant', label: 'Qdrant', icon: Database, technicalAdmin: true },
+      { to: '/configuracoes', label: 'Health', icon: Activity, technicalAdmin: true },
     ],
   },
 ]
 
 export function Sidebar() {
   const { settings } = useSettings()
-  const { hasPermission } = useAuth()
+  const { user, hasPermission } = useAuth()
+  const showTechnicalMenu = canSeeTechnicalAdministrationMenu(user)
+  const showBackupMenu = user?.isMaster === true || user?.isTechnicalAdmin === true
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition ${
@@ -150,9 +124,15 @@ export function Sidebar() {
     }`
 
   const visibleGroups = navGroups
+    .filter((group) => !group.technicalAdmin || showTechnicalMenu)
     .map((group) => ({
       ...group,
-      items: group.items.filter((item) => !item.permission || hasPermission(item.permission)),
+      items: group.items.filter((item) => {
+        if (item.technicalAdmin && !showTechnicalMenu) return false
+        if (item.masterOrTechnicalAdmin && !showBackupMenu) return false
+        if (item.permission && !hasPermission(item.permission)) return false
+        return true
+      }),
     }))
     .filter((group) => group.items.length > 0)
 

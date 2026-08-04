@@ -1,0 +1,558 @@
+[
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "FJRbZWYX2pokOa0m",
+      "name": "AUTH - CARREGAR USUÁRIO",
+      "versionId": "c84f4ef7-f18f-4e0d-b234-4355f5567f3b"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "P5E43ZXSJiI9wFYD",
+      "name": "AUTH - VALIDAR TOKEN",
+      "versionId": "28cfbe9b-bff8-40ee-94e0-213c6385e8c2"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "Oyt4aCpmjStLdYvO",
+      "name": "AUTH - LOGIN",
+      "versionId": "96b967f2-cfb9-4bac-8b16-c5a29991ae8f"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "pkQiNqpkrRgSM4Wa",
+      "name": "GET Usuários",
+      "versionId": "01acce70-0b85-4217-845a-047e812cbb4f"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "gCEgRsZzch3l7mfD",
+      "name": "POST Usuários",
+      "versionId": "689663bc-4f2a-48ea-8dc2-49579c665647"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "z63rJlQKqheFBw4u",
+      "name": "PUT Usuários",
+      "versionId": "f4b56f5b-8ff6-43e1-85ba-3f089a7d9219"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "A3ps15dPHWoN2LZf",
+      "name": "POST System Embeddings Reprocess",
+      "versionId": "d7a6962a-e07d-4ec0-8779-dad152e4f2ba"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c22CacheDetail00001",
+      "name": "SYSTEM - AI CACHE DETAIL",
+      "versionId": "6c3577e1-3e90-4190-8c3a-8e9dd51fc7b0"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "P0tGkG6OZInMYO2g",
+      "name": "GET System Backups",
+      "versionId": "63102657-0486-45df-9d2e-0694118ab9e0"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c22CacheCreate00001",
+      "name": "SYSTEM - AI CACHE CREATE",
+      "versionId": "6dd63fed-0412-400f-944c-b5a5a1e5371d"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "mlHyK7pgjpB073nL",
+      "name": "POST System Backups Run",
+      "versionId": "c782c9bf-7931-4a33-95f8-e1f1aa6b5f7b"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "RjQDc5gcWFYyBQJO",
+      "name": "POST System AI Retrieval Create",
+      "versionId": "3d076d8a-eac5-489d-a7f6-79080cecb0c7"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "MTRkT5PyJUwbMwl7",
+      "name": "GET System AI Eval Cases",
+      "versionId": "4496cc29-bf38-4e01-bd44-7c95481d6e48"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c22CacheRollback001",
+      "name": "SYSTEM - AI CACHE ROLLBACK",
+      "versionId": "5d8621f8-2db9-4478-848e-04fbcb8a2d45"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c22CacheCleanup0001",
+      "name": "SYSTEM - AI CACHE CLEANUP",
+      "versionId": "6428dcb0-0fab-46e4-b4a8-f756e217b82f"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "CkX6dJ0bYtow2nU6",
+      "name": "GET System AI Prompts",
+      "versionId": "069f4ccc-2dfa-4471-ab6f-60a8f3583948"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "2UPHcxASp2PboC9M",
+      "name": "GET System Health",
+      "versionId": "8ce7cc58-15c8-46b0-b66b-0eb02838ed2d"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "JZxiFaHPoH8Sn2M0",
+      "name": "PUT System AI Prompts Update",
+      "versionId": "4d16a326-c148-4c59-8f0a-584a09160ef2"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "sHlvvNBw1uTCtS3P",
+      "name": "POST System AI Prompts Publish",
+      "versionId": "7d55c6b8-e106-4a94-a437-3f139c811303"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "lWMX8ESUgPOuPd8T",
+      "name": "POST System AI Prompts Rollback",
+      "versionId": "c74a0451-c709-4a06-80e5-1829ae055720"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "1dNNsNKevnH6RRiR",
+      "name": "POST System AI Prompts Validate",
+      "versionId": "d4c0ee49-ddd4-4afd-b640-7aec567809a8"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "q9U9E1gz8LbjrbBE",
+      "name": "POST System AI Prompts Create",
+      "versionId": "691acccf-2fc4-47d7-92a8-f3865352bdb8"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "zBMDF4cbf7kMk7u2",
+      "name": "POST System Qdrant Reindex",
+      "versionId": "85d5171b-d327-4fab-9046-87f6fffa962f"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "wTH2YV6pIlhzWDiY",
+      "name": "POST System AI Eval Run Dataset",
+      "versionId": "e23a33d7-eedc-4892-940a-50b5eaae3801"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c23EvidencePublish01",
+      "name": "SYSTEM - AI EVIDENCE PUBLISH",
+      "versionId": "feecfc12-aafa-4147-942b-3dc5e3e0f1a8"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c22CacheList0000001",
+      "name": "SYSTEM - AI CACHE LIST",
+      "versionId": "a3f90dd2-8cd3-4c8c-8517-8b7c611a5289"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "SxDfJMFCQbytHHL6",
+      "name": "GET System AI Retrieval",
+      "versionId": "d2ed96c7-7a1f-4dd8-89ea-37842706217c"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "DesGIYYOTdv0ws9J",
+      "name": "POST System AI Retrieval Validate",
+      "versionId": "9f04627a-1e4d-4f89-8df9-6a5def4f4f14"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c22CachePublish0001",
+      "name": "SYSTEM - AI CACHE PUBLISH",
+      "versionId": "55054e04-0f72-4f29-8740-b269da9c08d5"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "EdG14rWgluDHiOtt",
+      "name": "GET System AI Retrieval Detail",
+      "versionId": "b71dfb54-52c5-4e77-89a7-32b68b46a813"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c221CacheEntries0001",
+      "name": "SYSTEM - AI CACHE ENTRIES",
+      "versionId": "d1c47240-efbe-4def-bd09-3d70de70b221"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "Ci5BcAlkZCxOxdyA",
+      "name": "PUT System AI Retrieval Update",
+      "versionId": "7618e1c4-7c99-4584-866a-b33331793fe9"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c22CacheValidate001",
+      "name": "SYSTEM - AI CACHE VALIDATE",
+      "versionId": "4008d953-2946-4133-b56e-9b63ecb00bfe"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c23EvidenceRollback1",
+      "name": "SYSTEM - AI EVIDENCE ROLLBACK",
+      "versionId": "2cd5896c-3b84-4a29-9518-6587a4d3f4f8"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "jqISJzbOGRjArLbz",
+      "name": "GET System AI Eval Export",
+      "versionId": "23a19269-3806-479b-9e5f-5d85bf0508ca"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "RKhoSMKPfqdxrGNI",
+      "name": "GET System AI Eval Runs",
+      "versionId": "a4878886-258e-4e06-95c7-3e485cf1c55a"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "aL2tTx9V4zFJUfPx",
+      "name": "GET System AI Eval Run Detail",
+      "versionId": "92479eb9-907d-4eab-90ab-2e62bd014b85"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "gXQKbCaCpXSoIq08",
+      "name": "GET System AI Prompts Detail",
+      "versionId": "69d5a215-ee3d-4d04-bdf8-3ffe20bcda83"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "BAHKNoJM7VdYU8UE",
+      "name": "POST System AI Retrieval Publish",
+      "versionId": "196fffb4-44f7-4c5f-89d0-49cdbb4259a9"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "57LavvypSSuZvoHb",
+      "name": "GET System AI Prompts Compare",
+      "versionId": "6e0cb65d-315e-40b3-97be-dbbeee30acc6"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "qVH5qtBf8IY32uiH",
+      "name": "POST System AI Eval Run Case",
+      "versionId": "8fad4b0d-97b9-4d1f-b279-ab7e22c8016e"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "FdaMsXY4nXEO0xV8",
+      "name": "POST System AI Retrieval Rollback",
+      "versionId": "ab77d9b1-d1fd-44af-aba9-149691d41984"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "f83073bfb4154115",
+      "name": "SYSTEM - AI CONTEXT PUBLISH",
+      "versionId": "00c9353e-a3ee-4b5f-92fa-edcf3a7c9897"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c221CacheMetrics0001",
+      "name": "SYSTEM - AI CACHE METRICS",
+      "versionId": "986ee614-cf11-47cf-a3bf-5d0812106fea"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "5b6dcd491b8d449e",
+      "name": "SYSTEM - AI CONTEXT VALIDATE",
+      "versionId": "93c8fd32-5264-47ae-9ddc-ce16b372a158"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "68acc8f5d57d4fac",
+      "name": "SYSTEM - AI CONTEXT UPDATE",
+      "versionId": "cc5db3f6-12c3-4bdb-9260-cb5bca5ea5ea"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "e4c0829578124470",
+      "name": "SYSTEM - AI CONTEXT DETAIL",
+      "versionId": "1629c169-cdf2-4bc4-acb3-a86142787619"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "7995896871ed4947",
+      "name": "SYSTEM - AI CONTEXT LIST",
+      "versionId": "20aea32c-acbe-47df-a0be-c7922946d624"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c221CacheShadowRun01",
+      "name": "SYSTEM - AI CACHE RUN SHADOW VALIDATION",
+      "versionId": "5c91f849-7df8-4fe0-88ef-e657fedf53a9"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "8f0863b17b844c24",
+      "name": "SYSTEM - AI CONTEXT COMPARE",
+      "versionId": "cc61f1ea-501e-4889-b053-8b15b485e190"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "5fbdabb413c3405d",
+      "name": "SYSTEM - AI CONTEXT CREATE",
+      "versionId": "23f1f18c-46fa-4a1f-b5fd-a9b5c427992b"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c22CacheCompare0001",
+      "name": "SYSTEM - AI CACHE COMPARE",
+      "versionId": "3d06b63b-e870-44d5-bef0-8bf4e851bc87"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c23EvidenceCompare01",
+      "name": "SYSTEM - AI EVIDENCE COMPARE",
+      "versionId": "6ceba17c-81c2-4179-8603-c4c3710a7cce"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c23EvidenceCreate001",
+      "name": "SYSTEM - AI EVIDENCE CREATE",
+      "versionId": "ac7e55ef-7191-47f9-ae6e-64ba7d8d631b"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c23EvidenceDetail001",
+      "name": "SYSTEM - AI EVIDENCE DETAIL",
+      "versionId": "70252dc4-a248-4573-a3d6-24e3730d4e6a"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c23EvidenceList0001",
+      "name": "SYSTEM - AI EVIDENCE LIST",
+      "versionId": "96e2706d-86b2-4029-b22e-0a9ebb9e6ccc"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "708bf587fb73467f",
+      "name": "SYSTEM - AI CONTEXT ROLLBACK",
+      "versionId": "56cc0c1b-ed19-40d1-9b35-fdae506f9ed0"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c23EvidenceValidate01",
+      "name": "SYSTEM - AI EVIDENCE VALIDATE",
+      "versionId": "1191ae2d-efc3-4757-ba0d-24f1de324308"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c22CacheInvalidate01",
+      "name": "SYSTEM - AI CACHE INVALIDATE",
+      "versionId": "722db22b-e1a2-4489-b214-d6d2fc7e2727"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c22CacheUpdate00001",
+      "name": "SYSTEM - AI CACHE UPDATE",
+      "versionId": "33987972-9455-4abd-8b0b-39c604e5f01d"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c23EvidenceUpdate001",
+      "name": "SYSTEM - AI EVIDENCE UPDATE",
+      "versionId": "d172de40-6f46-496f-8efe-949e29bb83bb"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c24QualityList0001",
+      "name": "SYSTEM - AI RESPONSE QUALITY LIST",
+      "versionId": "3c8b66c6-5356-4ec7-9387-3171469fdfe2"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c24QualityCompare01",
+      "name": "SYSTEM - AI RESPONSE QUALITY COMPARE",
+      "versionId": "7a71f2b9-234b-4e5b-b99e-89e6c7920dbf"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c24QualityCreate001",
+      "name": "SYSTEM - AI RESPONSE QUALITY CREATE",
+      "versionId": "06d01357-97de-4f5f-bfd0-10fef7ef7bdf"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c24QualityUpdate001",
+      "name": "SYSTEM - AI RESPONSE QUALITY UPDATE",
+      "versionId": "3551db76-6147-4cf4-93d7-179a07eb3c18"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c24QualityDetail001",
+      "name": "SYSTEM - AI RESPONSE QUALITY DETAIL",
+      "versionId": "4303d4e2-40bf-40a5-80fc-8a1bc78390cc"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c24QualityPublish01",
+      "name": "SYSTEM - AI RESPONSE QUALITY PUBLISH",
+      "versionId": "a4184918-d1e7-4141-91f4-9473e6d8a9a9"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c24QualityRollback1",
+      "name": "SYSTEM - AI RESPONSE QUALITY ROLLBACK",
+      "versionId": "ee2f544a-8834-43a6-9769-6836ead6490e"
+    }
+  },
+  {
+    "msg": "saved",
+    "extra": {
+      "id": "c24QualityValidate01",
+      "name": "SYSTEM - AI RESPONSE QUALITY VALIDATE",
+      "versionId": "20739fdb-3206-4550-b109-28c63f0f49f6"
+    }
+  },
+  {
+    "msg": "techPatched",
+    "extra": 63
+  }
+]

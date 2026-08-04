@@ -1,0 +1,931 @@
+{
+  "at": "2026-08-04T13:20:36.044Z",
+  "count": 154,
+  "historyIssues": [],
+  "workflows": [
+    {
+      "id": "jtQvQlqRZ5X5WF9I",
+      "name": "AUDITORIA - REGISTRAR",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "FJRbZWYX2pokOa0m",
+      "name": "AUTH - CARREGAR USUÁRIO",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "Oyt4aCpmjStLdYvO",
+      "name": "AUTH - LOGIN",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "2cfvB59nVeJ91wii",
+      "name": "AUTH - LOGOUT",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "yXW3rW8EbHXuprRJ",
+      "name": "AUTH - VALIDAR PERMISSÃO",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "P5E43ZXSJiI9wFYD",
+      "name": "AUTH - VALIDAR TOKEN",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "0S1YXMDF4gHHrTbK",
+      "name": "AUTH - VALIDATE (Webhook)",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "A16PhhWFr0Za9X3B",
+      "name": "BACKUP - BANCO",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "4tQeihbOEv2qORFu",
+      "name": "BACKUP - DOCUMENTOS",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "ZsgGgMEPSQadSjv8",
+      "name": "BACKUP - ORQUESTRAR",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "3YpzoNlVOe1DQIEn",
+      "name": "BACKUP - REGISTRAR EXECUÇÃO",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "EGqLTHIdFAgoOGFO",
+      "name": "BACKUP - WORKFLOWS N8N",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "ZckYIZpMtw6HEtIs",
+      "name": "CREATE subcategoria",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "8EXk5RkFW5cxnenL",
+      "name": "Consulta IA",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "FaSIMuXIHeiVJe29",
+      "name": "DELETE Categorias",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "sofpi7zCHMCJkvfI",
+      "name": "DELETE Documentos",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "WMj1pu9mllQsZk2x",
+      "name": "DELETE Setores",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "0ieW448wLfITZSlD",
+      "name": "DELETE Subcategory",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "a7EsJH9zcj7SMEnM",
+      "name": "DELETE Usuários",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "OJZNWxBCkVXaysmf",
+      "name": "Document Download",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "3BkmtrasXs1lORtL",
+      "name": "EMBEDDING - FILA",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "D1bbCBEdKuNQc9F5",
+      "name": "EMBEDDING - GERAR",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "LJQZ2HrG6qJGN0Q2",
+      "name": "EMBEDDING - ORQUESTRAR",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "x4bw9IQ5vwJSFh0y",
+      "name": "EMBEDDING - REPROCESSAR",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "Feli8ssd2KggST6N",
+      "name": "EMBEDDING - VALIDAR",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "xSEbtkxFXCxlHO2s",
+      "name": "FILES - VALIDAR UPLOAD",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "TBxcSoSPwcMUZQ6m",
+      "name": "GET Auditoria",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "dDpiJOVqncw14Wtf",
+      "name": "GET Auditoria Detalhe",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "T7nHP1laYHDqwSPm",
+      "name": "GET Categorias",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "DYWXrIK8nGvzzWJ6",
+      "name": "GET Configurações",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "BP5ofN6BV3l3mryJ",
+      "name": "GET Document Version Detail",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "zWxaHmq8RYOCdTag",
+      "name": "GET Document Version Download",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "rHDMICvU4BPvduhf",
+      "name": "GET Document Versions",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "WCwJqtFRROwoToik",
+      "name": "GET Documentos",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "S3xcC9hndv750kOa",
+      "name": "GET Documents Tabular Preview",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "eov4wXax0YMySu8E",
+      "name": "GET Health",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "ziXSdzv5ySslNeos",
+      "name": "GET Setores",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "XTEYFVPc26o3loMu",
+      "name": "GET Subcategorias",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "MTRkT5PyJUwbMwl7",
+      "name": "GET System AI Eval Cases",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "jqISJzbOGRjArLbz",
+      "name": "GET System AI Eval Export",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "aL2tTx9V4zFJUfPx",
+      "name": "GET System AI Eval Run Detail",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "RKhoSMKPfqdxrGNI",
+      "name": "GET System AI Eval Runs",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "CkX6dJ0bYtow2nU6",
+      "name": "GET System AI Prompts",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "57LavvypSSuZvoHb",
+      "name": "GET System AI Prompts Compare",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "gXQKbCaCpXSoIq08",
+      "name": "GET System AI Prompts Detail",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "SxDfJMFCQbytHHL6",
+      "name": "GET System AI Retrieval",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "EdG14rWgluDHiOtt",
+      "name": "GET System AI Retrieval Detail",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "P0tGkG6OZInMYO2g",
+      "name": "GET System Backups",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "2UPHcxASp2PboC9M",
+      "name": "GET System Health",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "pkQiNqpkrRgSM4Wa",
+      "name": "GET Usuários",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c25ResponsePolicy01",
+      "name": "IA - APLICAR POLÍTICA DE RESPOSTA",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c22CacheRuntime0001",
+      "name": "IA - CACHE RUNTIME",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "1uITQcJ5jSNXErOM",
+      "name": "IA - CALCULAR MÉTRICAS",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "70fd9924711b45f1",
+      "name": "IA - CARREGAR CONTEXT CONFIG",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "OSopSf635RVwD65J",
+      "name": "IA - CARREGAR PROMPT ATIVO",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "sClDEVNVS0TGG2uq",
+      "name": "IA - CARREGAR RETRIEVAL CONFIG",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "YvAfAD0LSYFEqCqp",
+      "name": "IA - COMPARAR PROMPTS",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c23EvidenceRuntime01",
+      "name": "IA - CONSTRUIR EVIDÊNCIAS",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "12t0Ol6zWQJgAKPC",
+      "name": "IA - EXECUTAR DATASET",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "KdpEmEGHNlPICOa4",
+      "name": "IA - EXECUTAR TESTE",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "DoaDLe6P5BtJhDXb",
+      "name": "IA - GERAR RELATÓRIO",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "e95a92295d7c4deb",
+      "name": "IA - GERENCIAR JANELA DE CONTEXTO",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c221InvalidateEvent01",
+      "name": "IA - INVALIDAR CACHE POR EVENTO",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "L8FL9uMkcqiVpskV",
+      "name": "IA - PUBLICAR PROMPT",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "nivEQHAqHWIwP8P8",
+      "name": "IA - RE-RANQUEAR CANDIDATOS",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "bae8872eeb164a27",
+      "name": "IA - RECUPERAR CONTEXTO",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "dziymkwKvfYJmBUp",
+      "name": "IA - ROLLBACK DE PROMPT",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "HT0aD7hn73HybpFT",
+      "name": "IA - VALIDAR CONFIGURAÇÃO DO PROMPT",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "0289408b8d774379",
+      "name": "IA - VALIDAR CONTEXT CONFIG",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c24ResponseQuality01",
+      "name": "IA - VALIDAR RESPOSTA",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "NhWUkmzGhlttJC9S",
+      "name": "IA - VALIDAR RETRIEVAL CONFIG",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "5VMmNgSU76d9gZye",
+      "name": "Listar Permissões",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "LNrJ5VDUttKJe0Nr",
+      "name": "OCR - ORQUESTRAR",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "WWVUnGLC3Ot1vh4x",
+      "name": "PLANILHAS - EXTRAIR ESTRUTURADO",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "6ZZlCncPKX4fGVmI",
+      "name": "POST Categorias",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "34CCXomZXldQ9vJR",
+      "name": "POST Document Version Restore",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "QFZ2PRTlGV7umesd",
+      "name": "POST Documento OCR",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "WLlD1eqbFmKDK9ow",
+      "name": "POST Documentos",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "oyTndr1NgGRbbsTt",
+      "name": "POST Setores",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "qVH5qtBf8IY32uiH",
+      "name": "POST System AI Eval Run Case",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "wTH2YV6pIlhzWDiY",
+      "name": "POST System AI Eval Run Dataset",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "q9U9E1gz8LbjrbBE",
+      "name": "POST System AI Prompts Create",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "sHlvvNBw1uTCtS3P",
+      "name": "POST System AI Prompts Publish",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "lWMX8ESUgPOuPd8T",
+      "name": "POST System AI Prompts Rollback",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "1dNNsNKevnH6RRiR",
+      "name": "POST System AI Prompts Validate",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "RjQDc5gcWFYyBQJO",
+      "name": "POST System AI Retrieval Create",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "BAHKNoJM7VdYU8UE",
+      "name": "POST System AI Retrieval Publish",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "FdaMsXY4nXEO0xV8",
+      "name": "POST System AI Retrieval Rollback",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "DesGIYYOTdv0ws9J",
+      "name": "POST System AI Retrieval Validate",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "mlHyK7pgjpB073nL",
+      "name": "POST System Backups Run",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "A3ps15dPHWoN2LZf",
+      "name": "POST System Embeddings Reprocess",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "zBMDF4cbf7kMk7u2",
+      "name": "POST System Qdrant Reindex",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "gCEgRsZzch3l7mfD",
+      "name": "POST Usuários",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "4BnWd26yROvl0Ots",
+      "name": "PUT Categorias",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "ukDndCZDzemWsOMk",
+      "name": "PUT Configurações",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "Y0MuWEEdoMFts7ay",
+      "name": "PUT Documentos",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "eyRMMc4qCzGf9naj",
+      "name": "PUT Setores",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "JZxiFaHPoH8Sn2M0",
+      "name": "PUT System AI Prompts Update",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "Ci5BcAlkZCxOxdyA",
+      "name": "PUT System AI Retrieval Update",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "z63rJlQKqheFBw4u",
+      "name": "PUT Usuários",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "vNDpCzOdR7ATnHDP",
+      "name": "Processar documento",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "YDnrXjzYUOrZVE6N",
+      "name": "QDRANT - BUSCAR",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "L61YCjalRxpWU9Un",
+      "name": "QDRANT - DELETE",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "7d7ZE8O6DjqMAk2d",
+      "name": "QDRANT - ORQUESTRAR",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "UrDNrDkE9WuwEK7H",
+      "name": "QDRANT - REINDEXAR",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "ihR1aNY04ZgeW0lm",
+      "name": "QDRANT - UPSERT",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "q3ntUS5qHRsitZA0",
+      "name": "QDRANT - VALIDAR",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c221CacheCleanupSched",
+      "name": "SCHEDULE - AI CACHE CLEANUP",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c22CacheCleanup0001",
+      "name": "SYSTEM - AI CACHE CLEANUP",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c22CacheCompare0001",
+      "name": "SYSTEM - AI CACHE COMPARE",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c22CacheCreate00001",
+      "name": "SYSTEM - AI CACHE CREATE",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c22CacheDetail00001",
+      "name": "SYSTEM - AI CACHE DETAIL",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c221CacheEntries0001",
+      "name": "SYSTEM - AI CACHE ENTRIES",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c22CacheInvalidate01",
+      "name": "SYSTEM - AI CACHE INVALIDATE",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c22CacheList0000001",
+      "name": "SYSTEM - AI CACHE LIST",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c221CacheMetrics0001",
+      "name": "SYSTEM - AI CACHE METRICS",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c22CachePublish0001",
+      "name": "SYSTEM - AI CACHE PUBLISH",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c22CacheRollback001",
+      "name": "SYSTEM - AI CACHE ROLLBACK",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c221CacheShadowRun01",
+      "name": "SYSTEM - AI CACHE RUN SHADOW VALIDATION",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c22CacheUpdate00001",
+      "name": "SYSTEM - AI CACHE UPDATE",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c22CacheValidate001",
+      "name": "SYSTEM - AI CACHE VALIDATE",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "8f0863b17b844c24",
+      "name": "SYSTEM - AI CONTEXT COMPARE",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "5fbdabb413c3405d",
+      "name": "SYSTEM - AI CONTEXT CREATE",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "e4c0829578124470",
+      "name": "SYSTEM - AI CONTEXT DETAIL",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "7995896871ed4947",
+      "name": "SYSTEM - AI CONTEXT LIST",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "f83073bfb4154115",
+      "name": "SYSTEM - AI CONTEXT PUBLISH",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "708bf587fb73467f",
+      "name": "SYSTEM - AI CONTEXT ROLLBACK",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "68acc8f5d57d4fac",
+      "name": "SYSTEM - AI CONTEXT UPDATE",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "5b6dcd491b8d449e",
+      "name": "SYSTEM - AI CONTEXT VALIDATE",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c23EvidenceCompare01",
+      "name": "SYSTEM - AI EVIDENCE COMPARE",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c23EvidenceCreate001",
+      "name": "SYSTEM - AI EVIDENCE CREATE",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c23EvidenceDetail001",
+      "name": "SYSTEM - AI EVIDENCE DETAIL",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c23EvidenceList0001",
+      "name": "SYSTEM - AI EVIDENCE LIST",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c23EvidencePublish01",
+      "name": "SYSTEM - AI EVIDENCE PUBLISH",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c23EvidenceRollback1",
+      "name": "SYSTEM - AI EVIDENCE ROLLBACK",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c23EvidenceUpdate001",
+      "name": "SYSTEM - AI EVIDENCE UPDATE",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c23EvidenceValidate01",
+      "name": "SYSTEM - AI EVIDENCE VALIDATE",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c24QualityCompare01",
+      "name": "SYSTEM - AI RESPONSE QUALITY COMPARE",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c24QualityCreate001",
+      "name": "SYSTEM - AI RESPONSE QUALITY CREATE",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c24QualityDetail001",
+      "name": "SYSTEM - AI RESPONSE QUALITY DETAIL",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c24QualityList0001",
+      "name": "SYSTEM - AI RESPONSE QUALITY LIST",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c24QualityPublish01",
+      "name": "SYSTEM - AI RESPONSE QUALITY PUBLISH",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c24QualityRollback1",
+      "name": "SYSTEM - AI RESPONSE QUALITY ROLLBACK",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c24QualityUpdate001",
+      "name": "SYSTEM - AI RESPONSE QUALITY UPDATE",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "c24QualityValidate01",
+      "name": "SYSTEM - AI RESPONSE QUALITY VALIDATE",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "qAyYc9DrHIqe4L9i",
+      "name": "SYSTEM - HEALTH CHECK",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "N3zLpj7Dij4n5p5p",
+      "name": "SYSTEM - NORMALIZAR REQUEST",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "r3iSBV1ClKOxS2UI",
+      "name": "SYSTEM - PREPARAR ERRO",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "zE5LRjZfbXw8Ymll",
+      "name": "SYSTEM - PREPARAR SUCESSO",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "Ixvg9Dcqo8MnONq3",
+      "name": "Schedule - Backup Diário",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "HympisbYzMo0mQYP",
+      "name": "Schedule - Embeddings Fila",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "By7xP0i0JmWy1AZD",
+      "name": "Schedule - Qdrant Fila",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "T6CGZB4oxlzXlTQZ",
+      "name": "UPDATE Subcategory",
+      "active": true,
+      "hist_ok": true
+    },
+    {
+      "id": "vymsco8fVdIvgW4b",
+      "name": "Upload Arquivo",
+      "active": true,
+      "hist_ok": true
+    }
+  ]
+}

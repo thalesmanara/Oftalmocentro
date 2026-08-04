@@ -1,0 +1,10 @@
+[
+  {
+    "name": "Montar data",
+    "type": "n8n-nodes-base.code",
+    "query": null,
+    "jsCode": "const auth = $input.first().json;\nconst norm = $('Normalizar request').first().json;\nreturn [{\n  json: {\n    data: {\n      user: auth.user,\n      permissions: auth.permissions || (auth.user && auth.user.permissions) || [],\n      sessionId: auth.sessionId || null,\n      userId: auth.userId || (auth.user && auth.user.id) || null,\n    },\n    statusCode: 200,\n    requestId: norm.requestId,\n    requestStartedAtMs: norm.requestStartedAtMs,\n    method: norm.method,\n    path: norm.path,\n    userId: auth.userId || (auth.user && auth.user.id) || '',\n    sessionId: auth.sessionId || '',\n  },\n}];",
+    "workflowInputs": null,
+    "values": null
+  }
+]

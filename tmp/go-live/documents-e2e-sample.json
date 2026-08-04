@@ -1,0 +1,53 @@
+{
+  "at": "2026-08-04T13:28:41.156Z",
+  "listed": 57,
+  "byExt": {
+    "docx": 6,
+    "pdf": 38,
+    "doc": 11,
+    "?": 1,
+    "xlsx": 1
+  },
+  "byStatus": {
+    "processing": 3,
+    "processed": 52,
+    "failed": 1,
+    "pending": 1
+  },
+  "byOcr": {
+    "NOT_REQUIRED": 53,
+    "MANUAL_REVIEW": 1,
+    "n/a": 3
+  },
+  "byEmb": {
+    "VALID": 53,
+    "n/a": 4
+  },
+  "tabularCount": 1,
+  "withOcrCount": 54,
+  "sample": {
+    "id": "a90d7c80-1693-4a7a-93f1-ec2206e3680c",
+    "title": "CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA",
+    "ext": "pdf",
+    "processingStatus": "processed",
+    "ocrStatus": "NOT_REQUIRED",
+    "embeddingStatus": "VALID",
+    "qdrantSyncStatus": "SYNCED"
+  },
+  "tests": {
+    "download": {
+      "status": 200,
+      "bytes": 0,
+      "type": "application/pdf"
+    },
+    "versions": {
+      "status": 200
+    },
+    "tabularPreview": {
+      "status": 200,
+      "docId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+      "sheets": 1
+    },
+    "note": "Sem upload novo em produção; acervo existente validado (list/download/versions/tabular)."
+  }
+}

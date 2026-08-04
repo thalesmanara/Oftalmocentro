@@ -1,0 +1,2096 @@
+{
+  "at": "2026-08-04T13:15:30.863Z",
+  "architecture": "React → n8n → PostgreSQL → Arquivos → Tika/OCR/Tabular → Embeddings → Qdrant → OpenAI",
+  "secrets": {
+    "ai_eval_model_name": "gpt-4.1-mini",
+    "ai_eval_prompt_version": "AI_QUERY_MAIN@v1:9faa2e456571",
+    "ai_prompt_allowed_models": "gpt-4.1-mini,gpt-4.1,gpt-4o-mini,gpt-4o",
+    "cache_active_mode": "SHADOW",
+    "cache_active_version": "cache-shadow-v1",
+    "context_active_mode": "LEGACY",
+    "context_active_version": "context-v1",
+    "embedding_engine_version": "1.0.0",
+    "embedding_model": "text-embedding-3-small",
+    "evidence_active_mode": "STRUCTURED",
+    "evidence_active_version": "evidence-v1",
+    "ocr_engine_version": "ocrmypdf+tesseract",
+    "ocr_ocrmypdf_version": "16.10.2",
+    "qdrant_engine_version": "1.0.0",
+    "response_quality_active_mode": "VALIDATE_STRICT",
+    "response_quality_active_version": "response-quality-v2",
+    "retrieval_active_mode": "HYBRID",
+    "retrieval_active_version": "hybrid-v1"
+  },
+  "versions": {
+    "prompt": {
+      "error": "column \"version_label\" does not exist"
+    },
+    "retrieval": [
+      {
+        "version_label": "hybrid-v1",
+        "status": "PUBLISHED",
+        "mode": "HYBRID"
+      },
+      {
+        "version_label": "hybrid-rerank-v1",
+        "status": "DRAFT",
+        "mode": "HYBRID_RERANK"
+      },
+      {
+        "version_label": "tmp-c-msdqawe0",
+        "status": "REJECTED",
+        "mode": "HYBRID_RERANK"
+      },
+      {
+        "version_label": "tmp-optest-msdqcqte",
+        "status": "REJECTED",
+        "mode": "HYBRID_RERANK"
+      },
+      {
+        "version_label": "tmp-pubrb-msdqelk6",
+        "status": "REJECTED",
+        "mode": "HYBRID"
+      },
+      {
+        "version_label": "tmp-pubrb-msdqggsv",
+        "status": "REJECTED",
+        "mode": "HYBRID"
+      },
+      {
+        "version_label": "tmp-pubrb-msdqisi7",
+        "status": "REJECTED",
+        "mode": "HYBRID"
+      }
+    ],
+    "retrieval_published_count": 1,
+    "context": [
+      {
+        "version_label": "context-v1",
+        "status": "PUBLISHED",
+        "mode": "LEGACY"
+      },
+      {
+        "version_label": "context-budget-v1",
+        "status": "DRAFT",
+        "mode": "BUDGETED"
+      },
+      {
+        "version_label": "ok-1785797490573",
+        "status": "ARCHIVED",
+        "mode": "BUDGETED"
+      },
+      {
+        "version_label": "context-e2e-temp-20260803230544",
+        "status": "ARCHIVED",
+        "mode": "LEGACY"
+      },
+      {
+        "version_label": "context-e2e-temp-1785798522745",
+        "status": "ARCHIVED",
+        "mode": "LEGACY"
+      },
+      {
+        "version_label": "context-e2e-temp-20260803231940",
+        "status": "ARCHIVED",
+        "mode": "LEGACY"
+      }
+    ],
+    "context_published_count": 1,
+    "cache": [
+      {
+        "version_label": "cache-shadow-v1",
+        "status": "PUBLISHED",
+        "mode": "SHADOW"
+      }
+    ],
+    "cache_published_count": 1,
+    "evidence": [
+      {
+        "version_label": "evidence-v1",
+        "status": "PUBLISHED",
+        "mode": "STRUCTURED"
+      },
+      {
+        "version_label": "evidence-v2",
+        "status": "DRAFT",
+        "mode": "STRUCTURED_STRICT"
+      }
+    ],
+    "evidence_published_count": 1,
+    "response_quality": [
+      {
+        "version_label": "response-quality-v1",
+        "status": "ARCHIVED",
+        "mode": "VALIDATE"
+      },
+      {
+        "version_label": "response-quality-v2",
+        "status": "PUBLISHED",
+        "mode": "VALIDATE_STRICT"
+      }
+    ],
+    "response_quality_published_count": 1
+  },
+  "activeWorkflows": [
+    {
+      "id": "jtQvQlqRZ5X5WF9I",
+      "name": "AUDITORIA - REGISTRAR",
+      "active": true,
+      "versionId": "9c8e894a-770d-4504-876d-58c9c479a7b6",
+      "activeVersionId": "9c8e894a-770d-4504-876d-58c9c479a7b6",
+      "hist_ok": true
+    },
+    {
+      "id": "FJRbZWYX2pokOa0m",
+      "name": "AUTH - CARREGAR USUÁRIO",
+      "active": true,
+      "versionId": "be1fd403-4e5f-45cf-b62e-0cd4373e081f",
+      "activeVersionId": "be1fd403-4e5f-45cf-b62e-0cd4373e081f",
+      "hist_ok": true
+    },
+    {
+      "id": "Oyt4aCpmjStLdYvO",
+      "name": "AUTH - LOGIN",
+      "active": true,
+      "versionId": "24b05646-cf3a-453c-9400-bf4c2cc971d1",
+      "activeVersionId": "24b05646-cf3a-453c-9400-bf4c2cc971d1",
+      "hist_ok": true
+    },
+    {
+      "id": "2cfvB59nVeJ91wii",
+      "name": "AUTH - LOGOUT",
+      "active": true,
+      "versionId": "7cbc7f00-21bb-4b0b-864f-01b9b467a257",
+      "activeVersionId": "7cbc7f00-21bb-4b0b-864f-01b9b467a257",
+      "hist_ok": true
+    },
+    {
+      "id": "yXW3rW8EbHXuprRJ",
+      "name": "AUTH - VALIDAR PERMISSÃO",
+      "active": true,
+      "versionId": "39c1a006-73ee-4974-8358-d8c9dd00033c",
+      "activeVersionId": "39c1a006-73ee-4974-8358-d8c9dd00033c",
+      "hist_ok": true
+    },
+    {
+      "id": "P5E43ZXSJiI9wFYD",
+      "name": "AUTH - VALIDAR TOKEN",
+      "active": true,
+      "versionId": "84e36314-4e84-4504-a24b-15f3044f3f02",
+      "activeVersionId": "84e36314-4e84-4504-a24b-15f3044f3f02",
+      "hist_ok": true
+    },
+    {
+      "id": "0S1YXMDF4gHHrTbK",
+      "name": "AUTH - VALIDATE (Webhook)",
+      "active": true,
+      "versionId": "2d8098dc-b791-4d67-b921-81dd84f3e357",
+      "activeVersionId": "2d8098dc-b791-4d67-b921-81dd84f3e357",
+      "hist_ok": true
+    },
+    {
+      "id": "A16PhhWFr0Za9X3B",
+      "name": "BACKUP - BANCO",
+      "active": true,
+      "versionId": "2a4a70a0-d8cb-43e1-8c96-a83291601940",
+      "activeVersionId": "2a4a70a0-d8cb-43e1-8c96-a83291601940",
+      "hist_ok": true
+    },
+    {
+      "id": "4tQeihbOEv2qORFu",
+      "name": "BACKUP - DOCUMENTOS",
+      "active": true,
+      "versionId": "f13a87ea-0226-4a5d-8fd5-7612734e64de",
+      "activeVersionId": "f13a87ea-0226-4a5d-8fd5-7612734e64de",
+      "hist_ok": true
+    },
+    {
+      "id": "ZsgGgMEPSQadSjv8",
+      "name": "BACKUP - ORQUESTRAR",
+      "active": true,
+      "versionId": "d0716917-727a-4a0a-8f0c-28fe70033c0f",
+      "activeVersionId": "d0716917-727a-4a0a-8f0c-28fe70033c0f",
+      "hist_ok": true
+    },
+    {
+      "id": "3YpzoNlVOe1DQIEn",
+      "name": "BACKUP - REGISTRAR EXECUÇÃO",
+      "active": true,
+      "versionId": "9335ffb9-9440-4401-be13-575c67a5c421",
+      "activeVersionId": "9335ffb9-9440-4401-be13-575c67a5c421",
+      "hist_ok": true
+    },
+    {
+      "id": "EGqLTHIdFAgoOGFO",
+      "name": "BACKUP - WORKFLOWS N8N",
+      "active": true,
+      "versionId": "889d12fc-8d69-4576-8a87-06ca1fef5d6b",
+      "activeVersionId": "889d12fc-8d69-4576-8a87-06ca1fef5d6b",
+      "hist_ok": true
+    },
+    {
+      "id": "ZckYIZpMtw6HEtIs",
+      "name": "CREATE subcategoria",
+      "active": true,
+      "versionId": "2332938c-4046-4758-8d14-da6514ac5b68",
+      "activeVersionId": "2332938c-4046-4758-8d14-da6514ac5b68",
+      "hist_ok": true
+    },
+    {
+      "id": "8EXk5RkFW5cxnenL",
+      "name": "Consulta IA",
+      "active": true,
+      "versionId": "ab51297b-bc43-4662-9a6c-7bac43511566",
+      "activeVersionId": "ab51297b-bc43-4662-9a6c-7bac43511566",
+      "hist_ok": true
+    },
+    {
+      "id": "FaSIMuXIHeiVJe29",
+      "name": "DELETE Categorias",
+      "active": true,
+      "versionId": "9d98560e-f5df-4654-ac07-905d290c2c43",
+      "activeVersionId": "9d98560e-f5df-4654-ac07-905d290c2c43",
+      "hist_ok": true
+    },
+    {
+      "id": "sofpi7zCHMCJkvfI",
+      "name": "DELETE Documentos",
+      "active": true,
+      "versionId": "d2bd27f1-e00d-4e76-882d-ccbd974bb4f5",
+      "activeVersionId": "d2bd27f1-e00d-4e76-882d-ccbd974bb4f5",
+      "hist_ok": true
+    },
+    {
+      "id": "WMj1pu9mllQsZk2x",
+      "name": "DELETE Setores",
+      "active": true,
+      "versionId": "0379abae-5939-46bc-acd0-7ae7859bcbdc",
+      "activeVersionId": "0379abae-5939-46bc-acd0-7ae7859bcbdc",
+      "hist_ok": true
+    },
+    {
+      "id": "0ieW448wLfITZSlD",
+      "name": "DELETE Subcategory",
+      "active": true,
+      "versionId": "bb560752-144f-4aa1-aea6-341530120edb",
+      "activeVersionId": "bb560752-144f-4aa1-aea6-341530120edb",
+      "hist_ok": true
+    },
+    {
+      "id": "a7EsJH9zcj7SMEnM",
+      "name": "DELETE Usuários",
+      "active": true,
+      "versionId": "7be5322a-8cd9-4bc2-8398-dad65181c1ed",
+      "activeVersionId": "7be5322a-8cd9-4bc2-8398-dad65181c1ed",
+      "hist_ok": true
+    },
+    {
+      "id": "OJZNWxBCkVXaysmf",
+      "name": "Document Download",
+      "active": true,
+      "versionId": "322db924-b788-43ef-872f-ab46bc24c1a3",
+      "activeVersionId": "322db924-b788-43ef-872f-ab46bc24c1a3",
+      "hist_ok": true
+    },
+    {
+      "id": "3BkmtrasXs1lORtL",
+      "name": "EMBEDDING - FILA",
+      "active": true,
+      "versionId": "2a10a262-da0a-49af-9eb4-3562569defd5",
+      "activeVersionId": "2a10a262-da0a-49af-9eb4-3562569defd5",
+      "hist_ok": true
+    },
+    {
+      "id": "D1bbCBEdKuNQc9F5",
+      "name": "EMBEDDING - GERAR",
+      "active": true,
+      "versionId": "44289b21-2260-4c29-95c3-c08ce4d28806",
+      "activeVersionId": "44289b21-2260-4c29-95c3-c08ce4d28806",
+      "hist_ok": true
+    },
+    {
+      "id": "LJQZ2HrG6qJGN0Q2",
+      "name": "EMBEDDING - ORQUESTRAR",
+      "active": true,
+      "versionId": "0d4bcb60-a384-4173-bc8f-05c584b27363",
+      "activeVersionId": "0d4bcb60-a384-4173-bc8f-05c584b27363",
+      "hist_ok": true
+    },
+    {
+      "id": "x4bw9IQ5vwJSFh0y",
+      "name": "EMBEDDING - REPROCESSAR",
+      "active": true,
+      "versionId": "402eb74c-4fbf-41a4-b76b-9348de383b6a",
+      "activeVersionId": "402eb74c-4fbf-41a4-b76b-9348de383b6a",
+      "hist_ok": true
+    },
+    {
+      "id": "Feli8ssd2KggST6N",
+      "name": "EMBEDDING - VALIDAR",
+      "active": true,
+      "versionId": "d7f8438b-955a-438b-9849-7ff45289c476",
+      "activeVersionId": "d7f8438b-955a-438b-9849-7ff45289c476",
+      "hist_ok": true
+    },
+    {
+      "id": "xSEbtkxFXCxlHO2s",
+      "name": "FILES - VALIDAR UPLOAD",
+      "active": true,
+      "versionId": "4403294d-f768-4b60-821d-725d4b6c1267",
+      "activeVersionId": "4403294d-f768-4b60-821d-725d4b6c1267",
+      "hist_ok": true
+    },
+    {
+      "id": "TBxcSoSPwcMUZQ6m",
+      "name": "GET Auditoria",
+      "active": true,
+      "versionId": "f7468259-4537-4ceb-a2db-8861531d39bc",
+      "activeVersionId": "f7468259-4537-4ceb-a2db-8861531d39bc",
+      "hist_ok": true
+    },
+    {
+      "id": "dDpiJOVqncw14Wtf",
+      "name": "GET Auditoria Detalhe",
+      "active": true,
+      "versionId": "7642d728-60e9-4449-8983-e5cdb9895199",
+      "activeVersionId": "7642d728-60e9-4449-8983-e5cdb9895199",
+      "hist_ok": true
+    },
+    {
+      "id": "T7nHP1laYHDqwSPm",
+      "name": "GET Categorias",
+      "active": true,
+      "versionId": "1f542e5e-6848-4549-9dfa-b153ee23348e",
+      "activeVersionId": "1f542e5e-6848-4549-9dfa-b153ee23348e",
+      "hist_ok": true
+    },
+    {
+      "id": "DYWXrIK8nGvzzWJ6",
+      "name": "GET Configurações",
+      "active": true,
+      "versionId": "d9d37d09-eda8-43fc-a29b-e97d92495384",
+      "activeVersionId": "d9d37d09-eda8-43fc-a29b-e97d92495384",
+      "hist_ok": true
+    },
+    {
+      "id": "BP5ofN6BV3l3mryJ",
+      "name": "GET Document Version Detail",
+      "active": true,
+      "versionId": "db1a3dad-d681-4812-9e28-4024b774b86e",
+      "activeVersionId": "db1a3dad-d681-4812-9e28-4024b774b86e",
+      "hist_ok": true
+    },
+    {
+      "id": "zWxaHmq8RYOCdTag",
+      "name": "GET Document Version Download",
+      "active": true,
+      "versionId": "d7c36b7b-e7ab-4014-a886-73c81d511d16",
+      "activeVersionId": "d7c36b7b-e7ab-4014-a886-73c81d511d16",
+      "hist_ok": true
+    },
+    {
+      "id": "rHDMICvU4BPvduhf",
+      "name": "GET Document Versions",
+      "active": true,
+      "versionId": "41bae8e6-dd85-40c3-8c57-401633bc0679",
+      "activeVersionId": "41bae8e6-dd85-40c3-8c57-401633bc0679",
+      "hist_ok": true
+    },
+    {
+      "id": "WCwJqtFRROwoToik",
+      "name": "GET Documentos",
+      "active": true,
+      "versionId": "dadcb0d8-037c-4fa8-9e38-67a81584a9df",
+      "activeVersionId": "dadcb0d8-037c-4fa8-9e38-67a81584a9df",
+      "hist_ok": true
+    },
+    {
+      "id": "S3xcC9hndv750kOa",
+      "name": "GET Documents Tabular Preview",
+      "active": true,
+      "versionId": "a2fbe96a-8cf7-4e25-a92c-af25d8c06fc3",
+      "activeVersionId": "a2fbe96a-8cf7-4e25-a92c-af25d8c06fc3",
+      "hist_ok": true
+    },
+    {
+      "id": "eov4wXax0YMySu8E",
+      "name": "GET Health",
+      "active": true,
+      "versionId": "9f303a27-43a8-4988-a5c3-6a515de820cd",
+      "activeVersionId": "9f303a27-43a8-4988-a5c3-6a515de820cd",
+      "hist_ok": true
+    },
+    {
+      "id": "ziXSdzv5ySslNeos",
+      "name": "GET Setores",
+      "active": true,
+      "versionId": "c77d4f93-986b-48e1-a874-fed812960c8c",
+      "activeVersionId": "c77d4f93-986b-48e1-a874-fed812960c8c",
+      "hist_ok": true
+    },
+    {
+      "id": "XTEYFVPc26o3loMu",
+      "name": "GET Subcategorias",
+      "active": true,
+      "versionId": "5978b7cb-8680-469b-a3ca-dd4ea173cc56",
+      "activeVersionId": "5978b7cb-8680-469b-a3ca-dd4ea173cc56",
+      "hist_ok": true
+    },
+    {
+      "id": "MTRkT5PyJUwbMwl7",
+      "name": "GET System AI Eval Cases",
+      "active": true,
+      "versionId": "017d8c3c-03b0-4c29-8257-99e8eb5e2b32",
+      "activeVersionId": "017d8c3c-03b0-4c29-8257-99e8eb5e2b32",
+      "hist_ok": true
+    },
+    {
+      "id": "jqISJzbOGRjArLbz",
+      "name": "GET System AI Eval Export",
+      "active": true,
+      "versionId": "a8257db3-5b96-4966-a090-ad3705d98b0a",
+      "activeVersionId": "a8257db3-5b96-4966-a090-ad3705d98b0a",
+      "hist_ok": true
+    },
+    {
+      "id": "aL2tTx9V4zFJUfPx",
+      "name": "GET System AI Eval Run Detail",
+      "active": true,
+      "versionId": "bc4691e9-a034-4366-b2f7-6413fce6a1ae",
+      "activeVersionId": "bc4691e9-a034-4366-b2f7-6413fce6a1ae",
+      "hist_ok": true
+    },
+    {
+      "id": "RKhoSMKPfqdxrGNI",
+      "name": "GET System AI Eval Runs",
+      "active": true,
+      "versionId": "c489209d-9028-4c0d-be87-e14fadd37b25",
+      "activeVersionId": "c489209d-9028-4c0d-be87-e14fadd37b25",
+      "hist_ok": true
+    },
+    {
+      "id": "CkX6dJ0bYtow2nU6",
+      "name": "GET System AI Prompts",
+      "active": true,
+      "versionId": "7757f744-0adb-4247-a3fd-8600151e6197",
+      "activeVersionId": "7757f744-0adb-4247-a3fd-8600151e6197",
+      "hist_ok": true
+    },
+    {
+      "id": "57LavvypSSuZvoHb",
+      "name": "GET System AI Prompts Compare",
+      "active": true,
+      "versionId": "b5890999-ed4b-4b83-aa3c-38e5186b2255",
+      "activeVersionId": "b5890999-ed4b-4b83-aa3c-38e5186b2255",
+      "hist_ok": true
+    },
+    {
+      "id": "gXQKbCaCpXSoIq08",
+      "name": "GET System AI Prompts Detail",
+      "active": true,
+      "versionId": "4d19bd92-2097-4e82-8bd8-114655ec0d2c",
+      "activeVersionId": "4d19bd92-2097-4e82-8bd8-114655ec0d2c",
+      "hist_ok": true
+    },
+    {
+      "id": "SxDfJMFCQbytHHL6",
+      "name": "GET System AI Retrieval",
+      "active": true,
+      "versionId": "43f662b2-841e-45e0-a369-471ad2efe7d2",
+      "activeVersionId": "43f662b2-841e-45e0-a369-471ad2efe7d2",
+      "hist_ok": true
+    },
+    {
+      "id": "EdG14rWgluDHiOtt",
+      "name": "GET System AI Retrieval Detail",
+      "active": true,
+      "versionId": "d49389c0-4217-4e23-8ebe-298a1bafe3d0",
+      "activeVersionId": "d49389c0-4217-4e23-8ebe-298a1bafe3d0",
+      "hist_ok": true
+    },
+    {
+      "id": "P0tGkG6OZInMYO2g",
+      "name": "GET System Backups",
+      "active": true,
+      "versionId": "b2f17719-1905-4853-ae60-625c9d9bf1f9",
+      "activeVersionId": "b2f17719-1905-4853-ae60-625c9d9bf1f9",
+      "hist_ok": true
+    },
+    {
+      "id": "2UPHcxASp2PboC9M",
+      "name": "GET System Health",
+      "active": true,
+      "versionId": "253529b8-8ec6-4d7c-98a9-74b3d8c4ace1",
+      "activeVersionId": "253529b8-8ec6-4d7c-98a9-74b3d8c4ace1",
+      "hist_ok": true
+    },
+    {
+      "id": "pkQiNqpkrRgSM4Wa",
+      "name": "GET Usuários",
+      "active": true,
+      "versionId": "01d70f7b-a5ba-4152-b488-4b87f88d7edd",
+      "activeVersionId": "01d70f7b-a5ba-4152-b488-4b87f88d7edd",
+      "hist_ok": true
+    },
+    {
+      "id": "c25ResponsePolicy01",
+      "name": "IA - APLICAR POLÍTICA DE RESPOSTA",
+      "active": true,
+      "versionId": "be8cbbcf-b2da-4dab-aff3-5bcc6de95a19",
+      "activeVersionId": "be8cbbcf-b2da-4dab-aff3-5bcc6de95a19",
+      "hist_ok": true
+    },
+    {
+      "id": "c22CacheRuntime0001",
+      "name": "IA - CACHE RUNTIME",
+      "active": true,
+      "versionId": "adb16f5f-74fc-4bb1-b2b9-5dcbe45e9745",
+      "activeVersionId": "adb16f5f-74fc-4bb1-b2b9-5dcbe45e9745",
+      "hist_ok": true
+    },
+    {
+      "id": "1uITQcJ5jSNXErOM",
+      "name": "IA - CALCULAR MÉTRICAS",
+      "active": true,
+      "versionId": "bb6f0077-d080-49c3-bce5-fb9c470f17cc",
+      "activeVersionId": "bb6f0077-d080-49c3-bce5-fb9c470f17cc",
+      "hist_ok": true
+    },
+    {
+      "id": "70fd9924711b45f1",
+      "name": "IA - CARREGAR CONTEXT CONFIG",
+      "active": true,
+      "versionId": "fd7dec09-f540-4a94-9129-e171d7b76abc",
+      "activeVersionId": "fd7dec09-f540-4a94-9129-e171d7b76abc",
+      "hist_ok": true
+    },
+    {
+      "id": "OSopSf635RVwD65J",
+      "name": "IA - CARREGAR PROMPT ATIVO",
+      "active": true,
+      "versionId": "8183c897-2c40-481c-9620-79c9b8b12ebc",
+      "activeVersionId": "8183c897-2c40-481c-9620-79c9b8b12ebc",
+      "hist_ok": true
+    },
+    {
+      "id": "sClDEVNVS0TGG2uq",
+      "name": "IA - CARREGAR RETRIEVAL CONFIG",
+      "active": true,
+      "versionId": "a2741824-35bb-467c-a655-e0932b50fa85",
+      "activeVersionId": "a2741824-35bb-467c-a655-e0932b50fa85",
+      "hist_ok": true
+    },
+    {
+      "id": "YvAfAD0LSYFEqCqp",
+      "name": "IA - COMPARAR PROMPTS",
+      "active": true,
+      "versionId": "f0ae9340-d65f-4adf-ae45-61445e0f99b7",
+      "activeVersionId": "f0ae9340-d65f-4adf-ae45-61445e0f99b7",
+      "hist_ok": true
+    },
+    {
+      "id": "c23EvidenceRuntime01",
+      "name": "IA - CONSTRUIR EVIDÊNCIAS",
+      "active": true,
+      "versionId": "46968275-7e47-4842-a6c3-8cc2f3f7590d",
+      "activeVersionId": "46968275-7e47-4842-a6c3-8cc2f3f7590d",
+      "hist_ok": true
+    },
+    {
+      "id": "12t0Ol6zWQJgAKPC",
+      "name": "IA - EXECUTAR DATASET",
+      "active": true,
+      "versionId": "1f045530-480e-4c97-aa2e-2d6fd71e290a",
+      "activeVersionId": "1f045530-480e-4c97-aa2e-2d6fd71e290a",
+      "hist_ok": true
+    },
+    {
+      "id": "KdpEmEGHNlPICOa4",
+      "name": "IA - EXECUTAR TESTE",
+      "active": true,
+      "versionId": "fefc98f3-aa70-4f00-ba71-0a7adc379aa5",
+      "activeVersionId": "fefc98f3-aa70-4f00-ba71-0a7adc379aa5",
+      "hist_ok": true
+    },
+    {
+      "id": "DoaDLe6P5BtJhDXb",
+      "name": "IA - GERAR RELATÓRIO",
+      "active": true,
+      "versionId": "2f12d0ae-153d-48cf-9925-3c0d5c53066b",
+      "activeVersionId": "2f12d0ae-153d-48cf-9925-3c0d5c53066b",
+      "hist_ok": true
+    },
+    {
+      "id": "e95a92295d7c4deb",
+      "name": "IA - GERENCIAR JANELA DE CONTEXTO",
+      "active": true,
+      "versionId": "380989a2-4096-4c16-b5f2-802a1f6dd582",
+      "activeVersionId": "380989a2-4096-4c16-b5f2-802a1f6dd582",
+      "hist_ok": true
+    },
+    {
+      "id": "c221InvalidateEvent01",
+      "name": "IA - INVALIDAR CACHE POR EVENTO",
+      "active": true,
+      "versionId": "8583404e-960c-4f69-a9de-f082552a292c",
+      "activeVersionId": "8583404e-960c-4f69-a9de-f082552a292c",
+      "hist_ok": true
+    },
+    {
+      "id": "L8FL9uMkcqiVpskV",
+      "name": "IA - PUBLICAR PROMPT",
+      "active": true,
+      "versionId": "cd1f8649-2ea6-4b47-8259-2efe3033191f",
+      "activeVersionId": "cd1f8649-2ea6-4b47-8259-2efe3033191f",
+      "hist_ok": true
+    },
+    {
+      "id": "nivEQHAqHWIwP8P8",
+      "name": "IA - RE-RANQUEAR CANDIDATOS",
+      "active": true,
+      "versionId": "d7060be2-7463-4b05-92bd-3e05f1789b9c",
+      "activeVersionId": "d7060be2-7463-4b05-92bd-3e05f1789b9c",
+      "hist_ok": true
+    },
+    {
+      "id": "bae8872eeb164a27",
+      "name": "IA - RECUPERAR CONTEXTO",
+      "active": true,
+      "versionId": "381a25c4-c9e3-49a7-8e9d-bd7bfc9b7b65",
+      "activeVersionId": "381a25c4-c9e3-49a7-8e9d-bd7bfc9b7b65",
+      "hist_ok": true
+    },
+    {
+      "id": "dziymkwKvfYJmBUp",
+      "name": "IA - ROLLBACK DE PROMPT",
+      "active": true,
+      "versionId": "effb4139-61f4-48e9-8b27-c65b74e798bd",
+      "activeVersionId": "effb4139-61f4-48e9-8b27-c65b74e798bd",
+      "hist_ok": true
+    },
+    {
+      "id": "HT0aD7hn73HybpFT",
+      "name": "IA - VALIDAR CONFIGURAÇÃO DO PROMPT",
+      "active": true,
+      "versionId": "d6c8dfc0-95db-4871-b11c-0f177f82f789",
+      "activeVersionId": "d6c8dfc0-95db-4871-b11c-0f177f82f789",
+      "hist_ok": true
+    },
+    {
+      "id": "0289408b8d774379",
+      "name": "IA - VALIDAR CONTEXT CONFIG",
+      "active": true,
+      "versionId": "ce4a944f-e09b-4a0e-b7ab-aaf5ddbaedf4",
+      "activeVersionId": "ce4a944f-e09b-4a0e-b7ab-aaf5ddbaedf4",
+      "hist_ok": true
+    },
+    {
+      "id": "c24ResponseQuality01",
+      "name": "IA - VALIDAR RESPOSTA",
+      "active": true,
+      "versionId": "73e6c24c-3a95-4b96-bfbe-625f4c812822",
+      "activeVersionId": "73e6c24c-3a95-4b96-bfbe-625f4c812822",
+      "hist_ok": true
+    },
+    {
+      "id": "NhWUkmzGhlttJC9S",
+      "name": "IA - VALIDAR RETRIEVAL CONFIG",
+      "active": true,
+      "versionId": "860b5355-1b3a-4cc0-8639-335587d3631d",
+      "activeVersionId": "860b5355-1b3a-4cc0-8639-335587d3631d",
+      "hist_ok": true
+    },
+    {
+      "id": "5VMmNgSU76d9gZye",
+      "name": "Listar Permissões",
+      "active": true,
+      "versionId": "206209ff-889a-41aa-9906-a262b118c4d9",
+      "activeVersionId": "206209ff-889a-41aa-9906-a262b118c4d9",
+      "hist_ok": true
+    },
+    {
+      "id": "LNrJ5VDUttKJe0Nr",
+      "name": "OCR - ORQUESTRAR",
+      "active": true,
+      "versionId": "e08b4753-e4a7-449c-8f9f-6875e76eb077",
+      "activeVersionId": "e08b4753-e4a7-449c-8f9f-6875e76eb077",
+      "hist_ok": true
+    },
+    {
+      "id": "WWVUnGLC3Ot1vh4x",
+      "name": "PLANILHAS - EXTRAIR ESTRUTURADO",
+      "active": true,
+      "versionId": "fa64f60c-9e24-4375-b0fe-e3a401ef1763",
+      "activeVersionId": "fa64f60c-9e24-4375-b0fe-e3a401ef1763",
+      "hist_ok": true
+    },
+    {
+      "id": "6ZZlCncPKX4fGVmI",
+      "name": "POST Categorias",
+      "active": true,
+      "versionId": "4dba7c1d-65db-4f2e-8e3c-eb7a6c6fc914",
+      "activeVersionId": "4dba7c1d-65db-4f2e-8e3c-eb7a6c6fc914",
+      "hist_ok": true
+    },
+    {
+      "id": "34CCXomZXldQ9vJR",
+      "name": "POST Document Version Restore",
+      "active": true,
+      "versionId": "5f2a5637-5c13-475e-9ea1-0b150a5c1dfe",
+      "activeVersionId": "5f2a5637-5c13-475e-9ea1-0b150a5c1dfe",
+      "hist_ok": true
+    },
+    {
+      "id": "QFZ2PRTlGV7umesd",
+      "name": "POST Documento OCR",
+      "active": true,
+      "versionId": "e18fd987-7adf-4fde-881f-13d9b12d6fdd",
+      "activeVersionId": "e18fd987-7adf-4fde-881f-13d9b12d6fdd",
+      "hist_ok": true
+    },
+    {
+      "id": "WLlD1eqbFmKDK9ow",
+      "name": "POST Documentos",
+      "active": true,
+      "versionId": "a91fe6df-0cef-415e-8728-5b5afc4ed2f8",
+      "activeVersionId": "a91fe6df-0cef-415e-8728-5b5afc4ed2f8",
+      "hist_ok": true
+    },
+    {
+      "id": "oyTndr1NgGRbbsTt",
+      "name": "POST Setores",
+      "active": true,
+      "versionId": "b61d5199-2c2d-4d9b-913e-008246635060",
+      "activeVersionId": "b61d5199-2c2d-4d9b-913e-008246635060",
+      "hist_ok": true
+    },
+    {
+      "id": "qVH5qtBf8IY32uiH",
+      "name": "POST System AI Eval Run Case",
+      "active": true,
+      "versionId": "2af8f074-c777-4206-bc5f-6e281fe455e1",
+      "activeVersionId": "2af8f074-c777-4206-bc5f-6e281fe455e1",
+      "hist_ok": true
+    },
+    {
+      "id": "wTH2YV6pIlhzWDiY",
+      "name": "POST System AI Eval Run Dataset",
+      "active": true,
+      "versionId": "29566d0d-ef08-4e78-bf4e-93930cf1e542",
+      "activeVersionId": "29566d0d-ef08-4e78-bf4e-93930cf1e542",
+      "hist_ok": true
+    },
+    {
+      "id": "q9U9E1gz8LbjrbBE",
+      "name": "POST System AI Prompts Create",
+      "active": true,
+      "versionId": "9355a1f1-4830-47c0-95ba-c0d26a542242",
+      "activeVersionId": "9355a1f1-4830-47c0-95ba-c0d26a542242",
+      "hist_ok": true
+    },
+    {
+      "id": "sHlvvNBw1uTCtS3P",
+      "name": "POST System AI Prompts Publish",
+      "active": true,
+      "versionId": "846751fb-9b69-4938-9832-0295b4eadc0a",
+      "activeVersionId": "846751fb-9b69-4938-9832-0295b4eadc0a",
+      "hist_ok": true
+    },
+    {
+      "id": "lWMX8ESUgPOuPd8T",
+      "name": "POST System AI Prompts Rollback",
+      "active": true,
+      "versionId": "a70a3f76-f819-4b75-8bac-3a0c6ce968a6",
+      "activeVersionId": "a70a3f76-f819-4b75-8bac-3a0c6ce968a6",
+      "hist_ok": true
+    },
+    {
+      "id": "1dNNsNKevnH6RRiR",
+      "name": "POST System AI Prompts Validate",
+      "active": true,
+      "versionId": "2b4d375a-9a5b-47b6-b458-10c280282155",
+      "activeVersionId": "2b4d375a-9a5b-47b6-b458-10c280282155",
+      "hist_ok": true
+    },
+    {
+      "id": "RjQDc5gcWFYyBQJO",
+      "name": "POST System AI Retrieval Create",
+      "active": true,
+      "versionId": "e02273fb-d677-414f-a63e-5a04c682a94c",
+      "activeVersionId": "e02273fb-d677-414f-a63e-5a04c682a94c",
+      "hist_ok": true
+    },
+    {
+      "id": "BAHKNoJM7VdYU8UE",
+      "name": "POST System AI Retrieval Publish",
+      "active": true,
+      "versionId": "790060cc-1586-4506-bd18-aca4f42042d9",
+      "activeVersionId": "790060cc-1586-4506-bd18-aca4f42042d9",
+      "hist_ok": true
+    },
+    {
+      "id": "FdaMsXY4nXEO0xV8",
+      "name": "POST System AI Retrieval Rollback",
+      "active": true,
+      "versionId": "f99a0084-92fb-418f-a959-acfe1e205471",
+      "activeVersionId": "f99a0084-92fb-418f-a959-acfe1e205471",
+      "hist_ok": true
+    },
+    {
+      "id": "DesGIYYOTdv0ws9J",
+      "name": "POST System AI Retrieval Validate",
+      "active": true,
+      "versionId": "d2a29d14-675d-4423-b48a-280bd45bf39d",
+      "activeVersionId": "d2a29d14-675d-4423-b48a-280bd45bf39d",
+      "hist_ok": true
+    },
+    {
+      "id": "mlHyK7pgjpB073nL",
+      "name": "POST System Backups Run",
+      "active": true,
+      "versionId": "beb3f175-2b87-4e9f-a8ed-f218f0af946f",
+      "activeVersionId": "beb3f175-2b87-4e9f-a8ed-f218f0af946f",
+      "hist_ok": true
+    },
+    {
+      "id": "A3ps15dPHWoN2LZf",
+      "name": "POST System Embeddings Reprocess",
+      "active": true,
+      "versionId": "45bb9464-b342-4358-93ff-6ee7d44b292f",
+      "activeVersionId": "45bb9464-b342-4358-93ff-6ee7d44b292f",
+      "hist_ok": true
+    },
+    {
+      "id": "zBMDF4cbf7kMk7u2",
+      "name": "POST System Qdrant Reindex",
+      "active": true,
+      "versionId": "a83d9597-2b24-4574-bd6a-328585d7937e",
+      "activeVersionId": "a83d9597-2b24-4574-bd6a-328585d7937e",
+      "hist_ok": true
+    },
+    {
+      "id": "gCEgRsZzch3l7mfD",
+      "name": "POST Usuários",
+      "active": true,
+      "versionId": "37cab932-5023-42ed-b213-7f8183bdd465",
+      "activeVersionId": "37cab932-5023-42ed-b213-7f8183bdd465",
+      "hist_ok": true
+    },
+    {
+      "id": "4BnWd26yROvl0Ots",
+      "name": "PUT Categorias",
+      "active": true,
+      "versionId": "891cb63e-a1aa-49f6-82ac-0e217c55dec2",
+      "activeVersionId": "891cb63e-a1aa-49f6-82ac-0e217c55dec2",
+      "hist_ok": true
+    },
+    {
+      "id": "ukDndCZDzemWsOMk",
+      "name": "PUT Configurações",
+      "active": true,
+      "versionId": "ad4480e1-61f3-477f-96ae-1f1eb845e580",
+      "activeVersionId": "ad4480e1-61f3-477f-96ae-1f1eb845e580",
+      "hist_ok": true
+    },
+    {
+      "id": "Y0MuWEEdoMFts7ay",
+      "name": "PUT Documentos",
+      "active": true,
+      "versionId": "4e2d278b-3c66-49bd-978e-4166e297495d",
+      "activeVersionId": "4e2d278b-3c66-49bd-978e-4166e297495d",
+      "hist_ok": true
+    },
+    {
+      "id": "eyRMMc4qCzGf9naj",
+      "name": "PUT Setores",
+      "active": true,
+      "versionId": "da881993-b05b-488f-8d5d-7022571295c5",
+      "activeVersionId": "da881993-b05b-488f-8d5d-7022571295c5",
+      "hist_ok": true
+    },
+    {
+      "id": "JZxiFaHPoH8Sn2M0",
+      "name": "PUT System AI Prompts Update",
+      "active": true,
+      "versionId": "72fd8cf5-a235-4d14-90de-9ac83afeebd8",
+      "activeVersionId": "72fd8cf5-a235-4d14-90de-9ac83afeebd8",
+      "hist_ok": true
+    },
+    {
+      "id": "Ci5BcAlkZCxOxdyA",
+      "name": "PUT System AI Retrieval Update",
+      "active": true,
+      "versionId": "f9e3e66d-4eb2-42fb-a5c3-a120a25ece85",
+      "activeVersionId": "f9e3e66d-4eb2-42fb-a5c3-a120a25ece85",
+      "hist_ok": true
+    },
+    {
+      "id": "z63rJlQKqheFBw4u",
+      "name": "PUT Usuários",
+      "active": true,
+      "versionId": "59aa3d75-bfd3-4355-a854-8a49958a100e",
+      "activeVersionId": "59aa3d75-bfd3-4355-a854-8a49958a100e",
+      "hist_ok": true
+    },
+    {
+      "id": "vNDpCzOdR7ATnHDP",
+      "name": "Processar documento",
+      "active": true,
+      "versionId": "cdc8c907-c13d-4184-a7b0-204e857fed85",
+      "activeVersionId": "cdc8c907-c13d-4184-a7b0-204e857fed85",
+      "hist_ok": true
+    },
+    {
+      "id": "YDnrXjzYUOrZVE6N",
+      "name": "QDRANT - BUSCAR",
+      "active": true,
+      "versionId": "e85a3e02-9eb5-426f-857a-f010d9b41cb5",
+      "activeVersionId": "e85a3e02-9eb5-426f-857a-f010d9b41cb5",
+      "hist_ok": true
+    },
+    {
+      "id": "L61YCjalRxpWU9Un",
+      "name": "QDRANT - DELETE",
+      "active": true,
+      "versionId": "bd7a4f14-d023-4aa0-a4c7-3c867a66df71",
+      "activeVersionId": "bd7a4f14-d023-4aa0-a4c7-3c867a66df71",
+      "hist_ok": true
+    },
+    {
+      "id": "7d7ZE8O6DjqMAk2d",
+      "name": "QDRANT - ORQUESTRAR",
+      "active": true,
+      "versionId": "7f1c9c51-67a8-4882-99ca-6b155d2de6a5",
+      "activeVersionId": "7f1c9c51-67a8-4882-99ca-6b155d2de6a5",
+      "hist_ok": true
+    },
+    {
+      "id": "UrDNrDkE9WuwEK7H",
+      "name": "QDRANT - REINDEXAR",
+      "active": true,
+      "versionId": "7a431b0a-ee3d-4e61-923e-883e719d9ba5",
+      "activeVersionId": "7a431b0a-ee3d-4e61-923e-883e719d9ba5",
+      "hist_ok": true
+    },
+    {
+      "id": "ihR1aNY04ZgeW0lm",
+      "name": "QDRANT - UPSERT",
+      "active": true,
+      "versionId": "21811900-b72b-4490-8eb6-1b61f0b46cc9",
+      "activeVersionId": "21811900-b72b-4490-8eb6-1b61f0b46cc9",
+      "hist_ok": true
+    },
+    {
+      "id": "q3ntUS5qHRsitZA0",
+      "name": "QDRANT - VALIDAR",
+      "active": true,
+      "versionId": "00db70ac-99c0-46d4-acbd-87612f4dc3bc",
+      "activeVersionId": "00db70ac-99c0-46d4-acbd-87612f4dc3bc",
+      "hist_ok": true
+    },
+    {
+      "id": "c221CacheCleanupSched",
+      "name": "SCHEDULE - AI CACHE CLEANUP",
+      "active": true,
+      "versionId": "ccbe731e-67ce-4213-85e4-12fafbd54666",
+      "activeVersionId": "ccbe731e-67ce-4213-85e4-12fafbd54666",
+      "hist_ok": true
+    },
+    {
+      "id": "c22CacheCleanup0001",
+      "name": "SYSTEM - AI CACHE CLEANUP",
+      "active": true,
+      "versionId": "402ca36e-7c13-43e5-b36d-b938775e48f1",
+      "activeVersionId": "402ca36e-7c13-43e5-b36d-b938775e48f1",
+      "hist_ok": true
+    },
+    {
+      "id": "c22CacheCompare0001",
+      "name": "SYSTEM - AI CACHE COMPARE",
+      "active": true,
+      "versionId": "05352a59-b84e-4aec-9228-c5ac2d253eed",
+      "activeVersionId": "05352a59-b84e-4aec-9228-c5ac2d253eed",
+      "hist_ok": true
+    },
+    {
+      "id": "c22CacheCreate00001",
+      "name": "SYSTEM - AI CACHE CREATE",
+      "active": true,
+      "versionId": "42eae007-290b-449b-bd71-0df6aa998cb1",
+      "activeVersionId": "42eae007-290b-449b-bd71-0df6aa998cb1",
+      "hist_ok": true
+    },
+    {
+      "id": "c22CacheDetail00001",
+      "name": "SYSTEM - AI CACHE DETAIL",
+      "active": true,
+      "versionId": "e68e6418-6ae6-41a0-9222-3b94d96ffb12",
+      "activeVersionId": "e68e6418-6ae6-41a0-9222-3b94d96ffb12",
+      "hist_ok": true
+    },
+    {
+      "id": "c221CacheEntries0001",
+      "name": "SYSTEM - AI CACHE ENTRIES",
+      "active": true,
+      "versionId": "cf485f62-0b06-415b-aa79-16f7a33c4aaa",
+      "activeVersionId": "cf485f62-0b06-415b-aa79-16f7a33c4aaa",
+      "hist_ok": true
+    },
+    {
+      "id": "c22CacheInvalidate01",
+      "name": "SYSTEM - AI CACHE INVALIDATE",
+      "active": true,
+      "versionId": "4b13f9c9-65ba-4d95-bb99-9d1e8d4cd36b",
+      "activeVersionId": "4b13f9c9-65ba-4d95-bb99-9d1e8d4cd36b",
+      "hist_ok": true
+    },
+    {
+      "id": "c22CacheList0000001",
+      "name": "SYSTEM - AI CACHE LIST",
+      "active": true,
+      "versionId": "1bc4db13-1848-448a-aa4c-47eec1ba2bb9",
+      "activeVersionId": "1bc4db13-1848-448a-aa4c-47eec1ba2bb9",
+      "hist_ok": true
+    },
+    {
+      "id": "c221CacheMetrics0001",
+      "name": "SYSTEM - AI CACHE METRICS",
+      "active": true,
+      "versionId": "b702cf73-31b4-4e09-ab25-0098ea3b2f38",
+      "activeVersionId": "b702cf73-31b4-4e09-ab25-0098ea3b2f38",
+      "hist_ok": true
+    },
+    {
+      "id": "c22CachePublish0001",
+      "name": "SYSTEM - AI CACHE PUBLISH",
+      "active": true,
+      "versionId": "7e592991-ffe9-4d39-96f2-46b433abc33c",
+      "activeVersionId": "7e592991-ffe9-4d39-96f2-46b433abc33c",
+      "hist_ok": true
+    },
+    {
+      "id": "c22CacheRollback001",
+      "name": "SYSTEM - AI CACHE ROLLBACK",
+      "active": true,
+      "versionId": "dbe56fd1-3151-4608-8f04-4826060e4951",
+      "activeVersionId": "dbe56fd1-3151-4608-8f04-4826060e4951",
+      "hist_ok": true
+    },
+    {
+      "id": "c221CacheShadowRun01",
+      "name": "SYSTEM - AI CACHE RUN SHADOW VALIDATION",
+      "active": true,
+      "versionId": "ddbdcf12-5803-4b6b-a0f3-f33dd8adb53a",
+      "activeVersionId": "ddbdcf12-5803-4b6b-a0f3-f33dd8adb53a",
+      "hist_ok": true
+    },
+    {
+      "id": "c22CacheUpdate00001",
+      "name": "SYSTEM - AI CACHE UPDATE",
+      "active": true,
+      "versionId": "37a6b039-8723-4d87-babc-13642ccb1bd2",
+      "activeVersionId": "37a6b039-8723-4d87-babc-13642ccb1bd2",
+      "hist_ok": true
+    },
+    {
+      "id": "c22CacheValidate001",
+      "name": "SYSTEM - AI CACHE VALIDATE",
+      "active": true,
+      "versionId": "750f454b-0b54-46e0-873e-476a35f58ba0",
+      "activeVersionId": "750f454b-0b54-46e0-873e-476a35f58ba0",
+      "hist_ok": true
+    },
+    {
+      "id": "8f0863b17b844c24",
+      "name": "SYSTEM - AI CONTEXT COMPARE",
+      "active": true,
+      "versionId": "408dc94d-0470-4a89-8edf-3ab15fd3fbc4",
+      "activeVersionId": "408dc94d-0470-4a89-8edf-3ab15fd3fbc4",
+      "hist_ok": true
+    },
+    {
+      "id": "5fbdabb413c3405d",
+      "name": "SYSTEM - AI CONTEXT CREATE",
+      "active": true,
+      "versionId": "458bf27e-c578-418c-96fb-3a288c6f088e",
+      "activeVersionId": "458bf27e-c578-418c-96fb-3a288c6f088e",
+      "hist_ok": true
+    },
+    {
+      "id": "e4c0829578124470",
+      "name": "SYSTEM - AI CONTEXT DETAIL",
+      "active": true,
+      "versionId": "1918dd5c-d7f4-4b7a-88e1-5f107d09375b",
+      "activeVersionId": "1918dd5c-d7f4-4b7a-88e1-5f107d09375b",
+      "hist_ok": true
+    },
+    {
+      "id": "7995896871ed4947",
+      "name": "SYSTEM - AI CONTEXT LIST",
+      "active": true,
+      "versionId": "86e9d9ab-277e-4f7b-8f50-b1ec350eff30",
+      "activeVersionId": "86e9d9ab-277e-4f7b-8f50-b1ec350eff30",
+      "hist_ok": true
+    },
+    {
+      "id": "f83073bfb4154115",
+      "name": "SYSTEM - AI CONTEXT PUBLISH",
+      "active": true,
+      "versionId": "a3f83597-aa46-46e3-9288-b4aa9704e5ac",
+      "activeVersionId": "a3f83597-aa46-46e3-9288-b4aa9704e5ac",
+      "hist_ok": true
+    },
+    {
+      "id": "708bf587fb73467f",
+      "name": "SYSTEM - AI CONTEXT ROLLBACK",
+      "active": true,
+      "versionId": "6da24166-333d-4728-9b0e-dbbfcf036ac5",
+      "activeVersionId": "6da24166-333d-4728-9b0e-dbbfcf036ac5",
+      "hist_ok": true
+    },
+    {
+      "id": "68acc8f5d57d4fac",
+      "name": "SYSTEM - AI CONTEXT UPDATE",
+      "active": true,
+      "versionId": "0e4a0197-99cd-41b4-87d7-9a982f6ce495",
+      "activeVersionId": "0e4a0197-99cd-41b4-87d7-9a982f6ce495",
+      "hist_ok": true
+    },
+    {
+      "id": "5b6dcd491b8d449e",
+      "name": "SYSTEM - AI CONTEXT VALIDATE",
+      "active": true,
+      "versionId": "3e52eb2e-79c8-47ec-84f3-c3ec480c03f4",
+      "activeVersionId": "3e52eb2e-79c8-47ec-84f3-c3ec480c03f4",
+      "hist_ok": true
+    },
+    {
+      "id": "c23EvidenceCompare01",
+      "name": "SYSTEM - AI EVIDENCE COMPARE",
+      "active": true,
+      "versionId": "7193fb03-fde6-4dc3-a207-e1cfe18de90b",
+      "activeVersionId": "7193fb03-fde6-4dc3-a207-e1cfe18de90b",
+      "hist_ok": true
+    },
+    {
+      "id": "c23EvidenceCreate001",
+      "name": "SYSTEM - AI EVIDENCE CREATE",
+      "active": true,
+      "versionId": "50796beb-2579-4167-91d0-c883fdec4123",
+      "activeVersionId": "50796beb-2579-4167-91d0-c883fdec4123",
+      "hist_ok": true
+    },
+    {
+      "id": "c23EvidenceDetail001",
+      "name": "SYSTEM - AI EVIDENCE DETAIL",
+      "active": true,
+      "versionId": "ab097113-193e-493b-9623-05932ac6b239",
+      "activeVersionId": "ab097113-193e-493b-9623-05932ac6b239",
+      "hist_ok": true
+    },
+    {
+      "id": "c23EvidenceList0001",
+      "name": "SYSTEM - AI EVIDENCE LIST",
+      "active": true,
+      "versionId": "cb55ba3b-30e5-4452-9e29-41cb5b2b1481",
+      "activeVersionId": "cb55ba3b-30e5-4452-9e29-41cb5b2b1481",
+      "hist_ok": true
+    },
+    {
+      "id": "c23EvidencePublish01",
+      "name": "SYSTEM - AI EVIDENCE PUBLISH",
+      "active": true,
+      "versionId": "be41cef3-6d5e-4bea-bf98-2c097c6ebf86",
+      "activeVersionId": "be41cef3-6d5e-4bea-bf98-2c097c6ebf86",
+      "hist_ok": true
+    },
+    {
+      "id": "c23EvidenceRollback1",
+      "name": "SYSTEM - AI EVIDENCE ROLLBACK",
+      "active": true,
+      "versionId": "d1c08893-5fc3-41fe-9815-40ba5be5a50b",
+      "activeVersionId": "d1c08893-5fc3-41fe-9815-40ba5be5a50b",
+      "hist_ok": true
+    },
+    {
+      "id": "c23EvidenceUpdate001",
+      "name": "SYSTEM - AI EVIDENCE UPDATE",
+      "active": true,
+      "versionId": "5d558053-5f82-4228-a33d-f58ab299c89d",
+      "activeVersionId": "5d558053-5f82-4228-a33d-f58ab299c89d",
+      "hist_ok": true
+    },
+    {
+      "id": "c23EvidenceValidate01",
+      "name": "SYSTEM - AI EVIDENCE VALIDATE",
+      "active": true,
+      "versionId": "ece80be8-8766-4a0b-8fa9-40b92caee0ff",
+      "activeVersionId": "ece80be8-8766-4a0b-8fa9-40b92caee0ff",
+      "hist_ok": true
+    },
+    {
+      "id": "c24QualityCompare01",
+      "name": "SYSTEM - AI RESPONSE QUALITY COMPARE",
+      "active": true,
+      "versionId": "07e27ac3-e26c-4da9-8d39-f8b4b72aa679",
+      "activeVersionId": "07e27ac3-e26c-4da9-8d39-f8b4b72aa679",
+      "hist_ok": true
+    },
+    {
+      "id": "c24QualityCreate001",
+      "name": "SYSTEM - AI RESPONSE QUALITY CREATE",
+      "active": true,
+      "versionId": "e24aace1-7a05-45de-bc4b-977fa04dfb93",
+      "activeVersionId": "e24aace1-7a05-45de-bc4b-977fa04dfb93",
+      "hist_ok": true
+    },
+    {
+      "id": "c24QualityDetail001",
+      "name": "SYSTEM - AI RESPONSE QUALITY DETAIL",
+      "active": true,
+      "versionId": "937f1f19-9fac-4e77-bd69-ae88a3ffe66f",
+      "activeVersionId": "937f1f19-9fac-4e77-bd69-ae88a3ffe66f",
+      "hist_ok": true
+    },
+    {
+      "id": "c24QualityList0001",
+      "name": "SYSTEM - AI RESPONSE QUALITY LIST",
+      "active": true,
+      "versionId": "a5801b69-94ae-42c1-961c-137a4c8310ef",
+      "activeVersionId": "a5801b69-94ae-42c1-961c-137a4c8310ef",
+      "hist_ok": true
+    },
+    {
+      "id": "c24QualityPublish01",
+      "name": "SYSTEM - AI RESPONSE QUALITY PUBLISH",
+      "active": true,
+      "versionId": "87934ec1-a059-4d53-86b6-0183a07ed8df",
+      "activeVersionId": "87934ec1-a059-4d53-86b6-0183a07ed8df",
+      "hist_ok": true
+    },
+    {
+      "id": "c24QualityRollback1",
+      "name": "SYSTEM - AI RESPONSE QUALITY ROLLBACK",
+      "active": true,
+      "versionId": "c564e907-3004-49dd-a366-c3793df9c5fd",
+      "activeVersionId": "c564e907-3004-49dd-a366-c3793df9c5fd",
+      "hist_ok": true
+    },
+    {
+      "id": "c24QualityUpdate001",
+      "name": "SYSTEM - AI RESPONSE QUALITY UPDATE",
+      "active": true,
+      "versionId": "67d02174-7950-4ab9-bf16-af85125612c2",
+      "activeVersionId": "67d02174-7950-4ab9-bf16-af85125612c2",
+      "hist_ok": true
+    },
+    {
+      "id": "c24QualityValidate01",
+      "name": "SYSTEM - AI RESPONSE QUALITY VALIDATE",
+      "active": true,
+      "versionId": "92f6c4a6-cccd-411b-932d-ed01d634f66c",
+      "activeVersionId": "92f6c4a6-cccd-411b-932d-ed01d634f66c",
+      "hist_ok": true
+    },
+    {
+      "id": "qAyYc9DrHIqe4L9i",
+      "name": "SYSTEM - HEALTH CHECK",
+      "active": true,
+      "versionId": "ef963986-e605-45f6-b791-854b33a79ef7",
+      "activeVersionId": "ef963986-e605-45f6-b791-854b33a79ef7",
+      "hist_ok": true
+    },
+    {
+      "id": "N3zLpj7Dij4n5p5p",
+      "name": "SYSTEM - NORMALIZAR REQUEST",
+      "active": true,
+      "versionId": "8ccdf716-d0e4-42a1-b382-54f520ca1c05",
+      "activeVersionId": "8ccdf716-d0e4-42a1-b382-54f520ca1c05",
+      "hist_ok": true
+    },
+    {
+      "id": "r3iSBV1ClKOxS2UI",
+      "name": "SYSTEM - PREPARAR ERRO",
+      "active": true,
+      "versionId": "e5fc46e3-1ba9-4ea6-b84a-6c37ef963504",
+      "activeVersionId": "e5fc46e3-1ba9-4ea6-b84a-6c37ef963504",
+      "hist_ok": true
+    },
+    {
+      "id": "zE5LRjZfbXw8Ymll",
+      "name": "SYSTEM - PREPARAR SUCESSO",
+      "active": true,
+      "versionId": "154772d9-a926-4248-9307-b3ae1ab86556",
+      "activeVersionId": "154772d9-a926-4248-9307-b3ae1ab86556",
+      "hist_ok": true
+    },
+    {
+      "id": "Ixvg9Dcqo8MnONq3",
+      "name": "Schedule - Backup Diário",
+      "active": true,
+      "versionId": "288ab52b-6d23-4876-92ce-79563631eab3",
+      "activeVersionId": "288ab52b-6d23-4876-92ce-79563631eab3",
+      "hist_ok": true
+    },
+    {
+      "id": "HympisbYzMo0mQYP",
+      "name": "Schedule - Embeddings Fila",
+      "active": true,
+      "versionId": "2da17f3a-48ba-4141-809a-250a5a98441e",
+      "activeVersionId": "2da17f3a-48ba-4141-809a-250a5a98441e",
+      "hist_ok": true
+    },
+    {
+      "id": "By7xP0i0JmWy1AZD",
+      "name": "Schedule - Qdrant Fila",
+      "active": true,
+      "versionId": "92da6822-cd93-4e9c-8c2a-a7b1979359be",
+      "activeVersionId": "92da6822-cd93-4e9c-8c2a-a7b1979359be",
+      "hist_ok": true
+    },
+    {
+      "id": "T6CGZB4oxlzXlTQZ",
+      "name": "UPDATE Subcategory",
+      "active": true,
+      "versionId": "32285f8c-7c37-4cc8-9f38-9560a8d55805",
+      "activeVersionId": "32285f8c-7c37-4cc8-9f38-9560a8d55805",
+      "hist_ok": true
+    },
+    {
+      "id": "vymsco8fVdIvgW4b",
+      "name": "Upload Arquivo",
+      "active": true,
+      "versionId": "60d96f0c-b215-44db-90a1-e3d8794e5efd",
+      "activeVersionId": "60d96f0c-b215-44db-90a1-e3d8794e5efd",
+      "hist_ok": true
+    }
+  ],
+  "workflowHistoryIssues": [],
+  "webhooks": [
+    {
+      "workflow": "AUTH - LOGIN",
+      "node": "Webhook",
+      "path": "auth/login",
+      "webhookId": "eba373f6-b05b-467a-aebf-3bc6b5faa72f"
+    },
+    {
+      "workflow": "AUTH - LOGOUT",
+      "node": "Webhook",
+      "path": "auth/logout",
+      "webhookId": "auth-logout-oftalmocentro"
+    },
+    {
+      "workflow": "AUTH - VALIDATE (Webhook)",
+      "node": "Webhook",
+      "path": "auth/validate",
+      "webhookId": "auth-validate-oftalmocentro"
+    },
+    {
+      "workflow": "CREATE subcategoria",
+      "node": "Webhook",
+      "path": "/subcategories/create",
+      "webhookId": "fa4ee25f-8dec-4f6c-a543-a243b9a32cf3"
+    },
+    {
+      "workflow": "Consulta IA",
+      "node": "Webhook",
+      "path": "consulta-ia",
+      "webhookId": "d34d9fb7-466d-4dd4-984e-97a35dd8ce3b"
+    },
+    {
+      "workflow": "DELETE Categorias",
+      "node": "Webhook",
+      "path": "categories/delete",
+      "webhookId": "7dd3d02c-3c34-42e7-aa6d-ba0bd9432f0b"
+    },
+    {
+      "workflow": "DELETE Documentos",
+      "node": "Webhook",
+      "path": "documents/delete",
+      "webhookId": "f1cf0305-47fa-4b9e-be73-5b9481a2654e"
+    },
+    {
+      "workflow": "DELETE Setores",
+      "node": "Webhook",
+      "path": "sectors/delete",
+      "webhookId": "642e195c-1534-4bd1-ab19-a0a530968326"
+    },
+    {
+      "workflow": "DELETE Subcategory",
+      "node": "Webhook",
+      "path": "subcategories/delete",
+      "webhookId": "599394bf-3535-4613-bcde-720aca61c222"
+    },
+    {
+      "workflow": "DELETE Usuários",
+      "node": "Webhook",
+      "path": "users/delete",
+      "webhookId": "bfe7e1aa-d3ae-4989-aa24-cdfe02c4d7e3"
+    },
+    {
+      "workflow": "Document Download",
+      "node": "Webhook",
+      "path": "documents/download",
+      "webhookId": "dcafcb70-5d94-4208-9b0a-1dbd9c3795c4"
+    },
+    {
+      "workflow": "GET Auditoria",
+      "node": "Webhook",
+      "path": "audit",
+      "webhookId": "2f8741c0-052b-4aab-ae1c-eb8a41137ddd"
+    },
+    {
+      "workflow": "GET Auditoria Detalhe",
+      "node": "Webhook",
+      "path": "audit/detail",
+      "webhookId": "2a657420-b399-4348-ac54-8f7ce875147b"
+    },
+    {
+      "workflow": "GET Categorias",
+      "node": "Webhook",
+      "path": "categories",
+      "webhookId": "de7a9e3b-725e-4490-a8ac-6cb0dc5ad922"
+    },
+    {
+      "workflow": "GET Configurações",
+      "node": "Webhook",
+      "path": "settings",
+      "webhookId": "c0f9a9ee-ba4f-4543-97ec-10a6833f6752"
+    },
+    {
+      "workflow": "GET Document Version Detail",
+      "node": "Webhook",
+      "path": "documents/versions/detail",
+      "webhookId": "f217d22c-9bf9-40b4-b49d-cb39be8dfc43"
+    },
+    {
+      "workflow": "GET Document Version Download",
+      "node": "Webhook",
+      "path": "documents/versions/download",
+      "webhookId": "d0376f5c-988d-4344-b2af-8b28961dc35e"
+    },
+    {
+      "workflow": "GET Document Versions",
+      "node": "Webhook",
+      "path": "documents/versions",
+      "webhookId": "03888fd1-36ac-406e-8a34-c2537e91d482"
+    },
+    {
+      "workflow": "GET Documentos",
+      "node": "Webhook",
+      "path": "documents",
+      "webhookId": "2c62b2e1-e853-4f39-a6f1-73efcfa8e982"
+    },
+    {
+      "workflow": "GET Documents Tabular Preview",
+      "node": "Webhook",
+      "path": "documents/tabular/preview",
+      "webhookId": "4bad926d-c9d8-4a3e-a360-f9f1ac9d1580"
+    },
+    {
+      "workflow": "GET Health",
+      "node": "Webhook",
+      "path": "health",
+      "webhookId": "87174b0d-49cf-4fe5-9231-f88804546ed0"
+    },
+    {
+      "workflow": "GET Setores",
+      "node": "Webhook",
+      "path": "sectors",
+      "webhookId": "1c0ea40c-3c75-4934-b526-3000905d5fa9"
+    },
+    {
+      "workflow": "GET Subcategorias",
+      "node": "Webhook",
+      "path": "subcategories",
+      "webhookId": "24854908-b38c-4df7-8345-cdb70f5adc1f"
+    },
+    {
+      "workflow": "GET System AI Eval Cases",
+      "node": "Webhook",
+      "path": "system/ai-eval/cases",
+      "webhookId": "85138403-51b9-4962-8e18-8bcb0b010d53"
+    },
+    {
+      "workflow": "GET System AI Eval Export",
+      "node": "Webhook",
+      "path": "system/ai-eval/export",
+      "webhookId": "99a5c3a3-d3fa-4fdb-9b41-48bd024091bd"
+    },
+    {
+      "workflow": "GET System AI Eval Run Detail",
+      "node": "Webhook",
+      "path": "system/ai-eval/runs/detail",
+      "webhookId": "b6d6fa21-aad2-4602-9e68-0beb7ddceabf"
+    },
+    {
+      "workflow": "GET System AI Eval Runs",
+      "node": "Webhook",
+      "path": "system/ai-eval/runs",
+      "webhookId": "9ba5c93d-7db1-4ba8-9d72-9cf751b2b2b3"
+    },
+    {
+      "workflow": "GET System AI Prompts",
+      "node": "Webhook",
+      "path": "system/ai-prompts",
+      "webhookId": "930adee5-461f-4ef5-8275-3dc38312319c"
+    },
+    {
+      "workflow": "GET System AI Prompts Compare",
+      "node": "Webhook",
+      "path": "system/ai-prompts/compare",
+      "webhookId": "17830ec5-48e4-4cf7-9988-820b4a7ab378"
+    },
+    {
+      "workflow": "GET System AI Prompts Detail",
+      "node": "Webhook",
+      "path": "system/ai-prompts/detail",
+      "webhookId": "4f77dbfa-3b2e-4f8e-9f48-b210ab457a85"
+    },
+    {
+      "workflow": "GET System AI Retrieval",
+      "node": "Webhook",
+      "path": "system/ai-retrieval",
+      "webhookId": "26e4e5f7-0cbc-440c-b37a-c45d31ab8e77"
+    },
+    {
+      "workflow": "GET System AI Retrieval Detail",
+      "node": "Webhook",
+      "path": "system/ai-retrieval/detail",
+      "webhookId": "18c56b10-4a48-4ae7-9e16-f5374b46bc02"
+    },
+    {
+      "workflow": "GET System Backups",
+      "node": "Webhook",
+      "path": "system/backups",
+      "webhookId": "f2a904a3-9b0e-4f33-93ed-a6baed525b2f"
+    },
+    {
+      "workflow": "GET System Health",
+      "node": "Webhook",
+      "path": "system/health",
+      "webhookId": "2609bc08-2c58-46b8-b749-9b7c7c1f690d"
+    },
+    {
+      "workflow": "GET Usuários",
+      "node": "Webhook",
+      "path": "users",
+      "webhookId": "10ce1919-03db-4177-a880-2315f8148720"
+    },
+    {
+      "workflow": "Listar Permissões",
+      "node": "Webhook",
+      "path": "permissions",
+      "webhookId": "885725c6-b2a7-4e2b-8293-0468952f84dd"
+    },
+    {
+      "workflow": "POST Categorias",
+      "node": "Webhook",
+      "path": "categories/create",
+      "webhookId": "15d95e17-d9a2-4c1e-b8b5-99deb97a0c35"
+    },
+    {
+      "workflow": "POST Document Version Restore",
+      "node": "Webhook",
+      "path": "documents/versions/restore",
+      "webhookId": "f33b1e32-5ea1-4283-98d9-663e1ae0e7ab"
+    },
+    {
+      "workflow": "POST Documento OCR",
+      "node": "Webhook",
+      "path": "documents/ocr",
+      "webhookId": "dc1c760a-f8ae-4a8c-b5c5-66dbd1267b41"
+    },
+    {
+      "workflow": "POST Documentos",
+      "node": "Webhook",
+      "path": "documents/create",
+      "webhookId": "ed3f2580-ff5f-4727-bc3f-4d7f3161f23c"
+    },
+    {
+      "workflow": "POST Setores",
+      "node": "Webhook",
+      "path": "sectors/create",
+      "webhookId": "ad99b90d-16c6-4f1b-b5b9-bf5f5f338597"
+    },
+    {
+      "workflow": "POST System AI Eval Run Case",
+      "node": "Webhook",
+      "path": "system/ai-eval/run-case",
+      "webhookId": "fe29914a-4f49-479a-8ffe-39feabe689ef"
+    },
+    {
+      "workflow": "POST System AI Eval Run Dataset",
+      "node": "Webhook",
+      "path": "system/ai-eval/run-dataset",
+      "webhookId": "5efb27ae-7891-48e6-8b86-85c4c56a0a68"
+    },
+    {
+      "workflow": "POST System AI Prompts Create",
+      "node": "Webhook",
+      "path": "system/ai-prompts/create",
+      "webhookId": "5f56d1ca-2b03-4830-83db-bfb3245c593e"
+    },
+    {
+      "workflow": "POST System AI Prompts Publish",
+      "node": "Webhook",
+      "path": "system/ai-prompts/publish",
+      "webhookId": "38cc0fe9-1f05-4c18-8d55-bb02dbc97e4a"
+    },
+    {
+      "workflow": "POST System AI Prompts Rollback",
+      "node": "Webhook",
+      "path": "system/ai-prompts/rollback",
+      "webhookId": "1d996ee7-52b0-46df-972b-bc54400b2f4a"
+    },
+    {
+      "workflow": "POST System AI Prompts Validate",
+      "node": "Webhook",
+      "path": "system/ai-prompts/validate",
+      "webhookId": "1696041e-21f7-4313-a6a6-d9404fbb1438"
+    },
+    {
+      "workflow": "POST System AI Retrieval Create",
+      "node": "Webhook",
+      "path": "system/ai-retrieval/create",
+      "webhookId": "35ce8215-0a34-4a97-949f-59c1d72c6a0c"
+    },
+    {
+      "workflow": "POST System AI Retrieval Publish",
+      "node": "Webhook",
+      "path": "system/ai-retrieval/publish",
+      "webhookId": "ca8ae9c5-2175-4033-98ae-15b3cd63905e"
+    },
+    {
+      "workflow": "POST System AI Retrieval Rollback",
+      "node": "Webhook",
+      "path": "system/ai-retrieval/rollback",
+      "webhookId": "c50250b7-41c4-4d74-97a2-c29ce814ee3d"
+    },
+    {
+      "workflow": "POST System AI Retrieval Validate",
+      "node": "Webhook",
+      "path": "system/ai-retrieval/validate",
+      "webhookId": "a2b1d0d3-9f1c-4cba-87e3-e554c9374836"
+    },
+    {
+      "workflow": "POST System Backups Run",
+      "node": "Webhook",
+      "path": "system/backups/run",
+      "webhookId": "12a685e7-086f-4359-b85c-fa1d15794c9a"
+    },
+    {
+      "workflow": "POST System Embeddings Reprocess",
+      "node": "Webhook",
+      "path": "system/embeddings/reprocess",
+      "webhookId": null
+    },
+    {
+      "workflow": "POST System Qdrant Reindex",
+      "node": "Webhook",
+      "path": "system/qdrant/reindex",
+      "webhookId": null
+    },
+    {
+      "workflow": "POST Usuários",
+      "node": "Webhook",
+      "path": "users/create",
+      "webhookId": "8f5141f9-fa38-4418-bc93-9c6b34f3abc3"
+    },
+    {
+      "workflow": "PUT Categorias",
+      "node": "Webhook",
+      "path": "categories/update",
+      "webhookId": "87e5186b-00a4-474e-a23e-6daf73e83961"
+    },
+    {
+      "workflow": "PUT Configurações",
+      "node": "Webhook",
+      "path": "settings/update",
+      "webhookId": "fda66a76-05d4-44cd-a561-8dde97b87fbb"
+    },
+    {
+      "workflow": "PUT Documentos",
+      "node": "Webhook",
+      "path": "documents/update",
+      "webhookId": "ddd82c15-e2e9-4521-b630-37424a447b36"
+    },
+    {
+      "workflow": "PUT Setores",
+      "node": "Webhook",
+      "path": "sectors/update",
+      "webhookId": "54896779-f60b-4653-a3c5-b0863ff84e69"
+    },
+    {
+      "workflow": "PUT System AI Prompts Update",
+      "node": "Webhook",
+      "path": "system/ai-prompts/update",
+      "webhookId": "504a439b-3639-4404-bd4b-e567ea2ead92"
+    },
+    {
+      "workflow": "PUT System AI Retrieval Update",
+      "node": "Webhook",
+      "path": "system/ai-retrieval/update",
+      "webhookId": "b13fa87f-9642-4c3a-b5f4-4a22785880a8"
+    },
+    {
+      "workflow": "PUT Usuários",
+      "node": "Webhook",
+      "path": "users/update",
+      "webhookId": "dc9b3eff-3ae4-405d-b427-54ee42fb75e4"
+    },
+    {
+      "workflow": "Processar documento",
+      "node": "Webhook",
+      "path": "documents/process",
+      "webhookId": "b8806006-5bfa-4fb4-8c4d-5fcdad87810c"
+    },
+    {
+      "workflow": "SYSTEM - AI CACHE CLEANUP",
+      "node": "Webhook",
+      "path": "system/ai-cache/cleanup",
+      "webhookId": "02b681a5-45d1-4c28-8eec-a41e964f7d3d"
+    },
+    {
+      "workflow": "SYSTEM - AI CACHE COMPARE",
+      "node": "Webhook",
+      "path": "system/ai-cache/compare",
+      "webhookId": "7a41c1f0-49c7-47e2-a217-39a39ed4b507"
+    },
+    {
+      "workflow": "SYSTEM - AI CACHE CREATE",
+      "node": "Webhook",
+      "path": "system/ai-cache/create",
+      "webhookId": "9123b465-f462-4b3f-b08e-2f2f1132481e"
+    },
+    {
+      "workflow": "SYSTEM - AI CACHE DETAIL",
+      "node": "Webhook",
+      "path": "system/ai-cache/detail",
+      "webhookId": "b072fc06-2fc2-401b-87b5-e2f55b3a6279"
+    },
+    {
+      "workflow": "SYSTEM - AI CACHE ENTRIES",
+      "node": "Webhook",
+      "path": "system/ai-cache/entries",
+      "webhookId": "ae4c093e-df1f-4896-a588-7c92e38c0cc5"
+    },
+    {
+      "workflow": "SYSTEM - AI CACHE INVALIDATE",
+      "node": "Webhook",
+      "path": "system/ai-cache/invalidate",
+      "webhookId": "363fa28e-f466-4e72-94ad-ba2ab1ee2635"
+    },
+    {
+      "workflow": "SYSTEM - AI CACHE LIST",
+      "node": "Webhook",
+      "path": "system/ai-cache",
+      "webhookId": "61698c12-3766-41df-a8d0-eb5cf3104edd"
+    },
+    {
+      "workflow": "SYSTEM - AI CACHE METRICS",
+      "node": "Webhook",
+      "path": "system/ai-cache/metrics",
+      "webhookId": "2a359356-2bcf-4c6a-9ac7-fd4ca67e5a0e"
+    },
+    {
+      "workflow": "SYSTEM - AI CACHE PUBLISH",
+      "node": "Webhook",
+      "path": "system/ai-cache/publish",
+      "webhookId": "b1c3f1cd-9bb4-48ba-9961-b438dbda8f63"
+    },
+    {
+      "workflow": "SYSTEM - AI CACHE ROLLBACK",
+      "node": "Webhook",
+      "path": "system/ai-cache/rollback",
+      "webhookId": "a67f0b65-f741-4787-a36b-465bc5af987c"
+    },
+    {
+      "workflow": "SYSTEM - AI CACHE RUN SHADOW VALIDATION",
+      "node": "Webhook",
+      "path": "system/ai-cache/run-shadow-validation",
+      "webhookId": "27ec19df-d7cf-4ec5-97dd-e1f7e719464f"
+    },
+    {
+      "workflow": "SYSTEM - AI CACHE UPDATE",
+      "node": "Webhook",
+      "path": "system/ai-cache/update",
+      "webhookId": "b037f0b7-3c8f-40dc-8831-ff424865e6f7"
+    },
+    {
+      "workflow": "SYSTEM - AI CACHE VALIDATE",
+      "node": "Webhook",
+      "path": "system/ai-cache/validate",
+      "webhookId": "c9c78a68-6407-4334-82c5-2677333da998"
+    },
+    {
+      "workflow": "SYSTEM - AI CONTEXT COMPARE",
+      "node": "Webhook",
+      "path": "system/ai-context/compare",
+      "webhookId": "1f20d949-a21f-4682-aa50-868fdf9f60fe"
+    },
+    {
+      "workflow": "SYSTEM - AI CONTEXT CREATE",
+      "node": "Webhook",
+      "path": "system/ai-context/create",
+      "webhookId": "f4d314a5-88db-422c-9a9b-f1d9bda60300"
+    },
+    {
+      "workflow": "SYSTEM - AI CONTEXT DETAIL",
+      "node": "Webhook",
+      "path": "system/ai-context/detail",
+      "webhookId": "2044abcb-a67e-4260-92ea-d154cabfb737"
+    },
+    {
+      "workflow": "SYSTEM - AI CONTEXT LIST",
+      "node": "Webhook",
+      "path": "system/ai-context",
+      "webhookId": "62e8ffdf-d666-43a9-ad96-abe7a1291c99"
+    },
+    {
+      "workflow": "SYSTEM - AI CONTEXT PUBLISH",
+      "node": "Webhook",
+      "path": "system/ai-context/publish",
+      "webhookId": "6c62ac3d-0ce9-4068-97a8-255225f0ec41"
+    },
+    {
+      "workflow": "SYSTEM - AI CONTEXT ROLLBACK",
+      "node": "Webhook",
+      "path": "system/ai-context/rollback",
+      "webhookId": "5194e038-0036-4287-ad2d-9a4f85e51505"
+    },
+    {
+      "workflow": "SYSTEM - AI CONTEXT UPDATE",
+      "node": "Webhook",
+      "path": "system/ai-context/update",
+      "webhookId": "bdba8bf0-07c6-4c7b-8296-f56f8f36cd65"
+    },
+    {
+      "workflow": "SYSTEM - AI CONTEXT VALIDATE",
+      "node": "Webhook",
+      "path": "system/ai-context/validate",
+      "webhookId": "ff1f6f82-ae30-4992-9fa5-02ff8aea3170"
+    },
+    {
+      "workflow": "SYSTEM - AI EVIDENCE COMPARE",
+      "node": "Webhook",
+      "path": "system/ai-evidence/compare",
+      "webhookId": "cd2b7542-4693-4f88-82fb-53e3554bd53e"
+    },
+    {
+      "workflow": "SYSTEM - AI EVIDENCE CREATE",
+      "node": "Webhook",
+      "path": "system/ai-evidence/create",
+      "webhookId": "3e33d703-d12a-44e2-81fa-8a7cea6a47d0"
+    },
+    {
+      "workflow": "SYSTEM - AI EVIDENCE DETAIL",
+      "node": "Webhook",
+      "path": "system/ai-evidence/detail",
+      "webhookId": "4933db98-efe1-450e-b4b8-8ead86767b93"
+    },
+    {
+      "workflow": "SYSTEM - AI EVIDENCE LIST",
+      "node": "Webhook",
+      "path": "system/ai-evidence",
+      "webhookId": "bc22d3f1-29d8-4520-a263-37f62ad95529"
+    },
+    {
+      "workflow": "SYSTEM - AI EVIDENCE PUBLISH",
+      "node": "Webhook",
+      "path": "system/ai-evidence/publish",
+      "webhookId": "70a2ff0b-5054-46c3-9782-d72a009d8a96"
+    },
+    {
+      "workflow": "SYSTEM - AI EVIDENCE ROLLBACK",
+      "node": "Webhook",
+      "path": "system/ai-evidence/rollback",
+      "webhookId": "03dd6a34-5802-49ba-b653-08df17e8f4ef"
+    },
+    {
+      "workflow": "SYSTEM - AI EVIDENCE UPDATE",
+      "node": "Webhook",
+      "path": "system/ai-evidence/update",
+      "webhookId": "74a44546-0c2f-4201-94f3-518f410019e1"
+    },
+    {
+      "workflow": "SYSTEM - AI EVIDENCE VALIDATE",
+      "node": "Webhook",
+      "path": "system/ai-evidence/validate",
+      "webhookId": "b8155a21-89a8-40ab-ab01-a018065fd1e9"
+    },
+    {
+      "workflow": "SYSTEM - AI RESPONSE QUALITY COMPARE",
+      "node": "Webhook",
+      "path": "system/ai-response-quality/compare",
+      "webhookId": "f2981973-a292-4678-9c9f-ccbfcf32d0fc"
+    },
+    {
+      "workflow": "SYSTEM - AI RESPONSE QUALITY CREATE",
+      "node": "Webhook",
+      "path": "system/ai-response-quality/create",
+      "webhookId": "a9901e58-48a8-4e69-b4b4-dcab0fbdaba8"
+    },
+    {
+      "workflow": "SYSTEM - AI RESPONSE QUALITY DETAIL",
+      "node": "Webhook",
+      "path": "system/ai-response-quality/detail",
+      "webhookId": "d607a4a0-49e5-4354-b1fa-1edcf3ed9750"
+    },
+    {
+      "workflow": "SYSTEM - AI RESPONSE QUALITY LIST",
+      "node": "Webhook",
+      "path": "system/ai-response-quality",
+      "webhookId": "4e5e84bf-4ae4-4146-abdc-db1ce7660a2b"
+    },
+    {
+      "workflow": "SYSTEM - AI RESPONSE QUALITY PUBLISH",
+      "node": "Webhook",
+      "path": "system/ai-response-quality/publish",
+      "webhookId": "a8e0eb16-fab7-4e9b-ae98-8398c21fd38a"
+    },
+    {
+      "workflow": "SYSTEM - AI RESPONSE QUALITY ROLLBACK",
+      "node": "Webhook",
+      "path": "system/ai-response-quality/rollback",
+      "webhookId": "b8971c74-1a9c-4407-bf59-6b01520813a7"
+    },
+    {
+      "workflow": "SYSTEM - AI RESPONSE QUALITY UPDATE",
+      "node": "Webhook",
+      "path": "system/ai-response-quality/update",
+      "webhookId": "10088289-36ae-4b1c-829d-3ed2903e0316"
+    },
+    {
+      "workflow": "SYSTEM - AI RESPONSE QUALITY VALIDATE",
+      "node": "Webhook",
+      "path": "system/ai-response-quality/validate",
+      "webhookId": "52c623c8-68af-4a39-8bbe-8451157343b4"
+    },
+    {
+      "workflow": "UPDATE Subcategory",
+      "node": "Webhook",
+      "path": "subcategories/update",
+      "webhookId": "4b538c91-450b-4372-8c3d-cfb6d304efc2"
+    },
+    {
+      "workflow": "Upload Arquivo",
+      "node": "Webhook",
+      "path": "documents/upload",
+      "webhookId": "5732beca-6845-43a9-9e3e-6d954d6c33a6"
+    }
+  ],
+  "schedules": [
+    {
+      "id": "A16PhhWFr0Za9X3B",
+      "name": "BACKUP - BANCO"
+    },
+    {
+      "id": "4tQeihbOEv2qORFu",
+      "name": "BACKUP - DOCUMENTOS"
+    },
+    {
+      "id": "ZsgGgMEPSQadSjv8",
+      "name": "BACKUP - ORQUESTRAR"
+    },
+    {
+      "id": "3YpzoNlVOe1DQIEn",
+      "name": "BACKUP - REGISTRAR EXECUÇÃO"
+    },
+    {
+      "id": "EGqLTHIdFAgoOGFO",
+      "name": "BACKUP - WORKFLOWS N8N"
+    },
+    {
+      "id": "P0tGkG6OZInMYO2g",
+      "name": "GET System Backups"
+    },
+    {
+      "id": "mlHyK7pgjpB073nL",
+      "name": "POST System Backups Run"
+    },
+    {
+      "id": "c221CacheCleanupSched",
+      "name": "SCHEDULE - AI CACHE CLEANUP"
+    },
+    {
+      "id": "Ixvg9Dcqo8MnONq3",
+      "name": "Schedule - Backup Diário"
+    },
+    {
+      "id": "HympisbYzMo0mQYP",
+      "name": "Schedule - Embeddings Fila"
+    },
+    {
+      "id": "By7xP0i0JmWy1AZD",
+      "name": "Schedule - Qdrant Fila"
+    }
+  ],
+  "counts": {
+    "documents": 58,
+    "document_versions": 61,
+    "document_chunks": 465,
+    "users": 5,
+    "audit_logs": 1930,
+    "ai_test_cases": 100
+  },
+  "permissions": [
+    "cadastrar_documentos",
+    "editar_configuracoes",
+    "editar_documentos",
+    "excluir_documentos",
+    "gerenciar_categorias",
+    "gerenciar_setores",
+    "gerenciar_usuarios",
+    "usar_consulta_ia",
+    "visualizar_auditoria",
+    "visualizar_documentos"
+  ],
+  "expectedMatch": {
+    "retrieval_active_version": {
+      "expected": "hybrid-v1",
+      "actual": "hybrid-v1",
+      "ok": true
+    },
+    "retrieval_active_mode": {
+      "expected": "HYBRID",
+      "actual": "HYBRID",
+      "ok": true
+    },
+    "context_active_version": {
+      "expected": "context-v1",
+      "actual": "context-v1",
+      "ok": true
+    },
+    "context_active_mode": {
+      "expected": "LEGACY",
+      "actual": "LEGACY",
+      "ok": true
+    },
+    "cache_active_version": {
+      "expected": "cache-shadow-v1",
+      "actual": "cache-shadow-v1",
+      "ok": true
+    },
+    "cache_active_mode": {
+      "expected": "SHADOW",
+      "actual": "SHADOW",
+      "ok": true
+    },
+    "evidence_active_version": {
+      "expected": "evidence-v1",
+      "actual": "evidence-v1",
+      "ok": true
+    },
+    "response_quality_active_version": {
+      "expected": "response-quality-v2",
+      "actual": "response-quality-v2",
+      "ok": true
+    },
+    "response_quality_active_mode": {
+      "expected": "VALIDATE_STRICT",
+      "actual": "VALIDATE_STRICT",
+      "ok": true
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "name": "Usuário OK",
+  "parameters": {
+    "mode": "manual",
+    "assignments": {
+      "assignments": [
+        {
+          "id": "1",
+          "name": "ok",
+          "value": true,
+          "type": "boolean"
+        },
+        {
+          "id": "2",
+          "name": "success",
+          "value": true,
+          "type": "boolean"
+        },
+        {
+          "id": "3",
+          "name": "userId",
+          "value": "={{ $json.userId }}",
+          "type": "string"
+        },
+        {
+          "id": "4",
+          "name": "permissions",
+          "value": "={{ $json.permissions }}",
+          "type": "array"
+        },
+        {
+          "id": "5",
+          "name": "user",
+          "value": "={{ ({ id: $json.userId, name: $json.name, email: $json.email, sectorId: $json.sectorId, sectorName: $json.sectorName, active: $json.active, isMaster: $json.isMaster, permissions: Array.isArray($json.permissions) ? $json.permissions : [] }) }}",
+          "type": "object"
+        },
+        {
+          "id": "6",
+          "name": "requestId",
+          "value": "={{ $('Trigger').first().json.requestId || '' }}",
+          "type": "string"
+        }
+      ]
+    },
+    "options": {}
+  }
+}

@@ -1,0 +1,124 @@
+[
+  {
+    "name": "Execute a SQL query",
+    "type": "n8n-nodes-base.postgres",
+    "query": "WITH updated_user AS (\n  UPDATE users\n  SET\n    name = '{{ String(($(\"Webhook\").item.json.body.name || \"\")).replace(/'/g, \"''\") }}',\n    email = '{{ String(($(\"Webhook\").item.json.body.email || \"\")).trim().toLowerCase().replace(/'/g, \"''\") }}',\n    sector_id = NULLIF('{{ $(\"Webhook\").item.json.body.sectorId || \"\" }}', '')::uuid,\n    active = {{ $(\"Webhook\").item.json.body.active === false || $(\"Webhook\").item.json.body.active === 'false' ? 'FALSE' : 'TRUE' }},\n    is_master = {{ $(\"Webhook\").item.json.body.isMaster === true || $(\"Webhook\").item.json.body.isMaster === 'true' ? 'TRUE' : 'FALSE' }},\n    password_hash = CASE\n      WHEN NULLIF('{{ String(($(\"Webhook\").item.json.body.passwordHash || $(\"Webhook\").item.json.body.password || \"\")).replace(/'/g, \"''\") }}', '') IS NOT NULL\n      THEN crypt(\n        '{{ String(($(\"Webhook\").item.json.body.passwordHash || $(\"Webhook\").item.json.body.password || \"\")).replace(/'/g, \"''\") }}',\n        gen_salt('bf', 10)\n      )\n      ELSE password_hash\n    END,\n    updated_at = NOW()\n  WHERE id = '{{ $(\"Webhook\").item.json.body.id }}'::uuid\n  RETURNING id\n),\ndeleted_permissions AS (\n  DELETE FROM user_permissions\n  WHERE user_id IN (SELECT id FROM updated_user)\n  RETURNING user_id\n)\nSELECT u.id\nFROM updated_user u\nWHERE (SELECT COUNT(*) FROM deleted_permissions) >= 0;",
+    "jsCode": null,
+    "workflowInputs": null,
+    "values": null
+  },
+  {
+    "name": "Salvar permissões",
+    "type": "n8n-nodes-base.postgres",
+    "query": "WITH inserted_permissions AS (\n  INSERT INTO user_permissions (user_id, permission_id)\n  SELECT DISTINCT\n    '{{ $json.id }}'::uuid,\n    p.id\n  FROM permissions p\n  WHERE p.code <> 'gerenciar_tags'\n    AND p.code IN (\n      SELECT DISTINCT jsonb_array_elements_text(\n        '{{ JSON.stringify($(\"Webhook\").item.json.body.permissions || []) }}'::jsonb\n      )\n    )\n  ON CONFLICT (user_id, permission_id) DO NOTHING\n  RETURNING permission_id\n)\nSELECT\n  u.id,\n  u.name,\n  u.email,\n  u.sector_id AS \"sectorId\",\n  s.name AS \"sectorName\",\n  u.active,\n  u.is_master AS \"isMaster\",\n  COALESCE(\n    (\n      SELECT json_agg(p.code ORDER BY p.code)\n      FROM inserted_permissions ip\n      JOIN permissions p ON p.id = ip.permission_id\n      WHERE p.code <> 'gerenciar_tags'\n    ),\n    '[]'::json\n  ) AS permissions,\n  u.created_at AS \"createdAt\",\n  u.updated_at AS \"updatedAt\"\nFROM users u\nLEFT JOIN sectors s ON s.id = u.sector_id\nWHERE u.id = '{{ $json.id }}'::uuid;",
+    "jsCode": null,
+    "workflowInputs": null,
+    "values": null
+  },
+  {
+    "name": "Validar permissão",
+    "type": "n8n-nodes-base.executeWorkflow",
+    "query": null,
+    "jsCode": null,
+    "workflowInputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "permissions": "={{ $json.permissions || ($json.user && $json.user.permissions) || [] }}",
+        "requiredPermission": "gerenciar_usuarios",
+        "requiredAnyOf": "={{ [] }}",
+        "isMaster": "={{ $json.user ? $json.user.isMaster === true : false }}",
+        "userId": "={{ $json.userId || ($json.user && $json.user.id) || '' }}",
+        "sessionId": "={{ $json.sessionId || '' }}",
+        "user": "={{ $json.user || null }}",
+        "requestId": "={{ $json.requestId || $('Normalizar request').first().json.requestId || '' }}"
+      }
+    },
+    "values": null
+  },
+  {
+    "name": "Montar data",
+    "type": "n8n-nodes-base.code",
+    "query": null,
+    "jsCode": "const row = $input.first().json || {};\nconst norm = $('Normalizar request').first().json;\nlet userId = '';\nlet sessionId = '';\ntry { const auth = $('Validar auth').first().json; userId = auth.userId || ''; sessionId = auth.sessionId || ''; } catch (_) {}\nreturn [{ json: { data: row, statusCode: 200, requestId: norm.requestId, requestStartedAtMs: norm.requestStartedAtMs, method: norm.method, path: norm.path, asList: false, userId, sessionId } }];",
+    "workflowInputs": null,
+    "values": null
+  },
+  {
+    "name": "Registrar auditoria",
+    "type": "n8n-nodes-base.executeWorkflow",
+    "query": null,
+    "jsCode": null,
+    "workflowInputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "requestId": "={{ $json.requestId }}",
+        "tracking": "={{ $json.tracking }}",
+        "response": "={{ $json.response }}",
+        "responseHeaders": "={{ $json.responseHeaders }}",
+        "headers": "={{ $('Normalizar request').first().json.headers || {} }}",
+        "action": "USER_UPDATE",
+        "resourceType": "user",
+        "resourceId": "={{ $json.response?.data?.id || $('Webhook').first().json.body?.id || '' }}",
+        "success": "={{ $json.tracking?.success !== false }}",
+        "userId": "={{ $json.tracking?.userId || '' }}",
+        "sessionId": "={{ $json.tracking?.sessionId || '' }}",
+        "method": "={{ $json.tracking?.method || $('Normalizar request').first().json.method }}",
+        "path": "={{ $json.tracking?.path || $('Normalizar request').first().json.path }}",
+        "statusCode": "={{ $json.statusCode }}",
+        "durationMs": "={{ $json.durationMs }}",
+        "errorCode": "={{ $json.tracking?.errorCode || ($json.response?.error?.code ?? null) }}",
+        "beforeData": "={{ (() => { const b = $('Webhook').first().json.body || {}; return { name: b.name, email: b.email, sectorId: b.sectorId, active: b.active, isMaster: b.isMaster, permissions: b.permissions }; })() }}",
+        "afterData": "={{ (() => { const d = $json.response?.data || {}; return { name: d.name, email: d.email, sectorId: d.sectorId, active: d.active, isMaster: d.isMaster, permissions: d.permissions }; })() }}",
+        "metadata": "={{ {} }}"
+      }
+    },
+    "values": null
+  },
+  {
+    "name": "Repassar resposta",
+    "type": "n8n-nodes-base.code",
+    "query": null,
+    "jsCode": "const prep = $('Preparar sucesso').first().json || {};\nconst audit = $input.first().json || {};\nreturn [{ json: audit.response != null ? audit : prep }];",
+    "workflowInputs": null,
+    "values": null
+  },
+  {
+    "name": "Registrar auditoria 403",
+    "type": "n8n-nodes-base.executeWorkflow",
+    "query": null,
+    "jsCode": null,
+    "workflowInputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "requestId": "={{ $json.requestId }}",
+        "tracking": "={{ $json.tracking }}",
+        "response": "={{ $json.response }}",
+        "responseHeaders": "={{ $json.responseHeaders }}",
+        "headers": "={{ $('Normalizar request').first().json.headers || {} }}",
+        "action": "USER_UPDATE",
+        "resourceType": "user",
+        "resourceId": "={{ $('Webhook').first().json.body?.id || '' }}",
+        "success": false,
+        "userId": "={{ $json.tracking?.userId || '' }}",
+        "sessionId": "={{ $json.tracking?.sessionId || '' }}",
+        "method": "={{ $json.tracking?.method || $('Normalizar request').first().json.method }}",
+        "path": "={{ $json.tracking?.path || $('Normalizar request').first().json.path }}",
+        "statusCode": "={{ $json.statusCode }}",
+        "durationMs": "={{ $json.durationMs }}",
+        "errorCode": "={{ $json.tracking?.errorCode || ($json.response?.error?.code ?? null) }}",
+        "beforeData": "={{ (() => { const b = $('Webhook').first().json.body || {}; return { name: b.name, email: b.email, sectorId: b.sectorId, active: b.active, isMaster: b.isMaster, permissions: b.permissions }; })() }}",
+        "afterData": "={{ null }}",
+        "metadata": "={{ {} }}"
+      }
+    },
+    "values": null
+  },
+  {
+    "name": "Repassar resposta 403",
+    "type": "n8n-nodes-base.code",
+    "query": null,
+    "jsCode": "const prep = $('Preparar erro 403').first().json || {};\nconst audit = $input.first().json || {};\nreturn [{ json: audit.response != null ? audit : prep }];",
+    "workflowInputs": null,
+    "values": null
+  }
+]

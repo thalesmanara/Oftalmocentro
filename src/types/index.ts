@@ -25,6 +25,8 @@ export interface AuthUser {
   email: string
   sectorName: string
   isMaster: boolean
+  /** Acesso às áreas técnicas sem poderes totais de master */
+  isTechnicalAdmin: boolean
   permissions: string[]
 }
 
@@ -65,6 +67,7 @@ export interface User {
   sectorName?: string | null
   active: boolean
   isMaster: boolean
+  isTechnicalAdmin: boolean
   permissions: string[]
   createdAt: string
   updatedAt: string
@@ -483,5 +486,6 @@ export interface UserFormData {
   sectorId: string | null
   active: boolean
   isMaster: boolean
+  isTechnicalAdmin: boolean
   permissions: string[]
 }

@@ -1,0 +1,206 @@
+[
+  {
+    "name": "Webhook",
+    "type": "n8n-nodes-base.webhook",
+    "paramsKeys": [
+      "httpMethod",
+      "path",
+      "responseMode",
+      "options"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Execute a SQL query",
+    "type": "n8n-nodes-base.postgres",
+    "paramsKeys": [
+      "operation",
+      "query",
+      "options"
+    ],
+    "hasQuery": true
+  },
+  {
+    "name": "Respond to Webhook",
+    "type": "n8n-nodes-base.respondToWebhook",
+    "paramsKeys": [
+      "options",
+      "respondWith",
+      "responseBody"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Salvar permissões",
+    "type": "n8n-nodes-base.postgres",
+    "paramsKeys": [
+      "operation",
+      "query",
+      "options"
+    ],
+    "hasQuery": true
+  },
+  {
+    "name": "Auth ok?",
+    "type": "n8n-nodes-base.if",
+    "paramsKeys": [
+      "conditions",
+      "looseTypeValidation"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Respond 401",
+    "type": "n8n-nodes-base.respondToWebhook",
+    "paramsKeys": [
+      "respondWith",
+      "responseBody",
+      "options"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Validar auth",
+    "type": "n8n-nodes-base.executeWorkflow",
+    "paramsKeys": [
+      "source",
+      "workflowId",
+      "mode",
+      "workflowInputs",
+      "options"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Validar permissão",
+    "type": "n8n-nodes-base.executeWorkflow",
+    "paramsKeys": [
+      "source",
+      "workflowId",
+      "mode",
+      "workflowInputs",
+      "options"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Permissão ok?",
+    "type": "n8n-nodes-base.if",
+    "paramsKeys": [
+      "conditions",
+      "looseTypeValidation"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Respond 403",
+    "type": "n8n-nodes-base.respondToWebhook",
+    "paramsKeys": [
+      "respondWith",
+      "responseBody",
+      "options"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Normalizar request",
+    "type": "n8n-nodes-base.executeWorkflow",
+    "paramsKeys": [
+      "mode",
+      "options",
+      "source",
+      "workflowId"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Preparar erro 401",
+    "type": "n8n-nodes-base.executeWorkflow",
+    "paramsKeys": [
+      "mode",
+      "options",
+      "source",
+      "workflowId",
+      "workflowInputs"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Preparar erro 403",
+    "type": "n8n-nodes-base.executeWorkflow",
+    "paramsKeys": [
+      "mode",
+      "options",
+      "source",
+      "workflowId",
+      "workflowInputs"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Montar data",
+    "type": "n8n-nodes-base.code",
+    "paramsKeys": [
+      "jsCode",
+      "language",
+      "mode"
+    ],
+    "hasQuery": true
+  },
+  {
+    "name": "Preparar sucesso",
+    "type": "n8n-nodes-base.executeWorkflow",
+    "paramsKeys": [
+      "mode",
+      "options",
+      "source",
+      "workflowId",
+      "workflowInputs"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Registrar auditoria",
+    "type": "n8n-nodes-base.executeWorkflow",
+    "paramsKeys": [
+      "source",
+      "workflowId",
+      "mode",
+      "options",
+      "workflowInputs"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Repassar resposta",
+    "type": "n8n-nodes-base.code",
+    "paramsKeys": [
+      "mode",
+      "language",
+      "jsCode"
+    ],
+    "hasQuery": true
+  },
+  {
+    "name": "Registrar auditoria 403",
+    "type": "n8n-nodes-base.executeWorkflow",
+    "paramsKeys": [
+      "source",
+      "workflowId",
+      "mode",
+      "options",
+      "workflowInputs"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Repassar resposta 403",
+    "type": "n8n-nodes-base.code",
+    "paramsKeys": [
+      "mode",
+      "language",
+      "jsCode"
+    ],
+    "hasQuery": true
+  }
+]

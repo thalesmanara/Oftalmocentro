@@ -17,7 +17,7 @@ import {
   validateSession,
 } from '@/services/authService'
 import { clearAuthToken, setUnauthorizedHandler } from '@/services/api'
-import { hasPermission as checkPermission } from '@/utils/permissions'
+import { hasPermission as checkPermission, canAccessTechnicalAdministration } from '@/utils/permissions'
 
 export interface AuthContextValue {
   user: AuthUser | null
@@ -25,6 +25,7 @@ export interface AuthContextValue {
   login: (email: string, password: string) => Promise<void>
   logout: () => Promise<void>
   hasPermission: (permissionCode: PermissionCode) => boolean
+  canAccessTechnicalAdministration: boolean
   updateCurrentUser: (user: AuthUser) => void
 }
 
@@ -95,6 +96,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     [user]
   )
 
+  const canAccessTechnical = useMemo(
+    () => canAccessTechnicalAdministration(user),
+    [user]
+  )
+
   const updateCurrentUser = useCallback((updated: AuthUser) => {
     setUser(updated)
     persistSession(updated)
@@ -107,9 +113,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       login,
       logout,
       hasPermission,
+      canAccessTechnicalAdministration: canAccessTechnical,
       updateCurrentUser,
     }),
-    [user, loading, login, logout, hasPermission, updateCurrentUser]
+    [user, loading, login, logout, hasPermission, canAccessTechnical, updateCurrentUser]
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

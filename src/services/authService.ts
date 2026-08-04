@@ -49,6 +49,8 @@ function parseAuthUser(data: unknown): AuthUser | null {
     email,
     sectorName: String(record.sectorName ?? record.sector_name ?? ''),
     isMaster: record.isMaster === true || record.is_master === true,
+    isTechnicalAdmin:
+      record.isTechnicalAdmin === true || record.is_technical_admin === true,
     permissions: normalizePermissions(record.permissions) as PermissionCode[],
   }
 }

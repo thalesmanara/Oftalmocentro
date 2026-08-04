@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Buscar usuário",
+    "type": "n8n-nodes-base.postgres",
+    "query": "WITH matched AS (\n  SELECT\n    u.id,\n    u.name,\n    u.email,\n    u.sector_id,\n    s.name AS \"sectorName\",\n    u.active,\n    u.is_master,\n    u.password_hash,\n    CASE\n      WHEN u.is_master = TRUE THEN (\n        SELECT COALESCE(\n          json_agg(p_all.code ORDER BY p_all.name),\n          '[]'::json\n        )\n        FROM permissions p_all\n        WHERE p_all.code <> 'gerenciar_tags'\n      )\n      ELSE COALESCE(\n        (\n          SELECT json_agg(p.code ORDER BY p.code)\n          FROM user_permissions up\n          JOIN permissions p ON p.id = up.permission_id\n          WHERE up.user_id = u.id\n            AND p.code <> 'gerenciar_tags'\n        ),\n        '[]'::json\n      )\n    END AS permissions\n  FROM users u\n  LEFT JOIN sectors s ON s.id = u.sector_id\n  WHERE\n    LOWER(u.email) = LOWER('{{ String($json.body.email || \"\").replace(/'/g, \"''\") }}')\n    AND u.active = true\n    AND (\n      (\n        (\n          u.password_hash LIKE '$2a$%'\n          OR u.password_hash LIKE '$2b$%'\n          OR u.password_hash LIKE '$2y$%'\n        )\n        AND u.password_hash = crypt(\n          '{{ String($json.body.password || \"\").replace(/'/g, \"''\") }}',\n          u.password_hash\n        )\n      )\n      OR (\n        u.password_hash NOT LIKE '$2a$%'\n        AND u.password_hash NOT LIKE '$2b$%'\n        AND u.password_hash NOT LIKE '$2y$%'\n        AND u.password_hash = '{{ String($json.body.password || \"\").replace(/'/g, \"''\") }}'\n      )\n    )\n  LIMIT 1\n),\nupgraded AS (\n  UPDATE users u\n  SET\n    password_hash = crypt(\n      '{{ String($(\"Webhook\").item.json.body.password || \"\").replace(/'/g, \"''\") }}',\n      gen_salt('bf', 10)\n    ),\n    updated_at = NOW()\n  FROM matched m\n  WHERE u.id = m.id\n    AND u.password_hash NOT LIKE '$2a$%'\n    AND u.password_hash NOT LIKE '$2b$%'\n    AND u.password_hash NOT LIKE '$2y$%'\n  RETURNING u.id\n)\nSELECT\n  m.id,\n  m.name,\n  m.email,\n  m.sector_id,\n  m.\"sectorName\",\n  m.active,\n  m.is_master,\n  m.permissions\nFROM matched m\nWHERE (SELECT COUNT(*) FROM upgraded) >= 0;",
+    "jsCode": null,
+    "workflowInputs": null,
+    "values": null
+  },
+  {
+    "name": "Criar sessão",
+    "type": "n8n-nodes-base.postgres",
+    "query": "WITH cfg AS (\n  SELECT\n    (SELECT value FROM app_secrets WHERE key = 'session_ttl_seconds')::int AS ttl,\n    (SELECT value FROM app_secrets WHERE key = 'jwt_hs256_secret') AS secret\n),\nsess AS (\n  INSERT INTO user_sessions (user_id, expires_at, ip_address, user_agent)\n  VALUES (\n    '{{ $json.id }}'::uuid,\n    NOW() + make_interval(secs => (SELECT ttl FROM cfg)),\n    NULLIF('{{ String(($('Normalizar request').first().json.headers['x-real-ip'] || '')).replace(/'/g, \"''\") }}', ''),\n    NULLIF('{{ String(($('Normalizar request').first().json.headers['user-agent'] || '')).replace(/'/g, \"''\") }}', '')\n  )\n  RETURNING id, token_id, created_at, expires_at\n)\nSELECT\n  s.id AS \"sessionId\",\n  s.token_id AS \"tokenId\",\n  s.created_at AS \"issuedAt\",\n  s.expires_at AS \"expiresAt\",\n  (SELECT secret FROM cfg) AS \"jwtSecret\"\nFROM sess s;",
+    "jsCode": null,
+    "workflowInputs": null,
+    "values": null
+  },
+  {
+    "name": "Assinar JWT",
+    "type": "n8n-nodes-base.code",
+    "query": null,
+    "jsCode": "const crypto = require('crypto');\nconst session = $input.first().json;\nconst user = $('Buscar usuário').first().json;\n\nfunction b64url(value) {\n  return Buffer.from(value).toString('base64url');\n}\n\nconst issuedAtSec = Math.floor(new Date(session.issuedAt).getTime() / 1000);\nconst expiresAtSec = Math.floor(new Date(session.expiresAt).getTime() / 1000);\n\nconst header = { alg: 'HS256', typ: 'JWT' };\nconst payload = {\n  sessionId: session.sessionId,\n  userId: user.id,\n  issuedAt: issuedAtSec,\n  expiresAt: expiresAtSec,\n  jti: session.tokenId,\n  sub: user.id,\n  iat: issuedAtSec,\n  exp: expiresAtSec,\n  iss: 'oftalmocentro-inteligente',\n};\n\nconst encodedHeader = b64url(JSON.stringify(header));\nconst encodedPayload = b64url(JSON.stringify(payload));\nconst data = `${encodedHeader}.${encodedPayload}`;\nconst signature = crypto\n  .createHmac('sha256', String(session.jwtSecret))\n  .update(data)\n  .digest('base64url');\n\nreturn [{\n  json: {\n    token: `${data}.${signature}`,\n    expiresAt: session.expiresAt,\n    user: {\n      id: user.id,\n      name: user.name,\n      email: user.email,\n      sectorId: user.sector_id,\n      sectorName: user.sectorName,\n      active: user.active,\n      isMaster: user.is_master,\n      permissions: Array.isArray(user.permissions)\n        ? user.permissions.filter((code) => code !== 'gerenciar_tags')\n        : [],\n    },\n  },\n}];",
+    "workflowInputs": null,
+    "values": null
+  }
+]

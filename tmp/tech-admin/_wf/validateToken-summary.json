@@ -1,0 +1,79 @@
+[
+  {
+    "name": "Trigger",
+    "type": "n8n-nodes-base.executeWorkflowTrigger",
+    "paramsKeys": [
+      "inputSource",
+      "workflowInputs"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Carregar secret",
+    "type": "n8n-nodes-base.postgres",
+    "paramsKeys": [
+      "operation",
+      "query",
+      "options"
+    ],
+    "hasQuery": true
+  },
+  {
+    "name": "Validar JWT",
+    "type": "n8n-nodes-base.code",
+    "paramsKeys": [
+      "mode",
+      "language",
+      "jsCode"
+    ],
+    "hasQuery": true
+  },
+  {
+    "name": "Token ok?",
+    "type": "n8n-nodes-base.if",
+    "paramsKeys": [
+      "conditions",
+      "looseTypeValidation"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Validar sessão",
+    "type": "n8n-nodes-base.postgres",
+    "paramsKeys": [
+      "operation",
+      "query",
+      "options"
+    ],
+    "hasQuery": true
+  },
+  {
+    "name": "Sessão ativa?",
+    "type": "n8n-nodes-base.if",
+    "paramsKeys": [
+      "conditions",
+      "looseTypeValidation"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Auth OK",
+    "type": "n8n-nodes-base.set",
+    "paramsKeys": [
+      "mode",
+      "assignments",
+      "options"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Auth falhou",
+    "type": "n8n-nodes-base.set",
+    "paramsKeys": [
+      "mode",
+      "assignments",
+      "options"
+    ],
+    "hasQuery": false
+  }
+]

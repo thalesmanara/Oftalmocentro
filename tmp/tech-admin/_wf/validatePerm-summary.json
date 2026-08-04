@@ -1,0 +1,21 @@
+[
+  {
+    "name": "Trigger",
+    "type": "n8n-nodes-base.executeWorkflowTrigger",
+    "paramsKeys": [
+      "inputSource",
+      "workflowInputs"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Checar permissão",
+    "type": "n8n-nodes-base.code",
+    "paramsKeys": [
+      "mode",
+      "language",
+      "jsCode"
+    ],
+    "hasQuery": true
+  }
+]

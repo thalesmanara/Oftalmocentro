@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Execute a SQL query",
+    "type": "n8n-nodes-base.postgres",
+    "query": "SELECT\n    u.id,\n    u.name,\n    u.email,\n\n    u.sector_id AS \"sectorId\",\n    s.name AS \"sectorName\",\n\n    u.active,\n    u.is_master AS \"isMaster\",\n\n    CASE\n        WHEN u.is_master = TRUE THEN (\n            SELECT COALESCE(\n                json_agg(\n                    p_all.code\n                    ORDER BY p_all.name\n                ),\n                '[]'::json\n            )\n            FROM permissions p_all\n            WHERE p_all.code <> 'gerenciar_tags'\n        )\n        ELSE COALESCE(\n            json_agg(\n                DISTINCT p.code\n                ORDER BY p.code\n            ) FILTER (\n                WHERE p.code IS NOT NULL\n                  AND p.code <> 'gerenciar_tags'\n            ),\n            '[]'::json\n        )\n    END AS permissions,\n\n    u.created_at AS \"createdAt\",\n    u.updated_at AS \"updatedAt\"\n\nFROM users u\n\nLEFT JOIN sectors s\n    ON s.id = u.sector_id\n\nLEFT JOIN user_permissions up\n    ON up.user_id = u.id\n\nLEFT JOIN permissions p\n    ON p.id = up.permission_id\n\nGROUP BY\n    u.id,\n    u.name,\n    u.email,\n    u.sector_id,\n    s.name,\n    u.active,\n    u.is_master,\n    u.created_at,\n    u.updated_at\n\nORDER BY\n    u.name ASC;",
+    "jsCode": null,
+    "workflowInputs": null,
+    "values": null
+  },
+  {
+    "name": "Validar permissão",
+    "type": "n8n-nodes-base.executeWorkflow",
+    "query": null,
+    "jsCode": null,
+    "workflowInputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "permissions": "={{ $json.permissions || ($json.user && $json.user.permissions) || [] }}",
+        "requiredPermission": "gerenciar_usuarios",
+        "requiredAnyOf": "={{ [] }}",
+        "isMaster": "={{ $json.user ? $json.user.isMaster === true : false }}",
+        "userId": "={{ $json.userId || ($json.user && $json.user.id) || '' }}",
+        "sessionId": "={{ $json.sessionId || '' }}",
+        "user": "={{ $json.user || null }}",
+        "requestId": "={{ $json.requestId || $('Normalizar request').first().json.requestId || '' }}"
+      }
+    },
+    "values": null
+  },
+  {
+    "name": "Coletar lista",
+    "type": "n8n-nodes-base.code",
+    "query": null,
+    "jsCode": "const rows = $input.all().map((i) => i.json).filter((j) => j && j.id);\nconst norm = $('Normalizar request').first().json;\nlet userId = '';\nlet sessionId = '';\ntry { const auth = $('Validar auth').first().json; userId = auth.userId || ''; sessionId = auth.sessionId || ''; } catch (_) {}\nreturn [{ json: { data: rows, asList: true, statusCode: 200, requestId: norm.requestId, requestStartedAtMs: norm.requestStartedAtMs, method: norm.method, path: norm.path, userId, sessionId } }];",
+    "workflowInputs": null,
+    "values": null
+  }
+]

@@ -1,0 +1,87 @@
+{
+  "at": "2026-08-04T15:26:51.800Z",
+  "counts": [
+    {
+      "processing_status": "processed",
+      "n": 56
+    }
+  ],
+  "remaining": [],
+  "report": [
+    {
+      "id": "a2d13fce-7562-4682-99eb-c48d9ca1655c",
+      "steps": [
+        "text ok",
+        "chunks=37",
+        "emb=500",
+        "qdrant=404"
+      ],
+      "embeddings": {
+        "status": 500,
+        "code": 0,
+        "message": "Cannot read properties of undefined (reading 'node')"
+      },
+      "qdrant": {
+        "status": 404,
+        "code": 404,
+        "message": "The requested webhook \"POST system/qdrant/reindex\" is not registered."
+      },
+      "final": {
+        "processing_status": "processed",
+        "embedding_status": null,
+        "qdrant_sync_status": null,
+        "text_len": 34546
+      }
+    },
+    {
+      "id": "b23f6c91-1a54-45ce-bb6a-ed970b667add",
+      "steps": [
+        "text ok",
+        "chunks=82",
+        "emb=404",
+        "qdrant=404"
+      ],
+      "embeddings": {
+        "status": 404,
+        "code": 404,
+        "message": "The requested webhook \"POST system/embeddings/reprocess\" is not registered."
+      },
+      "qdrant": {
+        "status": 404,
+        "code": 404,
+        "message": "The requested webhook \"POST system/qdrant/reindex\" is not registered."
+      },
+      "final": {
+        "processing_status": "processed",
+        "embedding_status": null,
+        "qdrant_sync_status": null,
+        "text_len": 77378
+      }
+    },
+    {
+      "id": "e4e8cf29-375f-4e87-bb5c-8d4558a314ff",
+      "steps": [
+        "text ok",
+        "chunks=50",
+        "emb=404",
+        "qdrant=404"
+      ],
+      "embeddings": {
+        "status": 404,
+        "code": 404,
+        "message": "The requested webhook \"POST system/embeddings/reprocess\" is not registered."
+      },
+      "qdrant": {
+        "status": 404,
+        "code": 404,
+        "message": "The requested webhook \"POST system/qdrant/reindex\" is not registered."
+      },
+      "final": {
+        "processing_status": "processed",
+        "embedding_status": null,
+        "qdrant_sync_status": null,
+        "text_len": 47100
+      }
+    }
+  ]
+}

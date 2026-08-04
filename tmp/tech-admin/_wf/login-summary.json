@@ -1,0 +1,131 @@
+[
+  {
+    "name": "Webhook",
+    "type": "n8n-nodes-base.webhook",
+    "paramsKeys": [
+      "httpMethod",
+      "path",
+      "responseMode",
+      "options"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Buscar usuário",
+    "type": "n8n-nodes-base.postgres",
+    "paramsKeys": [
+      "operation",
+      "query",
+      "options"
+    ],
+    "hasQuery": true
+  },
+  {
+    "name": "Respond to Webhook",
+    "type": "n8n-nodes-base.respondToWebhook",
+    "paramsKeys": [
+      "options",
+      "respondWith",
+      "responseBody"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Login ok?",
+    "type": "n8n-nodes-base.if",
+    "paramsKeys": [
+      "conditions",
+      "looseTypeValidation"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Criar sessão",
+    "type": "n8n-nodes-base.postgres",
+    "paramsKeys": [
+      "operation",
+      "query",
+      "options"
+    ],
+    "hasQuery": true
+  },
+  {
+    "name": "Assinar JWT",
+    "type": "n8n-nodes-base.code",
+    "paramsKeys": [
+      "mode",
+      "language",
+      "jsCode"
+    ],
+    "hasQuery": true
+  },
+  {
+    "name": "Normalizar request",
+    "type": "n8n-nodes-base.executeWorkflow",
+    "paramsKeys": [
+      "mode",
+      "options",
+      "source",
+      "workflowId"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Preparar sucesso",
+    "type": "n8n-nodes-base.executeWorkflow",
+    "paramsKeys": [
+      "mode",
+      "options",
+      "source",
+      "workflowId",
+      "workflowInputs"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Preparar erro login",
+    "type": "n8n-nodes-base.executeWorkflow",
+    "paramsKeys": [
+      "mode",
+      "options",
+      "source",
+      "workflowId",
+      "workflowInputs"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Respond 401 login",
+    "type": "n8n-nodes-base.respondToWebhook",
+    "paramsKeys": [
+      "options",
+      "respondWith",
+      "responseBody"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Registrar auditoria sucesso",
+    "type": "n8n-nodes-base.executeWorkflow",
+    "paramsKeys": [
+      "mode",
+      "options",
+      "source",
+      "workflowId",
+      "workflowInputs"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Registrar auditoria erro login",
+    "type": "n8n-nodes-base.executeWorkflow",
+    "paramsKeys": [
+      "mode",
+      "options",
+      "source",
+      "workflowId",
+      "workflowInputs"
+    ],
+    "hasQuery": false
+  }
+]

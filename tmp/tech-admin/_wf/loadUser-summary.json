@@ -1,0 +1,50 @@
+[
+  {
+    "name": "Trigger",
+    "type": "n8n-nodes-base.executeWorkflowTrigger",
+    "paramsKeys": [
+      "inputSource",
+      "workflowInputs"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Carregar usuário",
+    "type": "n8n-nodes-base.postgres",
+    "paramsKeys": [
+      "operation",
+      "query",
+      "options"
+    ],
+    "hasQuery": true
+  },
+  {
+    "name": "Usuário encontrado?",
+    "type": "n8n-nodes-base.if",
+    "paramsKeys": [
+      "conditions",
+      "looseTypeValidation"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Usuário OK",
+    "type": "n8n-nodes-base.set",
+    "paramsKeys": [
+      "mode",
+      "assignments",
+      "options"
+    ],
+    "hasQuery": false
+  },
+  {
+    "name": "Usuário não encontrado",
+    "type": "n8n-nodes-base.set",
+    "paramsKeys": [
+      "mode",
+      "assignments",
+      "options"
+    ],
+    "hasQuery": false
+  }
+]
