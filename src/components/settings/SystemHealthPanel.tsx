@@ -24,6 +24,8 @@ const COMPONENT_LABELS: Record<string, string> = {
   retrievalPipeline: 'Pipeline de retrieval',
   contextWindow: 'Janela de contexto',
   semanticCache: 'Cache semântico',
+  evidenceLayer: 'Camada de evidências',
+  responseQuality: 'Qualidade da resposta',
 }
 
 function statusLabel(status: UiState): string {
@@ -177,6 +179,43 @@ function componentDetails(key: string, component: HealthComponent): string {
     if (typeof sc.entryCount === 'number') parts.push(`${sc.entryCount} entradas`)
     if (typeof sc.draftCount === 'number') parts.push(`${sc.draftCount} drafts`)
     if (sc.qdrantIndexAvailable === false) parts.push('índice Qdrant off')
+  }
+  if (key === 'evidenceLayer') {
+    const ev = component as HealthComponent & {
+      activeMode?: string
+      draftCount?: number
+      averageEvidenceScore?: number | null
+    }
+    if (component.activeVersion) parts.push(String(component.activeVersion))
+    if (ev.activeMode) parts.push(String(ev.activeMode))
+    if (typeof ev.averageEvidenceScore === 'number') parts.push(`score ${ev.averageEvidenceScore}`)
+    if (typeof ev.draftCount === 'number') parts.push(`${ev.draftCount} drafts`)
+  }
+  if (key === 'responseQuality') {
+    const rq = component as HealthComponent & {
+      activeMode?: string
+      draftCount?: number
+      averageQualityScore?: number | null
+      conflictRate?: number | null
+      consistencyOkRate?: number | null
+      policyEnabled?: boolean
+      warnings7d?: number | null
+      abstentions7d?: number | null
+      declines7d?: number | null
+    }
+    if (component.activeVersion) parts.push(String(component.activeVersion))
+    if (rq.activeMode) parts.push(String(rq.activeMode))
+    if (typeof rq.averageQualityScore === 'number') parts.push(`score ${rq.averageQualityScore}`)
+    if (rq.policyEnabled === true) parts.push('policy on')
+    if (rq.policyEnabled === false) parts.push('policy off')
+    if (typeof rq.conflictRate === 'number') parts.push(`${Math.round(rq.conflictRate * 100)}% conflito`)
+    if (typeof rq.consistencyOkRate === 'number') {
+      parts.push(`${Math.round(rq.consistencyOkRate * 100)}% consistência`)
+    }
+    if (typeof rq.warnings7d === 'number') parts.push(`${rq.warnings7d} warn/7d`)
+    if (typeof rq.abstentions7d === 'number') parts.push(`${rq.abstentions7d} abst/7d`)
+    if (typeof rq.declines7d === 'number') parts.push(`${rq.declines7d} decline/7d`)
+    if (typeof rq.draftCount === 'number') parts.push(`${rq.draftCount} drafts`)
   }
   return parts.join(' · ')
 }

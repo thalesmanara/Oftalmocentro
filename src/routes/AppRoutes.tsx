@@ -19,6 +19,8 @@ import { AiPromptsPage } from '@/pages/AiPromptsPage'
 import { AiRetrievalPage } from '@/pages/AiRetrievalPage'
 import { AiContextPage } from '@/pages/AiContextPage'
 import { AiCachePage } from '@/pages/AiCachePage'
+import { AiEvidencePage } from '@/pages/AiEvidencePage'
+import { AiResponseQualityPage } from '@/pages/AiResponseQualityPage'
 import { QdrantAdminPage } from '@/pages/QdrantAdminPage'
 
 export function AppRoutes() {
@@ -70,6 +72,12 @@ export function AppRoutes() {
           </Route>
           <Route element={<ProtectedRoute permission="editar_configuracoes" />}>
             <Route path="ia/cache" element={<AiCachePage />} />
+          </Route>
+          <Route element={<ProtectedRoute permission="editar_configuracoes" />}>
+            <Route path="ia/evidencias" element={<AiEvidencePage />} />
+          </Route>
+          <Route element={<ProtectedRoute permission="editar_configuracoes" />}>
+            <Route path="ia/qualidade" element={<AiResponseQualityPage />} />
           </Route>
           <Route element={<ProtectedRoute permission="editar_configuracoes" />}>
             <Route path="sistema/qdrant" element={<QdrantAdminPage />} />

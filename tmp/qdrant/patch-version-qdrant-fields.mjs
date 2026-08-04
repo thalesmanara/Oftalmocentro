@@ -12,11 +12,14 @@ const qdrantFields = [
   '  dv.qdrant_pending_count AS "qdrantPendingCount",',
   '  dv.qdrant_failed_count AS "qdrantFailedCount",',
   '  dv.qdrant_collection AS "qdrantCollection",',
-  '  dv.qdrant_synced_at AS "qdrantSyncedAt",',
+  '  dv.qdrant_synced_at AS "qdrantSyncedAt"',
 ].join('\n');
 
 function patchQuery(q) {
-  if (/qdrant_sync_status/i.test(q)) return q;
+  if (/qdrant_sync_status/i.test(q)) {
+    // Repair accidental trailing comma before FROM from earlier patch runs.
+    return q.replace(/,(\s*\n)FROM\b/g, '$1FROM');
+  }
   if (!/embedding_avg_ms AS "embeddingAvgMs"/i.test(q)) return q;
   return q.replace(
     /dv\.embedding_avg_ms AS "embeddingAvgMs",\r?\nFROM /g,

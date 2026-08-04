@@ -127,6 +127,19 @@ function isEnvelope(value: unknown): value is ApiEnvelope<unknown> {
   return Boolean(value && typeof value === 'object' && 'success' in (value as object))
 }
 
+/**
+ * Alguns workflows admin respondem com o wrapper interno do n8n
+ * `{ statusCode, response: { success, data|error, meta }, ... }` em vez do
+ * envelope no topo. Normaliza para o formato que o front espera.
+ */
+function normalizeApiPayload(payload: unknown): unknown {
+  if (!payload || typeof payload !== 'object') return payload
+  if (isEnvelope(payload)) return payload
+  const nested = (payload as { response?: unknown }).response
+  if (isEnvelope(nested)) return nested
+  return payload
+}
+
 function statusToCode(status: number): string {
   switch (status) {
     case 400:
@@ -172,7 +185,7 @@ export async function parseApiResponse<T>(response: Response): Promise<T> {
     return undefined as T
   }
 
-  const payload = await parseJsonSafe(response)
+  const payload = normalizeApiPayload(await parseJsonSafe(response))
 
   if (!response.ok) {
     // Health/down: envelope de sucesso com HTTP 503 — devolver data sem tratar como erro de API.

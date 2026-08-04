@@ -36,8 +36,21 @@ export function DashboardPage() {
   const load = () => {
     setLoading(true)
     setError(null)
-    void Promise.all([getDocuments(), getUsers(), getCategories(), getSectors()])
-      .then(([docs, users, categories, sectorList]) => {
+    void Promise.allSettled([getDocuments(), getUsers(), getCategories(), getSectors()])
+      .then(([docsResult, usersResult, categoriesResult, sectorsResult]) => {
+        const docs = docsResult.status === 'fulfilled' ? docsResult.value : []
+        const users = usersResult.status === 'fulfilled' ? usersResult.value : []
+        const categories = categoriesResult.status === 'fulfilled' ? categoriesResult.value : []
+        const sectorList = sectorsResult.status === 'fulfilled' ? sectorsResult.value : []
+
+        const hardFailures = [docsResult, categoriesResult, sectorsResult].filter(
+          (r) => r.status === 'rejected',
+        )
+        if (hardFailures.length > 0) {
+          const first = hardFailures[0] as PromiseRejectedResult
+          throw first.reason
+        }
+
         const recent = [...docs].sort(
           (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         )
@@ -46,7 +59,7 @@ export function DashboardPage() {
         setStats({
           totalDocs: docs.length,
           expired: docs.filter(isDocumentExpired).length,
-          activeUsers: users.filter((u) => u.active).length,
+          activeUsers: usersResult.status === 'fulfilled' ? users.filter((u) => u.active).length : null,
           categories: categories.length,
         })
       })

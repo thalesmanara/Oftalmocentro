@@ -1,0 +1,120 @@
+{
+  "Message a model": {
+    "type": "@n8n/n8n-nodes-langchain.openAi",
+    "jsCode": null,
+    "workflowInputs": null,
+    "outs": {
+      "main": [
+        [
+          {
+            "node": "IA - SALVAR CACHE",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "IA - SALVAR CACHE": {
+    "type": "n8n-nodes-base.executeWorkflow",
+    "jsCode": null,
+    "workflowInputs": {
+      "mappingMode": "defineBelow",
+      "value": {
+        "operation": "={{ 'save' }}",
+        "question": "={{ $('Aplicar cache lookup').first().json.question || '' }}",
+        "answer": "={{ $json.output?.[0]?.content?.[0]?.text ?? '' }}",
+        "sourcesJson": "={{ JSON.stringify($('Aplicar cache lookup').first().json.sources || []) }}",
+        "classificationJson": "={{ JSON.stringify($('Aplicar cache lookup').first().json.classification || {}) }}",
+        "preparedJson": "={{ JSON.stringify($('Aplicar cache lookup').first().json.cachePrepared || {}) }}",
+        "cacheMetaJson": "={{ JSON.stringify($('Aplicar cache lookup').first().json.cacheMeta || {}) }}",
+        "candidateAnswer": "={{ $('Aplicar cache lookup').first().json.cacheCandidateAnswer || '' }}",
+        "candidateSourcesJson": "={{ JSON.stringify($('Aplicar cache lookup').first().json.cacheCandidateSources || []) }}",
+        "requestId": "={{ $('Normalizar request').first().json.requestId || '' }}",
+        "cacheConfigVersionId": "={{ (() => { const b=$('Normalizar request').first().json.body||{}; return String(b.cacheConfigVersionId||''); })() }}"
+      }
+    },
+    "outs": {
+      "main": [
+        [
+          {
+            "node": "Aplicar cache save",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "Aplicar cache save": {
+    "type": "n8n-nodes-base.code",
+    "jsCode": "const openai=$('Message a model').first().json||{};\nconst lookup=$('Aplicar cache lookup').first().json||{};\nconst save=$input.first().json||{};\nconst answer=openai.output?.[0]?.content?.[0]?.text ?? '';\nconst prompt=$('Aplicar prompt carregado').first().json||{};\nconst sources=(lookup.sources||[]).map(s=>({...s, expirationDate:s.expirationDate??s.vigencyDate??null}));\nconst requestId=$('Normalizar request').first().json.requestId;\nconst cacheMeta={...(lookup.cacheMeta||{}), ...(save.cacheMeta||{}), answerFromCache:false};\nreturn [{json:{data:{question:lookup.question,answer,sources,classification:lookup.classification,retrievalMeta:lookup.retrievalMeta||null,contextMeta:lookup.contextMeta||null,cacheMeta,evidenceMeta:(lookup.evidenceMeta||null),promptVersion:prompt.versionNumber||prompt.promptVersion||null,modelName:prompt.modelName||null},requestId}}];",
+    "workflowInputs": null,
+    "outs": {
+      "main": [
+        [
+          {
+            "node": "Preparar sucesso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "Montar resposta cache": {
+    "type": "n8n-nodes-base.code",
+    "jsCode": "const ctx=$('Aplicar cache lookup').first().json||{};\nconst prompt=$('Aplicar prompt carregado').first().json||{};\nconst answer=String(ctx.cachedAnswer||'');\nconst sources=(ctx.cachedSources||ctx.sources||[]).map(s=>({...s, expirationDate:s.expirationDate??s.vigencyDate??null}));\nconst requestId=$('Normalizar request').first().json.requestId;\nreturn [{json:{data:{question:ctx.question,answer,sources,classification:ctx.classification,retrievalMeta:ctx.retrievalMeta||null,contextMeta:ctx.contextMeta||null,cacheMeta:ctx.cacheMeta||null,promptVersion:prompt.versionNumber||prompt.promptVersion||null,modelName:prompt.modelName||null},requestId}}];",
+    "workflowInputs": null,
+    "outs": {
+      "main": [
+        [
+          {
+            "node": "Preparar sucesso",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "Aplicar cache lookup": {
+    "type": "n8n-nodes-base.code",
+    "jsCode": "const ctx=$('Aplicar janela de contexto').first().json||{};\nconst cache=$input.first().json||{};\nconst cacheMeta=cache.cacheMeta||{\n  mode:'SHADOW', configVersion:'cache-shadow-v1', lookupPerformed:false, hit:false,\n  missReason: cache.errorCode || 'CACHE_DISABLED', answerFromCache:false, fallbackUsed:true,\n  fallbackReason:'CACHE_LOOKUP_EMPTY', requestId:($('Normalizar request').first().json||{}).requestId||''\n};\nconst evidenceMeta=(()=>{try{return $('Aplicar evidências').first().json.evidenceMeta||null;}catch(_){return null;}})();\nreturn [{json:{...ctx, evidenceMeta, cacheMeta, serveFromCache:!!cache.serveFromCache, cachedAnswer:cache.cachedAnswer||null, cachedSources:cache.cachedSources||null, cachePrepared:cache.prepared||null, cacheCandidateAnswer:cache.candidateAnswer||null, cacheCandidateSources:cache.candidateSources||null}}];",
+    "workflowInputs": null,
+    "outs": {
+      "main": [
+        [
+          {
+            "node": "Cache serve?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "Cache serve?": {
+    "type": "n8n-nodes-base.if",
+    "jsCode": null,
+    "workflowInputs": null,
+    "outs": {
+      "main": [
+        [
+          {
+            "node": "Montar resposta cache",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

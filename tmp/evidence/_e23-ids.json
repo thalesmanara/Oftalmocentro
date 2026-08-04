@@ -1,0 +1,17 @@
+{
+  "defId": "8c7ab572-589d-49e1-96e1-ccd7338caa44",
+  "v1Id": "0864cbfa-6efe-4937-9b00-ee5ed6999227",
+  "v2Id": "00b1e68b-64dc-4a12-b68e-559a6785f8bf",
+  "versions": [
+    {
+      "version_label": "evidence-v1",
+      "status": "PUBLISHED",
+      "mode": "STRUCTURED"
+    },
+    {
+      "version_label": "evidence-v2",
+      "status": "DRAFT",
+      "mode": "STRUCTURED_STRICT"
+    }
+  ]
+}

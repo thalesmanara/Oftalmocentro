@@ -1,0 +1,236 @@
+{
+  "passed": 46,
+  "failed": 0,
+  "results": [
+    {
+      "name": "1 ANSWER normal",
+      "pass": true,
+      "detail": "ANSWER"
+    },
+    {
+      "name": "2 ANSWER preserva texto",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "3 ANSWER_WITH_WARNING conflito",
+      "pass": true,
+      "detail": "ANSWER_WITH_WARNING"
+    },
+    {
+      "name": "4 ANSWER_WITH_LIMITATION",
+      "pass": true,
+      "detail": "ANSWER_WITH_LIMITATION"
+    },
+    {
+      "name": "5 REQUEST_CLARIFICATION",
+      "pass": true,
+      "detail": "REQUEST_CLARIFICATION"
+    },
+    {
+      "name": "6 ABSTAIN",
+      "pass": true,
+      "detail": "ABSTAIN"
+    },
+    {
+      "name": "7 DECLINE",
+      "pass": true,
+      "detail": "DECLINE"
+    },
+    {
+      "name": "8 OCR válido → ANSWER/LIMITATION",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "9 OCR ruim tratado",
+      "pass": true,
+      "detail": "ANSWER_WITH_LIMITATION"
+    },
+    {
+      "name": "10 Planilha (fonte tabular preservada em ANSWER)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "11 Documento expirado → limitation/warning/answer",
+      "pass": true,
+      "detail": "ANSWER_WITH_LIMITATION"
+    },
+    {
+      "name": "12 Fonte removida → ABSTAIN",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "13 Baixa confiança → LIMITATION",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "14 Quality POOR sem fontes → ABSTAIN",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "15 Quality EXCELLENT → ANSWER",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "16 Resposta negativa fundamentada → ANSWER",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "17 Prompt injection → DECLINE",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "18 Fontes ABSTAIN vazias",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "18b Fontes WARNING preservadas",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "18c Sem path/chunk/score interno",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "passthrough disabled",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "validate rejects FOO",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "validate accepts policy",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "login",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "admin detail policy",
+      "pass": true,
+      "detail": "response-quality-v1"
+    },
+    {
+      "name": "published v1",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "draft v2 policy on",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "21 Dataset cols exist + validate policy",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "22 Health policyEnabled",
+      "pass": true,
+      "detail": "{\"status\":\"ok\",\"activeMode\":\"VALIDATE\",\"activeVersion\":\"response-quality-v1\",\"averageQualityScore\":null,\"policyEnabled\":false,\"strategyDistribution7d\":{},\"warnings7d\":0,\"limitation"
+    },
+    {
+      "name": "22b Health warnings7d",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "consulta 2xx",
+      "pass": true,
+      "detail": "status=200"
+    },
+    {
+      "name": "19 Cache pós-policy (answer presente)",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "20 SHADOW não serve",
+      "pass": true,
+      "detail": "{\"mode\":\"SHADOW\",\"configVersion\":\"cache-shadow-v1\",\"configVersionId\":\"d253bb86-e5df-4bfb-a581-18834e61b03d\",\"lookupPerfo"
+    },
+    {
+      "name": "policyMeta live",
+      "pass": true,
+      "detail": "ANSWER POLICY_DISABLED_PASSTHROUGH"
+    },
+    {
+      "name": "contrato público sources array",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "32 sem dados técnicos",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "injection live policyMeta",
+      "pass": true,
+      "detail": "ANSWER"
+    },
+    {
+      "name": "25 401",
+      "pass": true,
+      "detail": "status=401"
+    },
+    {
+      "name": "29 Workflows publicados/ativos",
+      "pass": true,
+      "detail": "IA - APLICAR POLÍTICA DE RESPOSTA,IA - VALIDAR RESPOSTA,Consulta IA"
+    },
+    {
+      "name": "30 workflow_history policy",
+      "pass": true,
+      "detail": "n=1"
+    },
+    {
+      "name": "24 Backup RQ tables",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "23 Auditoria policy action",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "19b sourcesJson pós-policy",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "21b Dataset INSERT policy cols",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sem tabelas ai_response_policy_*",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "33 Produção estável (labels)",
+      "pass": true,
+      "detail": "{\"retrieval\":\"hybrid-v1\",\"cache\":\"cache-shadow-v1\",\"rq\":\"response-quality-v1\"}"
+    }
+  ]
+}

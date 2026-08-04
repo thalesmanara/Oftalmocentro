@@ -15,6 +15,8 @@ import {
   SlidersHorizontal,
   Layers,
   HardDrive,
+  Fingerprint,
+  ShieldCheck,
 } from 'lucide-react'
 import { useSettings } from '@/hooks/useSettings'
 import { useAuth } from '@/hooks/useAuth'
@@ -83,6 +85,18 @@ const navGroups: NavGroup[] = [
         to: '/ia/cache',
         label: 'Cache da IA',
         icon: HardDrive,
+        permission: 'editar_configuracoes',
+      },
+      {
+        to: '/ia/evidencias',
+        label: 'Evidências',
+        icon: Fingerprint,
+        permission: 'editar_configuracoes',
+      },
+      {
+        to: '/ia/qualidade',
+        label: 'Qualidade da Resposta',
+        icon: ShieldCheck,
         permission: 'editar_configuracoes',
       },
       {

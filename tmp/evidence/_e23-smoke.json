@@ -1,0 +1,470 @@
+{
+  "at": "2026-08-04T00:30:35.186Z",
+  "tests": [
+    {
+      "name": "evidence id",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "score 0-100",
+      "pass": true,
+      "detail": 79
+    },
+    {
+      "name": "grade",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "labels",
+      "pass": true,
+      "detail": [
+        "Evidência OCR",
+        "Evidência positiva",
+        "Evidência normativa"
+      ]
+    },
+    {
+      "name": "redundancy detected",
+      "pass": true,
+      "detail": {
+        "evidences": [
+          {
+            "evidenceId": "f5f170c969a2b356e9633077",
+            "documentId": "d1",
+            "versionId": "v1",
+            "chunkId": "c1",
+            "documentTitle": "Protocolo POP",
+            "setor": "Qualidade",
+            "sectorId": null,
+            "categoria": "Normas",
+            "categoryId": null,
+            "subcategoria": "POP",
+            "subcategoryId": null,
+            "sourceType": "OCR",
+            "ocrGrade": "A",
+            "retrievalScore": 82,
+            "rerankScore": 90,
+            "evidenceScore": 79,
+            "evidenceGrade": "GOOD",
+            "currentVersion": true,
+            "expiration": null,
+            "conflictFlags": [],
+            "confidence": "MEDIUM",
+            "chunkText": "Procedimento operacional padrão de esterilização. Vigência 2026.",
+            "labels": [
+              "Evidência OCR",
+              "Evidência positiva",
+              "Evidência normativa"
+            ],
+            "chunkOrder": 0,
+            "chunkKind": "text",
+            "sheetName": null,
+            "rowStart": null,
+            "rowEnd": null,
+            "sourceMetadata": {
+              "sectorName": "Qualidade",
+              "categoryName": "Normas",
+              "subcategoryName": "POP",
+              "vigencyDate": null,
+              "sheetName": null
+            },
+            "redundant": false,
+            "redundancyScore": 0
+          }
+        ],
+        "allWithFlags": [
+          {
+            "evidenceId": "f5f170c969a2b356e9633077",
+            "documentId": "d1",
+            "versionId": "v1",
+            "chunkId": "c1",
+            "documentTitle": "Protocolo POP",
+            "setor": "Qualidade",
+            "sectorId": null,
+            "categoria": "Normas",
+            "categoryId": null,
+            "subcategoria": "POP",
+            "subcategoryId": null,
+            "sourceType": "OCR",
+            "ocrGrade": "A",
+            "retrievalScore": 82,
+            "rerankScore": 90,
+            "evidenceScore": 79,
+            "evidenceGrade": "GOOD",
+            "currentVersion": true,
+            "expiration": null,
+            "conflictFlags": [],
+            "confidence": "MEDIUM",
+            "chunkText": "Procedimento operacional padrão de esterilização. Vigência 2026.",
+            "labels": [
+              "Evidência OCR",
+              "Evidência positiva",
+              "Evidência normativa"
+            ],
+            "chunkOrder": 0,
+            "chunkKind": "text",
+            "sheetName": null,
+            "rowStart": null,
+            "rowEnd": null,
+            "sourceMetadata": {
+              "sectorName": "Qualidade",
+              "categoryName": "Normas",
+              "subcategoryName": "POP",
+              "vigencyDate": null,
+              "sheetName": null
+            },
+            "redundant": false,
+            "redundancyScore": 0
+          },
+          {
+            "evidenceId": "4970faa35918c81661573aea",
+            "documentId": "d1",
+            "versionId": "v1",
+            "chunkId": "c2",
+            "documentTitle": "Protocolo POP",
+            "setor": "Qualidade",
+            "sectorId": null,
+            "categoria": "Normas",
+            "categoryId": null,
+            "subcategoria": "POP",
+            "subcategoryId": null,
+            "sourceType": "OCR",
+            "ocrGrade": "A",
+            "retrievalScore": 82,
+            "rerankScore": 90,
+            "evidenceScore": 79,
+            "evidenceGrade": "GOOD",
+            "currentVersion": true,
+            "expiration": null,
+            "conflictFlags": [],
+            "confidence": "MEDIUM",
+            "chunkText": "Procedimento operacional padrão de esterilização. Vigência 2026.",
+            "labels": [
+              "Evidência OCR",
+              "Evidência positiva",
+              "Evidência normativa"
+            ],
+            "chunkOrder": 1,
+            "chunkKind": "text",
+            "sheetName": null,
+            "rowStart": null,
+            "rowEnd": null,
+            "sourceMetadata": {
+              "sectorName": "Qualidade",
+              "categoryName": "Normas",
+              "subcategoryName": "POP",
+              "vigencyDate": null,
+              "sheetName": null
+            },
+            "redundancyScore": 1,
+            "redundant": true
+          }
+        ],
+        "redundancyCount": 1,
+        "deduplicatedEvidenceCount": 1
+      }
+    },
+    {
+      "name": "conflict monetary",
+      "pass": true,
+      "detail": {
+        "conflictDetected": true,
+        "conflictType": "CONFIRMED_CONFLICT",
+        "conflictReasonCode": "DIVERGENT_MONETARY_VALUES",
+        "preferredEvidenceId": "217d1698e548fff06e8e2875",
+        "preferredDocumentId": "dA",
+        "conflictingDocuments": [
+          "dA",
+          "dB"
+        ],
+        "reasonCode": "DIVERGENT_MONETARY_VALUES"
+      }
+    },
+    {
+      "name": "validate default",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "validate bad mode",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "chunks mapping preserves doc",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "expired/poor lower score",
+      "pass": true,
+      "detail": {
+        "evidenceScore": 0,
+        "evidenceGrade": "POOR",
+        "confidence": "LOW",
+        "sourceType": "OCR"
+      }
+    },
+    {
+      "name": "login",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "401 evidence list",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "code": 401
+      }
+    },
+    {
+      "name": "list 200",
+      "pass": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "list evidence-v1",
+      "pass": true,
+      "detail": {
+        "id": "8c7ab572-589d-49e1-96e1-ccd7338caa44",
+        "code": "AI_QUERY_EVIDENCE",
+        "active": true,
+        "purpose": "AI_QUERY_EVIDENCE",
+        "activeMode": "STRUCTURED",
+        "draftCount": 1,
+        "description": "Camada de evidências da consulta IA",
+        "versionCount": 2,
+        "publishedVersion": {
+          "id": "0864cbfa-6efe-4937-9b00-ee5ed6999227",
+          "mode": "STRUCTURED",
+          "contentHash": "4342867b4d1e0a514a886b69ec4fd967ba1a2a4db51cfe0363d26659023ccbd1",
+          "publishedAt": "2026-08-04T00:25:05.358006+00:00",
+          "versionLabel": "evidence-v1",
+          "versionNumber": 1
+        },
+        "activeVersionLabel": "evidence-v1"
+      }
+    },
+    {
+      "name": "detail 200",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "has draft v2",
+      "pass": true,
+      "detail": [
+        "evidence-v2:DRAFT",
+        "evidence-v1:PUBLISHED"
+      ]
+    },
+    {
+      "name": "single published v1",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "validate rejects string min",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "data": {
+          "ok": false,
+          "errors": [
+            {
+              "field": "minEvidenceScore",
+              "message": "número 0-100"
+            }
+          ],
+          "configuration": {
+            "mode": "STRUCTURED",
+            "notes": "evidence-v1 — structured passthrough (compatível com CWM)",
+            "minEvidenceScore": "x",
+            "passthroughToCwm": true,
+            "dropBelowMinScore": false,
+            "enableRichSources": true,
+            "enableEvidenceScore": true,
+            "redundancyThreshold": 0.92,
+            "enableClassification": true,
+            "enableRedundancyDetection": true,
+            "enableConflictConsolidation": true
+          }
+        }
+      }
+    },
+    {
+      "name": "validate ok",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "data": {
+          "ok": true,
+          "errors": [],
+          "configuration": {
+            "mode": "STRUCTURED",
+            "notes": "evidence-v1 — structured passthrough (compatível com CWM)",
+            "minEvidenceScore": 0,
+            "passthroughToCwm": true,
+            "dropBelowMinScore": false,
+            "enableRichSources": true,
+            "enableEvidenceScore": true,
+            "redundancyThreshold": 0.92,
+            "enableClassification": true,
+            "enableRedundancyDetection": true,
+            "enableConflictConsolidation": true
+          }
+        }
+      }
+    },
+    {
+      "name": "consulta 200",
+      "pass": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "evidenceMeta present or passthrough",
+      "pass": true,
+      "detail": {
+        "evidenceCount": 7,
+        "averageEvidenceScore": 40.3,
+        "highestEvidenceScore": 54,
+        "conflictCount": 0,
+        "conflictDetected": false,
+        "conflictType": "NO_CONFLICT",
+        "redundancyCount": 0,
+        "deduplicatedEvidenceCount": 7,
+        "ocrDistribution": {
+          "N/A": 7
+        },
+        "tabularDistribution": {
+          "tabular": 0,
+          "texto": 7,
+          "OCR": 0
+        },
+        "confidenceDistribution": {
+          "HIGH": 0,
+          "MEDIUM": 0,
+          "LOW": 7
+        },
+        "selectedEvidenceIds": [
+          "d5c0185722f7e170c099654d",
+          "ab858ded4be1233a764d88c9",
+          "bbe13e610879825f512e6a97",
+          "1e3fe6360d3486632780756b",
+          "0b22def21a4ac717b589586c",
+          "aab468ce5eaa97a83ebec372",
+          "24ed8c8274d2b3c02a3a16bc"
+        ],
+        "excludedEvidenceIds": [],
+        "labelDiversity": 5,
+        "durationMs": 19,
+        "schemaVersion": "evidence-schema-v1",
+        "mode": "STRUCTURED",
+        "configVersion": "evidence-v1",
+        "configVersionId": "0864cbfa-6efe-4937-9b00-ee5ed6999227"
+      }
+    },
+    {
+      "name": "answerFromCache still false/absent",
+      "pass": true,
+      "detail": {
+        "mode": "SHADOW",
+        "configVersion": "cache-shadow-v1",
+        "configVersionId": "d253bb86-e5df-4bfb-a581-18834e61b03d",
+        "lookupPerformed": true,
+        "hit": false,
+        "hitType": null,
+        "missReason": "SHADOW_MODE",
+        "lookupLatencyMs": 107,
+        "semanticSimilarity": null,
+        "entryAgeSeconds": 1108,
+        "scopeHashMatched": true,
+        "sourceFingerprintMatched": true,
+        "answerFromCache": false,
+        "shadowCandidateFound": true,
+        "shadowAgreement": false,
+        "estimatedTokensSaved": 0,
+        "estimatedCostSaved": 0,
+        "estimatedLatencySavedMs": 0,
+        "fallbackUsed": false,
+        "fallbackReason": null,
+        "requestId": "2b4a6507-94c8-4188-9b62-4992215e8fd0",
+        "sourceFingerprintVersion": "source-fingerprint-v2",
+        "invalidationPreventedHit": false,
+        "staleCandidate": false,
+        "ttlPolicy": "TABULAR_6H",
+        "effectiveTtlSeconds": 21600,
+        "answerAgreement": false,
+        "sourceAgreement": true,
+        "falseHit": false,
+        "criticalFalseHit": false,
+        "comparisonClass": "NON_CRITICAL_DIVERGENCE",
+        "saved": true
+      }
+    },
+    {
+      "name": "health evidenceLayer",
+      "pass": true,
+      "detail": {
+        "status": "ok",
+        "activeMode": "STRUCTURED",
+        "activeVersion": "evidence-v1",
+        "averageEvidenceScore": null,
+        "conflictRate": null,
+        "redundancyRate": null,
+        "draftCount": 1,
+        "multiplePublishedCount": 0
+      }
+    },
+    {
+      "name": "prod secrets intact + evidence",
+      "pass": true,
+      "detail": [
+        {
+          "key": "cache_active_mode",
+          "value": "SHADOW"
+        },
+        {
+          "key": "cache_active_version",
+          "value": "cache-shadow-v1"
+        },
+        {
+          "key": "context_active_mode",
+          "value": "LEGACY"
+        },
+        {
+          "key": "context_active_version",
+          "value": "context-v1"
+        },
+        {
+          "key": "evidence_active_mode",
+          "value": "STRUCTURED"
+        },
+        {
+          "key": "evidence_active_version",
+          "value": "evidence-v1"
+        },
+        {
+          "key": "retrieval_active_mode",
+          "value": "HYBRID"
+        },
+        {
+          "key": "retrieval_active_version",
+          "value": "hybrid-v1"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "pass": 24,
+    "fail": 0,
+    "total": 24
+  }
+}

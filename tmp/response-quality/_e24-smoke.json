@@ -1,0 +1,121 @@
+{
+  "passed": 23,
+  "failed": 0,
+  "results": [
+    {
+      "name": "empty answer low/poor",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "short answer flagged",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "missing sources",
+      "pass": true,
+      "detail": "halluc=false"
+    },
+    {
+      "name": "complete answer score>=55",
+      "pass": true,
+      "detail": "score=72 grade=GOOD"
+    },
+    {
+      "name": "conflict consistency",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "expired source flagged",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "config validate ok",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "config validate rejects",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "grades",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "login",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "admin list",
+      "pass": true,
+      "detail": "status=200"
+    },
+    {
+      "name": "admin detail",
+      "pass": true,
+      "detail": "versions=2"
+    },
+    {
+      "name": "published v1",
+      "pass": true,
+      "detail": "response-quality-v1"
+    },
+    {
+      "name": "draft v2 present",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "admin compare",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "admin validate",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "health responseQuality",
+      "pass": true,
+      "detail": "{\"status\":\"ok\",\"activeMode\":\"VALIDATE\",\"activeVersion\":\"response-quality-v1\",\"averageQualityScore\":null,\"conflictRate\":n"
+    },
+    {
+      "name": "consulta 2xx",
+      "pass": true,
+      "detail": "status=200"
+    },
+    {
+      "name": "consulta has answer",
+      "pass": true,
+      "detail": "O valor do contrato de locação do estacionamento é de R$ 1.200,00 (Um Mil e Duze"
+    },
+    {
+      "name": "consulta responseMeta",
+      "pass": true,
+      "detail": "{\"qualityScore\":88,\"qualityGrade\":\"EXCELLENT\",\"evidenceCoverage\":0.893,\"sourceCoverage\":0.636,\"conflictDetected\":false,\"insufficientContext\":false,\"redundancyRate\":0.25,\"answerLeng"
+    },
+    {
+      "name": "consulta qualityScore number",
+      "pass": true,
+      "detail": "score=88"
+    },
+    {
+      "name": "evidenceMeta intact",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "cacheMeta intact",
+      "pass": true,
+      "detail": ""
+    }
+  ]
+}
