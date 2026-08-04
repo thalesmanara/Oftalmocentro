@@ -1,0 +1,562 @@
+{
+  "at": "2026-08-04T00:11:19.765Z",
+  "rounds": [
+    {
+      "name": "R1_populate",
+      "results": [
+        {
+          "q": "Quem aparece na relação de funcionários em Excel?",
+          "status": 200,
+          "answerFromCache": false,
+          "shadowCandidateFound": false,
+          "missReason": "NOT_FOUND",
+          "shadowAgreement": null,
+          "falseHit": false,
+          "saved": true,
+          "mode": "SHADOW",
+          "answerLen": 1105
+        },
+        {
+          "q": "Liste os funcionários que constam na planilha de relação",
+          "status": 200,
+          "answerFromCache": false,
+          "shadowCandidateFound": false,
+          "missReason": "NOT_FOUND",
+          "shadowAgreement": null,
+          "falseHit": false,
+          "saved": false,
+          "mode": "SHADOW",
+          "answerLen": 1097
+        },
+        {
+          "q": "Qual o protocolo alienígena XYZ-999 inexistente na base?",
+          "status": 200,
+          "answerFromCache": false,
+          "shadowCandidateFound": false,
+          "missReason": "NOT_FOUND",
+          "shadowAgreement": null,
+          "falseHit": false,
+          "saved": true,
+          "mode": "SHADOW",
+          "answerLen": 123
+        }
+      ]
+    },
+    {
+      "name": "R2_exact",
+      "results": [
+        {
+          "q": "Quem aparece na relação de funcionários em Excel?",
+          "status": 200,
+          "answerFromCache": false,
+          "shadowCandidateFound": false,
+          "missReason": "NOT_FOUND",
+          "shadowAgreement": null,
+          "falseHit": false,
+          "saved": true,
+          "mode": "SHADOW",
+          "answerLen": 818
+        },
+        {
+          "q": "Quem aparece na relação de funcionários em Excel?",
+          "status": 200,
+          "answerFromCache": false,
+          "shadowCandidateFound": false,
+          "missReason": "NOT_FOUND",
+          "shadowAgreement": null,
+          "falseHit": false,
+          "saved": true,
+          "mode": "SHADOW",
+          "answerLen": 579
+        }
+      ]
+    },
+    {
+      "name": "R3_normalized",
+      "results": [
+        {
+          "q": "  Quem aparece na relacao de funcionarios em excel??? ",
+          "status": 200,
+          "answerFromCache": false,
+          "shadowCandidateFound": false,
+          "missReason": "NOT_FOUND",
+          "shadowAgreement": null,
+          "falseHit": false,
+          "saved": true,
+          "mode": "SHADOW",
+          "answerLen": 787
+        }
+      ]
+    },
+    {
+      "name": "R4_paraphrase",
+      "results": [
+        {
+          "q": "Liste os funcionários que constam na planilha de relação",
+          "status": 200,
+          "answerFromCache": false,
+          "shadowCandidateFound": false,
+          "missReason": "NOT_FOUND",
+          "shadowAgreement": null,
+          "falseHit": false,
+          "saved": false,
+          "mode": "SHADOW",
+          "answerLen": 654
+        }
+      ]
+    },
+    {
+      "name": "R5_sensitive",
+      "results": [
+        {
+          "q": "Qual o CPF 529.982.247-25 do funcionário João?",
+          "status": 200,
+          "answerFromCache": false,
+          "shadowCandidateFound": false,
+          "missReason": "NOT_FOUND",
+          "shadowAgreement": null,
+          "falseHit": false,
+          "saved": false,
+          "mode": "SHADOW",
+          "answerLen": 129
+        }
+      ]
+    }
+  ],
+  "tests": [
+    {
+      "name": "login",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "sensitive CPF blocked policy",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "sensitive CRM blocked policy",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "fingerprint v2 deterministic",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "TTL effective respects source expiration",
+      "pass": true,
+      "detail": {
+        "ttlPolicy": "SOURCE_EXPIRATION",
+        "effectiveTtlSeconds": 1800,
+        "nearestSourceExpiration": "2026-08-04T00:41:23.325Z"
+      }
+    },
+    {
+      "name": "R1 never served from cache",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "R1 SHADOW mode",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "R2 never served",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "R2 shadow candidate possible",
+      "pass": true,
+      "detail": {
+        "r2Candidate": false,
+        "results": [
+          {
+            "q": "Quem aparece na relação de funcionários em Excel?",
+            "status": 200,
+            "answerFromCache": false,
+            "shadowCandidateFound": false,
+            "missReason": "NOT_FOUND",
+            "shadowAgreement": null,
+            "falseHit": false,
+            "saved": true,
+            "mode": "SHADOW",
+            "answerLen": 818
+          },
+          {
+            "q": "Quem aparece na relação de funcionários em Excel?",
+            "status": 200,
+            "answerFromCache": false,
+            "shadowCandidateFound": false,
+            "missReason": "NOT_FOUND",
+            "shadowAgreement": null,
+            "falseHit": false,
+            "saved": true,
+            "mode": "SHADOW",
+            "answerLen": 579
+          }
+        ]
+      }
+    },
+    {
+      "name": "R3 never served",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "R4 never served",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "R5 never served",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "R5 sensitive not saved / blocked",
+      "pass": true,
+      "detail": [
+        {
+          "q": "Qual o CPF 529.982.247-25 do funcionário João?",
+          "status": 200,
+          "answerFromCache": false,
+          "shadowCandidateFound": false,
+          "missReason": "NOT_FOUND",
+          "shadowAgreement": null,
+          "falseHit": false,
+          "saved": false,
+          "mode": "SHADOW",
+          "answerLen": 129
+        }
+      ]
+    },
+    {
+      "name": "invalidation eager selective",
+      "pass": true,
+      "detail": {
+        "skipped": false,
+        "entryId": "1e4947e8-8f47-40e8-9403-cf5e9cc20105",
+        "before": {
+          "status": "VALID"
+        },
+        "after": {
+          "status": "INVALIDATED",
+          "invalidation_reason": "DOCUMENT_UPDATED"
+        },
+        "inv": {
+          "invalidated_entries": 1
+        },
+        "inv2": {
+          "invalidated_entries": 0
+        }
+      }
+    },
+    {
+      "name": "invalidation idempotent",
+      "pass": true,
+      "detail": {
+        "invalidated_entries": 0
+      }
+    },
+    {
+      "name": "cleanup expire VALID→EXPIRED",
+      "pass": true,
+      "detail": {
+        "expired": 1
+      }
+    },
+    {
+      "name": "cleanup endpoint",
+      "pass": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "invalidate_by_document function",
+      "pass": true,
+      "detail": {
+        "invalidated_entries": 0
+      }
+    },
+    {
+      "name": "SHADOW never served answer",
+      "pass": true,
+      "detail": {
+        "totalLookups": 8,
+        "shadowCandidates": 0,
+        "shadowCandidateRate": 0,
+        "agreements": 0,
+        "answerAgreementRate": null,
+        "falseHits": 0,
+        "criticalFalseHits": 0,
+        "neverServed": true,
+        "servedHitSum": 0,
+        "entry_count": 6,
+        "valid_count": 3,
+        "expired_count": 2,
+        "invalidated_count": 1,
+        "fp_v2_count": 3,
+        "shadow_candidate_sum": 0,
+        "served_hit_sum": 0,
+        "deps": 14,
+        "entries_with_deps": 3,
+        "dependencyCoverageRate": 1
+      }
+    },
+    {
+      "name": "fingerprint v2 entries present or rounds ran",
+      "pass": true,
+      "detail": {
+        "totalLookups": 8,
+        "shadowCandidates": 0,
+        "shadowCandidateRate": 0,
+        "agreements": 0,
+        "answerAgreementRate": null,
+        "falseHits": 0,
+        "criticalFalseHits": 0,
+        "neverServed": true,
+        "servedHitSum": 0,
+        "entry_count": 6,
+        "valid_count": 3,
+        "expired_count": 2,
+        "invalidated_count": 1,
+        "fp_v2_count": 3,
+        "shadow_candidate_sum": 0,
+        "served_hit_sum": 0,
+        "deps": 14,
+        "entries_with_deps": 3,
+        "dependencyCoverageRate": 1
+      }
+    },
+    {
+      "name": "dependency coverage tracked",
+      "pass": true,
+      "detail": {
+        "coverage": 1
+      }
+    },
+    {
+      "name": "prod cache SHADOW cache-shadow-v1",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "prod context LEGACY context-v1",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "prod retrieval HYBRID hybrid-v1",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "EXACT_ONLY not published",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "no EXACT_ONLY draft auto-created",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "semantic Qdrant not required",
+      "pass": true,
+      "detail": "semantic disabled"
+    },
+    {
+      "name": "Redis not installed",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "name": "401 admin cache",
+      "pass": true,
+      "detail": null
+    }
+  ],
+  "metrics": {
+    "totalLookups": 8,
+    "shadowCandidates": 0,
+    "shadowCandidateRate": 0,
+    "agreements": 0,
+    "answerAgreementRate": null,
+    "falseHits": 0,
+    "criticalFalseHits": 0,
+    "neverServed": true,
+    "servedHitSum": 0,
+    "entry_count": 6,
+    "valid_count": 3,
+    "expired_count": 2,
+    "invalidated_count": 1,
+    "fp_v2_count": 3,
+    "shadow_candidate_sum": 0,
+    "served_hit_sum": 0,
+    "deps": 14,
+    "entries_with_deps": 3,
+    "dependencyCoverageRate": 1
+  },
+  "exactOnlyRecommendation": {
+    "createDraft": false,
+    "reason": "Manter apenas SHADOW. Volume/agreement/coverage ainda insuficientes para justificar cache-exact-v1 DRAFT.",
+    "criteria": {
+      "criticalFalseHits": true,
+      "servedHitsZero": true,
+      "invalidationOk": true,
+      "dependencyCoverage": true,
+      "volumeEnough": true,
+      "shadowAgreementEnough": true
+    },
+    "created": false,
+    "published": false
+  },
+  "production": {
+    "secrets": [
+      {
+        "key": "cache_active_mode",
+        "value": "SHADOW"
+      },
+      {
+        "key": "cache_active_version",
+        "value": "cache-shadow-v1"
+      },
+      {
+        "key": "context_active_mode",
+        "value": "LEGACY"
+      },
+      {
+        "key": "context_active_version",
+        "value": "context-v1"
+      },
+      {
+        "key": "retrieval_active_mode",
+        "value": "HYBRID"
+      },
+      {
+        "key": "retrieval_active_version",
+        "value": "hybrid-v1"
+      }
+    ],
+    "drafts": [
+      {
+        "kind": "cache",
+        "version_label": "cache-shadow-v1",
+        "status": "PUBLISHED",
+        "mode": "SHADOW"
+      },
+      {
+        "kind": "context",
+        "version_label": "context-budget-v1",
+        "status": "DRAFT",
+        "mode": "BUDGETED"
+      },
+      {
+        "kind": "context",
+        "version_label": "context-e2e-temp-1785798522745",
+        "status": "ARCHIVED",
+        "mode": "LEGACY"
+      },
+      {
+        "kind": "context",
+        "version_label": "context-e2e-temp-20260803230544",
+        "status": "ARCHIVED",
+        "mode": "LEGACY"
+      },
+      {
+        "kind": "context",
+        "version_label": "context-e2e-temp-20260803231940",
+        "status": "ARCHIVED",
+        "mode": "LEGACY"
+      },
+      {
+        "kind": "context",
+        "version_label": "context-v1",
+        "status": "PUBLISHED",
+        "mode": "LEGACY"
+      },
+      {
+        "kind": "context",
+        "version_label": "ok-1785797490573",
+        "status": "ARCHIVED",
+        "mode": "BUDGETED"
+      },
+      {
+        "kind": "retrieval",
+        "version_label": "hybrid-rerank-v1",
+        "status": "DRAFT",
+        "mode": "HYBRID_RERANK"
+      },
+      {
+        "kind": "retrieval",
+        "version_label": "hybrid-v1",
+        "status": "PUBLISHED",
+        "mode": "HYBRID"
+      },
+      {
+        "kind": "retrieval",
+        "version_label": "tmp-c-msdqawe0",
+        "status": "REJECTED",
+        "mode": "HYBRID_RERANK"
+      },
+      {
+        "kind": "retrieval",
+        "version_label": "tmp-optest-msdqcqte",
+        "status": "REJECTED",
+        "mode": "HYBRID_RERANK"
+      },
+      {
+        "kind": "retrieval",
+        "version_label": "tmp-pubrb-msdqelk6",
+        "status": "REJECTED",
+        "mode": "HYBRID"
+      },
+      {
+        "kind": "retrieval",
+        "version_label": "tmp-pubrb-msdqggsv",
+        "status": "REJECTED",
+        "mode": "HYBRID"
+      },
+      {
+        "kind": "retrieval",
+        "version_label": "tmp-pubrb-msdqisi7",
+        "status": "REJECTED",
+        "mode": "HYBRID"
+      }
+    ]
+  },
+  "baseline": {
+    "entries": 2,
+    "valid": 0,
+    "invalidated": 1,
+    "expired": 1,
+    "deps": 0
+  },
+  "invalidationTest": {
+    "skipped": false,
+    "entryId": "1e4947e8-8f47-40e8-9403-cf5e9cc20105",
+    "before": {
+      "status": "VALID"
+    },
+    "after": {
+      "status": "INVALIDATED",
+      "invalidation_reason": "DOCUMENT_UPDATED"
+    },
+    "inv": {
+      "invalidated_entries": 1
+    },
+    "inv2": {
+      "invalidated_entries": 0
+    }
+  },
+  "summary": {
+    "pass": 29,
+    "fail": 0,
+    "total": 29
+  }
+}

@@ -24,6 +24,8 @@ import {
   createAiCacheVersion,
   getAiCacheDefinitions,
   getAiCacheDetail,
+  getAiCacheEntries,
+  getAiCacheMetrics,
   invalidateAiCache,
   publishAiCacheVersion,
   rollbackAiCacheVersion,
@@ -89,6 +91,9 @@ export function AiCachePage() {
   const [activeVersion, setActiveVersion] = useState<AiCacheVersion | null>(null)
   const [selectedVersionId, setSelectedVersionId] = useState('')
   const [stats, setStats] = useState<Record<string, number> | null>(null)
+  const [metrics, setMetrics] = useState<Record<string, unknown> | null>(null)
+  const [entries, setEntries] = useState<Array<Record<string, unknown>>>([])
+  const [entryStatus, setEntryStatus] = useState('')
   const [compare, setCompare] = useState<Record<string, unknown> | null>(null)
   const [loading, setLoading] = useState(true)
   const [feedback, setFeedback] = useState<Feedback | null>(null)
@@ -126,6 +131,18 @@ export function AiCachePage() {
         setCompare((cmp as Record<string, unknown>) || null)
       } catch {
         setCompare(null)
+      }
+      try {
+        const m = await getAiCacheMetrics({ days: 7 })
+        setMetrics((m as Record<string, unknown>) || null)
+      } catch {
+        setMetrics(null)
+      }
+      try {
+        const e = await getAiCacheEntries({ limit: 30, status: entryStatus || undefined })
+        setEntries(e.items || [])
+      } catch {
+        setEntries([])
       }
     } catch (err) {
       setFeedback({ type: 'error', message: getErrorMessage(err, 'Falha ao carregar cache.') })
@@ -344,6 +361,100 @@ export function AiCachePage() {
             Ver também <Link className="underline" to="/ia/validacao">Validação IA</Link> e{' '}
             <Link className="underline" to="/ia/contexto">Contexto</Link>.
           </p>
+        </Card>
+
+        <Card className="lg:col-span-2 space-y-3 p-4">
+          <h2 className="text-sm font-semibold text-slate-800">Métricas Shadow (7d)</h2>
+          {metrics ? (
+            <div className="grid grid-cols-2 gap-2 text-xs text-slate-700 sm:grid-cols-4">
+              <div>Modo: {String(metrics.activeMode ?? '—')}</div>
+              <div>Versão: {String(metrics.activeVersion ?? '—')}</div>
+              <div>
+                Coverage deps:{' '}
+                {metrics.dependencyCoverageRate != null
+                  ? `${(Number(metrics.dependencyCoverageRate) * 100).toFixed(0)}%`
+                  : '—'}
+              </div>
+              <div>
+                Served hits:{' '}
+                {String((metrics.entries as Record<string, number> | undefined)?.servedHitSum ?? 0)}
+              </div>
+              <div>
+                Válidas: {String((metrics.entries as Record<string, number> | undefined)?.valid ?? '—')}
+              </div>
+              <div>
+                FP v2: {String((metrics.entries as Record<string, number> | undefined)?.fpV2 ?? '—')}
+              </div>
+              <div>
+                Candidates:{' '}
+                {String((metrics.entries as Record<string, number> | undefined)?.shadowCandidateSum ?? '—')}
+              </div>
+              <div>
+                Deps: {String((metrics.dependencies as Record<string, number> | undefined)?.total ?? '—')}
+              </div>
+            </div>
+          ) : (
+            <p className="text-xs text-slate-500">Métricas indisponíveis ou sem permissão.</p>
+          )}
+          <div className="flex flex-wrap items-end gap-2 pt-2">
+            <label className="text-xs text-slate-600">
+              Status
+              <select
+                className="ml-2 rounded-md border border-slate-300 px-2 py-1 text-xs"
+                value={entryStatus}
+                onChange={(e) => setEntryStatus(e.target.value)}
+              >
+                <option value="">Todos</option>
+                <option value="VALID">VALID</option>
+                <option value="INVALIDATED">INVALIDATED</option>
+                <option value="EXPIRED">EXPIRED</option>
+              </select>
+            </label>
+            <Button
+              variant="secondary"
+              onClick={async () => {
+                try {
+                  const e = await getAiCacheEntries({ limit: 30, status: entryStatus || undefined })
+                  setEntries(e.items || [])
+                } catch (err) {
+                  setFeedback({ type: 'error', message: getErrorMessage(err, 'Falha ao listar entries.') })
+                }
+              }}
+            >
+              Filtrar entries
+            </Button>
+          </div>
+          <div className="max-h-40 overflow-auto rounded border border-slate-200 text-xs">
+            <table className="w-full text-left">
+              <thead className="bg-slate-50 text-slate-600">
+                <tr>
+                  <th className="px-2 py-1">Status</th>
+                  <th className="px-2 py-1">Scope</th>
+                  <th className="px-2 py-1">FP</th>
+                  <th className="px-2 py-1">Motivo</th>
+                  <th className="px-2 py-1">Cand.</th>
+                </tr>
+              </thead>
+              <tbody>
+                {entries.map((row) => (
+                  <tr key={String(row.id)} className="border-t border-slate-100">
+                    <td className="px-2 py-1">{String(row.status ?? '')}</td>
+                    <td className="px-2 py-1 font-mono">{String(row.scopeHashAbbrev ?? '')}</td>
+                    <td className="px-2 py-1">{String(row.sourceFingerprintVersion ?? '')}</td>
+                    <td className="px-2 py-1">{String(row.invalidationReason ?? '—')}</td>
+                    <td className="px-2 py-1">{String(row.shadowCandidateCount ?? 0)}</td>
+                  </tr>
+                ))}
+                {!entries.length && (
+                  <tr>
+                    <td className="px-2 py-2 text-slate-500" colSpan={5}>
+                      Sem entries (conteúdo integral nunca é exibido).
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </Card>
 
         <Card className="lg:col-span-2 space-y-4 p-4">

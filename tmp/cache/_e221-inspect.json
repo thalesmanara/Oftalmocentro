@@ -1,0 +1,130 @@
+{
+  "at": "2026-08-04T00:00:24.034Z",
+  "secrets": [
+    {
+      "key": "cache_active_mode",
+      "value": "SHADOW"
+    },
+    {
+      "key": "cache_active_version",
+      "value": "cache-shadow-v1"
+    },
+    {
+      "key": "context_active_mode",
+      "value": "LEGACY"
+    },
+    {
+      "key": "context_active_version",
+      "value": "context-v1"
+    },
+    {
+      "key": "retrieval_active_mode",
+      "value": "HYBRID"
+    },
+    {
+      "key": "retrieval_active_version",
+      "value": "hybrid-v1"
+    }
+  ],
+  "cacheVersions": [
+    {
+      "id": "d253bb86-e5df-4bfb-a581-18834e61b03d",
+      "version_label": "cache-shadow-v1",
+      "status": "PUBLISHED",
+      "mode": "SHADOW"
+    }
+  ],
+  "entries": [
+    {
+      "status": "VALID",
+      "n": 1
+    }
+  ],
+  "deps": {
+    "n": 0
+  },
+  "metrics": [],
+  "depCols": [
+    "cache_entry_id",
+    "content_hash",
+    "created_at",
+    "dependency_type",
+    "document_id",
+    "document_version_id",
+    "id"
+  ],
+  "entryCols": [
+    "answer",
+    "cache_config_version_id",
+    "cache_key_hash",
+    "classification",
+    "classification_hash",
+    "conflict_detected",
+    "contains_sensitive_data",
+    "context_config_hash",
+    "context_config_version_id",
+    "created_at",
+    "document_version_ids",
+    "expires_at",
+    "hit_count",
+    "id",
+    "insufficient_context",
+    "invalidated_at",
+    "invalidation_reason",
+    "last_hit_at",
+    "metadata",
+    "model_name",
+    "model_parameters_hash",
+    "normalized_question",
+    "prompt_hash",
+    "prompt_version_id",
+    "question_embedding",
+    "question_embedding_dimensions",
+    "question_embedding_model",
+    "question_hash",
+    "response_hash",
+    "retrieval_config_hash",
+    "retrieval_config_version_id",
+    "scope_hash",
+    "source_document_ids",
+    "source_fingerprint",
+    "sources",
+    "status",
+    "validation_count"
+  ],
+  "sampleEntry": {
+    "id": "6cc3c571-f646-4a92-8d99-352aed214d7b",
+    "cache_key_hash": "84b38fc039875981296f93447500791df3e713ea0139ac3ab87af8a9227b4178",
+    "source_fingerprint": "ee063ce04895dede1b6b8285365b64bfef218d88b80645f31ea1ae1051030abd",
+    "status": "VALID",
+    "hit_count": "3",
+    "expires_at": "2026-08-04T23:55:11.601Z",
+    "metadata": ""
+  },
+  "prod": {
+    "context": [
+      {
+        "version_label": "context-budget-v1",
+        "status": "DRAFT",
+        "mode": "BUDGETED"
+      },
+      {
+        "version_label": "context-v1",
+        "status": "PUBLISHED",
+        "mode": "LEGACY"
+      }
+    ],
+    "retrieval": [
+      {
+        "version_label": "hybrid-rerank-v1",
+        "status": "DRAFT",
+        "mode": "HYBRID_RERANK"
+      },
+      {
+        "version_label": "hybrid-v1",
+        "status": "PUBLISHED",
+        "mode": "HYBRID"
+      }
+    ]
+  }
+}

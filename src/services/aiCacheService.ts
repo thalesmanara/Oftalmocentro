@@ -169,3 +169,34 @@ export async function invalidateAiCache(input: {
 export async function cleanupAiCache() {
   return apiPost('/webhook/system/ai-cache/cleanup', {})
 }
+
+export async function getAiCacheMetrics(params?: { days?: number }) {
+  const qs = buildQuery({ days: params?.days ?? 7 })
+  return apiGet<{
+    activeMode?: string
+    activeVersion?: string
+    entries?: Record<string, number>
+    dependencies?: Record<string, number>
+    dependencyCoverageRate?: number
+    daily?: Array<Record<string, number | string>>
+  }>(`/webhook/system/ai-cache/metrics${qs}`)
+}
+
+export async function getAiCacheEntries(params?: {
+  status?: string
+  invalidationReason?: string
+  scopeHashPrefix?: string
+  limit?: number
+}) {
+  const qs = buildQuery({
+    status: params?.status,
+    invalidationReason: params?.invalidationReason,
+    scopeHashPrefix: params?.scopeHashPrefix,
+    limit: params?.limit ?? 50,
+  })
+  return apiGet<{ items: Array<Record<string, unknown>> }>(`/webhook/system/ai-cache/entries${qs}`)
+}
+
+export async function runAiCacheShadowValidation() {
+  return apiPost('/webhook/system/ai-cache/run-shadow-validation', {})
+}
