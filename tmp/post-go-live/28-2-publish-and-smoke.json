@@ -1,0 +1,83 @@
+{
+  "at": "2026-08-08T21:08:54.972Z",
+  "userFlags": {
+    "isMaster": false,
+    "isTechnicalAdmin": false,
+    "permissions": [
+      "cadastrar_documentos",
+      "editar_configuracoes",
+      "editar_documentos",
+      "excluir_documentos",
+      "usar_consulta_ia",
+      "visualizar_auditoria",
+      "visualizar_documentos"
+    ]
+  },
+  "draftPrompt": {
+    "id": "279a2ddd-9b80-4661-9a07-4cdf5066e886",
+    "version_number": 2,
+    "max_tokens": 1200,
+    "status": "DRAFT"
+  },
+  "promptOverrideAB": {
+    "A800": {
+      "status": 200,
+      "len": 3967
+    },
+    "B1200draft": {
+      "status": 200,
+      "len": 4082
+    }
+  },
+  "publishHybridV2": {
+    "method": "sql",
+    "error": "column \"archived_at\" of relation \"ai_retrieval_config_versions\" does not exist"
+  },
+  "retrievalAfter": {
+    "secrets": [
+      {
+        "key": "retrieval_active_mode",
+        "value": "HYBRID"
+      },
+      {
+        "key": "retrieval_active_version",
+        "value": "hybrid-v1"
+      }
+    ],
+    "versions": [
+      {
+        "version_label": "hybrid-v1",
+        "status": "PUBLISHED",
+        "published_at": "2026-08-03T21:22:04.555Z"
+      },
+      {
+        "version_label": "hybrid-v2",
+        "status": "DRAFT",
+        "published_at": null
+      }
+    ]
+  },
+  "auditTables": [
+    {
+      "table_name": "audit_logs"
+    }
+  ],
+  "deactivateSmoke": {
+    "id": "71e5029f-4881-4fe4-9dc9-048f178b1165",
+    "offStatus": 200,
+    "offIsActive": false,
+    "onStatus": 200,
+    "onIsActive": true,
+    "auditRows": [
+      {
+        "table": "audit_logs",
+        "rows": [
+          {
+            "action": "DOCUMENT_DEACTIVATED",
+            "created_at": "2026-08-08T21:09:17.929Z"
+          }
+        ]
+      }
+    ]
+  }
+}

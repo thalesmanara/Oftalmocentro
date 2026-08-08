@@ -1,0 +1,1007 @@
+{
+  "nodes": [
+    {
+      "id": "d6aaa9f8-9052-4843-83fb-b3ec2b35e701",
+      "name": "Trigger",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "inputSource": "workflowInputs",
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "question",
+              "type": "string"
+            },
+            {
+              "name": "classificationJson",
+              "type": "string"
+            },
+            {
+              "name": "retrievalConfigVersionId",
+              "type": "string"
+            },
+            {
+              "name": "modeOverrideAllowed",
+              "type": "string"
+            },
+            {
+              "name": "requestId",
+              "type": "string"
+            },
+            {
+              "name": "userId",
+              "type": "string"
+            },
+            {
+              "name": "sessionId",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "3cf91929-506f-4bc1-96d7-4ac2b41629f7",
+      "name": "Preparar entrada",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const t=$input.first().json||{};\nlet classification={};\ntry{classification=typeof t.classificationJson==='string'?JSON.parse(t.classificationJson||'{}'):(t.classification||{});}catch(_){classification={};}\nconst question=String(t.question||classification.question||'').trim();\nconst normalizedQuestion=question.toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').replace(/\\s+/g,' ').trim();\nlet h=0; for(const ch of normalizedQuestion){h=((h<<5)-h)+ch.charCodeAt(0);h|=0;}\nconst questionHash=Math.abs(h).toString(16);\nconst retrievalConfigVersionId=String(t.retrievalConfigVersionId||t.versionId||'').trim();\nconst modeOverrideAllowed=t.modeOverrideAllowed===true||t.modeOverrideAllowed==='true';\nreturn [{json:{\n  question, normalizedQuestion, questionHash, classification,\n  categoryId:classification.categoryId||null,\n  subcategoryId:classification.subcategoryId||null,\n  categoryName:classification.categoryName||null,\n  subcategoryName:classification.subcategoryName||null,\n  searchTerms:Array.isArray(classification.searchTerms)?classification.searchTerms:[],\n  retrievalConfigVersionId, modeOverrideAllowed,\n  requestId:String(t.requestId||''), userId:String(t.userId||''), sessionId:String(t.sessionId||''),\n  startedAtMs:Date.now(),\n  versionId: (modeOverrideAllowed && retrievalConfigVersionId) ? retrievalConfigVersionId : '',\n}}];"
+      }
+    },
+    {
+      "id": "ee897e87-5802-47b4-b261-ed99e7d2fa80",
+      "name": "Auditar START",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        440,
+        -140
+      ],
+      "parameters": {
+        "mode": "once",
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "jtQvQlqRZ5X5WF9I",
+          "cachedResultName": "AUDITORIA - REGISTRAR"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "action": "AI_RETRIEVAL_STARTED",
+            "resourceType": "ai_retrieval",
+            "resourceId": "={{ $json.requestId || \"\" }}",
+            "success": "={{ true }}",
+            "requestId": "={{ $json.requestId || \"\" }}",
+            "userId": "={{ $json.userId || \"\" }}",
+            "sessionId": "={{ $json.sessionId || \"\" }}",
+            "metadata": "={{ { questionHash: $json.questionHash || null, modeOverrideAllowed: !!$json.modeOverrideAllowed } }}"
+          }
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true
+    },
+    {
+      "id": "e28153f3-961f-427c-aaf3-94157d4d9268",
+      "name": "Após audit start",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        -140
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "return [$('Preparar entrada').first()];"
+      }
+    },
+    {
+      "id": "9ebfb330-ffef-470d-abfb-7a6477f42271",
+      "name": "Carregar retrieval config",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        880,
+        0
+      ],
+      "parameters": {
+        "mode": "once",
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "sClDEVNVS0TGG2uq",
+          "cachedResultName": "IA - CARREGAR RETRIEVAL CONFIG"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "requestId": "={{ $json.requestId || \"\" }}",
+            "modeOverride": "",
+            "versionId": "={{ $json.versionId || \"\" }}"
+          }
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      }
+    },
+    {
+      "id": "542a1c76-3eda-4026-8b09-5c4dd321d25f",
+      "name": "Aplicar modo",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1100,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const prep=$('Preparar entrada').first().json||{};\nconst cfgNode=$input.first().json||{};\nconst cfg=cfgNode.configuration||{};\nconst mode=String(cfgNode.mode||cfg.mode||'HYBRID').toUpperCase();\nconst candidateLimit=Math.min(Math.max(Number(cfg.candidateLimit||30)||30,1),80);\nconst finalLimit=Math.min(Math.max(Number(cfg.finalLimit||12)||12,1),40);\nconst maxChunksPerDocument=Math.min(Math.max(Number(cfg.maxChunksPerDocument||4)||4,1),finalLimit);\nconst weights=cfg.weights||{semantic:0.65,lexical:0.35};\nconst needVector=mode==='VECTOR_ONLY'||mode==='HYBRID'||mode==='HYBRID_RERANK';\nconst needText=mode==='TEXT_ONLY'||mode==='HYBRID'||mode==='HYBRID_RERANK'||mode==='VECTOR_ONLY';\nreturn [{json:{\n  ...prep, mode, needVector, needText, candidateLimit, finalLimit, maxChunksPerDocument, weights,\n  configuration:cfg, configurationJson:JSON.stringify({...cfg,mode}),\n  versionLabel:cfgNode.versionLabel||null,\n  versionId:cfgNode.versionId||cfgNode.id||null,\n  configCode:cfgNode.code||'AI_QUERY_RETRIEVAL',\n  modeOverrideUsed:!!cfgNode.modeOverrideUsed||!!prep.retrievalConfigVersionId,\n  contentHash:cfgNode.contentHash||null,\n  cfgLoadedAtMs:Date.now(),\n  vectorHits:[], textRows:[], vectorLatencyMs:0, textLatencyMs:0, vectorOk:false,\n}}];"
+      }
+    },
+    {
+      "id": "98cef216-0ff0-45c8-92d9-b7174005255d",
+      "name": "Precisa vetor?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1320,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.needVector === true }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ]
+        },
+        "looseTypeValidation": true
+      }
+    },
+    {
+      "id": "d96aa5e1-04a2-405d-b363-e406528c6ec2",
+      "name": "Preparar embedding",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1540,
+        -120
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const cls=$input.first().json||{};const question=String(cls.question||'').trim();return [{json:{...cls,openaiBody:{model:'text-embedding-3-small',input:question||' '},embedStartedAtMs:Date.now()}}];"
+      }
+    },
+    {
+      "id": "1aee56f7-e7b2-4934-a8e3-30cf3a753853",
+      "name": "Embed pergunta",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1760,
+        -120
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.openai.com/v1/embeddings",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "openAiApi",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ $('Preparar embedding').first().json.openaiBody }}",
+        "options": {
+          "timeout": 30000,
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true
+            }
+          }
+        }
+      },
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true
+    },
+    {
+      "id": "92c36873-8129-4d90-a4fb-e6351960ccaa",
+      "name": "Extrair vetor",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1980,
+        -120
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const cls=$('Preparar embedding').first().json||{};const resp=$input.first().json||{};const statusCode=Number(resp.statusCode??resp.status??0);let body=resp.body??resp.data??resp;if(typeof body==='string'){try{body=JSON.parse(body);}catch(_){body={};}}const emb=(body&&body.data&&body.data[0]&&body.data[0].embedding)||null;const ok=statusCode>=200&&statusCode<300&&Array.isArray(emb);return [{json:{...cls,queryVectorJson:JSON.stringify(emb||[]),vectorOk:ok,topK:Number(cls.candidateLimit||30)||30,categoryId:cls.categoryId||'',subcategoryId:cls.subcategoryId||''}}];"
+      }
+    },
+    {
+      "id": "2ad3211b-d399-43fb-9411-835331532c42",
+      "name": "Busca vetorial Qdrant",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2200,
+        -120
+      ],
+      "parameters": {
+        "mode": "once",
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "YDnrXjzYUOrZVE6N",
+          "cachedResultName": "QDRANT - BUSCAR"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "queryVectorJson": "={{ $json.queryVectorJson }}",
+            "topK": "={{ Number($json.topK || 12) }}",
+            "categoryId": "={{ $json.categoryId || \"\" }}",
+            "subcategoryId": "={{ $json.subcategoryId || \"\" }}"
+          }
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true
+    },
+    {
+      "id": "d4de7abc-caa0-44d4-8944-c83951666669",
+      "name": "Guardar hits vetoriais",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2420,
+        -120
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const base=$('Preparar embedding').first().json||{};const vec=$input.first().json||{};const vectorLatencyMs=Date.now()-Number(base.embedStartedAtMs||Date.now());return [{json:{...base,vectorHits:Array.isArray(vec.hits)?vec.hits:[],vectorOk:vec.ok===true,vectorLatencyMs}}];"
+      }
+    },
+    {
+      "id": "3d9b48e3-922b-4571-9492-ce50f3367692",
+      "name": "Pular vetor",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1540,
+        140
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const base=$input.first().json||{};return [{json:{...base,vectorHits:[],vectorOk:false,vectorLatencyMs:0}}];"
+      }
+    },
+    {
+      "id": "becd22b7-2852-409e-8c35-a8b3d65e4609",
+      "name": "Precisa texto?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2640,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.needText === true }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ]
+        },
+        "looseTypeValidation": true
+      }
+    },
+    {
+      "id": "44b52d52-a434-4e12-a46f-f2e5d2b8ca7d",
+      "name": "Preparar busca texto",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2860,
+        -80
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const base=$input.first().json||{};\nconst cfg=base.configuration||{};\nconst lex=cfg.lexicalExpansion||{};\nconst maxSyn=Math.min(Math.max(Number(lex.maxSynonymsPerTerm||4)||4,1),5);\nconst dict=lex.dictionary&&typeof lex.dictionary==='object'?lex.dictionary:{};\nfunction norm(s){return String(s||'').toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').trim();}\nfunction isIdentifier(t){return /^(cpf|cnpj|crm|coren)$/i.test(t)||/^[\\d.\\-/]+$/.test(t)||/^[A-Z0-9]{4,}$/.test(t);}\nconst original=Array.isArray(base.searchTerms)?base.searchTerms.map(String).filter(Boolean):[];\nlet expanded=[...original];\nif(lex.enabled===true){\n  const seen=new Set(original.map(norm));\n  for(const term of original){\n    if(isIdentifier(term)) continue;\n    const syns=dict[norm(term)]||dict[term]||dict[String(term).toLowerCase()]||[];\n    let added=0;\n    for(const s of syns){\n      if(added>=maxSyn) break;\n      const n=norm(s);\n      if(!n||seen.has(n)||isIdentifier(s)) continue;\n      seen.add(n); expanded.push(String(s)); added++;\n    }\n  }\n}\nexpanded=expanded.slice(0,12);\nreturn [{json:{...base,textStartedAtMs:Date.now(),question:base.question,categoryId:base.categoryId||'',subcategoryId:base.subcategoryId||'',categoryName:base.categoryName||'',subcategoryName:base.subcategoryName||'',searchTerms:expanded,searchTermsOriginal:original,lexicalExpansionUsed:expanded.length>original.length}}];"
+      }
+    },
+    {
+      "id": "d0d5ecde-a23c-4b42-93ac-97cd15b33631",
+      "name": "Buscar chunks relevantes",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        3080,
+        -80
+      ],
+      "parameters": {
+        "operation": "executeQuery",
+        "options": {},
+        "query": "WITH params AS (\n  SELECT\n    '{{ ($json.question || \"\").replace(/'/g, \"''\") }}'::text AS question,\n    NULLIF('{{ $json.categoryId || \"\" }}','')::uuid AS category_id,\n    NULLIF('{{ $json.subcategoryId || \"\" }}','')::uuid AS subcategory_id,\n    '{{ ($json.categoryName || \"\").replace(/'/g, \"''\") }}'::text AS category_name,\n    '{{ ($json.subcategoryName || \"\").replace(/'/g, \"''\") }}'::text AS subcategory_name,\n    '{{ ($json.searchTerms[0] || \"\").replace(/'/g, \"''\") }}'::text AS term0,\n    '{{ ($json.searchTerms[1] || \"\").replace(/'/g, \"''\") }}'::text AS term1,\n    '{{ ($json.searchTerms[2] || \"\").replace(/'/g, \"''\") }}'::text AS term2,\n    '{{ ($json.searchTerms[3] || \"\").replace(/'/g, \"''\") }}'::text AS term3,\n    '{{ ($json.searchTerms[4] || \"\").replace(/'/g, \"''\") }}'::text AS term4,\n    '{{ ($json.searchTerms[5] || \"\").replace(/'/g, \"''\") }}'::text AS term5,\n    '{{ ($json.searchTerms[6] || \"\").replace(/'/g, \"''\") }}'::text AS term6,\n    '{{ ($json.searchTerms[7] || \"\").replace(/'/g, \"''\") }}'::text AS term7,\n    '{{ ($json.searchTerms[8] || \"\").replace(/'/g, \"''\") }}'::text AS term8,\n    '{{ ($json.searchTerms[9] || \"\").replace(/'/g, \"''\") }}'::text AS term9,\n    '{{ ($json.searchTerms[10] || \"\").replace(/'/g, \"''\") }}'::text AS term10,\n    '{{ ($json.searchTerms[11] || \"\").replace(/'/g, \"''\") }}'::text AS term11\n),\nranked_chunks AS (\n  SELECT\n    dc.id AS \"chunkId\",\n    dc.document_id AS \"documentId\",\n    COALESCE(dv.title_snapshot, d.title) AS \"documentTitle\",\n    d.sector_id AS \"sectorId\",\n    s.name AS \"sectorName\",\n    d.category_id AS \"categoryId\",\n    c.name AS \"categoryName\",\n    c.description AS \"categoryDescription\",\n    d.subcategory_id AS \"subcategoryId\",\n    sc.name AS \"subcategoryName\",\n    sc.description AS \"subcategoryDescription\",\n    COALESCE(dv.expiration_date, d.expiration_date) AS \"vigencyDate\",\n    d.updated_at AS \"documentUpdatedAt\",\n    dv.version_number AS \"versionNumber\",\n    dv.id AS \"versionId\",\n    dc.chunk_order AS \"chunkOrder\",\n    dc.chunk_text AS \"chunkText\",\n    dc.chunk_kind AS \"chunkKind\",\n    dc.sheet_name AS \"sheetName\",\n    (\n      CASE WHEN (SELECT subcategory_id FROM params) IS NOT NULL AND d.subcategory_id = (SELECT subcategory_id FROM params) THEN 120 ELSE 0 END\n      + CASE WHEN (SELECT category_id FROM params) IS NOT NULL AND d.category_id = (SELECT category_id FROM params) THEN 80 ELSE 0 END\n      + CASE WHEN (SELECT question FROM params) <> '' AND dc.chunk_text ILIKE '%' || (SELECT question FROM params) || '%' THEN 100 ELSE 0 END\n      + CASE WHEN (SELECT subcategory_name FROM params) <> '' AND dc.chunk_text ILIKE '%' || (SELECT subcategory_name FROM params) || '%' THEN 40 ELSE 0 END\n      + CASE WHEN (SELECT category_name FROM params) <> '' AND dc.chunk_text ILIKE '%' || (SELECT category_name FROM params) || '%' THEN 20 ELSE 0 END\n      + CASE WHEN (SELECT term0 FROM params) <> '' AND (dc.chunk_text ILIKE '%' || (SELECT term0 FROM params) || '%' OR COALESCE(dv.title_snapshot, d.title) ILIKE '%' || (SELECT term0 FROM params) || '%' OR COALESCE(dv.description_snapshot, d.semantic_description, '') ILIKE '%' || (SELECT term0 FROM params) || '%') THEN 15 ELSE 0 END\n      + CASE WHEN (SELECT term1 FROM params) <> '' AND (dc.chunk_text ILIKE '%' || (SELECT term1 FROM params) || '%' OR COALESCE(dv.title_snapshot, d.title) ILIKE '%' || (SELECT term1 FROM params) || '%' OR COALESCE(dv.description_snapshot, d.semantic_description, '') ILIKE '%' || (SELECT term1 FROM params) || '%') THEN 15 ELSE 0 END\n      + CASE WHEN (SELECT term2 FROM params) <> '' AND (dc.chunk_text ILIKE '%' || (SELECT term2 FROM params) || '%' OR COALESCE(dv.title_snapshot, d.title) ILIKE '%' || (SELECT term2 FROM params) || '%' OR COALESCE(dv.description_snapshot, d.semantic_description, '') ILIKE '%' || (SELECT term2 FROM params) || '%') THEN 15 ELSE 0 END\n      + CASE WHEN (SELECT term3 FROM params) <> '' AND (dc.chunk_text ILIKE '%' || (SELECT term3 FROM params) || '%' OR COALESCE(dv.title_snapshot, d.title) ILIKE '%' || (SELECT term3 FROM params) || '%' OR COALESCE(dv.description_snapshot, d.semantic_description, '') ILIKE '%' || (SELECT term3 FROM params) || '%') THEN 15 ELSE 0 END\n      + CASE WHEN (SELECT term4 FROM params) <> '' AND (dc.chunk_text ILIKE '%' || (SELECT term4 FROM params) || '%' OR COALESCE(dv.title_snapshot, d.title) ILIKE '%' || (SELECT term4 FROM params) || '%' OR COALESCE(dv.description_snapshot, d.semantic_description, '') ILIKE '%' || (SELECT term4 FROM params) || '%') THEN 15 ELSE 0 END\n      + CASE WHEN (SELECT term5 FROM params) <> '' AND (dc.chunk_text ILIKE '%' || (SELECT term5 FROM params) || '%' OR COALESCE(dv.title_snapshot, d.title) ILIKE '%' || (SELECT term5 FROM params) || '%' OR COALESCE(dv.description_snapshot, d.semantic_description, '') ILIKE '%' || (SELECT term5 FROM params) || '%') THEN 15 ELSE 0 END\n      + CASE WHEN (SELECT term6 FROM params) <> '' AND (dc.chunk_text ILIKE '%' || (SELECT term6 FROM params) || '%' OR COALESCE(dv.title_snapshot, d.title) ILIKE '%' || (SELECT term6 FROM params) || '%' OR COALESCE(dv.description_snapshot, d.semantic_description, '') ILIKE '%' || (SELECT term6 FROM params) || '%') THEN 15 ELSE 0 END\n      + CASE WHEN (SELECT term7 FROM params) <> '' AND (dc.chunk_text ILIKE '%' || (SELECT term7 FROM params) || '%' OR COALESCE(dv.title_snapshot, d.title) ILIKE '%' || (SELECT term7 FROM params) || '%' OR COALESCE(dv.description_snapshot, d.semantic_description, '') ILIKE '%' || (SELECT term7 FROM params) || '%') THEN 15 ELSE 0 END\n      + CASE WHEN (SELECT term8 FROM params) <> '' AND (dc.chunk_text ILIKE '%' || (SELECT term8 FROM params) || '%' OR COALESCE(dv.title_snapshot, d.title) ILIKE '%' || (SELECT term8 FROM params) || '%' OR COALESCE(dv.description_snapshot, d.semantic_description, '') ILIKE '%' || (SELECT term8 FROM params) || '%') THEN 10 ELSE 0 END\n      + CASE WHEN (SELECT term9 FROM params) <> '' AND (dc.chunk_text ILIKE '%' || (SELECT term9 FROM params) || '%' OR COALESCE(dv.title_snapshot, d.title) ILIKE '%' || (SELECT term9 FROM params) || '%' OR COALESCE(dv.description_snapshot, d.semantic_description, '') ILIKE '%' || (SELECT term9 FROM params) || '%') THEN 10 ELSE 0 END\n      + CASE WHEN (SELECT term10 FROM params) <> '' AND (dc.chunk_text ILIKE '%' || (SELECT term10 FROM params) || '%' OR COALESCE(dv.title_snapshot, d.title) ILIKE '%' || (SELECT term10 FROM params) || '%' OR COALESCE(dv.description_snapshot, d.semantic_description, '') ILIKE '%' || (SELECT term10 FROM params) || '%') THEN 10 ELSE 0 END\n      + CASE WHEN (SELECT term11 FROM params) <> '' AND (dc.chunk_text ILIKE '%' || (SELECT term11 FROM params) || '%' OR COALESCE(dv.title_snapshot, d.title) ILIKE '%' || (SELECT term11 FROM params) || '%' OR COALESCE(dv.description_snapshot, d.semantic_description, '') ILIKE '%' || (SELECT term11 FROM params) || '%') THEN 10 ELSE 0 END\n      + CASE WHEN dc.chunk_kind = 'tabular' THEN 25 ELSE 0 END\n      + CASE WHEN dc.sheet_name IS NOT NULL AND (\n          ((SELECT question FROM params) <> '' AND dc.sheet_name ILIKE '%' || (SELECT question FROM params) || '%')\n          OR ((SELECT subcategory_name FROM params) <> '' AND dc.sheet_name ILIKE '%' || (SELECT subcategory_name FROM params) || '%')\n          OR ((SELECT category_name FROM params) <> '' AND dc.sheet_name ILIKE '%' || (SELECT category_name FROM params) || '%')\n          OR ((SELECT term0 FROM params) <> '' AND dc.sheet_name ILIKE '%' || (SELECT term0 FROM params) || '%')\n          OR ((SELECT term1 FROM params) <> '' AND dc.sheet_name ILIKE '%' || (SELECT term1 FROM params) || '%')\n          OR ((SELECT term2 FROM params) <> '' AND dc.sheet_name ILIKE '%' || (SELECT term2 FROM params) || '%')\n          OR ((SELECT term3 FROM params) <> '' AND dc.sheet_name ILIKE '%' || (SELECT term3 FROM params) || '%')\n          OR ((SELECT term4 FROM params) <> '' AND dc.sheet_name ILIKE '%' || (SELECT term4 FROM params) || '%')\n          OR ((SELECT term5 FROM params) <> '' AND dc.sheet_name ILIKE '%' || (SELECT term5 FROM params) || '%')\n          OR ((SELECT term6 FROM params) <> '' AND dc.sheet_name ILIKE '%' || (SELECT term6 FROM params) || '%')\n          OR ((SELECT term7 FROM params) <> '' AND dc.sheet_name ILIKE '%' || (SELECT term7 FROM params) || '%')\n        ) THEN 30 ELSE 0 END\n      + CASE WHEN dc.headers_json IS NOT NULL AND (\n          ((SELECT question FROM params) <> '' AND dc.headers_json::text ILIKE '%' || (SELECT question FROM params) || '%')\n          OR ((SELECT term0 FROM params) <> '' AND dc.headers_json::text ILIKE '%' || (SELECT term0 FROM params) || '%')\n          OR ((SELECT term1 FROM params) <> '' AND dc.headers_json::text ILIKE '%' || (SELECT term1 FROM params) || '%')\n          OR ((SELECT term2 FROM params) <> '' AND dc.headers_json::text ILIKE '%' || (SELECT term2 FROM params) || '%')\n          OR ((SELECT term3 FROM params) <> '' AND dc.headers_json::text ILIKE '%' || (SELECT term3 FROM params) || '%')\n          OR ((SELECT term4 FROM params) <> '' AND dc.headers_json::text ILIKE '%' || (SELECT term4 FROM params) || '%')\n          OR ((SELECT term5 FROM params) <> '' AND dc.headers_json::text ILIKE '%' || (SELECT term5 FROM params) || '%')\n          OR ((SELECT term6 FROM params) <> '' AND dc.headers_json::text ILIKE '%' || (SELECT term6 FROM params) || '%')\n          OR ((SELECT term7 FROM params) <> '' AND dc.headers_json::text ILIKE '%' || (SELECT term7 FROM params) || '%')\n        ) THEN 20 ELSE 0 END\n    ) AS relevance\n  FROM document_chunks dc\n  INNER JOIN document_versions dv ON dv.id = dc.document_version_id AND dv.is_current = true\n  INNER JOIN documents d ON d.id = dc.document_id\n  LEFT JOIN sectors s ON s.id = d.sector_id\n  LEFT JOIN categories c ON c.id = d.category_id\n  LEFT JOIN subcategories sc ON sc.id = d.subcategory_id\n  WHERE d.deleted_at IS NULL\n    AND COALESCE(d.is_active, TRUE) = TRUE\n    AND COALESCE(dv.processing_status, d.processing_status) = 'processed'\n    AND COALESCE(dv.validation_status, 'VALID') = 'VALID'\n    AND COALESCE(dv.ocr_status, 'NOT_REQUIRED') NOT IN ('PROCESSING','FAILED','REQUIRED','OCR_REQUIRED','MANUAL_REVIEW','OCR_BUSY')\n    AND (dv.ocr_quality_grade IS NULL OR dv.ocr_quality_grade IN ('EXCELLENT','GOOD','ACCEPTABLE'))\n)\nSELECT *\nFROM ranked_chunks\nWHERE relevance > 0\nORDER BY relevance DESC, \"vigencyDate\" DESC NULLS LAST, \"documentUpdatedAt\" DESC, \"chunkOrder\" ASC\nLIMIT 12;"
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "id": "f33b61f8-01f3-4814-b087-42ae477f8cd1",
+      "name": "Guardar rows texto",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3300,
+        -80
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const base=$('Preparar busca texto').first().json||{};const textRows=$input.all().map(i=>i.json).filter(r=>r&&(r.chunkText||r.documentId));const textLatencyMs=Date.now()-Number(base.textStartedAtMs||Date.now());return [{json:{...base,textRows,textLatencyMs}}];"
+      }
+    },
+    {
+      "id": "cd197eac-ed42-4327-b6d1-a41006cc3ab2",
+      "name": "Pular texto",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2860,
+        140
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const base=$input.first().json||{};return [{json:{...base,textRows:[],textLatencyMs:0}}];"
+      }
+    },
+    {
+      "id": "59b4b3d4-8547-41d6-9e9c-91cd5934871b",
+      "name": "Merge híbrido",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3520,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const modeInfo=$input.first().json||{};\nconst t0=Date.now();\nconst vectorHits=Array.isArray(modeInfo.vectorHits)?modeInfo.vectorHits:[];\nconst textRows=Array.isArray(modeInfo.textRows)?modeInfo.textRows:[];\nconst cfg=modeInfo.configuration||{};\nconst includeVectorOnly=cfg.merge?.includeVectorOnly===true||cfg.semanticOrphans?.enabled===true;\nconst expiredPenalty=Number(cfg.penalties?.expired ?? 0.12);\nconst wV=Number(modeInfo.weights?.semantic??0.65);\nconst wT=Number(modeInfo.weights?.lexical??0.35);\nconst maxText=Math.max(1,...textRows.map(r=>Number(r.relevance||0)));\nconst byKey=new Map();\nfunction keyOf(docId,order){return String(docId)+':'+String(order);}\nfunction isExpiredDate(v){\n  if(v===true) return true;\n  if(!v) return false;\n  const d=new Date(v); if(Number.isNaN(d.getTime())) return false;\n  const today=new Date(); today.setHours(0,0,0,0);\n  return d < today;\n}\nfor(const h of vectorHits){\n  const k=keyOf(h.documentId,h.chunkIndex);\n  byKey.set(k,{chunkId:h.chunkId||null,documentId:h.documentId,documentTitle:h.documentTitle,sectorId:h.sectorId,sectorName:h.sectorName,categoryId:h.categoryId,categoryName:h.categoryName,categoryDescription:h.categoryDescription,subcategoryId:h.subcategoryId,subcategoryName:h.subcategoryName,subcategoryDescription:h.subcategoryDescription,chunkIndex:h.chunkIndex,chunkKind:h.chunkKind,sheetName:h.sheetName,ocrQuality:h.ocrQuality,vectorScore:Number(h.vectorScore||0),textScore:0,chunkText:h.chunkText||null,versionId:h.versionId||h.documentVersionId,versionNumber:h.versionNumber,vigencyDate:h.vigencyDate,documentUpdatedAt:h.documentUpdatedAt,isCurrent:h.isCurrent!==false,isExpired:h.isExpired===true||isExpiredDate(h.vigencyDate)});\n}\nfor(const r of textRows){\n  const k=keyOf(r.documentId,r.chunkOrder);\n  const textScore=Number(r.relevance||0)/maxText;\n  const row=byKey.get(k)||{chunkId:r.chunkId||null,documentId:r.documentId,documentTitle:r.documentTitle,sectorId:r.sectorId,categoryId:r.categoryId,subcategoryId:r.subcategoryId,chunkIndex:r.chunkOrder,chunkKind:r.chunkKind,sheetName:r.sheetName,ocrQuality:null,vectorScore:0,textScore:0,chunkText:null,versionId:r.versionId,isCurrent:true,isExpired:false};\n  row.textScore=Math.max(row.textScore||0,textScore);\n  row.chunkText=r.chunkText||row.chunkText;\n  row.chunkId=row.chunkId||r.chunkId||null;\n  row.documentTitle=r.documentTitle||row.documentTitle;\n  row.sectorName=r.sectorName; row.categoryName=r.categoryName; row.subcategoryName=r.subcategoryName;\n  row.categoryDescription=r.categoryDescription; row.subcategoryDescription=r.subcategoryDescription;\n  row.vigencyDate=r.vigencyDate; row.documentUpdatedAt=r.documentUpdatedAt; row.versionNumber=r.versionNumber; row.versionId=r.versionId||row.versionId;\n  row.isExpired=row.isExpired||isExpiredDate(r.vigencyDate);\n  byKey.set(k,row);\n}\nconst catId=modeInfo.categoryId||null, subId=modeInfo.subcategoryId||null;\nconst merged=[];\nlet droppedNoText=0;\nfor(const row of byKey.values()){\n  if(!row.chunkText){ droppedNoText++; continue; }\n  let boost=0;\n  if(subId&&row.subcategoryId===subId) boost+=0.15; else if(catId&&row.categoryId===catId) boost+=0.10;\n  const ocr=String(row.ocrQuality||'').toUpperCase();\n  if(ocr==='EXCELLENT'||ocr==='GOOD') boost+=0.05;\n  if(String(row.chunkKind||'').toLowerCase()==='tabular') boost+=0.05;\n  if(row.isCurrent!==false) boost+=0.05;\n  if(row.isExpired) boost-=Math.abs(expiredPenalty);\n  const vectorNorm=Math.max(0,Math.min(1,Number(row.vectorScore||0)));\n  const textNorm=Math.max(0,Math.min(1,Number(row.textScore||0)));\n  // When includeVectorOnly, pure vector hits keep semantic weight even with textScore 0\n  const mergedScore=wV*vectorNorm+wT*textNorm+boost;\n  merged.push({chunkId:row.chunkId,documentId:row.documentId,documentTitle:row.documentTitle,sectorId:row.sectorId,sectorName:row.sectorName,categoryId:row.categoryId,categoryName:row.categoryName,categoryDescription:row.categoryDescription,subcategoryId:row.subcategoryId,subcategoryName:row.subcategoryName,subcategoryDescription:row.subcategoryDescription,vigencyDate:row.vigencyDate,documentUpdatedAt:row.documentUpdatedAt,versionNumber:row.versionNumber,versionId:row.versionId,chunkOrder:row.chunkIndex,chunkText:row.chunkText,chunkKind:row.chunkKind,sheetName:row.sheetName,relevance:Math.round(mergedScore*1000),vectorScore:vectorNorm,textScore:textNorm,mergedScore,hybridScore:mergedScore,isExpired:!!row.isExpired,retrievalMode:vectorHits.length?'hybrid':(textRows.length?'text_only':'empty')});\n}\nmerged.sort((a,b)=>b.mergedScore-a.mergedScore);\nconst candidatePool=Number(modeInfo.candidateLimit||30);\nconst candidates=merged.slice(0,candidatePool);\nconst mergeLatencyMs=Date.now()-t0;\nconst fallbackUsed=modeInfo.needVector&&!vectorHits.length&&textRows.length>0;\nconst pipelineMeta={\n  mode:modeInfo.mode, configCode:modeInfo.configCode||'AI_QUERY_RETRIEVAL',\n  configVersionId:modeInfo.versionId||null, configVersion:modeInfo.versionLabel||null,\n  rankingVersion:modeInfo.versionLabel||null, candidateCount:candidates.length, deduplicatedCount:byKey.size,\n  vectorLatencyMs:Number(modeInfo.vectorLatencyMs||0), textLatencyMs:Number(modeInfo.textLatencyMs||0), mergeLatencyMs,\n  fallbackUsed, fallbackReason:fallbackUsed?'vector_empty_text_fallback':null,\n  modeOverrideUsed:!!modeInfo.modeOverrideUsed, requestId:modeInfo.requestId||null,\n  includeVectorOnly, hydratedVectorChunks:Number(modeInfo.hydratedVectorChunks||0),\n  droppedNoText, lexicalExpansionUsed:!!modeInfo.lexicalExpansionUsed,\n  expiredCandidateCount:candidates.filter(c=>c.isExpired).length,\n};\nreturn [{json:{...modeInfo, candidates, pipelineMeta, useRerank:String(modeInfo.mode).toUpperCase()==='HYBRID_RERANK', finalLimit:Number(modeInfo.finalLimit||12)||12}}];"
+      }
+    },
+    {
+      "id": "50e3ec93-2c6b-4934-a6b1-ae415db5dba3",
+      "name": "Preparar seleção",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3740,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const j=$input.first().json||{};\nconst candidates=Array.isArray(j.candidates)?j.candidates:[];\nreturn [{json:{\n  mode:j.mode, useRerank:!!j.useRerank, finalLimit:Number(j.finalLimit||12)||12,\n  versionLabel:j.versionLabel||'hybrid-v1', versionId:j.versionId||null,\n  configurationJson:j.configurationJson||'{}',\n  classificationJson:JSON.stringify({categoryId:j.categoryId||null,subcategoryId:j.subcategoryId||null,categoryName:j.categoryName||null,subcategoryName:j.subcategoryName||null,searchTerms:j.searchTerms||[]}),\n  candidatesJson:JSON.stringify(candidates), candidates,\n  question:j.question||'', requestId:j.requestId||'', userId:j.userId||'', sessionId:j.sessionId||'',\n  pipelineMeta:j.pipelineMeta||{}, modeInfo:j, maxChunksPerDocument:Number(j.maxChunksPerDocument||4)||4,\n  rerankStartedAtMs:Date.now(),\n}}];"
+      }
+    },
+    {
+      "id": "a06c43cf-5594-4d87-80a9-5f237d24571b",
+      "name": "Usar re-ranking?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3960,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "c1",
+              "leftValue": "={{ $json.useRerank === true }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ]
+        },
+        "looseTypeValidation": true
+      }
+    },
+    {
+      "id": "049bc712-d2b0-471e-9056-b84cedf76d56",
+      "name": "Chamar RE-RANQUEAR",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4180,
+        -100
+      ],
+      "parameters": {
+        "mode": "once",
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "nivEQHAqHWIwP8P8",
+          "cachedResultName": "IA - RE-RANQUEAR CANDIDATOS"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "question": "={{ $json.question }}",
+            "classificationJson": "={{ $json.classificationJson }}",
+            "candidatesJson": "={{ $json.candidatesJson }}",
+            "configurationJson": "={{ $json.configurationJson }}",
+            "requestId": "={{ $json.requestId }}",
+            "userId": "={{ $json.userId }}",
+            "sessionId": "={{ $json.sessionId }}"
+          }
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true
+    },
+    {
+      "id": "c246fdeb-be66-49fd-9c95-46376ef26d06",
+      "name": "Corte hybrid padrão",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4180,
+        100
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "return [$('Preparar seleção').first()];"
+      }
+    },
+    {
+      "id": "3b9d4e36-46c4-4547-b658-d150a748cdf5",
+      "name": "Resolver ranking final",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4400,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const prep=$('Preparar seleção').first().json||{};\nconst mode=String(prep.mode||'HYBRID').toUpperCase();\nconst finalLimit=Number(prep.finalLimit||12)||12;\nconst hybridCandidates=Array.isArray(prep.candidates)?prep.candidates:[];\nconst maxPerDoc=Number(prep.maxChunksPerDocument||4)||4;\nlet ranked=[]; let fallbackUsed=!!(prep.pipelineMeta&&prep.pipelineMeta.fallbackUsed);\nlet rankingMetadata={mode,fallbackUsed:false,selectedCount:0,durationMs:0};\nconst rerankLatencyMs=mode==='HYBRID_RERANK'?(Date.now()-Number(prep.rerankStartedAtMs||Date.now())):0;\nif(mode==='HYBRID_RERANK'){\n  const rr=$input.first().json||{};\n  if(rr.ok===true&&Array.isArray(rr.rankedCandidates)&&rr.rankedCandidates.length){\n    ranked=rr.rankedCandidates; rankingMetadata=rr.rankingMetadata||rankingMetadata;\n  } else {\n    fallbackUsed=true;\n    rankingMetadata={mode:'HYBRID_FALLBACK',fallbackUsed:true,selectedCount:0,durationMs:rerankLatencyMs,error:rr.error||'rerank_failed'};\n    ranked=hybridCandidates.slice(0,finalLimit).map((c,i)=>({...c,rerankPosition:i+1,rerankScore:c.mergedScore||0,selectionReason:'hybrid_fallback',retrievalMode:'hybrid_fallback'}));\n  }\n} else {\n  ranked=hybridCandidates.slice(0,finalLimit).map((c,i)=>({...c,rerankPosition:i+1,rerankScore:c.mergedScore||0,selectionReason:mode.toLowerCase(),retrievalMode:c.retrievalMode||mode.toLowerCase()}));\n  rankingMetadata={mode,fallbackUsed:false,selectedCount:ranked.length,durationMs:0,versionLabel:prep.versionLabel||null};\n}\nconst perDoc=new Map(); const diversified=[];\nfor(const c of ranked){ const id=String(c.documentId||''); const n=perDoc.get(id)||0; if(n>=maxPerDoc) continue; perDoc.set(id,n+1); diversified.push(c); if(diversified.length>=finalLimit) break; }\nif(!diversified.length) diversified.push(...ranked.slice(0,finalLimit));\nranked=diversified;\nrankingMetadata.fallbackUsed=fallbackUsed||!!rankingMetadata.fallbackUsed;\nrankingMetadata.selectedCount=ranked.length;\nrankingMetadata.versionLabel=prep.versionLabel||rankingMetadata.versionLabel||null;\nrankingMetadata.candidateCount=hybridCandidates.length;\nrankingMetadata.rerankLatencyMs=rerankLatencyMs;\nrankingMetadata.pipelineMeta=prep.pipelineMeta||{};\nreturn [{json:{ranked, rankingMetadata, retrievalConfigVersion:prep.versionLabel||null, fallbackUsed:rankingMetadata.fallbackUsed, prep}}];"
+      }
+    },
+    {
+      "id": "62417bb2-b0de-4b85-b3ba-7ecc64a88b94",
+      "name": "Montar contexto atual",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4620,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const t0=Date.now();\nconst wrap=$input.first().json||{};\nconst ranked=Array.isArray(wrap.ranked)?wrap.ranked:[];\nconst prep=wrap.prep||{};\nconst modeInfo=prep.modeInfo||{};\nconst rankingMetadata=wrap.rankingMetadata||{};\nconst pipelineMeta=rankingMetadata.pipelineMeta||prep.pipelineMeta||{};\nconst question=String(modeInfo.question||prep.question||'');\nconst classification={categoryId:modeInfo.categoryId??null,categoryName:modeInfo.categoryName??null,categoryDescription:null,subcategoryId:modeInfo.subcategoryId??null,subcategoryName:modeInfo.subcategoryName??null,subcategoryDescription:null};\nconst contextChunks=ranked.map((row,index)=>({\n  index:index+1, chunkId:row.chunkId||null, documentId:row.documentId, documentTitle:row.documentTitle,\n  sectorId:row.sectorId??null, sectorName:row.sectorName??null, categoryId:row.categoryId??null, categoryName:row.categoryName??null,\n  subcategoryId:row.subcategoryId??null, subcategoryName:row.subcategoryName??null, vigencyDate:row.vigencyDate??null,\n  chunkOrder:row.chunkOrder, relevance:row.relevance??0, text:row.chunkText??row.text??'',\n  vectorScore:row.vectorScore??null, textScore:row.textScore??null, hybridScore:row.hybridScore??row.mergedScore??null, rerankScore:row.rerankScore??null,\n}));\nconst context=contextChunks.map(s=>`[Fontes ${s.index}]\\n\\nDocumento: ${s.documentTitle||'Não informado'}\\nSetor: ${s.sectorName||'Não informado'}\\nCategoria: ${s.categoryName||'Não informada'}\\nSubcategoria: ${s.subcategoryName||'Não informada'}\\nData de vigência: ${s.vigencyDate||'Não informada'}\\nOrdem do trecho: ${s.chunkOrder}\\nRelevância calculada: ${s.relevance}\\n\\nTrecho documental:\\n${s.text}`.trim()).join('\\n\\n------------------------------\\n\\n');\nconst unique=new Map();\nfor(const s of contextChunks){\n  if(!s.documentId) continue;\n  const e=unique.get(s.documentId);\n  if(!e) unique.set(s.documentId,{documentId:s.documentId,documentTitle:s.documentTitle,sectorId:s.sectorId,sectorName:s.sectorName,categoryId:s.categoryId,categoryName:s.categoryName,subcategoryId:s.subcategoryId,subcategoryName:s.subcategoryName,vigencyDate:s.vigencyDate,relevance:s.relevance});\n  else if(Number(s.relevance)>Number(e.relevance)) e.relevance=s.relevance;\n}\nconst sources=[...unique.values()].sort((a,b)=>Number(b.relevance)-Number(a.relevance)).map((s,i)=>({index:i+1,documentId:s.documentId,documentTitle:s.documentTitle,sectorId:s.sectorId,sectorName:s.sectorName,categoryId:s.categoryId,categoryName:s.categoryName,subcategoryId:s.subcategoryId,subcategoryName:s.subcategoryName,vigencyDate:s.vigencyDate}));\nconst rankedDocumentIds=contextChunks.map(c=>c.documentId).filter(Boolean);\nconst rankedChunkIds=contextChunks.map(c=>c.chunkId||(c.documentId&&c.chunkOrder!=null?`${c.documentId}:${c.chunkOrder}`:null)).filter(Boolean);\nconst sourceDocumentIds=sources.map(s=>s.documentId).filter(Boolean);\nconst contextBuildLatencyMs=Date.now()-t0;\nconst retrievalMeta={\n  mode:rankingMetadata.mode||modeInfo.mode||'HYBRID',\n  configCode:modeInfo.configCode||'AI_QUERY_RETRIEVAL',\n  configVersionId:modeInfo.versionId||null,\n  configVersion:modeInfo.versionLabel||null,\n  rankingVersion:modeInfo.versionLabel||null,\n  candidateCount:Number(rankingMetadata.candidateCount??pipelineMeta.candidateCount??0),\n  deduplicatedCount:Number(pipelineMeta.deduplicatedCount??0),\n  rerankedCount:String(modeInfo.mode||'').toUpperCase()==='HYBRID_RERANK'&&!rankingMetadata.fallbackUsed?contextChunks.length:0,\n  selectedCount:contextChunks.length,\n  retrievalLatencyMs:Date.now()-Number(modeInfo.startedAtMs||Date.now()),\n  vectorLatencyMs:Number(pipelineMeta.vectorLatencyMs??0),\n  textLatencyMs:Number(pipelineMeta.textLatencyMs??0),\n  mergeLatencyMs:Number(pipelineMeta.mergeLatencyMs??0),\n  rerankLatencyMs:Number(rankingMetadata.rerankLatencyMs??0),\n  contextBuildLatencyMs,\n  fallbackUsed:!!(rankingMetadata.fallbackUsed||pipelineMeta.fallbackUsed),\n  fallbackReason:(()=>{\n  if(rankingMetadata.error) return rankingMetadata.error;\n  if(pipelineMeta.fallbackReason) return pipelineMeta.fallbackReason;\n  if(rankingMetadata.fallbackUsed) return 'rerank_fallback';\n  if(pipelineMeta.fallbackUsed) return 'vector_empty_text_fallback';\n  return null;\n})(),\n  rankedDocumentIds, rankedChunkIds, sourceDocumentIds,\n  requestId:modeInfo.requestId||null,\n  modeOverrideUsed:!!modeInfo.modeOverrideUsed,\n  normalizedQuestion:modeInfo.normalizedQuestion||null,\n  questionHash:modeInfo.questionHash||null,\n};\nconst selectedChunks=contextChunks.map(c=>({chunkId:c.chunkId,documentId:c.documentId,content:c.text,chunkIndex:c.chunkOrder,vectorScore:c.vectorScore,textScore:c.textScore,hybridScore:c.hybridScore,rerankScore:c.rerankScore,documentTitle:c.documentTitle,sectorName:c.sectorName,categoryName:c.categoryName,subcategoryName:c.subcategoryName}));\nreturn [{json:{context,sources,selectedChunks,retrievalMeta,question,classification,diagnostic:{totalChunks:contextChunks.length,totalDocuments:sources.length},requestId:modeInfo.requestId||'',userId:modeInfo.userId||'',sessionId:modeInfo.sessionId||''}}];"
+      }
+    },
+    {
+      "id": "f3f84673-951f-4860-9c81-acbcedea98f6",
+      "name": "Auditar SUCCESS",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4840,
+        0
+      ],
+      "parameters": {
+        "mode": "once",
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "jtQvQlqRZ5X5WF9I",
+          "cachedResultName": "AUDITORIA - REGISTRAR"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "action": "AI_RETRIEVAL_SUCCESS",
+            "resourceType": "ai_retrieval",
+            "resourceId": "={{ $json.requestId || \"\" }}",
+            "success": "={{ true }}",
+            "requestId": "={{ $json.requestId || \"\" }}",
+            "userId": "={{ $json.userId || \"\" }}",
+            "sessionId": "={{ $json.sessionId || \"\" }}",
+            "metadata": "={{ { mode: $json.retrievalMeta && $json.retrievalMeta.mode, configVersion: $json.retrievalMeta && $json.retrievalMeta.configVersion, selectedCount: $json.retrievalMeta && $json.retrievalMeta.selectedCount, candidateCount: $json.retrievalMeta && $json.retrievalMeta.candidateCount, fallbackUsed: !!( $json.retrievalMeta && $json.retrievalMeta.fallbackUsed ), retrievalLatencyMs: $json.retrievalMeta && $json.retrievalMeta.retrievalLatencyMs } }}"
+          }
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "onError": "continueRegularOutput",
+      "alwaysOutputData": true
+    },
+    {
+      "id": "d6e38ac0-fbbb-4913-ab4c-e29bb6bee623",
+      "name": "Retorno",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5060,
+        0
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "return [$('Montar contexto atual').first()];"
+      }
+    },
+    {
+      "id": "c282prepHydrate01",
+      "name": "Preparar hidratação vetorial",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1400,
+        200
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const base=$input.first().json||{};\nconst cfg=base.configuration||{};\nconst include=cfg.merge?.includeVectorOnly===true||cfg.semanticOrphans?.enabled===true;\nconst textKeys=new Set((Array.isArray(base.textRows)?base.textRows:[]).map(r=>String(r.documentId)+':'+String(r.chunkOrder)));\nconst orphans=(Array.isArray(base.vectorHits)?base.vectorHits:[])\n  .filter(h=>h&&h.chunkId&&!textKeys.has(String(h.documentId)+':'+String(h.chunkIndex)));\nfunction esc(s){return String(s??'').replace(/'/g,\"''\");}\nlet hydrateSql=\"SELECT NULL::uuid AS \\\"chunkId\\\" WHERE FALSE\";\nif(include&&orphans.length){\n  const ids=[...new Set(orphans.map(h=>String(h.chunkId)))].slice(0,40);\n  hydrateSql=`SELECT dc.id AS \"chunkId\", dc.document_id AS \"documentId\", COALESCE(dv.title_snapshot,d.title) AS \"documentTitle\",\n  d.sector_id AS \"sectorId\", s.name AS \"sectorName\", d.category_id AS \"categoryId\", c.name AS \"categoryName\",\n  c.description AS \"categoryDescription\", d.subcategory_id AS \"subcategoryId\", sc.name AS \"subcategoryName\",\n  sc.description AS \"subcategoryDescription\", COALESCE(dv.expiration_date,d.expiration_date) AS \"vigencyDate\",\n  d.updated_at AS \"documentUpdatedAt\", dv.version_number AS \"versionNumber\", dv.id AS \"versionId\",\n  dc.chunk_order AS \"chunkOrder\", dc.chunk_text AS \"chunkText\", dc.chunk_kind AS \"chunkKind\", dc.sheet_name AS \"sheetName\",\n  COALESCE(d.is_active,TRUE) AS \"isActive\",\n  (COALESCE(dv.expiration_date,d.expiration_date) IS NOT NULL AND COALESCE(dv.expiration_date,d.expiration_date) < CURRENT_DATE) AS \"isExpired\"\nFROM document_chunks dc\nJOIN documents d ON d.id=dc.document_id\nJOIN document_versions dv ON dv.id=dc.document_version_id\nLEFT JOIN sectors s ON s.id=d.sector_id\nLEFT JOIN categories c ON c.id=d.category_id\nLEFT JOIN subcategories sc ON sc.id=d.subcategory_id\nWHERE d.deleted_at IS NULL AND COALESCE(d.is_active,TRUE)=TRUE\n  AND dc.id IN (${ids.map(i=>\"'\"+esc(i)+\"'::uuid\").join(',')})`;\n}\nreturn [{json:{...base,hydrateEnabled:include,hydrateNeeded:include&&orphans.length>0,hydrateSql,orphanCount:orphans.length}}];"
+      }
+    },
+    {
+      "id": "c282sqlHydrate01",
+      "name": "Hidratar chunks vetoriais",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1620,
+        200
+      ],
+      "parameters": {
+        "operation": "executeQuery",
+        "options": {},
+        "query": "={{ $json.hydrateSql }}"
+      },
+      "credentials": {
+        "postgres": {
+          "id": "XJtGZ5rpCR7BpN0X",
+          "name": "Postgres account"
+        }
+      },
+      "alwaysOutputData": true
+    },
+    {
+      "id": "c282applyHydrate01",
+      "name": "Aplicar hidratação vetorial",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1840,
+        200
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const prep=$('Preparar hidratação vetorial').first().json||{};\nconst rows=$input.all().map(i=>i.json).filter(r=>r&&r.chunkId&&r.chunkText);\nconst byId=new Map(rows.map(r=>[String(r.chunkId),r]));\nconst vectorHits=(Array.isArray(prep.vectorHits)?prep.vectorHits:[]).map(h=>{\n  const row=byId.get(String(h.chunkId));\n  if(!row) return h;\n  return {\n    ...h,\n    chunkText:row.chunkText,\n    documentTitle:row.documentTitle||h.documentTitle,\n    sectorId:row.sectorId||h.sectorId,\n    sectorName:row.sectorName,\n    categoryId:row.categoryId||h.categoryId,\n    categoryName:row.categoryName,\n    categoryDescription:row.categoryDescription,\n    subcategoryId:row.subcategoryId||h.subcategoryId,\n    subcategoryName:row.subcategoryName,\n    subcategoryDescription:row.subcategoryDescription,\n    vigencyDate:row.vigencyDate,\n    documentUpdatedAt:row.documentUpdatedAt,\n    versionNumber:row.versionNumber,\n    versionId:row.versionId||h.documentVersionId,\n    chunkKind:row.chunkKind||h.chunkKind,\n    sheetName:row.sheetName||h.sheetName,\n    isActive:row.isActive!==false,\n    isExpired:row.isExpired===true,\n  };\n});\nreturn [{json:{...prep,vectorHits,hydratedVectorChunks:rows.length,lexicalExpansionUsed:!!prep.lexicalExpansionUsed}}];"
+      }
+    }
+  ],
+  "connections": {
+    "Trigger": {
+      "main": [
+        [
+          {
+            "node": "Preparar entrada",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar entrada": {
+      "main": [
+        [
+          {
+            "node": "Auditar START",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auditar START": {
+      "main": [
+        [
+          {
+            "node": "Após audit start",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Após audit start": {
+      "main": [
+        [
+          {
+            "node": "Carregar retrieval config",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Carregar retrieval config": {
+      "main": [
+        [
+          {
+            "node": "Aplicar modo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aplicar modo": {
+      "main": [
+        [
+          {
+            "node": "Precisa vetor?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Precisa vetor?": {
+      "main": [
+        [
+          {
+            "node": "Preparar embedding",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Pular vetor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar embedding": {
+      "main": [
+        [
+          {
+            "node": "Embed pergunta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embed pergunta": {
+      "main": [
+        [
+          {
+            "node": "Extrair vetor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extrair vetor": {
+      "main": [
+        [
+          {
+            "node": "Busca vetorial Qdrant",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Busca vetorial Qdrant": {
+      "main": [
+        [
+          {
+            "node": "Guardar hits vetoriais",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardar hits vetoriais": {
+      "main": [
+        [
+          {
+            "node": "Precisa texto?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pular vetor": {
+      "main": [
+        [
+          {
+            "node": "Precisa texto?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Precisa texto?": {
+      "main": [
+        [
+          {
+            "node": "Preparar busca texto",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Pular texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar busca texto": {
+      "main": [
+        [
+          {
+            "node": "Buscar chunks relevantes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Buscar chunks relevantes": {
+      "main": [
+        [
+          {
+            "node": "Guardar rows texto",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardar rows texto": {
+      "main": [
+        [
+          {
+            "node": "Preparar hidratação vetorial",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pular texto": {
+      "main": [
+        [
+          {
+            "node": "Preparar hidratação vetorial",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge híbrido": {
+      "main": [
+        [
+          {
+            "node": "Preparar seleção",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar seleção": {
+      "main": [
+        [
+          {
+            "node": "Usar re-ranking?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Usar re-ranking?": {
+      "main": [
+        [
+          {
+            "node": "Chamar RE-RANQUEAR",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Corte hybrid padrão",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chamar RE-RANQUEAR": {
+      "main": [
+        [
+          {
+            "node": "Resolver ranking final",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Corte hybrid padrão": {
+      "main": [
+        [
+          {
+            "node": "Resolver ranking final",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Resolver ranking final": {
+      "main": [
+        [
+          {
+            "node": "Montar contexto atual",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Montar contexto atual": {
+      "main": [
+        [
+          {
+            "node": "Auditar SUCCESS",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auditar SUCCESS": {
+      "main": [
+        [
+          {
+            "node": "Retorno",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar hidratação vetorial": {
+      "main": [
+        [
+          {
+            "node": "Hidratar chunks vetoriais",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Hidratar chunks vetoriais": {
+      "main": [
+        [
+          {
+            "node": "Aplicar hidratação vetorial",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aplicar hidratação vetorial": {
+      "main": [
+        [
+          {
+            "node": "Merge híbrido",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

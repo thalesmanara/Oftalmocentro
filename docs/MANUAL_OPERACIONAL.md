@@ -14,6 +14,8 @@ Visão rápida com:
 
 - total de documentos;
 - documentos ativos (não inativados);
+- documentos expirados podem ainda aparecer na IA com menor prioridade (vigência destacada na biblioteca);
+- documentos inativos nunca entram na Consulta IA;
 - em processamento;
 - com falha;
 - vigência expirada;

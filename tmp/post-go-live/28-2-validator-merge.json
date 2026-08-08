@@ -1,0 +1,73 @@
+{
+  "timestamp": "2026-08-08T21:02:30-03:00",
+  "workflowId": "NhWUkmzGhlttJC9S",
+  "workflowName": "IA - VALIDAR RETRIEVAL CONFIG",
+  "status": "success",
+  "previousVersionId": "73e2f849-f0af-4c9e-be77-809ca5739be7",
+  "activeVersionId": "5d2b493f-1afc-4f19-9e2f-714fc69ed860",
+  "published": true,
+  "nodeUpdated": "Validar",
+  "changes": {
+    "ALLOWED_ROOT": {
+      "before": [
+        "mode",
+        "candidateLimit",
+        "finalLimit",
+        "maxChunksPerDocument",
+        "enableNeighbors",
+        "weights",
+        "boosts",
+        "penalties",
+        "normalization",
+        "notes",
+        "lexicalExpansion"
+      ],
+      "after": [
+        "mode",
+        "candidateLimit",
+        "finalLimit",
+        "maxChunksPerDocument",
+        "enableNeighbors",
+        "weights",
+        "boosts",
+        "penalties",
+        "normalization",
+        "notes",
+        "lexicalExpansion",
+        "merge",
+        "semanticOrphans"
+      ],
+      "mergeIncluded": true,
+      "semanticOrphansIncluded": true
+    },
+    "merge": {
+      "type": "object (optional)",
+      "allowedSubkeys": ["includeVectorOnly", "hydrateVectorChunks"],
+      "unknownSubkeyError": "UNKNOWN_FIELD",
+      "normalizedOutput": { "includeVectorOnly": "boolean (!!coerced)" }
+    },
+    "semanticOrphans": {
+      "type": "object alias (optional)",
+      "allowedSubkeys": ["enabled"],
+      "unknownSubkeyError": "UNKNOWN_FIELD",
+      "normalizedOutput": { "enabled": "boolean (!!coerced)" }
+    },
+    "lexicalExpansion": {
+      "unchanged": true
+    }
+  },
+  "verification": {
+    "method": "get_workflow_details",
+    "allowedRootContainsMerge": true,
+    "allowedRootContainsSemanticOrphans": true,
+    "allowedRootContainsLexicalExpansion": true,
+    "jsCodeSnippet": "const ALLOWED_ROOT=new Set(['mode','candidateLimit','finalLimit','maxChunksPerDocument','enableNeighbors','weights','boosts','penalties','normalization','notes','lexicalExpansion','merge','semanticOrphans']);"
+  },
+  "operations": [
+    {
+      "type": "setNodeParameter",
+      "nodeName": "Validar",
+      "path": "/jsCode"
+    }
+  ]
+}

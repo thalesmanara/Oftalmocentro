@@ -1,0 +1,64 @@
+{
+  "at": "2026-08-08T21:10:26.889Z",
+  "tests": [
+    {
+      "name": "login",
+      "pass": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "senha-7",
+      "pass": true,
+      "detail": {
+        "status": 400,
+        "code": "VALIDATION_ERROR"
+      }
+    },
+    {
+      "name": "semantic-maquina-conserto",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "sources": 3,
+        "titles": [
+          "PLANO DE GERENCIAMENTO DE TECNOLOGIAS - REVISÃO 03",
+          "PLANO DE GERENCIAMENTO DE TECNOLOGIAS - REVISÃO 2 - ARQUIVO WORD",
+          "PLANO DE GERENCIAMENTO DE TECNOLOGIAS"
+        ]
+      }
+    },
+    {
+      "name": "exact-cnpj",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "summarized": false,
+        "len": 522,
+        "answerHead": "Os documentos disponíveis permitem uma resposta parcial:\n\nO CNPJ da clínica OFTALMOCENTRO UBERABA LTDA é 01.609.274/0001"
+      }
+    },
+    {
+      "name": "resumo-aviso",
+      "pass": true,
+      "detail": {
+        "status": 200,
+        "flagged": true
+      }
+    },
+    {
+      "name": "inactive-not-in-sources",
+      "pass": false,
+      "detail": {
+        "doc": "PLANO DE GERENCIAMENTO DE TECNOLOGIAS - REVISÃO 03",
+        "leaked": true,
+        "sourceTitles": [
+          "PLANO DE GERENCIAMENTO DE TECNOLOGIAS - REVISÃO 2 - ARQUIVO WORD",
+          "PLANO DE GERENCIAMENTO DE TECNOLOGIAS"
+        ]
+      }
+    }
+  ],
+  "liveFrontendAsset": "assets/index-V49IbOIr.js"
+}

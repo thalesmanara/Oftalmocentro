@@ -1,0 +1,109 @@
+[
+  {
+    "type": "addNode",
+    "node": {
+      "name": "Preparar hidratação vetorial",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1400,
+        200
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const base=$input.first().json||{};\nconst cfg=base.configuration||{};\nconst include=cfg.merge?.includeVectorOnly===true||cfg.semanticOrphans?.enabled===true;\nconst textKeys=new Set((Array.isArray(base.textRows)?base.textRows:[]).map(r=>String(r.documentId)+':'+String(r.chunkOrder)));\nconst orphans=(Array.isArray(base.vectorHits)?base.vectorHits:[])\n  .filter(h=>h&&h.chunkId&&!textKeys.has(String(h.documentId)+':'+String(h.chunkIndex)));\nfunction esc(s){return String(s??'').replace(/'/g,\"''\");}\nlet hydrateSql=\"SELECT NULL::uuid AS \\\"chunkId\\\" WHERE FALSE\";\nif(include&&orphans.length){\n  const ids=[...new Set(orphans.map(h=>String(h.chunkId)))].slice(0,40);\n  hydrateSql=`SELECT dc.id AS \"chunkId\", dc.document_id AS \"documentId\", COALESCE(dv.title_snapshot,d.title) AS \"documentTitle\",\n  d.sector_id AS \"sectorId\", s.name AS \"sectorName\", d.category_id AS \"categoryId\", c.name AS \"categoryName\",\n  c.description AS \"categoryDescription\", d.subcategory_id AS \"subcategoryId\", sc.name AS \"subcategoryName\",\n  sc.description AS \"subcategoryDescription\", COALESCE(dv.expiration_date,d.expiration_date) AS \"vigencyDate\",\n  d.updated_at AS \"documentUpdatedAt\", dv.version_number AS \"versionNumber\", dv.id AS \"versionId\",\n  dc.chunk_order AS \"chunkOrder\", dc.chunk_text AS \"chunkText\", dc.chunk_kind AS \"chunkKind\", dc.sheet_name AS \"sheetName\",\n  COALESCE(d.is_active,TRUE) AS \"isActive\",\n  (COALESCE(dv.expiration_date,d.expiration_date) IS NOT NULL AND COALESCE(dv.expiration_date,d.expiration_date) < CURRENT_DATE) AS \"isExpired\"\nFROM document_chunks dc\nJOIN documents d ON d.id=dc.document_id\nJOIN document_versions dv ON dv.id=dc.document_version_id\nLEFT JOIN sectors s ON s.id=d.sector_id\nLEFT JOIN categories c ON c.id=d.category_id\nLEFT JOIN subcategories sc ON sc.id=d.subcategory_id\nWHERE d.deleted_at IS NULL AND COALESCE(d.is_active,TRUE)=TRUE\n  AND dc.id IN (${ids.map(i=>\"'\"+esc(i)+\"'::uuid\").join(',')})`;\n}\nreturn [{json:{...base,hydrateEnabled:include,hydrateNeeded:include&&orphans.length>0,hydrateSql,orphanCount:orphans.length}}];"
+      }
+    }
+  },
+  {
+    "type": "addNode",
+    "node": {
+      "name": "Hidratar chunks vetoriais",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1620,
+        200
+      ],
+      "parameters": {
+        "operation": "executeQuery",
+        "options": {},
+        "query": "={{ $json.hydrateSql }}"
+      },
+      "credentials": {
+        "postgres": {
+          "id": "XJtGZ5rpCR7BpN0X",
+          "name": "Postgres account"
+        }
+      }
+    }
+  },
+  {
+    "type": "addNode",
+    "node": {
+      "name": "Aplicar hidratação vetorial",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1840,
+        200
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const prep=$('Preparar hidratação vetorial').first().json||{};\nconst rows=$input.all().map(i=>i.json).filter(r=>r&&r.chunkId&&r.chunkText);\nconst byId=new Map(rows.map(r=>[String(r.chunkId),r]));\nconst vectorHits=(Array.isArray(prep.vectorHits)?prep.vectorHits:[]).map(h=>{\n  const row=byId.get(String(h.chunkId));\n  if(!row) return h;\n  return {\n    ...h,\n    chunkText:row.chunkText,\n    documentTitle:row.documentTitle||h.documentTitle,\n    sectorId:row.sectorId||h.sectorId,\n    sectorName:row.sectorName,\n    categoryId:row.categoryId||h.categoryId,\n    categoryName:row.categoryName,\n    categoryDescription:row.categoryDescription,\n    subcategoryId:row.subcategoryId||h.subcategoryId,\n    subcategoryName:row.subcategoryName,\n    subcategoryDescription:row.subcategoryDescription,\n    vigencyDate:row.vigencyDate,\n    documentUpdatedAt:row.documentUpdatedAt,\n    versionNumber:row.versionNumber,\n    versionId:row.versionId||h.documentVersionId,\n    chunkKind:row.chunkKind||h.chunkKind,\n    sheetName:row.sheetName||h.sheetName,\n    isActive:row.isActive!==false,\n    isExpired:row.isExpired===true,\n  };\n});\nreturn [{json:{...prep,vectorHits,hydratedVectorChunks:rows.length,lexicalExpansionUsed:!!prep.lexicalExpansionUsed}}];"
+      }
+    }
+  },
+  {
+    "type": "removeConnection",
+    "source": "Guardar rows texto",
+    "target": "Merge híbrido"
+  },
+  {
+    "type": "removeConnection",
+    "source": "Pular texto",
+    "target": "Merge híbrido"
+  },
+  {
+    "type": "addConnection",
+    "source": "Guardar rows texto",
+    "target": "Preparar hidratação vetorial"
+  },
+  {
+    "type": "addConnection",
+    "source": "Pular texto",
+    "target": "Preparar hidratação vetorial"
+  },
+  {
+    "type": "addConnection",
+    "source": "Preparar hidratação vetorial",
+    "target": "Hidratar chunks vetoriais"
+  },
+  {
+    "type": "addConnection",
+    "source": "Hidratar chunks vetoriais",
+    "target": "Aplicar hidratação vetorial"
+  },
+  {
+    "type": "addConnection",
+    "source": "Aplicar hidratação vetorial",
+    "target": "Merge híbrido"
+  },
+  {
+    "type": "setNodeCredential",
+    "nodeName": "Hidratar chunks vetoriais",
+    "credentialKey": "postgres",
+    "credentialId": "XJtGZ5rpCR7BpN0X",
+    "credentialName": "Postgres account"
+  },
+  {
+    "type": "setNodeSettings",
+    "nodeName": "Hidratar chunks vetoriais",
+    "settings": {
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    }
+  }
+]

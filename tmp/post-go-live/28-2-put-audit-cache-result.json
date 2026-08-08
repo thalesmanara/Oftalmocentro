@@ -1,0 +1,132 @@
+{
+  "stage": "Etapa 28.2",
+  "appliedAt": "2026-08-08T21:00:54.520Z",
+  "workflows": {
+    "putDocumentos": {
+      "id": "Y0MuWEEdoMFts7ay",
+      "name": "PUT Documentos",
+      "activeVersionId": "c31dbbba-0a12-4c64-b636-10b5dc9b701b",
+      "published": true,
+      "mainPathIntact": [
+        "Aplicar isActive -> Montar data -> Preparar sucesso -> Registrar auditoria sucesso -> Respond to Webhook"
+      ],
+      "parallelBranch": {
+        "flow": "Aplicar isActive -> isActive mudou? -> Registrar auditoria isActive -> Invalidar cache -> Qdrant set payload isActive",
+        "aplicarIsActiveOutputs": [
+          "Montar data",
+          "isActive mudou?"
+        ],
+        "sideEffectNodes": {
+          "isActiveMudou": {
+            "enabled": true
+          },
+          "registrarAuditoriaIsActive": {
+            "enabled": true,
+            "onError": "continueRegularOutput",
+            "waitForSubWorkflow": false,
+            "actionExpression": "={{ $('Aplicar isActive').first().json.isActive === false ? 'DOCUMENT_DEACTIVATED' : 'DOCUMENT_ACTIVATED' }}"
+          },
+          "invalidarCache": {
+            "targetWorkflowId": "c221InvalidateEvent01",
+            "onError": "continueRegularOutput",
+            "waitForSubWorkflow": false,
+            "eventTypeExpression": "={{ $('Aplicar isActive').first().json.isActive === false ? 'DOCUMENT_DEACTIVATED' : 'DOCUMENT_ACTIVATED' }}",
+            "documentIdExpression": "={{ String($('Aplicar isActive').first().json.id || '') }}",
+            "reasonCodeExpression": "={{ $('Aplicar isActive').first().json.isActive === false ? 'DOCUMENT_DEACTIVATED' : 'DOCUMENT_ACTIVATED' }}",
+            "requestIdExpression": "={{ $('Normalizar request').first().json.requestId || '' }}"
+          },
+          "qdrantSetPayload": {
+            "method": "POST",
+            "url": "http://qdrant:6333/collections/oftalmocentro_chunks/points/payload",
+            "neverError": true,
+            "onError": "continueRegularOutput"
+          }
+        }
+      }
+    },
+    "qdrantBuscar": {
+      "id": "YDnrXjzYUOrZVE6N",
+      "name": "QDRANT - BUSCAR",
+      "activeVersionId": "9a3da638-e3ec-4dce-b5ce-0b5c734f3465",
+      "published": true,
+      "prepararBuscaFilter": {
+        "must": [
+          "isCurrent=true",
+          "category/subcategory optional"
+        ],
+        "should": [
+          "isActive field missing OR isActive=true"
+        ],
+        "minShould": 1,
+        "excludes": "points with isActive=false"
+      }
+    },
+    "responsePolicy": {
+      "id": "c25ResponsePolicy01",
+      "name": "IA - APLICAR POLÍTICA DE RESPOSTA",
+      "activeVersionId": "06589cac-f67e-444f-968f-62975526d392",
+      "published": true,
+      "node": "Marcar resposta resumida",
+      "warningText": "**Esta resposta apresenta um resumo das informações encontradas. Consulte o documento completo listado nas referências para verificar todos os detalhes.**",
+      "summaryDetection": {
+        "reasonCodes": [
+          "SUMMARY_INTENT",
+          "MULTI_SOURCE_LONG_ANSWER",
+          "CONTEXT_TRUNCATED",
+          "IMPLICIT_COVERAGE",
+          "SHORT_ANSWER",
+          "FACTUAL_QUESTION"
+        ],
+        "implicitCoverageTriggers": [
+          "sources>=2, answerLength>=450, candidate pool much larger than sources cited",
+          "contextMeta.truncated or budgetExceeded or retrievalMeta.truncated",
+          "answer has >=2 markdown heading/list sections and question is not factual"
+        ],
+        "suppressions": [
+          "answerLength<=320",
+          "factual question without explicit summary intent"
+        ]
+      }
+    }
+  },
+  "summaryDetection": {
+    "file": "28-2-put-audit-cache-result.json#summaryDetection",
+    "testVectors": [
+      {
+        "case": "implicit_coverage",
+        "question": "Como funciona o fluxo de autorização?",
+        "sources": 3,
+        "answerChars": 520,
+        "candidateCount": 14,
+        "summaryIntent": false,
+        "expected": {
+          "isSummarizedResponse": true,
+          "reasonCodes": [
+            "IMPLICIT_COVERAGE"
+          ]
+        }
+      },
+      {
+        "case": "summary_intent",
+        "question": "Me dê um resumo das políticas",
+        "expected": {
+          "isSummarizedResponse": true,
+          "reasonCodes": [
+            "SUMMARY_INTENT"
+          ]
+        }
+      },
+      {
+        "case": "factual_short",
+        "question": "Qual o telefone?",
+        "answerChars": 60,
+        "expected": {
+          "isSummarizedResponse": false,
+          "reasonCodes": [
+            "FACTUAL_QUESTION"
+          ]
+        }
+      }
+    ]
+  }
+}

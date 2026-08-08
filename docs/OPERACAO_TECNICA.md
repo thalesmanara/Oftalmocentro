@@ -6,7 +6,7 @@ Resumo para manutenção. **Sem credenciais.**
 
 | Camada | Modo / Versão | Status |
 |--------|---------------|--------|
-| Retrieval | HYBRID / hybrid-v1 | PUBLISHED |
+| Retrieval | HYBRID / hybrid-v2 | PUBLISHED |
 | Contexto | LEGACY / context-v1 | PUBLISHED |
 | Cache | SHADOW / cache-shadow-v1 | PUBLISHED (não serve) |
 | Evidence | STRUCTURED / evidence-v1 | PUBLISHED |
@@ -20,18 +20,21 @@ Resumo para manutenção. **Sem credenciais.**
 
 - hybrid-rerank-v1
 - context-budget-v1
-- hybrid-v2 (lexicalExpansion — A/B pendente; não publicar sem dataset)
-- AI_QUERY_MAIN v2 (max_tokens 1500 — A/B pendente)
+- hybrid-v1 (ARCHIVED após promoção de hybrid-v2)
+- AI_QUERY_MAIN v2 (completude + max_tokens 1200 — A/B sem ganho suficiente; permanece DRAFT)
 - evidence-v2 (se mantido)
 - response-quality-v1 (ARCHIVED após promoção da v2)
 
-## Pós-Go-Live (28.1) — regras operacionais
+## Pós-Go-Live (28.1/28.2) — regras operacionais
 
 - Senha nova/alterada: mínimo 8 caracteres (login legado <8 permanece válido).
 - `users.is_technical_admin`: acesso à Administração Técnica (Master OU Technical Admin via `requiredTechnicalAdmin` / `canAccessTechnicalAdministration`).
-- `documents.is_active`: inativos fora do retrieval (`IA - RECUPERAR CONTEXTO`); expirados também excluídos do hybrid normal.
-- Response Policy: aviso obrigatório quando `isSummarizedResponse=true`.
-- Relatório: `tmp/post-go-live/RELATORIO-AJUSTES-POS-GO-LIVE.md`.
+- `documents.is_active`: inativos fora do retrieval (`IA - RECUPERAR CONTEXTO` + filtro Qdrant `isActive`).
+- **Documentos expirados:** pesquisáveis na IA com **penalidade de ranking** (`penalties.expired`); **não** são tratados como inativos. Tags visuais EXPIRADO / VENCE EM BREVE na UI.
+- Retrieval publicado: **HYBRID / hybrid-v2** (includeVectorOnly + lexicalExpansion complementar).
+- Prompt publicado: **v1 max_tokens=800**. Candidato DRAFT v2 (completude + 1200) sem publish — A/B sem ganho crítico.
+- Response Policy: aviso obrigatório quando `isSummarizedResponse=true` (SUMMARY_INTENT / IMPLICIT_COVERAGE / truncamento).
+- Relatórios: `tmp/post-go-live/RELATORIO-AJUSTES-POS-GO-LIVE.md`, `tmp/post-go-live/RELATORIO-28-2-CONSOLIDACAO.md`.
 
 ## Pipeline Consulta IA
 

@@ -1,0 +1,82 @@
+{
+  "timestamp": "2026-08-08T21:00:00-03:00",
+  "workflowId": "bae8872eeb164a27",
+  "workflowName": "IA - RECUPERAR CONTEXTO",
+  "steps": {
+    "step1_sqlMerge": {
+      "status": "success",
+      "appliedOperations": 2,
+      "operations": [
+        "setNodeParameter: Buscar chunks relevantes /query",
+        "setNodeParameter: Merge híbrido /jsCode"
+      ],
+      "validationWarnings": [
+        {
+          "code": "MISSING_EXPRESSION_PREFIX",
+          "nodeName": "Buscar chunks relevantes",
+          "message": "query contains {{ $... }} without '=' prefix (pre-existing pattern)"
+        }
+      ]
+    },
+    "step2_hydrate": {
+      "status": "success",
+      "appliedOperations": 12,
+      "skippedAddNodeFallback": false,
+      "operations": [
+        "addNode: Preparar hidratação vetorial",
+        "addNode: Hidratar chunks vetoriais",
+        "addNode: Aplicar hidratação vetorial",
+        "removeConnection: Guardar rows texto -> Merge híbrido",
+        "removeConnection: Pular texto -> Merge híbrido",
+        "addConnection: Guardar rows texto -> Preparar hidratação vetorial",
+        "addConnection: Pular texto -> Preparar hidratação vetorial",
+        "addConnection: Preparar hidratação vetorial -> Hidratar chunks vetoriais",
+        "addConnection: Hidratar chunks vetoriais -> Aplicar hidratação vetorial",
+        "addConnection: Aplicar hidratação vetorial -> Merge híbrido",
+        "setNodeCredential: Hidratar chunks vetoriais",
+        "setNodeSettings: Hidratar chunks vetoriais"
+      ],
+      "nodeCountAfter": 30
+    },
+    "step3_publish": {
+      "status": "success",
+      "activeVersionId": "27c68d0a-5f68-4672-b5af-d5d8b7018a49",
+      "active": true
+    },
+    "step4_verify": {
+      "status": "success",
+      "checks": {
+        "nodesPresent": {
+          "Preparar hidratação vetorial": true,
+          "Hidratar chunks vetoriais": true,
+          "Aplicar hidratação vetorial": true
+        },
+        "connectionGuardarRowsToPreparar": true,
+        "guardarRowsTargets": ["Preparar hidratação vetorial"],
+        "buscarChunksNoCurrentDateFilter": true,
+        "buscarChunksHasIsActive": true
+      }
+    }
+  },
+  "postgresHybridV2": {
+    "status": "success",
+    "versionLabel": "hybrid-v2",
+    "draftStatus": "DRAFT",
+    "published": false,
+    "id": "eb5779b1-b653-4679-b7ea-89b66accb279",
+    "oldContentHash": "2724ca9fb396fbd2f45214f0889d642c8c964d4822ef831a863d8a18e11a5819",
+    "newContentHash": "db4d7906a16327cf37d29c9ec6ff4c8edd343c048f89fd820374f31da9d764f6",
+    "changes": {
+      "merge": { "includeVectorOnly": true },
+      "candidateLimit": 40,
+      "penalties": {
+        "staleDocument": 0.05,
+        "redundancyPerExtraChunk": 0.06,
+        "expired": 0.12
+      },
+      "lexicalExpansionKept": true
+    }
+  },
+  "overallStatus": "success",
+  "failures": []
+}
