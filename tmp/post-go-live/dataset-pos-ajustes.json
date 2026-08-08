@@ -1,0 +1,37 @@
+{
+  "at": "2026-08-08T20:50:00.000Z",
+  "stage": "28.1-post-go-live",
+  "publishedStack": {
+    "retrieval": "HYBRID/hybrid-v1/PUBLISHED",
+    "context": "LEGACY/context-v1/PUBLISHED",
+    "cache": "SHADOW/cache-shadow-v1/PUBLISHED",
+    "evidence": "evidence-v1/PUBLISHED",
+    "responseQuality": "VALIDATE_STRICT/response-quality-v2/PUBLISHED",
+    "promptMaxTokens": 800
+  },
+  "draftCandidates": [
+    {
+      "id": "hybrid-v2",
+      "change": "lexicalExpansion dictionary",
+      "published": false,
+      "abRequired": true,
+      "abExecuted": false
+    },
+    {
+      "id": "AI_QUERY_MAIN-v2",
+      "change": "max_tokens 1500",
+      "published": false,
+      "abRequired": true,
+      "abExecuted": false
+    }
+  ],
+  "smokeSummary": {
+    "login": true,
+    "passwordMin8Reject": true,
+    "documentsIsActiveField": true,
+    "consultaIa": true,
+    "summaryWarning": true,
+    "note": "See smoke-tests.json; re-validate PUT isActive after PUT Documentos fix e205e59e"
+  },
+  "decision": "Do not publish retrieval/prompt candidates without A/B. Keep hybrid-v1 and max_tokens 800 in production."
+}

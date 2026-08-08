@@ -119,6 +119,58 @@ export async function login(email: string, password: string): Promise<LoginResul
   }
 }
 
+export async function changePassword(input: {
+  currentPassword: string
+  newPassword: string
+  confirmPassword: string
+}): Promise<void> {
+  const currentPassword = input.currentPassword
+  const newPassword = input.newPassword
+  const confirmPassword = input.confirmPassword
+
+  if (!currentPassword) {
+    throw new ApiError({
+      status: 400,
+      code: 'VALIDATION_ERROR',
+      message: 'Informe a senha atual.',
+    })
+  }
+  if (!newPassword) {
+    throw new ApiError({
+      status: 400,
+      code: 'VALIDATION_ERROR',
+      message: 'Informe a nova senha.',
+    })
+  }
+  if (newPassword.length < 8) {
+    throw new ApiError({
+      status: 400,
+      code: 'VALIDATION_ERROR',
+      message: 'A nova senha deve ter pelo menos 8 caracteres.',
+    })
+  }
+  if (confirmPassword !== newPassword) {
+    throw new ApiError({
+      status: 400,
+      code: 'VALIDATION_ERROR',
+      message: 'A confirmação da nova senha não confere.',
+    })
+  }
+  if (newPassword === currentPassword) {
+    throw new ApiError({
+      status: 400,
+      code: 'VALIDATION_ERROR',
+      message: 'A nova senha deve ser diferente da senha atual.',
+    })
+  }
+
+  await apiPost('/webhook/auth/change-password', {
+    currentPassword,
+    newPassword,
+    confirmPassword,
+  })
+}
+
 export async function logout(): Promise<void> {
   const token = getAccessToken()
 

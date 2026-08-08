@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import type { SystemSettings } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
 import { useSettings } from '@/hooks/useSettings'
+import { canAccessTechnicalAdministration } from '@/utils/permissions'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { TechnicalAreaBanner } from '@/components/ui/TechnicalAreaBanner'
 import { Card } from '@/components/ui/Card'
@@ -16,7 +17,7 @@ type Feedback = { type: 'success' | 'error'; message: string }
 export function SettingsPage() {
   const { user } = useAuth()
   const showHealthPanel = user?.isTechnicalAdmin === true
-  const showBackupPanel = user?.isMaster === true || user?.isTechnicalAdmin === true
+  const showBackupPanel = canAccessTechnicalAdministration(user)
   const { settings, settingsSource, loading, loadError, updateSettings, refreshSettings } =
     useSettings()
   const [form, setForm] = useState<SystemSettings | null>(null)

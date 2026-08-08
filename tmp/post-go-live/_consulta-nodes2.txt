@@ -1,0 +1,73 @@
+===== Montar resposta =====
+const ctx = $('Aplicar janela de contexto').first().json;
+const prompt = $('Aplicar prompt carregado').first().json || {};
+const answer = $json.output?.[0]?.content?.[0]?.text ?? '';
+const sources = (ctx.sources || []).map((s) => ({
+  ...s,
+  expirationDate: s.expirationDate ?? s.vigencyDate ?? null,
+}));
+const requestId = $('Normalizar request').first().json.requestId;
+const retrievalMeta = ctx.retrievalMeta || null;
+const contextMeta = ctx.contextMeta || null;
+return [{
+  json: {
+    data: {
+      question: ctx.question,
+      answer,
+      sources,
+      classification: ctx.classification,
+      retrievalMeta,
+      contextMeta: contextMeta ? {
+        mode: contextMeta.mode,
+        configVersion: contextMeta.configVersion,
+        configVersionId: contextMeta.configVersionId,
+        estimatedContextTokens: contextMeta.estimatedContextTokens,
+        availableContextTokens: contextMeta.availableContextTokens,
+        includedChunkCount: contextMeta.includedChunkCount,
+        excludedChunkCount: contextMeta.excludedChunkCount,
+        includedDocumentCount: contextMeta.includedDocumentCount,
+        truncated: contextMeta.truncated,
+        insufficientContext: contextMeta.insufficientContext,
+        conflictDetected: contextMeta.conflictDetected,
+        redundancyRemovedCount: contextMeta.redundancyRemovedCount,
+        neighborsAddedCount: contextMeta.neighborsAddedCount,
+        fallbackUsed: contextMeta.fallbackUsed,
+        fallbackReason: contextMeta.fallbackReason || null,
+        durationMs: contextMeta.durationMs,
+        modelName: contextMeta.modelName,
+      } : null,
+    },
+    statusCode: 200,
+    requestId,
+    promptMeta: {
+      promptVersionId: prompt.promptVersionId || null,
+      promptCode: prompt.promptCode || null,
+      versionNumber: prompt.versionNumber != null ? prompt.versionNumber : null,
+      contentHash: prompt.contentHash || null,
+      modelName: prompt.modelName || null,
+    },
+  },
+}];
+
+===== Montar resposta cache =====
+const ctx=$('Aplicar cache lookup').first().json||{};
+const prompt=$('Aplicar prompt carregado').first().json||{};
+const answer=String(ctx.cachedAnswer||'');
+const sources=(ctx.cachedSources||ctx.sources||[]).map(s=>({...s, expirationDate:s.expirationDate??s.vigencyDate??null}));
+const requestId=$('Normalizar request').first().json.requestId;
+const responseMeta={skipped:true,mode:'CACHE_HIT',schemaVersion:'response-quality-schema-v1',note:'Cache HIT — validação completa ocorre no path OpenAI; SHADOW não serve resposta'};
+return [{json:{data:{question:ctx.question,answer,sources,classification:ctx.classification,retrievalMeta:ctx.retrievalMeta||null,contextMeta:ctx.contextMeta||null,cacheMeta:ctx.cacheMeta||null,evidenceMeta:ctx.evidenceMeta||null,responseMeta,promptVersion:prompt.versionNumber||prompt.promptVersion||null,modelName:prompt.modelName||null},requestId}}];
+
+===== Aplicar validação resposta =====
+const openai=$('Message a model').first().json||{};
+const q=$input.first().json||{};
+const fallbackAnswer=openai.output?.[0]?.content?.[0]?.text ?? '';
+const answer=String(q.answer!=null&&q.answer!==''?q.answer:fallbackAnswer);
+return [{json:{
+  answer,
+  responseMeta:q.responseMeta||null,
+  auditAction:q.auditActionFinal||q.auditAction||'AI_RESPONSE_VALIDATION_COMPLETED',
+  qualityScore:q.qualityScore??null,
+  qualityGrade:q.qualityGrade??null,
+  consistencyStatus:q.consistencyStatus||null,
+}}];

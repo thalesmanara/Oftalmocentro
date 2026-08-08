@@ -112,9 +112,12 @@ export function UsersPage() {
     setEditing(null)
   }
 
+  const passwordTooShort = form.password.length > 0 && form.password.length < 8
+
   const handleSave = async () => {
     if (!form.name.trim() || !form.email.trim()) return
     if (!editing && !form.password.trim()) return
+    if (passwordTooShort) return
 
     setSaving(true)
     try {
@@ -269,7 +272,8 @@ export function UsersPage() {
                 saving ||
                 !form.name.trim() ||
                 !form.email.trim() ||
-                (!editing && !form.password.trim())
+                (!editing && !form.password.trim()) ||
+                passwordTooShort
               }
             >
               {saving ? 'Salvando...' : 'Salvar'}
@@ -297,6 +301,7 @@ export function UsersPage() {
             value={form.password}
             onChange={(e) => setForm({ ...form, password: e.target.value })}
             required={!editing}
+            error={passwordTooShort ? 'A senha deve ter no mínimo 8 caracteres.' : undefined}
           />
           <Select
             label="Setor"

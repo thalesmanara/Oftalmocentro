@@ -8,6 +8,7 @@ import type { Category, Document, Sector } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
 import { useSettings } from '@/hooks/useSettings'
 import { getCategoryNameById, getSectorNameById } from '@/utils/entities'
+import { canAccessTechnicalAdministration } from '@/utils/permissions'
 import {
   formatChecksumShort,
   formatDate,
@@ -16,7 +17,10 @@ import {
   formatFileSize,
   formatOcrQualityScore,
   extractionMethodLabel,
-  isDocumentExpired,
+  friendlyProcessingStatusLabel,
+  friendlyProcessingStatusVariant,
+  getDocumentVigencyBadge,
+  getFriendlyProcessingStatus,
   isSpreadsheetExtension,
   ocrModeLabel,
   ocrQualityGradeLabel,
@@ -128,7 +132,9 @@ export function DocumentDetailPage() {
     )
   }
 
-  const expired = isDocumentExpired(doc)
+  const vigencyBadge = getDocumentVigencyBadge(doc)
+  const canViewTechnical = canAccessTechnicalAdministration(user)
+  const friendlyStatus = getFriendlyProcessingStatus(doc)
   const sectorLabel = doc.sectorName ?? getSectorNameById(doc.sectorId, sectors)
   const categoryLabel = doc.categoryName ?? getCategoryNameById(doc.categoryId, categories)
   const subcategoryLabel = doc.subcategoryName || 'Não informada'
@@ -206,7 +212,10 @@ export function DocumentDetailPage() {
           <div className="mt-2 flex flex-wrap gap-2">
             <Badge variant="info">{sectorLabel}</Badge>
             <Badge>{categoryLabel}</Badge>
-            {expired ? <Badge variant="danger">Vigência expirada</Badge> : <Badge variant="success">Em vigência</Badge>}
+            {vigencyBadge.kind === 'expired' && <Badge variant="danger">{vigencyBadge.label}</Badge>}
+            {vigencyBadge.kind === 'expiring' && <Badge variant="warning">{vigencyBadge.label}</Badge>}
+            {vigencyBadge.kind === 'none' && <Badge variant="success">Em vigência</Badge>}
+            {doc.isActive === false && <Badge variant="default">INATIVO</Badge>}
           </div>
         </div>
         <div className="flex gap-2">
@@ -241,6 +250,22 @@ export function DocumentDetailPage() {
             <div>
               <dt className="text-slate-500">Data de vigência</dt>
               <dd className="text-slate-800">{formatDate(doc.expirationDate)}</dd>
+            </div>
+            <div>
+              <dt className="text-slate-500">Status</dt>
+              <dd className="mt-0.5">
+                <Badge variant={doc.isActive === false ? 'default' : 'success'}>
+                  {doc.isActive === false ? 'Inativo' : 'Ativo'}
+                </Badge>
+              </dd>
+            </div>
+            <div>
+              <dt className="text-slate-500">Status de processamento</dt>
+              <dd className="mt-0.5">
+                <Badge variant={friendlyProcessingStatusVariant(friendlyStatus)}>
+                  {friendlyProcessingStatusLabel(friendlyStatus)}
+                </Badge>
+              </dd>
             </div>
             <div>
               <dt className="text-slate-500">Responsável</dt>
@@ -284,201 +309,214 @@ export function DocumentDetailPage() {
                       {doc.detectedMimeType ?? doc.fileType ?? doc.browserMimeType ?? '—'}
                     </dd>
                   </div>
-                  <div className="flex flex-wrap gap-x-2">
-                    <dt className="text-slate-500">Checksum</dt>
-                    <dd className="font-mono text-slate-700">
-                      {formatChecksumShort(doc.checksum)}
-                      {doc.checksumAlgorithm ? (
-                        <span className="ml-1 font-sans text-slate-500">
-                          ({doc.checksumAlgorithm})
-                        </span>
-                      ) : null}
-                    </dd>
-                  </div>
-                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                    <dt className="text-slate-500">Validação</dt>
-                    <dd>
-                      {doc.validationStatus ? (
-                        <Badge variant={validationStatusVariant(doc.validationStatus)}>
-                          {validationStatusLabel(doc.validationStatus)}
-                        </Badge>
-                      ) : (
-                        <span className="text-slate-700">—</span>
-                      )}
-                    </dd>
-                  </div>
-                  {doc.validatedAt && (
+                  {doc.currentVersionNumber != null && (
                     <div className="flex flex-wrap gap-x-2">
-                      <dt className="text-slate-500">Validado em</dt>
-                      <dd className="text-slate-700">{formatDateTime(doc.validatedAt)}</dd>
+                      <dt className="text-slate-500">Versão atual</dt>
+                      <dd className="text-slate-700">v{doc.currentVersionNumber}</dd>
                     </div>
                   )}
-                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                    <dt className="text-slate-500">Status OCR</dt>
-                    <dd>
-                      {doc.ocrStatus ? (
-                        <Badge variant={ocrStatusVariant(doc.ocrStatus)}>
-                          {ocrStatusLabel(doc.ocrStatus)}
-                        </Badge>
-                      ) : (
-                        <span className="text-slate-700">—</span>
-                      )}
-                    </dd>
-                  </div>
-                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                    <dt className="text-slate-500">Embedding</dt>
-                    <dd>
-                      {doc.embeddingStatus ? (
-                        <Badge variant={embeddingStatusVariant(doc.embeddingStatus)}>
-                          {embeddingStatusLabel(doc.embeddingStatus)}
-                        </Badge>
-                      ) : (
-                        <span className="text-slate-700">—</span>
-                      )}
-                    </dd>
-                  </div>
-                  {doc.embeddingModel && (
-                    <div className="flex flex-wrap gap-x-2">
-                      <dt className="text-slate-500">Modelo embedding</dt>
-                      <dd className="text-slate-700">{doc.embeddingModel}</dd>
-                    </div>
-                  )}
-                  {(doc.embeddingValidCount != null || doc.embeddingPendingCount != null) && (
-                    <div className="flex flex-wrap gap-x-2">
-                      <dt className="text-slate-500">Chunks embedding</dt>
-                      <dd className="text-slate-700">
-                        {doc.embeddingValidCount ?? 0} válidos
-                        {(doc.embeddingPendingCount ?? 0) > 0
-                          ? ` · ${doc.embeddingPendingCount} pendentes`
-                          : ''}
-                        {(doc.embeddingFailedCount ?? 0) > 0
-                          ? ` · ${doc.embeddingFailedCount} falhas`
-                          : ''}
-                      </dd>
-                    </div>
-                  )}
-                  {doc.embeddingAvgMs != null && (
-                    <div className="flex flex-wrap gap-x-2">
-                      <dt className="text-slate-500">Tempo embedding</dt>
-                      <dd className="text-slate-700">{formatDurationMs(doc.embeddingAvgMs)}</dd>
-                    </div>
-                  )}
-                  {doc.embeddingCompletedAt && (
-                    <div className="flex flex-wrap gap-x-2">
-                      <dt className="text-slate-500">Embedding em</dt>
-                      <dd className="text-slate-700">{formatDateTime(doc.embeddingCompletedAt)}</dd>
-                    </div>
-                  )}
-                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                    <dt className="text-slate-500">Vetorizado (Qdrant)</dt>
-                    <dd>
-                      {doc.qdrantSyncStatus ? (
-                        <Badge variant={qdrantSyncStatusVariant(doc.qdrantSyncStatus)}>
-                          {qdrantSyncStatusLabel(doc.qdrantSyncStatus)}
-                        </Badge>
-                      ) : (
-                        <span className="text-slate-700">—</span>
-                      )}
-                    </dd>
-                  </div>
-                  {doc.qdrantCollection && (
-                    <div className="flex flex-wrap gap-x-2">
-                      <dt className="text-slate-500">Coleção</dt>
-                      <dd className="text-slate-700">{doc.qdrantCollection}</dd>
-                    </div>
-                  )}
-                  {(doc.qdrantSyncedCount != null || doc.qdrantPendingCount != null) && (
-                    <div className="flex flex-wrap gap-x-2">
-                      <dt className="text-slate-500">Pontos sync</dt>
-                      <dd className="text-slate-700">
-                        {doc.qdrantSyncedCount ?? 0} sincronizados
-                        {(doc.qdrantPendingCount ?? 0) > 0
-                          ? ` · ${doc.qdrantPendingCount} pendentes`
-                          : ''}
-                        {(doc.qdrantFailedCount ?? 0) > 0
-                          ? ` · ${doc.qdrantFailedCount} falhas`
-                          : ''}
-                      </dd>
-                    </div>
-                  )}
-                  {doc.qdrantSyncedAt && (
-                    <div className="flex flex-wrap gap-x-2">
-                      <dt className="text-slate-500">Sincronizado em</dt>
-                      <dd className="text-slate-700">{formatDateTime(doc.qdrantSyncedAt)}</dd>
-                    </div>
-                  )}
-                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                    <dt className="text-slate-500">Qualidade OCR</dt>
-                    <dd className="flex flex-wrap items-center gap-2">
-                      {doc.ocrQualityGrade ? (
-                        <Badge variant={ocrQualityGradeVariant(doc.ocrQualityGrade)}>
-                          {ocrQualityGradeLabel(doc.ocrQualityGrade)}
-                        </Badge>
-                      ) : (
-                        <span className="text-slate-700">—</span>
-                      )}
-                      <span className="text-slate-700">
-                        {formatOcrQualityScore(doc.ocrQualityScore)}
-                      </span>
-                    </dd>
-                  </div>
-                  <div className="flex flex-wrap gap-x-2">
-                    <dt className="text-slate-500">Método de extração</dt>
-                    <dd className="text-slate-700">
-                      {extractionMethodLabel(doc.extractionMethod)}
-                    </dd>
-                  </div>
-                  {(doc.sheetCount != null || isSpreadsheetExtension(doc.fileExtension)) && (
+
+                  {canViewTechnical && (
                     <>
                       <div className="flex flex-wrap gap-x-2">
-                        <dt className="text-slate-500">Abas</dt>
-                        <dd className="text-slate-700">{doc.sheetCount ?? '—'}</dd>
-                      </div>
-                      <div className="flex flex-wrap gap-x-2">
-                        <dt className="text-slate-500">Linhas / colunas</dt>
-                        <dd className="text-slate-700">
-                          {doc.tableRowCount ?? '—'} / {doc.tableColumnCount ?? '—'}
+                        <dt className="text-slate-500">Checksum</dt>
+                        <dd className="font-mono text-slate-700">
+                          {formatChecksumShort(doc.checksum)}
+                          {doc.checksumAlgorithm ? (
+                            <span className="ml-1 font-sans text-slate-500">
+                              ({doc.checksumAlgorithm})
+                            </span>
+                          ) : null}
                         </dd>
                       </div>
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <dt className="text-slate-500">Validação</dt>
+                        <dd>
+                          {doc.validationStatus ? (
+                            <Badge variant={validationStatusVariant(doc.validationStatus)}>
+                              {validationStatusLabel(doc.validationStatus)}
+                            </Badge>
+                          ) : (
+                            <span className="text-slate-700">—</span>
+                          )}
+                        </dd>
+                      </div>
+                      {doc.validatedAt && (
+                        <div className="flex flex-wrap gap-x-2">
+                          <dt className="text-slate-500">Validado em</dt>
+                          <dd className="text-slate-700">{formatDateTime(doc.validatedAt)}</dd>
+                        </div>
+                      )}
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <dt className="text-slate-500">Status OCR</dt>
+                        <dd>
+                          {doc.ocrStatus ? (
+                            <Badge variant={ocrStatusVariant(doc.ocrStatus)}>
+                              {ocrStatusLabel(doc.ocrStatus)}
+                            </Badge>
+                          ) : (
+                            <span className="text-slate-700">—</span>
+                          )}
+                        </dd>
+                      </div>
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <dt className="text-slate-500">Embedding</dt>
+                        <dd>
+                          {doc.embeddingStatus ? (
+                            <Badge variant={embeddingStatusVariant(doc.embeddingStatus)}>
+                              {embeddingStatusLabel(doc.embeddingStatus)}
+                            </Badge>
+                          ) : (
+                            <span className="text-slate-700">—</span>
+                          )}
+                        </dd>
+                      </div>
+                      {doc.embeddingModel && (
+                        <div className="flex flex-wrap gap-x-2">
+                          <dt className="text-slate-500">Modelo embedding</dt>
+                          <dd className="text-slate-700">{doc.embeddingModel}</dd>
+                        </div>
+                      )}
+                      {(doc.embeddingValidCount != null || doc.embeddingPendingCount != null) && (
+                        <div className="flex flex-wrap gap-x-2">
+                          <dt className="text-slate-500">Chunks embedding</dt>
+                          <dd className="text-slate-700">
+                            {doc.embeddingValidCount ?? 0} válidos
+                            {(doc.embeddingPendingCount ?? 0) > 0
+                              ? ` · ${doc.embeddingPendingCount} pendentes`
+                              : ''}
+                            {(doc.embeddingFailedCount ?? 0) > 0
+                              ? ` · ${doc.embeddingFailedCount} falhas`
+                              : ''}
+                          </dd>
+                        </div>
+                      )}
+                      {doc.embeddingAvgMs != null && (
+                        <div className="flex flex-wrap gap-x-2">
+                          <dt className="text-slate-500">Tempo embedding</dt>
+                          <dd className="text-slate-700">{formatDurationMs(doc.embeddingAvgMs)}</dd>
+                        </div>
+                      )}
+                      {doc.embeddingCompletedAt && (
+                        <div className="flex flex-wrap gap-x-2">
+                          <dt className="text-slate-500">Embedding em</dt>
+                          <dd className="text-slate-700">
+                            {formatDateTime(doc.embeddingCompletedAt)}
+                          </dd>
+                        </div>
+                      )}
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <dt className="text-slate-500">Vetorizado (Qdrant)</dt>
+                        <dd>
+                          {doc.qdrantSyncStatus ? (
+                            <Badge variant={qdrantSyncStatusVariant(doc.qdrantSyncStatus)}>
+                              {qdrantSyncStatusLabel(doc.qdrantSyncStatus)}
+                            </Badge>
+                          ) : (
+                            <span className="text-slate-700">—</span>
+                          )}
+                        </dd>
+                      </div>
+                      {doc.qdrantCollection && (
+                        <div className="flex flex-wrap gap-x-2">
+                          <dt className="text-slate-500">Coleção</dt>
+                          <dd className="text-slate-700">{doc.qdrantCollection}</dd>
+                        </div>
+                      )}
+                      {(doc.qdrantSyncedCount != null || doc.qdrantPendingCount != null) && (
+                        <div className="flex flex-wrap gap-x-2">
+                          <dt className="text-slate-500">Pontos sync</dt>
+                          <dd className="text-slate-700">
+                            {doc.qdrantSyncedCount ?? 0} sincronizados
+                            {(doc.qdrantPendingCount ?? 0) > 0
+                              ? ` · ${doc.qdrantPendingCount} pendentes`
+                              : ''}
+                            {(doc.qdrantFailedCount ?? 0) > 0
+                              ? ` · ${doc.qdrantFailedCount} falhas`
+                              : ''}
+                          </dd>
+                        </div>
+                      )}
+                      {doc.qdrantSyncedAt && (
+                        <div className="flex flex-wrap gap-x-2">
+                          <dt className="text-slate-500">Sincronizado em</dt>
+                          <dd className="text-slate-700">{formatDateTime(doc.qdrantSyncedAt)}</dd>
+                        </div>
+                      )}
+                      <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                        <dt className="text-slate-500">Qualidade OCR</dt>
+                        <dd className="flex flex-wrap items-center gap-2">
+                          {doc.ocrQualityGrade ? (
+                            <Badge variant={ocrQualityGradeVariant(doc.ocrQualityGrade)}>
+                              {ocrQualityGradeLabel(doc.ocrQualityGrade)}
+                            </Badge>
+                          ) : (
+                            <span className="text-slate-700">—</span>
+                          )}
+                          <span className="text-slate-700">
+                            {formatOcrQualityScore(doc.ocrQualityScore)}
+                          </span>
+                        </dd>
+                      </div>
+                      <div className="flex flex-wrap gap-x-2">
+                        <dt className="text-slate-500">Método de extração</dt>
+                        <dd className="text-slate-700">
+                          {extractionMethodLabel(doc.extractionMethod)}
+                        </dd>
+                      </div>
+                      {(doc.sheetCount != null || isSpreadsheetExtension(doc.fileExtension)) && (
+                        <>
+                          <div className="flex flex-wrap gap-x-2">
+                            <dt className="text-slate-500">Abas</dt>
+                            <dd className="text-slate-700">{doc.sheetCount ?? '—'}</dd>
+                          </div>
+                          <div className="flex flex-wrap gap-x-2">
+                            <dt className="text-slate-500">Linhas / colunas</dt>
+                            <dd className="text-slate-700">
+                              {doc.tableRowCount ?? '—'} / {doc.tableColumnCount ?? '—'}
+                            </dd>
+                          </div>
+                        </>
+                      )}
+                      {doc.ocrMode && (
+                        <div className="flex flex-wrap gap-x-2">
+                          <dt className="text-slate-500">Modo OCR</dt>
+                          <dd className="text-slate-700">{ocrModeLabel(doc.ocrMode)}</dd>
+                        </div>
+                      )}
+                      {doc.ocrEngine && (
+                        <div className="flex flex-wrap gap-x-2">
+                          <dt className="text-slate-500">Motor OCR</dt>
+                          <dd className="text-slate-700">{doc.ocrEngine}</dd>
+                        </div>
+                      )}
+                      {doc.ocrLanguages && (
+                        <div className="flex flex-wrap gap-x-2">
+                          <dt className="text-slate-500">Idioma OCR</dt>
+                          <dd className="text-slate-700">{doc.ocrLanguages}</dd>
+                        </div>
+                      )}
+                      {doc.ocrDurationMs != null && (
+                        <div className="flex flex-wrap gap-x-2">
+                          <dt className="text-slate-500">Tempo OCR</dt>
+                          <dd className="text-slate-700">{formatDurationMs(doc.ocrDurationMs)}</dd>
+                        </div>
+                      )}
+                      {doc.ocrReviewReason && (
+                        <div className="flex flex-wrap gap-x-2">
+                          <dt className="text-slate-500">Motivo da revisão</dt>
+                          <dd className="text-slate-700">{doc.ocrReviewReason}</dd>
+                        </div>
+                      )}
+                      {doc.hasOcrDerivedFile && (
+                        <div className="flex flex-wrap gap-x-2">
+                          <dt className="text-slate-500">PDF OCR</dt>
+                          <dd className="text-slate-700">
+                            {doc.ocrDerivedFileName ?? 'Derivado disponível'}
+                          </dd>
+                        </div>
+                      )}
                     </>
-                  )}
-                  {doc.ocrMode && (
-                    <div className="flex flex-wrap gap-x-2">
-                      <dt className="text-slate-500">Modo OCR</dt>
-                      <dd className="text-slate-700">{ocrModeLabel(doc.ocrMode)}</dd>
-                    </div>
-                  )}
-                  {doc.ocrEngine && (
-                    <div className="flex flex-wrap gap-x-2">
-                      <dt className="text-slate-500">Motor OCR</dt>
-                      <dd className="text-slate-700">{doc.ocrEngine}</dd>
-                    </div>
-                  )}
-                  {doc.ocrLanguages && (
-                    <div className="flex flex-wrap gap-x-2">
-                      <dt className="text-slate-500">Idioma OCR</dt>
-                      <dd className="text-slate-700">{doc.ocrLanguages}</dd>
-                    </div>
-                  )}
-                  {doc.ocrDurationMs != null && (
-                    <div className="flex flex-wrap gap-x-2">
-                      <dt className="text-slate-500">Tempo OCR</dt>
-                      <dd className="text-slate-700">{formatDurationMs(doc.ocrDurationMs)}</dd>
-                    </div>
-                  )}
-                  {doc.ocrReviewReason && (
-                    <div className="flex flex-wrap gap-x-2">
-                      <dt className="text-slate-500">Motivo da revisão</dt>
-                      <dd className="text-slate-700">{doc.ocrReviewReason}</dd>
-                    </div>
-                  )}
-                  {doc.hasOcrDerivedFile && (
-                    <div className="flex flex-wrap gap-x-2">
-                      <dt className="text-slate-500">PDF OCR</dt>
-                      <dd className="text-slate-700">
-                        {doc.ocrDerivedFileName ?? 'Derivado disponível'}
-                      </dd>
-                    </div>
                   )}
                 </dl>
               </div>
@@ -541,6 +579,7 @@ export function DocumentDetailPage() {
         <DocumentVersionsPanel
           documentId={id ?? ''}
           canEdit={canEditDocument}
+          canViewTechnical={canViewTechnical}
           onRestored={() => void loadDocument()}
         />
       </div>

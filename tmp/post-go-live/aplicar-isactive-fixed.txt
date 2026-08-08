@@ -1,0 +1,58 @@
+=WITH input AS (
+  SELECT
+    '{{ $json.id }}'::uuid AS document_id,
+    {{ $json.__isActiveProvided === true ? 'TRUE' : 'FALSE' }} AS is_active_provided,
+    {{ $json.__newIsActive === true ? 'TRUE' : 'FALSE' }} AS new_is_active,
+    COALESCE((SELECT is_active FROM documents WHERE id = '{{ $json.id }}'::uuid), TRUE) AS previous_is_active
+),
+upd AS (
+  UPDATE documents d
+  SET is_active = i.new_is_active,
+      updated_at = NOW()
+  FROM input i
+  WHERE d.id = i.document_id
+    AND i.is_active_provided
+    AND COALESCE(d.is_active, TRUE) IS DISTINCT FROM i.new_is_active
+  RETURNING d.id
+)
+SELECT
+  d.id,
+  d.title,
+  d.sector_id AS "sectorId",
+  s.name AS "sectorName",
+  d.category_id AS "categoryId",
+  c.name AS "categoryName",
+  c.description AS "categoryDescription",
+  d.subcategory_id AS "subcategoryId",
+  sc.name AS "subcategoryName",
+  sc.description AS "subcategoryDescription",
+  d.semantic_description AS "semanticDescription",
+  d.expiration_date AS "expirationDate",
+  d.file_name AS "fileName",
+  d.file_type AS "fileType",
+  d.file_size AS "fileSize",
+  d.file_path AS "filePath",
+  d.processing_status AS "processingStatus",
+  d.processed_at AS "processedAt",
+  d.responsible_user_id AS "responsibleUserId",
+  ru.name AS "responsibleUserName",
+  d.created_by AS "createdBy",
+  cb.name AS "createdByName",
+  d.updated_by AS "updatedBy",
+  ub.name AS "updatedByName",
+  d.created_at AS "createdAt",
+  d.updated_at AS "updatedAt",
+  d.current_version_id AS "currentVersionId",
+  d.current_version_number AS "currentVersionNumber",
+  CASE WHEN i.is_active_provided THEN i.new_is_active ELSE COALESCE(d.is_active, TRUE) END AS "isActive",
+  i.previous_is_active AS "previousIsActive",
+  (i.is_active_provided AND i.previous_is_active IS DISTINCT FROM i.new_is_active) AS "isActiveChanged"
+FROM documents d
+CROSS JOIN input i
+LEFT JOIN sectors s ON s.id = d.sector_id
+LEFT JOIN categories c ON c.id = d.category_id
+LEFT JOIN subcategories sc ON sc.id = d.subcategory_id
+LEFT JOIN users ru ON ru.id = d.responsible_user_id
+LEFT JOIN users cb ON cb.id = d.created_by
+LEFT JOIN users ub ON ub.id = d.updated_by
+WHERE d.id = i.document_id;

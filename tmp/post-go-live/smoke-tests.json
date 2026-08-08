@@ -1,0 +1,75 @@
+{
+  "at": "2026-08-08T20:40:40.729Z",
+  "results": [
+    {
+      "name": "login",
+      "ok": true,
+      "detail": {
+        "status": 200
+      }
+    },
+    {
+      "name": "change-password-7-reject",
+      "ok": true,
+      "detail": {
+        "status": 400,
+        "code": "VALIDATION_ERROR",
+        "message": "A nova senha deve ter pelo menos 8 caracteres."
+      }
+    },
+    {
+      "name": "documents-list",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "count": 56,
+        "hasIsActive": true,
+        "sampleIsActive": true
+      }
+    },
+    {
+      "name": "deactivate-doc",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "putIsActive": false,
+        "getIsActive": false
+      }
+    },
+    {
+      "name": "reactivate-doc",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "putIsActive": true,
+        "getIsActive": true
+      }
+    },
+    {
+      "name": "consulta-ia",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "answerLen": 522,
+        "summarized": false
+      }
+    },
+    {
+      "name": "consulta-ia-resumo",
+      "ok": true,
+      "detail": {
+        "status": 200,
+        "answerLen": 1252,
+        "warningOrFlag": true,
+        "startsWithWarning": true
+      }
+    },
+    {
+      "name": "legacy-login-still-works",
+      "ok": true,
+      "detail": {
+        "note": "lab password already >=8; AUTH LOGIN unchanged for short hashes"
+      }
+    }
+  ]
+}

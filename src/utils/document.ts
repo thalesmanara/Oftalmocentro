@@ -315,6 +315,148 @@ export function isDocumentExpired(doc: Document): boolean {
   return vigencia < today
 }
 
+/** Dias até a vigência expirar (negativo se já expirou). `null` quando não há data de vigência. */
+export function daysUntilExpiration(doc: Document): number | null {
+  if (!doc.expirationDate) return null
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const vigencia = new Date(doc.expirationDate + 'T00:00:00')
+  const diffMs = vigencia.getTime() - today.getTime()
+  return Math.round(diffMs / (1000 * 60 * 60 * 24))
+}
+
+/** Vigência dentro dos próximos `withinDays` dias (inclusive), sem estar expirada. */
+export function isDocumentExpiringSoon(doc: Document, withinDays = 60): boolean {
+  const days = daysUntilExpiration(doc)
+  if (days == null) return false
+  return days >= 0 && days <= withinDays
+}
+
+export interface DocumentVigencyBadge {
+  kind: 'expired' | 'expiring' | 'none'
+  label: string
+  days?: number
+}
+
+/**
+ * Badge de vigência do documento. Nunca retorna os dois estados simultaneamente:
+ * documentos expirados recebem `expired`, os que vencem em breve recebem `expiring`.
+ */
+export function getDocumentVigencyBadge(doc: Document, withinDays = 60): DocumentVigencyBadge {
+  const days = daysUntilExpiration(doc)
+  if (days == null) return { kind: 'none', label: '' }
+
+  if (days < 0) {
+    return { kind: 'expired', label: 'EXPIRADO', days: Math.abs(days) }
+  }
+
+  if (days <= withinDays) {
+    return { kind: 'expiring', label: 'VENCE EM BREVE', days }
+  }
+
+  return { kind: 'none', label: '' }
+}
+
+/**
+ * Ordenação padrão por vigência: expirados primeiro (mais vencidos primeiro),
+ * depois vigência futura mais próxima, e por fim documentos sem data de vigência.
+ */
+export function compareDocumentsByVigency(a: Document, b: Document): number {
+  const daysA = daysUntilExpiration(a)
+  const daysB = daysUntilExpiration(b)
+  const rank = (days: number | null) => (days == null ? 2 : days < 0 ? 0 : 1)
+  const rankA = rank(daysA)
+  const rankB = rank(daysB)
+
+  if (rankA !== rankB) return rankA - rankB
+  if (rankA === 2) return 0
+  return (daysA as number) - (daysB as number)
+}
+
+export type DocumentSortKey = 'vigency' | 'name' | 'updatedAt' | 'createdAt' | 'sector' | 'category'
+export type SortDirection = 'asc' | 'desc'
+
+export function sortDocuments(
+  docs: Document[],
+  sortKey: DocumentSortKey = 'vigency',
+  direction: SortDirection = 'asc'
+): Document[] {
+  const sorted = [...docs]
+  const dir = direction === 'desc' ? -1 : 1
+
+  const compareByKey = (a: Document, b: Document): number => {
+    switch (sortKey) {
+      case 'vigency':
+        return compareDocumentsByVigency(a, b)
+      case 'name':
+        return a.title.localeCompare(b.title, 'pt-BR')
+      case 'updatedAt':
+        return new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime()
+      case 'createdAt':
+        return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      case 'sector':
+        return (a.sectorName ?? '').localeCompare(b.sectorName ?? '', 'pt-BR')
+      case 'category':
+        return (a.categoryName ?? '').localeCompare(b.categoryName ?? '', 'pt-BR')
+      default:
+        return 0
+    }
+  }
+
+  sorted.sort((a, b) => compareByKey(a, b) * dir)
+  return sorted
+}
+
+export type FriendlyProcessingStatus = 'ready' | 'processing' | 'failed' | 'pending'
+
+/** Resume os múltiplos status técnicos (OCR, embedding, Qdrant) em um status único e amigável. */
+export function getFriendlyProcessingStatus(
+  doc: Pick<Document, 'processingStatus' | 'embeddingStatus' | 'ocrStatus' | 'qdrantSyncStatus'>
+): FriendlyProcessingStatus {
+  const p = String(doc.processingStatus || '').toUpperCase()
+  const e = String(doc.embeddingStatus || '').toUpperCase()
+  const o = String(doc.ocrStatus || '').toUpperCase()
+  const q = String(doc.qdrantSyncStatus || '').toUpperCase()
+
+  if (p === 'FAILED' || e === 'FAILED' || o === 'FAILED' || q === 'FAILED' || q === 'QDRANT_SYNC_FAILED') {
+    return 'failed'
+  }
+
+  if (p === 'PROCESSING' || e === 'PROCESSING' || e === 'PENDING' || q === 'PROCESSING' || q === 'PENDING') {
+    return 'processing'
+  }
+
+  if (!p && !e && !o) return 'pending'
+
+  return 'ready'
+}
+
+const FRIENDLY_PROCESSING_LABELS: Record<FriendlyProcessingStatus, string> = {
+  ready: 'Pronto para consulta',
+  processing: 'Em processamento',
+  failed: 'Falha no processamento',
+  pending: 'Aguardando processamento',
+}
+
+export function friendlyProcessingStatusLabel(status: FriendlyProcessingStatus): string {
+  return FRIENDLY_PROCESSING_LABELS[status]
+}
+
+export function friendlyProcessingStatusVariant(
+  status: FriendlyProcessingStatus
+): 'default' | 'success' | 'warning' | 'danger' | 'info' {
+  switch (status) {
+    case 'ready':
+      return 'success'
+    case 'processing':
+      return 'warning'
+    case 'failed':
+      return 'danger'
+    default:
+      return 'default'
+  }
+}
+
 export function formatFileSize(bytes?: number | null): string {
   if (bytes == null || Number.isNaN(bytes)) return '—'
   if (bytes === 0) return '0 B'

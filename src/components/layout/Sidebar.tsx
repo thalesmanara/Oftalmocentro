@@ -22,7 +22,7 @@ import {
 } from 'lucide-react'
 import { useSettings } from '@/hooks/useSettings'
 import { useAuth } from '@/hooks/useAuth'
-import { canSeeTechnicalAdministrationMenu } from '@/utils/permissions'
+import { canAccessTechnicalAdministration } from '@/utils/permissions'
 import type { PermissionCode } from '@/types'
 
 interface NavItem {
@@ -113,8 +113,8 @@ const navGroups: NavGroup[] = [
 export function Sidebar() {
   const { settings } = useSettings()
   const { user, hasPermission } = useAuth()
-  const showTechnicalMenu = canSeeTechnicalAdministrationMenu(user)
-  const showBackupMenu = user?.isMaster === true || user?.isTechnicalAdmin === true
+  const showTechnicalMenu = canAccessTechnicalAdministration(user)
+  const showBackupMenu = canAccessTechnicalAdministration(user)
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition ${

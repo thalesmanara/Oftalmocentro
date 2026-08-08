@@ -63,6 +63,19 @@ function pickNumber(
   return Number.isFinite(num) ? num : null
 }
 
+function pickBoolean(
+  record: Record<string, unknown>,
+  ...keys: string[]
+): boolean | undefined {
+  for (const key of keys) {
+    const value = record[key]
+    if (value === true || value === false) return value
+    if (value === 'true') return true
+    if (value === 'false') return false
+  }
+  return undefined
+}
+
 function normalizeFileValidationFields(record: Record<string, unknown>) {
   return {
     originalFileName: pickString(record, 'originalFileName', 'original_file_name'),
@@ -148,6 +161,7 @@ function normalizeDocument(doc: Document | Record<string, unknown>): Document {
     expirationDate: normalizeExpirationDate(
       base.expirationDate ?? pickString(record, 'expirationDate', 'expiration_date')
     ),
+    isActive: (base.isActive ?? pickBoolean(record, 'isActive', 'is_active')) ?? true,
     fileName: base.fileName ?? pickString(record, 'fileName', 'file_name'),
     fileType: base.fileType ?? pickString(record, 'fileType', 'file_type'),
     fileSize: base.fileSize ?? pickNumber(record, 'fileSize', 'file_size'),
@@ -170,6 +184,7 @@ async function buildUpdatePayload(
     subcategoryId: data.subcategoryId ?? null,
     semanticDescription: data.semanticDescription.trim(),
     expirationDate: data.expirationDate || null,
+    isActive: data.isActive ?? existing.isActive ?? true,
     fileName: existing.fileName ?? null,
     fileType: existing.fileType ?? null,
     fileSize: existing.fileSize ?? null,
@@ -324,6 +339,7 @@ export async function createDocument(
     subcategoryId: data.subcategoryId ?? null,
     semanticDescription: data.semanticDescription.trim(),
     expirationDate: data.expirationDate || null,
+    isActive: data.isActive ?? true,
     fileName: null,
     fileType: null,
     fileSize: null,

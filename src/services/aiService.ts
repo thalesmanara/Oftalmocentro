@@ -11,12 +11,42 @@ export interface AISource {
   expirationDate?: string | null
 }
 
+export interface AIResponseMeta {
+  isSummarizedResponse?: boolean
+  [key: string]: unknown
+}
+
 export interface AIResponse {
   success: boolean
   question?: string
   answer: string
   sources: AISource[]
   classification?: Record<string, unknown>
+  isSummarizedResponse?: boolean
+  responseMeta?: AIResponseMeta
+  policyMeta?: AIResponseMeta
+}
+
+const SUMMARY_NOTICE_TEXT =
+  'Esta resposta foi resumida devido ao volume de conteúdo relevante encontrado.'
+
+/** `true` quando a API sinaliza que a resposta foi resumida (em qualquer um dos campos suportados). */
+export function isSummarizedResponse(response: Pick<AIResponse, 'isSummarizedResponse' | 'responseMeta' | 'policyMeta'>): boolean {
+  return Boolean(
+    response.isSummarizedResponse ||
+      response.responseMeta?.isSummarizedResponse ||
+      response.policyMeta?.isSummarizedResponse
+  )
+}
+
+/** Evita duplicar o aviso quando o próprio texto da resposta já anuncia o resumo. */
+export function answerAnnouncesSummary(answer: string): boolean {
+  const firstLine = (answer || '').trim().split('\n')[0]?.toLowerCase() ?? ''
+  return firstLine.includes('resposta') && firstLine.includes('resumid')
+}
+
+export function getSummaryNoticeText(): string {
+  return SUMMARY_NOTICE_TEXT
 }
 
 function parseSource(data: unknown): AISource | null {
@@ -55,6 +85,11 @@ function parseSource(data: unknown): AISource | null {
   }
 }
 
+function parseResponseMeta(value: unknown): AIResponseMeta | undefined {
+  if (!value || typeof value !== 'object') return undefined
+  return value as AIResponseMeta
+}
+
 function parseAIResponse(data: unknown): AIResponse | null {
   if (!data || typeof data !== 'object') return null
 
@@ -73,6 +108,12 @@ function parseAIResponse(data: unknown): AIResponse | null {
       record.classification && typeof record.classification === 'object'
         ? (record.classification as Record<string, unknown>)
         : undefined,
+    isSummarizedResponse:
+      record.isSummarizedResponse === true || record.is_summarized_response === true
+        ? true
+        : undefined,
+    responseMeta: parseResponseMeta(record.responseMeta ?? record.response_meta),
+    policyMeta: parseResponseMeta(record.policyMeta ?? record.policy_meta),
   }
 }
 

@@ -26,6 +26,8 @@ interface DocumentFormProps {
   onCancel: () => void
   submitLabel?: string
   submitting?: boolean
+  /** Exibe o controle "Documento ativo" (somente na edição de um documento existente). */
+  showActiveField?: boolean
 }
 
 export function DocumentForm({
@@ -35,6 +37,7 @@ export function DocumentForm({
   onCancel,
   submitLabel = 'Salvar',
   submitting = false,
+  showActiveField = false,
 }: DocumentFormProps) {
   const { settings } = useSettings()
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -44,6 +47,7 @@ export function DocumentForm({
   const [subcategoryId, setSubcategoryId] = useState(initial?.subcategoryId ?? '')
   const [semanticDescription, setSemanticDescription] = useState(initial?.semanticDescription ?? '')
   const [expirationDate, setExpirationDate] = useState(initial?.expirationDate ?? '')
+  const [isActive, setIsActive] = useState(initial?.isActive ?? true)
   const [file, setFile] = useState<File | null>(null)
   const [fileError, setFileError] = useState<string | null>(null)
   const [sectors, setSectors] = useState<{ value: string; label: string }[]>([])
@@ -165,6 +169,7 @@ export function DocumentForm({
       subcategoryId: subcategoryId || null,
       semanticDescription: semanticDescription.trim(),
       expirationDate: expirationDate || null,
+      isActive,
       file,
     })
   }
@@ -214,6 +219,25 @@ export function DocumentForm({
         value={expirationDate}
         onChange={(e) => setExpirationDate(e.target.value)}
       />
+      {showActiveField && (
+        <div className="rounded-lg border border-slate-200 bg-slate-50 p-3">
+          <label className="flex items-start gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={isActive}
+              onChange={(e) => setIsActive(e.target.checked)}
+              className="mt-0.5 rounded"
+            />
+            <span>
+              <span className="font-medium">Documento ativo</span>
+              <span className="mt-0.5 block text-xs text-slate-500">
+                Documentos inativos permanecem armazenados no sistema, mas não são utilizados nas
+                consultas da IA.
+              </span>
+            </span>
+          </label>
+        </div>
+      )}
       <div className="flex flex-col gap-3">
         <div className="flex flex-wrap items-center gap-3">
           <label className="text-sm font-medium text-slate-700">Upload de arquivo</label>

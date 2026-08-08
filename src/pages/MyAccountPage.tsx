@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useAuth } from '@/hooks/useAuth'
+import { changePassword } from '@/services/authService'
 import { getPermissions } from '@/services/permissionsService'
+import { ApiError } from '@/services/api'
 import type { Permission } from '@/types'
 import { getPermissionNameByCode } from '@/utils/permissions'
 import { PageHeader } from '@/components/ui/PageHeader'
@@ -15,6 +17,13 @@ export function MyAccountPage() {
   const [email, setEmail] = useState('')
   const [saved, setSaved] = useState(false)
   const [permissions, setPermissions] = useState<Permission[]>([])
+
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [passwordSaving, setPasswordSaving] = useState(false)
+  const [passwordMessage, setPasswordMessage] = useState<string | null>(null)
+  const [passwordError, setPasswordError] = useState<string | null>(null)
 
   useEffect(() => {
     void getPermissions().then(setPermissions)
@@ -34,7 +43,35 @@ export function MyAccountPage() {
     setTimeout(() => setSaved(false), 3000)
   }
 
+  const handleChangePassword = async () => {
+    setPasswordError(null)
+    setPasswordMessage(null)
+    setPasswordSaving(true)
+    try {
+      await changePassword({ currentPassword, newPassword, confirmPassword })
+      setCurrentPassword('')
+      setNewPassword('')
+      setConfirmPassword('')
+      setPasswordMessage('Senha alterada com sucesso.')
+    } catch (error) {
+      const message =
+        error instanceof ApiError
+          ? error.message
+          : 'Não foi possível alterar a senha. Tente novamente.'
+      setPasswordError(message)
+    } finally {
+      setPasswordSaving(false)
+    }
+  }
+
   if (!user) return null
+
+  const canSubmitPassword =
+    currentPassword.length > 0 &&
+    newPassword.length >= 8 &&
+    confirmPassword === newPassword &&
+    newPassword !== currentPassword &&
+    !passwordSaving
 
   return (
     <div>
@@ -56,6 +93,7 @@ export function MyAccountPage() {
             </div>
           </div>
         </Card>
+
         <Card title="Suas permissões">
           <p className="mb-3 text-sm text-slate-500">
             Permissões individuais atribuídas à sua conta (somente leitura).
@@ -67,6 +105,40 @@ export function MyAccountPage() {
               </li>
             ))}
           </ul>
+        </Card>
+
+        <Card title="Alterar senha" className="lg:col-span-2">
+          <div className="grid max-w-xl gap-4">
+            <Input
+              label="Senha atual"
+              type="password"
+              autoComplete="current-password"
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
+            />
+            <Input
+              label="Nova senha"
+              type="password"
+              autoComplete="new-password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
+            <Input
+              label="Confirmar nova senha"
+              type="password"
+              autoComplete="new-password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+            <p className="text-xs text-slate-500">A nova senha deve ter pelo menos 8 caracteres.</p>
+            {passwordError && <p className="text-sm text-red-600">{passwordError}</p>}
+            {passwordMessage && <p className="text-sm text-emerald-600">{passwordMessage}</p>}
+            <div>
+              <Button onClick={() => void handleChangePassword()} disabled={!canSubmitPassword}>
+                {passwordSaving ? 'Alterando...' : 'Alterar senha'}
+              </Button>
+            </div>
+          </div>
         </Card>
       </div>
     </div>

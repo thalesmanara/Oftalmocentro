@@ -182,6 +182,7 @@ export function DocumentEditPage() {
             subcategoryId: doc.subcategoryId ?? '',
             semanticDescription: doc.semanticDescription,
             expirationDate: doc.expirationDate ?? '',
+            isActive: doc.isActive,
           }}
           initialFile={{
             fileName: doc.fileName,
@@ -192,6 +193,7 @@ export function DocumentEditPage() {
           onCancel={() => navigate(`/documentos/${id}`)}
           submitLabel={submitLabel}
           submitting={isBusy}
+          showActiveField
         />
       </Card>
     </div>

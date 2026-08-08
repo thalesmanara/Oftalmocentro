@@ -20,8 +20,18 @@ Resumo para manutenção. **Sem credenciais.**
 
 - hybrid-rerank-v1
 - context-budget-v1
+- hybrid-v2 (lexicalExpansion — A/B pendente; não publicar sem dataset)
+- AI_QUERY_MAIN v2 (max_tokens 1500 — A/B pendente)
 - evidence-v2 (se mantido)
 - response-quality-v1 (ARCHIVED após promoção da v2)
+
+## Pós-Go-Live (28.1) — regras operacionais
+
+- Senha nova/alterada: mínimo 8 caracteres (login legado <8 permanece válido).
+- `users.is_technical_admin`: acesso à Administração Técnica (Master OU Technical Admin via `requiredTechnicalAdmin` / `canAccessTechnicalAdministration`).
+- `documents.is_active`: inativos fora do retrieval (`IA - RECUPERAR CONTEXTO`); expirados também excluídos do hybrid normal.
+- Response Policy: aviso obrigatório quando `isSummarizedResponse=true`.
+- Relatório: `tmp/post-go-live/RELATORIO-AJUSTES-POS-GO-LIVE.md`.
 
 ## Pipeline Consulta IA
 

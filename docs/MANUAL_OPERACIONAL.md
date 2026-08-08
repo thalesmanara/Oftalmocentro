@@ -13,10 +13,12 @@ Guia prático para o dia a dia da clínica.
 Visão rápida com:
 
 - total de documentos;
-- documentos ativos;
+- documentos ativos (não inativados);
 - em processamento;
 - com falha;
 - vigência expirada;
+- listagens de documentos expirados e que vencem nos próximos 60 dias;
+- aviso com contadores de vigência;
 - atalhos para enviar documento e consultar a IA (conforme sua permissão).
 
 ## 3. Biblioteca de documentos
@@ -26,7 +28,14 @@ Em **Documentos** você pode:
 - listar;
 - buscar;
 - filtrar;
+- ordenar (vigência, nome, atualização, criação, setor, categoria);
 - abrir o detalhe.
+
+Tags de vigência:
+
+- **EXPIRADO** — documento com data de vigência já vencida;
+- **VENCE EM BREVE** — vence nos próximos 60 dias;
+- **INATIVO** — permanece armazenado, mas não entra nas consultas da IA.
 
 Só aparecem ações que a sua permissão permite.
 
@@ -127,4 +136,6 @@ Informe:
 - Não enviar arquivos com senha.
 - Não usar a Consulta IA para ações administrativas (apagar, executar comandos).
 - Não compartilhar sua senha.
+- Novas senhas (criação ou troca) devem ter no mínimo **8 caracteres**. Senhas antigas mais curtas continuam válidas até serem alteradas.
+- Quando a resposta da IA for um resumo relevante, o sistema exibe aviso no início pedindo consulta ao documento completo nas referências.
 - Não colar CPF, prontuário ou dados sensíveis na pergunta sem necessidade operacional.

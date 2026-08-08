@@ -1,0 +1,55 @@
+{
+  "capturedAt": "2026-08-08T19:45:00-03:00",
+  "git": {
+    "head": "d1bedc8d736af43efdcd7a47005c5b802e9bad58",
+    "message": "Correção na impressão de respostas",
+    "branch": "main",
+    "packageVersion": "1.0.0",
+    "dirty": [
+      "src/pages/MyAccountPage.tsx",
+      "src/services/authService.ts",
+      "tmp/auth/"
+    ]
+  },
+  "publishedGovernance": {
+    "retrieval": { "mode": "HYBRID", "version": "hybrid-v1" },
+    "context": { "mode": "LEGACY", "version": "context-v1" },
+    "cache": { "mode": "SHADOW", "version": "cache-shadow-v1" },
+    "evidence": { "mode": "STRUCTURED", "version": "evidence-v1" },
+    "responseQuality": { "mode": "VALIDATE_STRICT", "version": "response-quality-v2" },
+    "draftsPreserved": ["hybrid-rerank-v1", "context-budget-v1"],
+    "neighbors": "off",
+    "semanticCache": "off"
+  },
+  "workflows": {
+    "AUTH - CHANGE PASSWORD": { "id": "iEZcTWAMV5YEWU4T", "activeVersionId": "382c1e78-a055-4f54-a7d8-02ca47c87bdd" },
+    "Consulta IA": { "id": "8EXk5RkFW5cxnenL", "activeVersionId": "ab51297b-bc43-4662-9a6c-7bac43511566" },
+    "IA - APLICAR POLÍTICA DE RESPOSTA": { "id": "c25ResponsePolicy01", "activeVersionId": "be8cbbcf-b2da-4dab-aff3-5bcc6de95a19" },
+    "IA - RECUPERAR CONTEXTO": { "id": "bae8872eeb164a27", "activeVersionId": "381a25c4-c9e3-49a7-8e9d-bd7bfc9b7b65" },
+    "POST Usuários": { "id": "gCEgRsZzch3l7mfD", "activeVersionId": "689663bc-4f2a-48ea-8dc2-49579c665647" },
+    "PUT Usuários": { "id": "z63rJlQKqheFBw4u", "activeVersionId": "f4b56f5b-8ff6-43e1-85ba-3f089a7d9219" }
+  },
+  "smoke": {
+    "login": "ok",
+    "consultaIa": "ok_200_answerLen_425",
+    "documentsList": "ok_56",
+    "qdrant": "green_points_634",
+    "containers": "n8n_postgres_tika_ocr_tabular_qdrant_healthy",
+    "healthEndpointAsOperacional": "403_expected_without_tech_admin"
+  },
+  "database": {
+    "users.is_technical_admin": true,
+    "documents.is_active": false,
+    "documents.expiration_date": true,
+    "docsTotal": 58,
+    "docsNotDeleted": 56,
+    "docsExpired": 15,
+    "docsExpiring60": 0
+  },
+  "notes": [
+    "Technical admin already implemented (migration + auth + UsersPage checkbox).",
+    "Change-password already enforces min 8; UsersPage create/update does not yet.",
+    "No documents.is_active column yet.",
+    "Document detail shows technical OCR/embedding/Qdrant to all viewers."
+  ]
+}

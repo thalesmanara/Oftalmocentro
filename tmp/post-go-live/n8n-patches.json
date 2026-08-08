@@ -1,0 +1,181 @@
+{
+  "stage": "Etapa 28.1 — post go-live patches",
+  "appliedAt": "2026-08-08T20:30:00Z",
+  "environment": {
+    "n8n": "https://n8n.oftalmocentrouberaba.cloud",
+    "projectId": "WbvMM1wAedTR9qrk",
+    "postgresCredential": { "id": "XJtGZ5rpCR7BpN0X", "name": "Postgres account" }
+  },
+  "summary": {
+    "workflowsPatchedAndPublished": 8,
+    "databaseChanges": 2,
+    "publishedRetrievalConfigUnchanged": "hybrid-v1",
+    "appSecretsUnchanged": ["retrieval_active_mode=HYBRID", "retrieval_active_version=hybrid-v1"]
+  },
+  "patches": [
+    {
+      "id": "A",
+      "type": "database-migration",
+      "target": "public.documents",
+      "script": "tmp/post-go-live/apply-is-active-migration.mjs",
+      "changes": [
+        "ADD COLUMN is_active BOOLEAN NOT NULL DEFAULT TRUE",
+        "COMMENT ON COLUMN documents.is_active",
+        "CREATE INDEX idx_documents_is_active_not_deleted ON documents (is_active) WHERE deleted_at IS NULL"
+      ],
+      "verification": {
+        "column": "is_active boolean default true nullable=NO",
+        "documentsActive": 56,
+        "documentsInactive": 0
+      },
+      "risks": ["Idempotent (IF NOT EXISTS). Backfill defaults every existing document to active, so no document silently leaves retrieval on deploy."]
+    },
+    {
+      "id": "B",
+      "type": "workflow",
+      "workflowId": "WCwJqtFRROwoToik",
+      "name": "GET Documentos",
+      "activeVersionId": "4e41fa77-6964-4405-924b-3c2eb4dce4ab",
+      "node": "Execute a SQL query",
+      "changes": [
+        "SELECT now returns COALESCE(d.is_active, TRUE) AS \"isActive\" (added after expirationDate).",
+        "Optional query filter isActive: when ?isActive=true|1|false|0 is present the result set is filtered; absent/empty keeps previous behaviour.",
+        "ORDER BY left untouched (React still sorts client-side)."
+      ],
+      "risks": [
+        "Additive column; existing consumers ignore it.",
+        "Filter parses the raw query string value, so any value other than true/1 is treated as false — the UI must send explicit true/false."
+      ]
+    },
+    {
+      "id": "C",
+      "type": "workflow",
+      "workflowId": "Y0MuWEEdoMFts7ay",
+      "name": "PUT Documentos",
+      "activeVersionId": "2517e5cc-ca50-4438-a686-0a16a16f1317",
+      "changes": [
+        "New Postgres node \"Aplicar isActive\" runs after \"Execute a SQL query\" (which calls sync_document_from_version) and before \"Montar data\".",
+        "Accepts body.isActive or body.is_active; when provided it updates documents.is_active and updated_at.",
+        "Returns audit-friendly fields: isActive, previousIsActive, isActiveChanged.",
+        "New IF node \"isActive mudou?\" plus \"Registrar auditoria isActive\" call to SYSTEM - REGISTRAR AUDITORIA, logging DOCUMENT_ACTIVATED / DOCUMENT_DEACTIVATED only when the value actually changes."
+      ],
+      "designNotes": [
+        "The is_active UPDATE is a separate statement (not folded into the sync_document_from_version CTE) because both touch the same documents row; combining them inside one statement risks a self-conflicting update.",
+        "document_chunks.embedding_sync_status is intentionally NOT touched when deactivating. Deactivation is reversible and re-embedding is expensive; exclusion is enforced at retrieval time instead (patch E)."
+      ],
+      "risks": [
+        "Deactivating a document removes it from AI retrieval immediately but keeps chunks and embeddings intact, so reactivation is instant.",
+        "Qdrant vectors are not deleted on deactivation. Vector-only hits are filtered because the hybrid merge keeps only candidates that also survive the SQL filter (see E)."
+      ]
+    },
+    {
+      "id": "D",
+      "type": "workflow",
+      "workflowIds": ["gCEgRsZzch3l7mfD", "z63rJlQKqheFBw4u"],
+      "name": "POST Usuários / PUT Usuários",
+      "activeVersionIds": {
+        "gCEgRsZzch3l7mfD": "e9bfe332-f0d6-473b-827a-9d711f5d6dd8",
+        "z63rJlQKqheFBw4u": "73d1bef9-2319-4738-90d1-d8235221d85a"
+      },
+      "changes": [
+        "New Code node \"Validar senha\" runs after the permission check and before any SQL write.",
+        "POST: password (or passwordHash) is required and must be at least 8 characters.",
+        "PUT: validated only when a non-empty password is supplied; an absent/empty value still means \"keep current password\".",
+        "New IF node \"Senha OK?\" routes failures to SYSTEM - PREPARAR ERRO with HTTP 400, code VALIDATION_ERROR and fields.password = \"A senha deve ter no mínimo 8 caracteres.\" (same wording as AUTH CHANGE PASSWORD)."
+      ],
+      "risks": [
+        "bcrypt cost and hashing were not touched.",
+        "Validation runs on the plaintext value the frontend sends; if a client ever sends a pre-computed hash in passwordHash, the length check measures the hash, not the password. Current clients send plaintext."
+      ],
+      "verification": [
+        "Deployed node code re-read from the database and confirmed on both workflows.",
+        "Live reject-path testing against the production API was deliberately skipped so no real user record could be created or altered."
+      ]
+    },
+    {
+      "id": "E",
+      "type": "workflow",
+      "workflowId": "bae8872eeb164a27",
+      "name": "IA - RECUPERAR CONTEXTO",
+      "activeVersionId": "4865bca8-dda3-4c16-a674-00baad3e7c68",
+      "node": "Buscar chunks relevantes",
+      "changes": [
+        "WHERE clause now excludes: deleted documents (d.deleted_at IS NULL, pre-existing), inactive documents (COALESCE(d.is_active, TRUE) = TRUE, new), and expired documents (COALESCE(dv.expiration_date, d.expiration_date) IS NULL OR >= CURRENT_DATE, new).",
+        "Pre-existing processing/validation/OCR-quality filters kept unchanged."
+      ],
+      "designNotes": [
+        "Both retrieval paths are covered by this single filter: the lexical path queries this SQL directly, and vector hits from Qdrant only survive \"Merge híbrido\" when the same chunk is also returned by this query, so an excluded document cannot reach the context by the vector path either."
+      ],
+      "risks": [
+        "Expired documents were previously retrievable; 14 non-deleted documents currently have expiration_date < CURRENT_DATE and will stop feeding the AI. This is intended but it is a real recall reduction — measured at roughly 42% fewer retrievable chunks and 25% fewer distinct documents.",
+        "If the business wants expired documents to remain answerable with a caveat, this filter must be relaxed and replaced by a warning in the response policy."
+      ]
+    },
+    {
+      "id": "F",
+      "type": "workflow",
+      "workflowIds": ["c25ResponsePolicy01", "8EXk5RkFW5cxnenL"],
+      "name": "IA - APLICAR POLÍTICA DE RESPOSTA / Consulta IA",
+      "activeVersionIds": {
+        "c25ResponsePolicy01": "345405f8-e12c-48d1-99c8-092e1fd06c65",
+        "8EXk5RkFW5cxnenL": "ca2f27f8-586a-413b-937b-d03f00638a6a"
+      },
+      "changes": [
+        "Policy workflow: new Code node \"Marcar resposta resumida\" after \"Aplicar política\". Fully deterministic, no extra LLM call.",
+        "Detection: summary intent in the question (resumo|resuma|resumir|resumidamente|visão geral|síntese|sintetiz|panorama), OR at least 3 sources combined with a long answer, OR a context-truncation flag. Suppressed for short answers and for factual lookups (CPF/CNPJ/CRM/código/número/telefone/data/prazo/validade/valor).",
+        "When triggered, prepends the exact warning text plus a blank line, and only if not already present (idempotent for cached answers).",
+        "Sets isSummarizedResponse and policyMeta.isSummarizedResponse plus summarizedReasonCodes and answerModified.",
+        "Consulta IA: \"Aplicar política resposta\", \"Aplicar cache save\" and \"Montar resposta cache\" now carry isSummarizedResponse into data, so the client receives it on fresh, saved and cache-hit responses.",
+        "Cache-hit path recomputes the flag by checking whether the cached answer already contains the warning, which keeps it consistent without a schema change to the cache."
+      ],
+      "warningText": "**Esta resposta apresenta um resumo das informações encontradas. Consulte o documento completo listado nas referências para verificar todos os detalhes.**",
+      "risks": [
+        "Heuristic by design: some genuinely complete answers over 3+ sources will show the warning (false positive), which is the safer direction.",
+        "Answers cached before this patch do not contain the warning, so they return isSummarizedResponse=false until the cache entry is refreshed."
+      ],
+      "verification": [
+        "Policy node exercised with pinned data covering summary intent, factual short answer and many-sources cases.",
+        "Consulta IA diff re-read after publishing: only the three intended Code nodes changed, no connection or other node touched."
+      ]
+    },
+    {
+      "id": "G",
+      "type": "database-row + workflow",
+      "name": "Lexical expansion DRAFT (hybrid-v2)",
+      "databaseRow": {
+        "table": "ai_retrieval_config_versions",
+        "id": "eb5779b1-b653-4679-b7ea-89b66accb279",
+        "retrievalConfigId": "5dd38fb3-11ba-4adf-8755-37b1329402bd",
+        "versionNumber": 8,
+        "versionLabel": "hybrid-v2",
+        "status": "DRAFT",
+        "mode": "HYBRID",
+        "contentHash": "2724ca9fb396fbd2f45214f0889d642c8c964d4822ef831a863d8a18e11a5819",
+        "basedOn": "hybrid-v1 configuration plus lexicalExpansion (enabled, maxSynonymsPerTerm 4, 12-term dictionary)",
+        "script": "tmp/post-go-live/create-hybrid-v2-draft.mjs"
+      },
+      "workflowId": "NhWUkmzGhlttJC9S",
+      "workflowName": "IA - VALIDAR RETRIEVAL CONFIG",
+      "activeVersionId": "73e2f849-f0af-4c9e-be77-809ca5739be7",
+      "changes": [
+        "Inserted the hybrid-v2 DRAFT row. Nothing was published and app_secrets retrieval_active_mode / retrieval_active_version were not touched.",
+        "Validator now accepts lexicalExpansion as a known root key and validates it: enabled must be boolean, maxSynonymsPerTerm an integer 1..10, dictionary an object of term -> string[] (max 500 terms, 64 chars per entry), dictionary required when enabled is true, unknown sub-keys rejected.",
+        "lexicalExpansion is appended to the normalized object only when present, so configurations without it serialize byte-identically and keep their previous contentHash."
+      ],
+      "whyValidatorWasTouched": "The validator rejects unknown root keys and rebuilds the configuration from an allow-list. Without this change the hybrid-v2 DRAFT would fail POST /system/ai/retrieval/validate and would silently lose lexicalExpansion the first time anyone edited it in the admin UI.",
+      "notWired": "Expansion is not consumed by IA - RECUPERAR CONTEXTO yet, so the DRAFT has zero runtime effect. See tmp/post-go-live/lexical-investigation.md for the wiring plan.",
+      "risks": [
+        "The validator is shared by create/update/validate for every retrieval config. Regression-tested before deploy: hybrid-v1, hybrid-rerank-v1 and an intentionally invalid config produced identical contentHash, errors and configurationJson under the old and new code.",
+        "Deployed code was re-read from the database and is byte-identical to the locally tested version (8974 chars).",
+        "Live smoke run (execution 33135) returned ok=true with lexicalExpansion preserved in normalized output."
+      ],
+      "rollback": "Restore the previous version of NhWUkmzGhlttJC9S (activeVersionId 860b5355-1b3a-4cc0-8639-335587d3631d) and DELETE the hybrid-v2 row; neither is referenced by anything in production."
+    }
+  ],
+  "openFollowUps": [
+    "Frontend must send isActive explicitly on the documents list filter for it to apply.",
+    "Expired documents (14) are now invisible to the AI; confirm with the business that this is desired rather than answering with a validity caveat.",
+    "hybrid-v2 needs the retrieval wiring plus an A/B run before it can be published.",
+    "content_hash values stored before this stage were computed from the payload as submitted, so recomputing them from the stored jsonb yields a different hash (nested key order differs). Not a functional problem, but the hash cannot be used as an integrity check on old rows."
+  ]
+}

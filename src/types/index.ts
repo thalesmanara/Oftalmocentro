@@ -85,6 +85,7 @@ export interface Document {
   subcategoryDescription?: string | null
   semanticDescription: string
   expirationDate: string | null
+  isActive: boolean
   fileName?: string | null
   fileType?: string | null
   fileSize?: number | null
@@ -476,6 +477,7 @@ export interface DocumentFormData {
   subcategoryId?: string | null
   semanticDescription: string
   expirationDate: string | null
+  isActive?: boolean
   file?: File | null
 }
 

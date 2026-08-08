@@ -1,0 +1,576 @@
+versionId ab51297b-bc43-4662-9a6c-7bac43511566
+--- connections ---
+{
+ "Classificar pergunta": {
+  "main": [
+   [
+    {
+     "node": "IA - RECUPERAR CONTEXTO",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Buscar categorias e subcategorias": {
+  "main": [
+   [
+    {
+     "node": "Classificar pergunta",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Validar auth": {
+  "main": [
+   [
+    {
+     "node": "Auth ok?",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Auth ok?": {
+  "main": [
+   [
+    {
+     "node": "Validar permissão",
+     "type": "main",
+     "index": 0
+    }
+   ],
+   [
+    {
+     "node": "Preparar erro 401",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Validar permissão": {
+  "main": [
+   [
+    {
+     "node": "Permissão ok?",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Permissão ok?": {
+  "main": [
+   [
+    {
+     "node": "Restaurar request",
+     "type": "main",
+     "index": 0
+    }
+   ],
+   [
+    {
+     "node": "Preparar erro 403",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Restaurar request": {
+  "main": [
+   [
+    {
+     "node": "Buscar categorias e subcategorias",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Webhook": {
+  "main": [
+   [
+    {
+     "node": "Normalizar request",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Normalizar request": {
+  "main": [
+   [
+    {
+     "node": "Validar auth",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Message a model": {
+  "main": [
+   [
+    {
+     "node": "IA - VALIDAR RESPOSTA",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Montar resposta": {
+  "main": [
+   [
+    {
+     "node": "Preparar sucesso",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Preparar sucesso": {
+  "main": [
+   [
+    {
+     "node": "Registrar auditoria sucesso",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Registrar auditoria sucesso": {
+  "main": [
+   [
+    {
+     "node": "Respond to Webhook",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Preparar erro 401": {
+  "main": [
+   [
+    {
+     "node": "Registrar auditoria 401",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Registrar auditoria 401": {
+  "main": [
+   [
+    {
+     "node": "Respond 401",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Preparar erro 403": {
+  "main": [
+   [
+    {
+     "node": "Registrar auditoria 403",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Registrar auditoria 403": {
+  "main": [
+   [
+    {
+     "node": "Respond 403",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Carregar prompt ativo": {
+  "main": [
+   [
+    {
+     "node": "Aplicar prompt carregado",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Aplicar prompt carregado": {
+  "main": [
+   [
+    {
+     "node": "IA - GERENCIAR JANELA DE CONTEXTO",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "IA - RECUPERAR CONTEXTO": {
+  "main": [
+   [
+    {
+     "node": "Aplicar contexto recuperado",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Aplicar contexto recuperado": {
+  "main": [
+   [
+    {
+     "node": "IA - CONSTRUIR EVIDÊNCIAS",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "IA - GERENCIAR JANELA DE CONTEXTO": {
+  "main": [
+   [
+    {
+     "node": "Aplicar janela de contexto",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Aplicar janela de contexto": {
+  "main": [
+   [
+    {
+     "node": "IA - CONSULTAR CACHE",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "IA - CONSULTAR CACHE": {
+  "main": [
+   [
+    {
+     "node": "Aplicar cache lookup",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Aplicar cache lookup": {
+  "main": [
+   [
+    {
+     "node": "Cache serve?",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Cache serve?": {
+  "main": [
+   [
+    {
+     "node": "Montar resposta cache",
+     "type": "main",
+     "index": 0
+    }
+   ],
+   [
+    {
+     "node": "Message a model",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "IA - SALVAR CACHE": {
+  "main": [
+   [
+    {
+     "node": "Aplicar cache save",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Aplicar cache save": {
+  "main": [
+   [
+    {
+     "node": "Preparar sucesso",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Montar resposta cache": {
+  "main": [
+   [
+    {
+     "node": "Preparar sucesso",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "IA - CONSTRUIR EVIDÊNCIAS": {
+  "main": [
+   [
+    {
+     "node": "Aplicar evidências",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Aplicar evidências": {
+  "main": [
+   [
+    {
+     "node": "Carregar prompt ativo",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "IA - VALIDAR RESPOSTA": {
+  "main": [
+   [
+    {
+     "node": "Aplicar validação resposta",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Aplicar validação resposta": {
+  "main": [
+   [
+    {
+     "node": "IA - APLICAR POLÍTICA DE RESPOSTA",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "IA - APLICAR POLÍTICA DE RESPOSTA": {
+  "main": [
+   [
+    {
+     "node": "Aplicar política resposta",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ },
+ "Aplicar política resposta": {
+  "main": [
+   [
+    {
+     "node": "IA - SALVAR CACHE",
+     "type": "main",
+     "index": 0
+    }
+   ]
+  ]
+ }
+}
+--- nodes ---
+Webhook | n8n-nodes-base.webhook
+Classificar pergunta | n8n-nodes-base.code
+Message a model | @n8n/n8n-nodes-langchain.openAi
+Respond to Webhook | n8n-nodes-base.respondToWebhook
+Buscar categorias e subcategorias | n8n-nodes-base.postgres
+Validar auth | n8n-nodes-base.executeWorkflow
+Auth ok? | n8n-nodes-base.if
+Respond 401 | n8n-nodes-base.respondToWebhook
+Validar permissão | n8n-nodes-base.executeWorkflow
+Permissão ok? | n8n-nodes-base.if
+Respond 403 | n8n-nodes-base.respondToWebhook
+Restaurar request | n8n-nodes-base.code
+Normalizar request | n8n-nodes-base.executeWorkflow
+Montar resposta | n8n-nodes-base.code
+Preparar sucesso | n8n-nodes-base.executeWorkflow
+Preparar erro 401 | n8n-nodes-base.executeWorkflow
+Preparar erro 403 | n8n-nodes-base.executeWorkflow
+Registrar auditoria sucesso | n8n-nodes-base.executeWorkflow
+Registrar auditoria 401 | n8n-nodes-base.executeWorkflow
+Registrar auditoria 403 | n8n-nodes-base.executeWorkflow
+Carregar prompt ativo | n8n-nodes-base.executeWorkflow
+Aplicar prompt carregado | n8n-nodes-base.code
+IA - RECUPERAR CONTEXTO | n8n-nodes-base.executeWorkflow
+Aplicar contexto recuperado | n8n-nodes-base.code
+IA - GERENCIAR JANELA DE CONTEXTO | n8n-nodes-base.executeWorkflow
+Aplicar janela de contexto | n8n-nodes-base.code
+IA - CONSULTAR CACHE | n8n-nodes-base.executeWorkflow
+Aplicar cache lookup | n8n-nodes-base.code
+Cache serve? | n8n-nodes-base.if
+Montar resposta cache | n8n-nodes-base.code
+IA - SALVAR CACHE | n8n-nodes-base.executeWorkflow
+Aplicar cache save | n8n-nodes-base.code
+IA - CONSTRUIR EVIDÊNCIAS | n8n-nodes-base.executeWorkflow
+Aplicar evidências | n8n-nodes-base.code
+IA - VALIDAR RESPOSTA | n8n-nodes-base.executeWorkflow
+Aplicar validação resposta | n8n-nodes-base.code
+IA - APLICAR POLÍTICA DE RESPOSTA | n8n-nodes-base.executeWorkflow
+Aplicar política resposta | n8n-nodes-base.code
+
+--- nodes mentioning policy ---
+
+===== Registrar auditoria sucesso =====
+{
+ "mode": "once",
+ "options": {
+  "waitForSubWorkflow": true
+ },
+ "source": "database",
+ "workflowId": {
+  "__rl": true,
+  "cachedResultName": "AUDITORIA - REGISTRAR",
+  "mode": "id",
+  "value": "jtQvQlqRZ5X5WF9I"
+ },
+ "workflowInputs": {
+  "mappingMode": "defineBelow",
+  "value": {
+   "action": "={{ (() => {\n  try {\n    const pol = $('Aplicar política resposta').first().json || {};\n    if (pol.auditAction) return String(pol.auditAction);\n  } catch (_) {}\n  const data = ($json.response && $json.response.data) || {};\n  const p = data.policyMeta || {};\n  if (p.declined) return 'AI_RESPONSE_POLICY_DECLINE';\n  if (p.abstained) return 'AI_RESPONSE_POLICY_ABSTAIN';\n  if (p.clarificationRequired) return 'AI_RESPONSE_POLICY_CLARIFICATION';\n  if (p.warningApplied || p.strategy === 'ANSWER_WITH_WARNING') return 'AI_RESPONSE_POLICY_WARNING';\n  if (p.strategy === 'ANSWER_WITH_LIMITATION') return 'AI_RESPONSE_POLICY_LIMITATION';\n  if (p.strategy) return 'AI_RESPONSE_POLICY_APPLIED';\n  return 'AI_QUERY';\n})() }}",
+   "durationMs": "={{ $json.durationMs }}",
+   "errorCode": "={{ $json.tracking && $json.tracking.errorCode ? $json.tracking.errorCode : '' }}",
+   "headers": "={{ $('Normalizar request').first().json.headers }}",
+   "metadata": "={{ (() => {\n  const resp = $json.response || {};\n  const data = resp.data || {};\n  const mr = (() => { try { return $('Montar resposta').first().json || {}; } catch (_) { return {}; } })();\n  const pm = mr.promptMeta || {};\n  const policy = data.policyMeta || (() => { try { return $('Aplicar política resposta').first().json.policyMeta || {}; } catch (_) { return {}; } })();\n  const q = data.question || mr.data?.question || '';\n  const a = data.answer || '';\n  const sources = data.sources || [];\n  const cls = data.classification || {};\n  return {\n    questionLength: String(q).length,\n    answerLength: String(a).length,\n    sourcesCount: sources.length,\n    documentIds: sources.map(s => s.documentId).filter(Boolean),\n    categoryId: cls.categoryId || null,\n    categoryName: cls.categoryName || null,\n    subcategoryId: cls.subcategoryId || null,\n    subcategoryName: cls.subcategoryName || null,\n    promptVersionId: pm.promptVersionId || null,\n    promptCode: pm.promptCode || null,\n    promptVersionNumber: pm.versionNumber != null ? pm.versionNumber : null,\n    promptContentHash: pm.contentHash || null,\n    promptModelName: pm.modelName || null,\n    responsePolicyStrategy: policy.strategy || null,\n    responsePolicyReasonCodes: Array.isArray(policy.reasonCodes) ? policy.reasonCodes : [],\n    responsePolicyWarning: !!policy.warningApplied,\n    responsePolicyAnswerModified: !!policy.answerModified,\n    responsePolicyAbstained: !!policy.abstained,\n    responsePolicyDeclined: !!policy.declined,\n    responsePolicyClarificationRequired: !!policy.clarificationRequired,\n    responsePolicyConfigVersion: policy.configVersion || null,\n    responsePolicyLatencyMs: policy.durationMs != null ? Number(policy.durationMs) : null,\n  };\n})() }}",
+   "method": "={{ $json.tracking && $json.tracking.method ? $json.tracking.method : ($('Normalizar request').first().json.method || '') }}",
+   "path": "={{ $json.tracking && $json.tracking.path ? $json.tracking.path : ($('Normalizar request').first().json.path || '') }}",
+   "requestId": "={{ $json.requestId }}",
+   "resourceId": "={{ (() => { const resp = $json.response || {}; const sources = (resp.data && resp.data.sources) || []; return sources[0]?.documentId || ''; })() }}",
+   "resourceType": "ai_query",
+   "response": "={{ $json.response }}",
+   "responseHeaders": "={{ $json.responseHeaders }}",
+   "sessionId": "={{ $json.tracking && $json.tracking.sessionId ? $json.tracking.sessionId : '' }}",
+   "statusCode": "={{ $json.statusCode }}",
+   "success": "={{ $json.tracking ? $json.tracking.success : true }}",
+   "tracking": "={{ $json.tracking }}",
+   "userId": "={{ $json.tracking && $json.tracking.userId ? $json.tracking.userId : '' }}"
+  }
+ }
+}
+
+===== IA - SALVAR CACHE =====
+{
+ "source": "database",
+ "workflowId": {
+  "__rl": true,
+  "mode": "id",
+  "value": "c22CacheRuntime0001"
+ },
+ "workflowInputs": {
+  "mappingMode": "defineBelow",
+  "value": {
+   "operation": "={{ 'save' }}",
+   "question": "={{ $('Aplicar cache lookup').first().json.question || '' }}",
+   "answer": "={{ $('Aplicar política resposta').first().json.answer || '' }}",
+   "sourcesJson": "={{ JSON.stringify($('Aplicar política resposta').first().json.sources || []) }}",
+   "classificationJson": "={{ JSON.stringify($('Aplicar cache lookup').first().json.classification || {}) }}",
+   "preparedJson": "={{ JSON.stringify($('Aplicar cache lookup').first().json.cachePrepared || {}) }}",
+   "cacheMetaJson": "={{ JSON.stringify($('Aplicar cache lookup').first().json.cacheMeta || {}) }}",
+   "candidateAnswer": "={{ $('Aplicar cache lookup').first().json.cacheCandidateAnswer || '' }}",
+   "candidateSourcesJson": "={{ JSON.stringify($('Aplicar cache lookup').first().json.cacheCandidateSources || []) }}",
+   "requestId": "={{ $('Normalizar request').first().json.requestId || '' }}",
+   "cacheConfigVersionId": "={{ (() => { const b=$('Normalizar request').first().json.body||{}; return String(b.cacheConfigVersionId||''); })() }}"
+  }
+ },
+ "options": {}
+}
+
+===== Aplicar cache save =====
+const openai=$('Message a model').first().json||{};
+const lookup=$('Aplicar cache lookup').first().json||{};
+const save=$input.first().json||{};
+const validated=(()=>{try{return $('Aplicar validação resposta').first().json||{};}catch(_){return {};}})();
+const policy=(()=>{try{return $('Aplicar política resposta').first().json||{};}catch(_){return {};}})();
+const answer=String(policy.answer!=null&&policy.answer!==''?policy.answer:(validated.answer!=null&&validated.answer!==''?validated.answer:(openai.output?.[0]?.content?.[0]?.text ?? '')));
+const prompt=$('Aplicar prompt carregado').first().json||{};
+const strategy=String(policy.policyMeta?.strategy||'');
+const policyClearsSources=strategy==='ABSTAIN'||strategy==='DECLINE';
+const sources=(policyClearsSources?[]:(Array.isArray(policy.sources)?policy.sources:(lookup.sources||[]))).map(s=>({...s, expirationDate:s.expirationDate??s.vigencyDate??null}));
+const requestId=$('Normalizar request').first().json.requestId;
+const cacheMeta={...(lookup.cacheMeta||{}), ...(save.cacheMeta||{}), answerFromCache:false};
+const evidenceMeta=lookup.evidenceMeta||null;
+const responseMeta=policy.responseMeta||validated.responseMeta||null;
+const policyMeta=policy.policyMeta||null;
+return [{json:{data:{question:lookup.question,answer,sources,classification:lookup.classification,retrievalMeta:lookup.retrievalMeta||null,contextMeta:lookup.contextMeta||null,cacheMeta,evidenceMeta,responseMeta,policyMeta,promptVersion:prompt.versionNumber||prompt.promptVersion||null,modelName:prompt.modelName||null},requestId,auditAction:policy.auditAction||validated.auditAction||null}}];
+
+===== IA - APLICAR POLÍTICA DE RESPOSTA =====
+{
+ "source": "database",
+ "workflowId": {
+  "__rl": true,
+  "mode": "id",
+  "value": "c25ResponsePolicy01"
+ },
+ "workflowInputs": {
+  "mappingMode": "defineBelow",
+  "value": {
+   "question": "={{ $('Aplicar cache lookup').first().json.question || '' }}",
+   "answer": "={{ $('Aplicar validação resposta').first().json.answer || '' }}",
+   "sourcesJson": "={{ JSON.stringify($('Aplicar cache lookup').first().json.sources || []) }}",
+   "classificationJson": "={{ JSON.stringify($('Aplicar cache lookup').first().json.classification || {}) }}",
+   "responseMetaJson": "={{ JSON.stringify($('Aplicar validação resposta').first().json.responseMeta || {}) }}",
+   "evidenceMetaJson": "={{ JSON.stringify($('Aplicar cache lookup').first().json.evidenceMeta || {}) }}",
+   "contextMetaJson": "={{ JSON.stringify($('Aplicar cache lookup').first().json.contextMeta || {}) }}",
+   "retrievalMetaJson": "={{ JSON.stringify($('Aplicar cache lookup').first().json.retrievalMeta || {}) }}",
+   "responseQualityConfigVersionId": "={{ (() => { const b=$('Normalizar request').first().json.body||{}; return String(b.responseQualityConfigVersionId||''); })() }}",
+   "requestId": "={{ $('Normalizar request').first().json.requestId || '' }}"
+  }
+ },
+ "options": {}
+}
+
+===== Aplicar política resposta =====
+const validated=$('Aplicar validação resposta').first().json||{};
+const pol=$input.first().json||{};
+const lookup=$('Aplicar cache lookup').first().json||{};
+const strategy=String(pol.policyMeta?.strategy||'');
+const policyClearsSources=strategy==='ABSTAIN'||strategy==='DECLINE';
+const sources=policyClearsSources?[]:(Array.isArray(pol.sources)?pol.sources:(lookup.sources||[]));
+return [{json:{
+  answer: String(pol.answer!=null?pol.answer:validated.answer||''),
+  sources,
+  responseMeta: validated.responseMeta || pol.responseMeta || null,
+  policyMeta: pol.policyMeta || null,
+  auditAction: pol.auditAction || validated.auditAction || null,
+  qualityScore: validated.qualityScore ?? null,
+  qualityGrade: validated.qualityGrade ?? null,
+}}];

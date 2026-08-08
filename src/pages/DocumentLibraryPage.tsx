@@ -8,7 +8,14 @@ import { getSubcategories } from '@/services/subcategoriesService'
 import type { Category, Document, Sector, Subcategory } from '@/types'
 import { useAuth } from '@/hooks/useAuth'
 import { getCategoryNameById, getSectorNameById, getSubcategoryNameById } from '@/utils/entities'
-import { formatDate, formatFileSize, isDocumentExpired } from '@/utils/document'
+import {
+  formatDate,
+  formatFileSize,
+  getDocumentVigencyBadge,
+  sortDocuments,
+  type DocumentSortKey,
+  type SortDirection,
+} from '@/utils/document'
 import { getErrorMessage } from '@/utils/apiError'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { Input } from '@/components/ui/Input'
@@ -39,6 +46,8 @@ export function DocumentLibraryPage() {
   const [filterCategoryId, setFilterCategoryId] = useState('')
   const [filterSubcategoryId, setFilterSubcategoryId] = useState('')
   const [filterExpiration, setFilterExpiration] = useState('')
+  const [sortKey, setSortKey] = useState<DocumentSortKey>('vigency')
+  const [sortDirection, setSortDirection] = useState<SortDirection>('asc')
   const [deleteId, setDeleteId] = useState<string | null>(null)
   const [deleting, setDeleting] = useState(false)
 
@@ -152,6 +161,20 @@ export function DocumentLibraryPage() {
     filterExpiration,
   ])
 
+  const sorted = useMemo(
+    () => sortDocuments(filtered, sortKey, sortDirection),
+    [filtered, sortKey, sortDirection]
+  )
+
+  const sortOptions = [
+    { value: 'vigency', label: 'Vigência' },
+    { value: 'name', label: 'Nome' },
+    { value: 'updatedAt', label: 'Atualização' },
+    { value: 'createdAt', label: 'Criação' },
+    { value: 'sector', label: 'Setor' },
+    { value: 'category', label: 'Categoria' },
+  ]
+
   const handleDelete = async () => {
     if (!deleteId || !user) return
 
@@ -242,21 +265,44 @@ export function DocumentLibraryPage() {
             onChange={(e) => setFilterExpiration(e.target.value)}
           />
         </div>
-        <div className="mt-4 flex justify-end gap-2">
-          <Button
-            variant={viewMode === 'cards' ? 'primary' : 'outline'}
-            size="sm"
-            onClick={() => setViewMode('cards')}
-          >
-            <LayoutGrid size={16} /> Cards
-          </Button>
-          <Button
-            variant={viewMode === 'table' ? 'primary' : 'outline'}
-            size="sm"
-            onClick={() => setViewMode('table')}
-          >
-            <List size={16} /> Tabela
-          </Button>
+        <div className="mt-4 flex flex-wrap items-end justify-between gap-3">
+          <div className="flex flex-wrap items-end gap-3">
+            <Select
+              label="Ordenar por"
+              value={sortKey}
+              onChange={(e) => setSortKey(e.target.value as DocumentSortKey)}
+              options={sortOptions}
+              className="min-w-[180px]"
+            />
+            {sortKey !== 'vigency' && (
+              <Select
+                label="Ordem"
+                value={sortDirection}
+                onChange={(e) => setSortDirection(e.target.value as SortDirection)}
+                options={[
+                  { value: 'asc', label: 'Crescente' },
+                  { value: 'desc', label: 'Decrescente' },
+                ]}
+                className="min-w-[140px]"
+              />
+            )}
+          </div>
+          <div className="flex gap-2">
+            <Button
+              variant={viewMode === 'cards' ? 'primary' : 'outline'}
+              size="sm"
+              onClick={() => setViewMode('cards')}
+            >
+              <LayoutGrid size={16} /> Cards
+            </Button>
+            <Button
+              variant={viewMode === 'table' ? 'primary' : 'outline'}
+              size="sm"
+              onClick={() => setViewMode('table')}
+            >
+              <List size={16} /> Tabela
+            </Button>
+          </div>
         </div>
       </Card>
 
@@ -264,18 +310,24 @@ export function DocumentLibraryPage() {
         <Card>
           <EmptyState icon={FileText} title="Nenhum documento cadastrado ainda." />
         </Card>
-      ) : filtered.length === 0 ? (
+      ) : sorted.length === 0 ? (
         <Card>
           <EmptyState icon={FileText} title="Nenhum documento encontrado" />
         </Card>
       ) : viewMode === 'cards' ? (
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          {filtered.map((doc) => (
+          {sorted.map((doc) => {
+            const vigencyBadge = getDocumentVigencyBadge(doc)
+            return (
             <Card key={doc.id} className="!p-0">
               <div className="p-5">
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="font-semibold text-slate-800 line-clamp-2">{doc.title}</h3>
-                  {isDocumentExpired(doc) && <Badge variant="danger">Vigência expirada</Badge>}
+                  <div className="flex flex-shrink-0 flex-wrap justify-end gap-1">
+                    {vigencyBadge.kind === 'expired' && <Badge variant="danger">{vigencyBadge.label}</Badge>}
+                    {vigencyBadge.kind === 'expiring' && <Badge variant="warning">{vigencyBadge.label}</Badge>}
+                    {doc.isActive === false && <Badge variant="default">INATIVO</Badge>}
+                  </div>
                 </div>
                 <p className="mt-1 text-xs text-slate-500">
                   {displaySector(doc)} · {displayCategory(doc)}
@@ -320,7 +372,8 @@ export function DocumentLibraryPage() {
                 </div>
               </div>
             </Card>
-          ))}
+            )
+          })}
         </div>
       ) : (
         <Card className="overflow-x-auto !p-0">
@@ -338,7 +391,9 @@ export function DocumentLibraryPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {filtered.map((doc) => (
+              {sorted.map((doc) => {
+                const vigencyBadge = getDocumentVigencyBadge(doc)
+                return (
                 <tr key={doc.id} className="hover:bg-slate-50">
                   <td className="px-4 py-3">
                     <Link
@@ -347,9 +402,19 @@ export function DocumentLibraryPage() {
                     >
                       {doc.title}
                     </Link>
-                    {isDocumentExpired(doc) && (
+                    {vigencyBadge.kind === 'expired' && (
                       <Badge variant="danger" className="ml-2">
-                        Vigência expirada
+                        {vigencyBadge.label}
+                      </Badge>
+                    )}
+                    {vigencyBadge.kind === 'expiring' && (
+                      <Badge variant="warning" className="ml-2">
+                        {vigencyBadge.label}
+                      </Badge>
+                    )}
+                    {doc.isActive === false && (
+                      <Badge variant="default" className="ml-2">
+                        INATIVO
                       </Badge>
                     )}
                   </td>
@@ -397,7 +462,8 @@ export function DocumentLibraryPage() {
                     </div>
                   </td>
                 </tr>
-              ))}
+                )
+              })}
             </tbody>
           </table>
         </Card>

@@ -9,9 +9,15 @@ Em **Usuários** (permissão `gerenciar_usuarios`):
 - criar e editar usuários;
 - ativar/inativar;
 - atribuir permissões;
-- definir setor.
+- definir setor;
+- marcar **Usuário master** e/ou **Administrador técnico** (somente Master concede/revoga o técnico).
 
-Master possui acesso completo.
+Regras de senha:
+
+- criação e alteração exigem no mínimo **8 caracteres**;
+- senhas legadas com menos de 8 caracteres continuam autenticando até serem trocadas.
+
+Master possui acesso completo. Administrador técnico acessa a Administração Técnica (monitoramento e governança), sem bypass geral das permissões operacionais.
 
 ## Permissões principais
 
@@ -58,6 +64,12 @@ Painel de backups institucionais. Execuções completas seguem o procedimento da
 - **Administração técnica:** prompts, retrieval, cache, evidências, qualidade/política, Qdrant, validação IA.
 
 A clínica opera sem abrir a área técnica no dia a dia.
+
+## Documentos ativos e vigência
+
+- Na edição do documento, use **Documento ativo** para manter o arquivo armazenado sem uso pela IA.
+- Documentos **inativos** e **expirados** não entram nas fontes da Consulta IA.
+- O Dashboard lista expirados e vencimentos nos próximos 60 dias para acompanhamento.
 
 ## Quando chamar o suporte técnico
 

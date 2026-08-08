@@ -1,6 +1,13 @@
 import { useMemo, useState } from 'react'
 import { Bot, Download, Loader2, Printer } from 'lucide-react'
-import { askAI, type AIResponse, type AISource } from '@/services/aiService'
+import {
+  answerAnnouncesSummary,
+  askAI,
+  getSummaryNoticeText,
+  isSummarizedResponse,
+  type AIResponse,
+  type AISource,
+} from '@/services/aiService'
 import { downloadDocumentFile } from '@/services/documentsService'
 import { useSettings } from '@/hooks/useSettings'
 import { PageHeader } from '@/components/ui/PageHeader'
@@ -26,6 +33,10 @@ export function ConsultaIAPage() {
   const uniqueSources = useMemo(
     () => (response ? getUniqueSources(response.sources) : []),
     [response]
+  )
+
+  const showSummaryNotice = Boolean(
+    response && isSummarizedResponse(response) && !answerAnnouncesSummary(response.answer)
   )
 
   const handleSubmit = async (event: React.FormEvent) => {
@@ -147,6 +158,9 @@ export function ConsultaIAPage() {
 
           <Card title="Resposta" className="print-section print-answer">
             <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+              {showSummaryNotice && (
+                <p className="mb-3 font-bold text-amber-800">{getSummaryNoticeText()}</p>
+              )}
               <SimpleMarkdown content={response.answer} />
             </div>
           </Card>

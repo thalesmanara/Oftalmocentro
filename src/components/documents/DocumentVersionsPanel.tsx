@@ -34,6 +34,8 @@ import { ModalConfirm } from '@/components/ui/Modal'
 interface DocumentVersionsPanelProps {
   documentId: string
   canEdit: boolean
+  /** Exibe colunas técnicas (checksum, OCR, embedding, Qdrant, extração). */
+  canViewTechnical?: boolean
   onRestored?: () => void
 }
 
@@ -64,6 +66,7 @@ function statusVariant(status: string): 'default' | 'success' | 'warning' | 'dan
 export function DocumentVersionsPanel({
   documentId,
   canEdit,
+  canViewTechnical = false,
   onRestored,
 }: DocumentVersionsPanelProps) {
   const [versions, setVersions] = useState<DocumentVersion[]>([])
@@ -171,11 +174,15 @@ export function DocumentVersionsPanel({
                 <th className="py-2 pr-3 font-medium">Autor</th>
                 <th className="py-2 pr-3 font-medium">Tamanho</th>
                 <th className="py-2 pr-3 font-medium">Tipo</th>
-                <th className="py-2 pr-3 font-medium">Checksum</th>
-                <th className="py-2 pr-3 font-medium">Validação</th>
-                <th className="py-2 pr-3 font-medium">OCR</th>
-                <th className="py-2 pr-3 font-medium">Embedding</th>
-                <th className="py-2 pr-3 font-medium">Extração</th>
+                {canViewTechnical && (
+                  <>
+                    <th className="py-2 pr-3 font-medium">Checksum</th>
+                    <th className="py-2 pr-3 font-medium">Validação</th>
+                    <th className="py-2 pr-3 font-medium">OCR</th>
+                    <th className="py-2 pr-3 font-medium">Embedding</th>
+                    <th className="py-2 pr-3 font-medium">Extração</th>
+                  </>
+                )}
                 <th className="py-2 pr-3 font-medium">Status</th>
                 <th className="py-2 pr-3 font-medium text-right">Ações</th>
               </tr>
@@ -205,9 +212,12 @@ export function DocumentVersionsPanel({
                   <td className="py-3 pr-3 text-slate-600">
                     {version.detectedMimeType ?? version.mimeType ?? version.browserMimeType ?? '—'}
                   </td>
+                  {canViewTechnical && (
                   <td className="py-3 pr-3 font-mono text-xs text-slate-600">
                     {formatChecksumShort(version.checksum)}
                   </td>
+                  )}
+                  {canViewTechnical && (
                   <td className="py-3 pr-3">
                     <div className="space-y-1">
                       {version.validationStatus ? (
@@ -224,6 +234,8 @@ export function DocumentVersionsPanel({
                       )}
                     </div>
                   </td>
+                  )}
+                  {canViewTechnical && (
                   <td className="py-3 pr-3">
                     <div className="space-y-1">
                       {version.ocrStatus ? (
@@ -253,6 +265,8 @@ export function DocumentVersionsPanel({
                       )}
                     </div>
                   </td>
+                  )}
+                  {canViewTechnical && (
                   <td className="py-3 pr-3">
                     <div className="space-y-1">
                       {version.embeddingStatus ? (
@@ -300,6 +314,8 @@ export function DocumentVersionsPanel({
                       )}
                     </div>
                   </td>
+                  )}
+                  {canViewTechnical && (
                   <td className="py-3 pr-3 text-slate-600">
                     <div className="space-y-1">
                       <div>{extractionMethodLabel(version.extractionMethod)}</div>
@@ -311,6 +327,7 @@ export function DocumentVersionsPanel({
                       )}
                     </div>
                   </td>
+                  )}
                   <td className="py-3 pr-3">
                     <Badge variant={statusVariant(version.status)}>
                       {statusLabel(version.status)}
