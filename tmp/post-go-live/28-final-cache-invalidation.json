@@ -1,0 +1,109 @@
+{
+  "at": "2026-08-08T22:02:08.484Z",
+  "inv": [
+    {
+      "status": "INVALIDATED",
+      "invalidation_reason": "DOCUMENT_VERSION_UPDATED",
+      "invalidated_at": "2026-08-08T20:35:39.171Z",
+      "kh": "394dae1545e2"
+    },
+    {
+      "status": "INVALIDATED",
+      "invalidation_reason": "DOCUMENT_UPDATED",
+      "invalidated_at": "2026-08-04T14:35:14.034Z",
+      "kh": "6594d2478a0e"
+    },
+    {
+      "status": "INVALIDATED",
+      "invalidation_reason": "DOCUMENT_UPDATED",
+      "invalidated_at": "2026-08-04T14:35:14.034Z",
+      "kh": "3b06941b66f1"
+    },
+    {
+      "status": "INVALIDATED",
+      "invalidation_reason": "DOCUMENT_UPDATED",
+      "invalidated_at": "2026-08-04T14:35:14.034Z",
+      "kh": "69744f7285f4"
+    },
+    {
+      "status": "INVALIDATED",
+      "invalidation_reason": "DOCUMENT_UPDATED",
+      "invalidated_at": "2026-08-04T14:35:14.034Z",
+      "kh": "e7eb00a2c73a"
+    },
+    {
+      "status": "INVALIDATED",
+      "invalidation_reason": "DOCUMENT_UPDATED",
+      "invalidated_at": "2026-08-04T14:35:14.034Z",
+      "kh": "dba4959d6489"
+    },
+    {
+      "status": "INVALIDATED",
+      "invalidation_reason": "DOCUMENT_UPDATED",
+      "invalidated_at": "2026-08-04T14:35:14.034Z",
+      "kh": "9cd6c2161d66"
+    },
+    {
+      "status": "INVALIDATED",
+      "invalidation_reason": "DOCUMENT_UPDATED",
+      "invalidated_at": "2026-08-04T14:35:14.034Z",
+      "kh": "165dc5b5e982"
+    },
+    {
+      "status": "INVALIDATED",
+      "invalidation_reason": "DOCUMENT_UPDATED",
+      "invalidated_at": "2026-08-04T14:35:14.034Z",
+      "kh": "ff3f4ccb2814"
+    },
+    {
+      "status": "INVALIDATED",
+      "invalidation_reason": "DOCUMENT_UPDATED",
+      "invalidated_at": "2026-08-04T14:35:14.034Z",
+      "kh": "55d62fac60d1"
+    },
+    {
+      "status": "INVALIDATED",
+      "invalidation_reason": "DOCUMENT_UPDATED",
+      "invalidated_at": "2026-08-04T14:35:14.034Z",
+      "kh": "7bfb61d5fe5c"
+    },
+    {
+      "status": "INVALIDATED",
+      "invalidation_reason": "DOCUMENT_UPDATED",
+      "invalidated_at": "2026-08-04T00:09:51.343Z",
+      "kh": "84b38fc03987"
+    }
+  ],
+  "byReason": [
+    {
+      "reason": "DOCUMENT_UPDATED",
+      "n": 11
+    },
+    {
+      "reason": "DOCUMENT_VERSION_UPDATED",
+      "n": 1
+    }
+  ],
+  "statusDist": [
+    {
+      "status": "VALID",
+      "n": 59,
+      "invalidated": 0
+    },
+    {
+      "status": "EXPIRED",
+      "n": 34,
+      "invalidated": 0
+    },
+    {
+      "status": "INVALIDATED",
+      "n": 12,
+      "invalidated": 12
+    }
+  ],
+  "served": {
+    "served_hits": 0,
+    "shadow_candidates": 120,
+    "hits": 123
+  }
+}

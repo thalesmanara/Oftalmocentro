@@ -1,0 +1,74 @@
+[
+  {
+    "id": "ecc82b36-9e85-4138-99a9-b64724b1e50d",
+    "version_label": "hybrid-v3",
+    "status": "DRAFT",
+    "mode": "HYBRID",
+    "cfg_mode": "HYBRID",
+    "cfg_head": "{\"mode\": \"HYBRID\", \"merge\": {\"includeVectorOnly\": true}, \"notes\": \"Etapa 28.3 hybrid-v3: includeVectorOnly + expired penalty; SEM lexicalExpansion\", \"boosts\": {\"ocrGood\": 0.03, \"isCurrent\": 0.05, \"tit"
+  },
+  {
+    "id": "eb5779b1-b653-4679-b7ea-89b66accb279",
+    "version_label": "hybrid-v2",
+    "status": "PUBLISHED",
+    "mode": "HYBRID",
+    "cfg_mode": "HYBRID",
+    "cfg_head": "{\"mode\": \"HYBRID\", \"merge\": {\"includeVectorOnly\": true}, \"notes\": \"Candidato hybrid-v2 — hybrid-v1 + expansão léxica por sinônimos (DRAFT, requer A/B antes de publicar)\", \"boosts\": {\"ocrGood\": 0.03, \""
+  },
+  {
+    "id": "c70d6760-1198-43bc-ae6f-8e60371aab13",
+    "version_label": "tmp-pubrb-msdqisi7",
+    "status": "REJECTED",
+    "mode": "HYBRID",
+    "cfg_mode": "HYBRID",
+    "cfg_head": "{\"mode\": \"HYBRID\", \"notes\": \"\", \"boosts\": {}, \"weights\": {\"lexical\": 0.5, \"semantic\": 0.5, \"hybridPrior\": 0}, \"penalties\": {}, \"finalLimit\": 8, \"normalization\": {\"text\": \"batchMax\", \"hybrid\": \"passthr"
+  },
+  {
+    "id": "7f9e36f4-3589-4af0-96fc-a6e349f11f7e",
+    "version_label": "tmp-pubrb-msdqggsv",
+    "status": "REJECTED",
+    "mode": "HYBRID",
+    "cfg_mode": "HYBRID",
+    "cfg_head": "{\"mode\": \"HYBRID\", \"notes\": \"\", \"boosts\": {}, \"weights\": {\"lexical\": 0.5, \"semantic\": 0.5, \"hybridPrior\": 0}, \"penalties\": {}, \"finalLimit\": 8, \"normalization\": {\"text\": \"batchMax\", \"hybrid\": \"passthr"
+  },
+  {
+    "id": "a718f1ff-91f6-4314-bba6-c116b9e6d4d9",
+    "version_label": "tmp-pubrb-msdqelk6",
+    "status": "REJECTED",
+    "mode": "HYBRID",
+    "cfg_mode": "HYBRID",
+    "cfg_head": "{\"mode\": \"HYBRID\", \"notes\": \"\", \"boosts\": {}, \"weights\": {\"lexical\": 0.5, \"semantic\": 0.5, \"hybridPrior\": 0}, \"penalties\": {}, \"finalLimit\": 8, \"normalization\": {\"text\": \"batchMax\", \"hybrid\": \"passthr"
+  },
+  {
+    "id": "3ce8f73f-b217-4a54-ab30-a30fec49392f",
+    "version_label": "tmp-optest-msdqcqte",
+    "status": "REJECTED",
+    "mode": "HYBRID_RERANK",
+    "cfg_mode": "HYBRID_RERANK",
+    "cfg_head": "{\"mode\": \"HYBRID_RERANK\", \"notes\": \"\", \"boosts\": {\"titleMatch\": 0.1, \"exactIdentifier\": 0.2}, \"weights\": {\"lexical\": 0.25, \"semantic\": 0.45, \"hybridPrior\": 0.15}, \"penalties\": {\"redundancyPerExtraChun"
+  },
+  {
+    "id": "e65c2ff9-39ec-4b3d-86d8-1e16e2471dbe",
+    "version_label": "tmp-c-msdqawe0",
+    "status": "REJECTED",
+    "mode": "HYBRID_RERANK",
+    "cfg_mode": "HYBRID_RERANK",
+    "cfg_head": "{\"mode\": \"HYBRID_RERANK\", \"notes\": \"\", \"boosts\": {\"exactIdentifier\": 0.2}, \"weights\": {\"lexical\": 0.25, \"semantic\": 0.45, \"hybridPrior\": 0.15}, \"penalties\": {\"redundancyPerExtraChunk\": 0.1}, \"finalLim"
+  },
+  {
+    "id": "b9f10499-cf34-48dd-90b9-119b1410e84d",
+    "version_label": "hybrid-rerank-v1",
+    "status": "DRAFT",
+    "mode": "HYBRID_RERANK",
+    "cfg_mode": "HYBRID_RERANK",
+    "cfg_head": "{\"mode\": \"HYBRID_RERANK\", \"notes\": \"Candidato — re-ranking determinístico explicável (não publicado)\", \"boosts\": {\"ocrGood\": 0.03, \"isCurrent\": 0.05, \"titleMatch\": 0.1, \"exactPhrase\": 0.08, \"categoryM"
+  },
+  {
+    "id": "63631806-f1ba-4ff4-8b24-265a468229fb",
+    "version_label": "hybrid-v1",
+    "status": "ARCHIVED",
+    "mode": "HYBRID",
+    "cfg_mode": "HYBRID",
+    "cfg_head": "{\"mode\": \"HYBRID\", \"notes\": \"Produção atual — ranking híbrido sem re-ranking avançado\", \"boosts\": {\"ocrGood\": 0.03, \"isCurrent\": 0.05, \"titleMatch\": 0.08, \"categoryMatch\": 0.1, \"recentVigency\": 0.04, "
+  }
+]

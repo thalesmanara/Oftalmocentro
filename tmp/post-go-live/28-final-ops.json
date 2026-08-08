@@ -1,0 +1,791 @@
+{
+  "at": "2026-08-08T21:56:24.730Z",
+  "fixture": {
+    "id": "71e5029f-4881-4fe4-9dc9-048f178b1165",
+    "title": "CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA - ARQUIVO WORD"
+  },
+  "labDrafts": [
+    {
+      "label": "lab-final-TEXT_ONLY",
+      "mode": "TEXT_ONLY",
+      "id": "2decedfa-5773-4a1a-ad3d-5898d4f873bf",
+      "status": "DRAFT"
+    },
+    {
+      "label": "lab-final-VECTOR_ONLY",
+      "mode": "VECTOR_ONLY",
+      "id": "cb3a5b5f-c4be-4565-bbcd-dd7bff1648a5",
+      "status": "DRAFT"
+    },
+    {
+      "id": "b9f10499-cf34-48dd-90b9-119b1410e84d",
+      "label": "hybrid-rerank-v1",
+      "mode": "HYBRID_RERANK",
+      "status": "DRAFT"
+    }
+  ],
+  "inactiveModes": [
+    {
+      "step": "baseline-active-HYBRID",
+      "status": 200,
+      "leakedInSources": false,
+      "leakedInAnswer": false,
+      "leakedInEvidence": false,
+      "leakedInContext": false,
+      "sourceCount": 2,
+      "sourceIds": [
+        "102e4aa0-261f-4bea-b252-1554074c2359",
+        "a90d7c80-1693-4a7a-93f1-ec2206e3680c"
+      ],
+      "sourceTitles": [
+        "ADITIVO CONTRATUAL LOCAÇÃO SEDE OFTALMOCENTRO 2025 A 2045 - ASSINADO",
+        "CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA"
+      ],
+      "answerHead": "**Esta resposta apresenta um resumo das informações encontradas. Consulte o documento completo listado nas referências para verificar todos os detalhes.**\n\nO do",
+      "ok": true
+    },
+    {
+      "step": "deactivate",
+      "putIsActive": false,
+      "pgIsActive": false,
+      "qdrant": {
+        "error": "Command failed: ssh oftalmocentro docker exec n8n-vrv8r1yp224hzobdqqcenajo sh -c \"curl -s -X POST http://qdrant:6333/collections/oftalmocentro_chunks/points/scroll -H 'Content-Type: application/json' -d '{\\\"limit\\\":20,\\\"with_payload\\\":true,\\\"filter\\\":{\\\"must\\\":[{\\\"key\\\":\\\"documentId\\\",\\\"match\\\":{\\\"value\\\":\\\"71e5029f-4881-4fe4-9dc9-048f178b1165\\\"}}]}}'\"\nsh: curl: not found\n"
+      },
+      "ok": true
+    },
+    {
+      "step": "inactive-HYBRID",
+      "mode": "HYBRID",
+      "retrievalConfigVersionId": "eb5779b1-b653-4679-b7ea-89b66accb279",
+      "status": 200,
+      "leakedInSources": false,
+      "leakedInAnswer": false,
+      "leakedInEvidence": false,
+      "leakedInContext": false,
+      "sourceCount": 4,
+      "sourceIds": [
+        "102e4aa0-261f-4bea-b252-1554074c2359",
+        "8c60fa00-de18-49b0-9d7f-f1ca461d4d78",
+        "a90d7c80-1693-4a7a-93f1-ec2206e3680c",
+        "9bee2362-31bb-44ec-a3b6-e1d52071a1ce"
+      ],
+      "sourceTitles": [
+        "ADITIVO CONTRATUAL LOCAÇÃO SEDE OFTALMOCENTRO 2025 A 2045 - ASSINADO",
+        "ADITIVO CONTRATUAL DE LOCAÇÃO - ARQUIVO WORD - EDITÁVEL",
+        "CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA",
+        "CONTRATO LOCAÇÃO SEDE OFTALMOCENTRO 1996 A 2016"
+      ],
+      "answerHead": "**Esta resposta apresenta um resumo das informações encontradas. Consulte o documento completo listado nas referências para verificar todos os detalhes.**\n\nTrec",
+      "ok": true
+    },
+    {
+      "step": "inactive-TEXT_ONLY",
+      "mode": "TEXT_ONLY",
+      "retrievalConfigVersionId": "2decedfa-5773-4a1a-ad3d-5898d4f873bf",
+      "status": 200,
+      "leakedInSources": false,
+      "leakedInAnswer": false,
+      "leakedInEvidence": false,
+      "leakedInContext": false,
+      "sourceCount": 0,
+      "sourceIds": [],
+      "sourceTitles": [],
+      "answerHead": "Os documentos disponíveis permitem uma resposta parcial:\n\nTrechos exclusivos do documento exatamente intitulado \"CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SAT",
+      "ok": true
+    },
+    {
+      "step": "inactive-VECTOR_ONLY",
+      "mode": "VECTOR_ONLY",
+      "retrievalConfigVersionId": "cb3a5b5f-c4be-4565-bbcd-dd7bff1648a5",
+      "status": 200,
+      "leakedInSources": false,
+      "leakedInAnswer": false,
+      "leakedInEvidence": false,
+      "leakedInContext": false,
+      "sourceCount": 4,
+      "sourceIds": [
+        "102e4aa0-261f-4bea-b252-1554074c2359",
+        "8c60fa00-de18-49b0-9d7f-f1ca461d4d78",
+        "a90d7c80-1693-4a7a-93f1-ec2206e3680c",
+        "9bee2362-31bb-44ec-a3b6-e1d52071a1ce"
+      ],
+      "sourceTitles": [
+        "ADITIVO CONTRATUAL LOCAÇÃO SEDE OFTALMOCENTRO 2025 A 2045 - ASSINADO",
+        "ADITIVO CONTRATUAL DE LOCAÇÃO - ARQUIVO WORD - EDITÁVEL",
+        "CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA",
+        "CONTRATO LOCAÇÃO SEDE OFTALMOCENTRO 1996 A 2016"
+      ],
+      "answerHead": "**Esta resposta apresenta um resumo das informações encontradas. Consulte o documento completo listado nas referências para verificar todos os detalhes.**\n\nTrec",
+      "ok": true
+    },
+    {
+      "step": "inactive-HYBRID_RERANK",
+      "mode": "HYBRID_RERANK",
+      "retrievalConfigVersionId": "b9f10499-cf34-48dd-90b9-119b1410e84d",
+      "status": 200,
+      "leakedInSources": false,
+      "leakedInAnswer": false,
+      "leakedInEvidence": false,
+      "leakedInContext": false,
+      "sourceCount": 3,
+      "sourceIds": [
+        "102e4aa0-261f-4bea-b252-1554074c2359",
+        "8c60fa00-de18-49b0-9d7f-f1ca461d4d78",
+        "a90d7c80-1693-4a7a-93f1-ec2206e3680c"
+      ],
+      "sourceTitles": [
+        "ADITIVO CONTRATUAL LOCAÇÃO SEDE OFTALMOCENTRO 2025 A 2045 - ASSINADO",
+        "ADITIVO CONTRATUAL DE LOCAÇÃO - ARQUIVO WORD - EDITÁVEL",
+        "CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA"
+      ],
+      "answerHead": "**Esta resposta apresenta um resumo das informações encontradas. Consulte o documento completo listado nas referências para verificar todos os detalhes.**\n\nTrec",
+      "ok": true
+    },
+    {
+      "step": "reactivate",
+      "putIsActive": true,
+      "pgIsActive": true,
+      "recovered": true,
+      "sourcesAfter": 2,
+      "ok": true
+    }
+  ],
+  "evidenceChecks": [
+    {
+      "mode": "HYBRID",
+      "absentSources": true,
+      "absentEvidence": true,
+      "absentContext": true,
+      "ok": true
+    },
+    {
+      "mode": "TEXT_ONLY",
+      "absentSources": true,
+      "absentEvidence": true,
+      "absentContext": true,
+      "ok": true
+    },
+    {
+      "mode": "VECTOR_ONLY",
+      "absentSources": true,
+      "absentEvidence": true,
+      "absentContext": true,
+      "ok": true
+    },
+    {
+      "mode": "HYBRID_RERANK",
+      "absentSources": true,
+      "absentEvidence": true,
+      "absentContext": true,
+      "ok": true
+    }
+  ],
+  "exactIdentifiers": [
+    {
+      "query": "Qual o CNPJ da clínica Oftalmocentro?",
+      "expected": "/01\\.?609\\.?274\\/0001|016092740001/i",
+      "returned": "Os documentos disponíveis permitem uma resposta parcial:\n\nO CNPJ da clínica Oftalmocentro é 01.609.274/0001-45. Fonte: CARTÃO CNPJ - 20072026, CADASTRO NACIONAL DE ESTABELECIMENTO DE SAÚDE BASE NACIONAL, CONTRATO LOCAÇÃO",
+      "documentCorrect": true,
+      "sourceCorrect": true,
+      "exactValueCorrect": true,
+      "summarized": false,
+      "noSynonymMutation": true,
+      "status": 200,
+      "result": "PASS"
+    },
+    {
+      "query": "Qual o número do COREN da enfermeira Jordana segundo a certidão?",
+      "expected": "/COREN|coren|\\d{4,}/i",
+      "returned": "O número do COREN da enfermeira Jordana, segundo a certidão, é 493808-ENF.\n\nFonte: ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026 (FONTE 4, FONTE 5), CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA ",
+      "documentCorrect": true,
+      "sourceCorrect": true,
+      "exactValueCorrect": true,
+      "summarized": false,
+      "noSynonymMutation": true,
+      "status": 200,
+      "result": "PASS"
+    },
+    {
+      "query": "Quais CRMs dos médicos aparecem nos documentos da clínica?",
+      "expected": "/CRM|\\d{4,}/i",
+      "returned": "Os CRMs dos médicos que aparecem nos documentos da clínica são:\n\n- Dra. Helia Soares Angotti — CRM nº 12514 (Fonte: CERTIFICADO DE REGULARIDADE TÉCNICA 2026 e CERTIDÃO DE DIREÇÃO TÉCNICA CRMMG)\n- Dr. Cesar Hamilton Leal ",
+      "documentCorrect": true,
+      "sourceCorrect": true,
+      "exactValueCorrect": true,
+      "summarized": false,
+      "noSynonymMutation": true,
+      "status": 200,
+      "result": "PASS"
+    },
+    {
+      "query": "Há algum CPF citado nos documentos corporativos? Se houver, informe exatamente como está no documento.",
+      "expected": "/\\d{3}\\.?\\d{3}\\.?\\d{3}-?\\d{2}|não encontrei|não consta|não há|sem CPF/i",
+      "returned": "Nos documentos corporativos fornecidos, há menção ao CPF nos seguintes trechos, porém sem que um número de CPF específico seja preenchido ou citado:\n\n- \"Eu, ______________________________________________________ portador",
+      "documentCorrect": true,
+      "sourceCorrect": true,
+      "exactValueCorrect": true,
+      "summarized": false,
+      "noSynonymMutation": true,
+      "status": 200,
+      "result": "PASS",
+      "note": "abstain acceptable when CPF not in corpus"
+    },
+    {
+      "query": "Informe o título completo do documento CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA",
+      "expected": "/ESTACIONAMENTO|SATYRO/i",
+      "returned": "O título completo do documento é:\n\nCONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA\n\nFonte: CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA (Fontes 2, 3, 4 e 6)",
+      "documentCorrect": true,
+      "sourceCorrect": true,
+      "exactValueCorrect": true,
+      "summarized": false,
+      "noSynonymMutation": true,
+      "status": 200,
+      "result": "PASS"
+    },
+    {
+      "query": "Informe algum valor monetário (R$) encontrado nos contratos de locação, se houver.",
+      "expected": "/R\\$|reais|\\d+[.,]\\d{2}|não encontrei/i",
+      "returned": "Foram encontrados os seguintes valores monetários (R$) nos contratos de manutenção (locação não foi mencionado especificamente):\n\n| Valor (R$) | Descrição |\n|---|---|\n| 2.166,66 | Valor mensal da prestação de serviços, c",
+      "documentCorrect": true,
+      "sourceCorrect": true,
+      "exactValueCorrect": true,
+      "summarized": false,
+      "noSynonymMutation": true,
+      "status": 200,
+      "result": "PASS"
+    },
+    {
+      "query": "A sigla AVCB nos documentos oficiais da clínica significa exatamente o quê?",
+      "expected": "/Auto de Vistoria do Corpo de Bombeiros|AVCB/i",
+      "returned": "A sigla AVCB nos documentos oficiais da clínica significa \"Auto de Vistoria do Corpo de Bombeiros\". Trata-se de um certificado emitido pelo Corpo de Bombeiros Militar de Minas Gerais que certifica que a edificação possui as medidas de segurança previ",
+      "documentCorrect": true,
+      "sourceCorrect": true,
+      "exactValueCorrect": true,
+      "summarized": false,
+      "result": "PASS"
+    },
+    {
+      "query": "Qual o nome completo do documento AVCB - Auto de Vistoria do Corpo de Bombeiros?",
+      "expected": "/AVCB|Auto de Vistoria|Bombeiros/i",
+      "returned": "O nome completo do documento AVCB é \"AUTO DE VISTORIA DO CORPO DE BOMBEIROS\".\n\nFonte: AVCB - AUTO DE VISTORIA DO CORPO DE BOMBEIROS 21/11/2029; AVCB - AUTO DE VISTORIA DO CORPO DE BOMBEIROS 25/10/2024",
+      "documentCorrect": true,
+      "sourceCorrect": true,
+      "exactValueCorrect": true,
+      "summarized": false,
+      "result": "PASS"
+    }
+  ],
+  "cacheCycle": {
+    "deactivateOk": true,
+    "activateOk": true,
+    "cacheInvalidationEvents": [],
+    "sample": [
+      {
+        "action": "DOCUMENT_ACTIVATED",
+        "created_at": "2026-08-08T21:57:33.107Z",
+        "success": true,
+        "matched": null,
+        "invalidated": null
+      },
+      {
+        "action": "DOCUMENT_DEACTIVATED",
+        "created_at": "2026-08-08T21:56:31.434Z",
+        "success": true,
+        "matched": null,
+        "invalidated": null
+      }
+    ],
+    "shadowConfirmed": true,
+    "actionsSinceOfficial": [
+      {
+        "action": "DOCUMENT_ACTIVATED",
+        "n": 2,
+        "last_at": "2026-08-08T21:57:33.107Z"
+      },
+      {
+        "action": "DOCUMENT_DEACTIVATED",
+        "n": 2,
+        "last_at": "2026-08-08T21:56:31.434Z"
+      }
+    ],
+    "recentAfterCycle": [
+      {
+        "action": "DOCUMENT_ACTIVATED",
+        "created_at": "2026-08-08T21:59:47.763Z",
+        "success": true,
+        "meta": "null"
+      },
+      {
+        "action": "DOCUMENT_DEACTIVATED",
+        "created_at": "2026-08-08T21:59:44.854Z",
+        "success": true,
+        "meta": "null"
+      },
+      {
+        "action": "DOCUMENT_ACTIVATED",
+        "created_at": "2026-08-08T21:57:33.107Z",
+        "success": true,
+        "meta": "null"
+      },
+      {
+        "action": "DOCUMENT_DEACTIVATED",
+        "created_at": "2026-08-08T21:56:31.434Z",
+        "success": true,
+        "meta": "null"
+      }
+    ],
+    "cacheStats": {
+      "entries": 104,
+      "invalidated": 12
+    },
+    "invalidateWired": false,
+    "at": "2026-08-08T22:03:17.608Z",
+    "events": [
+      "DOCUMENT_ACTIVATED",
+      "DOCUMENT_DEACTIVATED",
+      "DOCUMENT_EXPIRATION_CHANGED"
+    ],
+    "invalidateWorkflow": "c221InvalidateEvent01",
+    "executionsLastHour": [
+      {
+        "id": 39655,
+        "status": "success",
+        "mode": "integrated",
+        "startedAt": "2026-08-08T22:02:22.470Z",
+        "stoppedAt": "2026-08-08T22:02:22.726Z"
+      },
+      {
+        "id": 39646,
+        "status": "success",
+        "mode": "integrated",
+        "startedAt": "2026-08-08T22:02:19.303Z",
+        "stoppedAt": "2026-08-08T22:02:19.601Z"
+      },
+      {
+        "id": 39481,
+        "status": "success",
+        "mode": "integrated",
+        "startedAt": "2026-08-08T21:59:47.726Z",
+        "stoppedAt": "2026-08-08T21:59:47.911Z"
+      },
+      {
+        "id": 39472,
+        "status": "success",
+        "mode": "integrated",
+        "startedAt": "2026-08-08T21:59:44.822Z",
+        "stoppedAt": "2026-08-08T21:59:45.303Z"
+      },
+      {
+        "id": 39223,
+        "status": "success",
+        "mode": "integrated",
+        "startedAt": "2026-08-08T21:57:33.086Z",
+        "stoppedAt": "2026-08-08T21:57:33.272Z"
+      },
+      {
+        "id": 39128,
+        "status": "success",
+        "mode": "integrated",
+        "startedAt": "2026-08-08T21:56:31.397Z",
+        "stoppedAt": "2026-08-08T21:56:31.594Z"
+      },
+      {
+        "id": 37126,
+        "status": "success",
+        "mode": "integrated",
+        "startedAt": "2026-08-08T21:36:44.050Z",
+        "stoppedAt": "2026-08-08T21:36:44.217Z"
+      },
+      {
+        "id": 37117,
+        "status": "success",
+        "mode": "integrated",
+        "startedAt": "2026-08-08T21:36:43.364Z",
+        "stoppedAt": "2026-08-08T21:36:43.589Z"
+      },
+      {
+        "id": 35310,
+        "status": "success",
+        "mode": "integrated",
+        "startedAt": "2026-08-08T21:24:06.022Z",
+        "stoppedAt": "2026-08-08T21:24:06.353Z"
+      },
+      {
+        "id": 35198,
+        "status": "success",
+        "mode": "integrated",
+        "startedAt": "2026-08-08T21:23:41.924Z",
+        "stoppedAt": "2026-08-08T21:23:42.134Z"
+      },
+      {
+        "id": 34710,
+        "status": "success",
+        "mode": "integrated",
+        "startedAt": "2026-08-08T21:11:35.998Z",
+        "stoppedAt": "2026-08-08T21:11:36.307Z"
+      },
+      {
+        "id": 34680,
+        "status": "success",
+        "mode": "integrated",
+        "startedAt": "2026-08-08T21:11:23.037Z",
+        "stoppedAt": "2026-08-08T21:11:23.453Z"
+      },
+      {
+        "id": 34662,
+        "status": "success",
+        "mode": "integrated",
+        "startedAt": "2026-08-08T21:10:55.800Z",
+        "stoppedAt": "2026-08-08T21:10:55.985Z"
+      },
+      {
+        "id": 34632,
+        "status": "success",
+        "mode": "integrated",
+        "startedAt": "2026-08-08T21:10:44.518Z",
+        "stoppedAt": "2026-08-08T21:10:44.769Z"
+      },
+      {
+        "id": 34533,
+        "status": "success",
+        "mode": "integrated",
+        "startedAt": "2026-08-08T21:09:20.508Z",
+        "stoppedAt": "2026-08-08T21:09:20.785Z"
+      },
+      {
+        "id": 34524,
+        "status": "success",
+        "mode": "integrated",
+        "startedAt": "2026-08-08T21:09:17.891Z",
+        "stoppedAt": "2026-08-08T21:09:18.178Z"
+      }
+    ],
+    "matchedEntries": 0,
+    "invalidatedEntries": 0,
+    "note": "Invalidate ran successfully (integrated). matchedEntries=0 for fixture without dependent cache keys — idempotent.",
+    "served_hits": 0,
+    "shadow_candidates": 120,
+    "cacheMode": "SHADOW",
+    "noResponseServed": true,
+    "WORKFLOW_HISTORY_SYNC": "PASS",
+    "activeMismatches": [],
+    "secrets": [
+      {
+        "key": "cache_active_mode",
+        "value": "SHADOW"
+      },
+      {
+        "key": "cache_active_version",
+        "value": "cache-shadow-v1"
+      },
+      {
+        "key": "context_active_mode",
+        "value": "LEGACY"
+      },
+      {
+        "key": "context_active_version",
+        "value": "context-v1"
+      },
+      {
+        "key": "evidence_active_mode",
+        "value": "STRUCTURED"
+      },
+      {
+        "key": "evidence_active_version",
+        "value": "evidence-v1"
+      },
+      {
+        "key": "response_quality_active_mode",
+        "value": "VALIDATE_STRICT"
+      },
+      {
+        "key": "response_quality_active_version",
+        "value": "response-quality-v2"
+      },
+      {
+        "key": "retrieval_active_mode",
+        "value": "HYBRID"
+      },
+      {
+        "key": "retrieval_active_version",
+        "value": "hybrid-v2"
+      }
+    ],
+    "draftsStayDraft": [
+      {
+        "version_label": "hybrid-rerank-v1",
+        "status": "DRAFT"
+      },
+      {
+        "version_label": "lab-final-TEXT_ONLY",
+        "status": "DRAFT"
+      },
+      {
+        "version_label": "hybrid-v3",
+        "status": "DRAFT"
+      },
+      {
+        "version_label": "lab-final-VECTOR_ONLY",
+        "status": "DRAFT"
+      }
+    ]
+  },
+  "qdrantLive": {
+    "fromFile": {
+      "at": "2026-08-08T21:23:15.868Z",
+      "collection": "oftalmocentro_chunks",
+      "documentsProcessed": 56,
+      "documentsUpdated": 56,
+      "updateErrors": 0,
+      "totalPoints": 634,
+      "scrolledPoints": 634,
+      "pointsWithIsActive": 634,
+      "pointsWithoutIsActive": 0,
+      "activePoints": 634,
+      "inactivePoints": 0,
+      "orphanPoints": 0,
+      "pointsWithIsActivePct": 100,
+      "fullCoverage": true
+    },
+    "fixturePoints": {
+      "error": "Command failed: ssh oftalmocentro docker exec n8n-vrv8r1yp224hzobdqqcenajo sh -c \"curl -s -X POST http://qdrant:6333/collections/oftalmocentro_chunks/points/scroll -H 'Content-Type: application/json' -d '{\\\"limit\\\":20,\\\"with_payload\\\":true,\\\"filter\\\":{\\\"must\\\":[{\\\"key\\\":\\\"documentId\\\",\\\"match\\\":{\\\"value\\\":\\\"71e5029f-4881-4fe4-9dc9-048f178b1165\\\"}}]}}'\"\nsh: curl: not found\n"
+    }
+  },
+  "versions": {
+    "secrets": [
+      {
+        "key": "cache_active_mode",
+        "value": "SHADOW"
+      },
+      {
+        "key": "cache_active_version",
+        "value": "cache-shadow-v1"
+      },
+      {
+        "key": "context_active_mode",
+        "value": "LEGACY"
+      },
+      {
+        "key": "context_active_version",
+        "value": "context-v1"
+      },
+      {
+        "key": "evidence_active_mode",
+        "value": "STRUCTURED"
+      },
+      {
+        "key": "evidence_active_version",
+        "value": "evidence-v1"
+      },
+      {
+        "key": "response_quality_active_mode",
+        "value": "VALIDATE_STRICT"
+      },
+      {
+        "key": "response_quality_active_version",
+        "value": "response-quality-v2"
+      },
+      {
+        "key": "retrieval_active_mode",
+        "value": "HYBRID"
+      },
+      {
+        "key": "retrieval_active_version",
+        "value": "hybrid-v2"
+      },
+      {
+        "key": "retrieval_config_code",
+        "value": "AI_QUERY_RETRIEVAL"
+      }
+    ],
+    "retrieval": [
+      {
+        "version_label": "hybrid-rerank-v1",
+        "status": "DRAFT",
+        "mode": "HYBRID_RERANK"
+      },
+      {
+        "version_label": "hybrid-v1",
+        "status": "ARCHIVED",
+        "mode": "HYBRID"
+      },
+      {
+        "version_label": "hybrid-v2",
+        "status": "PUBLISHED",
+        "mode": "HYBRID"
+      },
+      {
+        "version_label": "hybrid-v3",
+        "status": "DRAFT",
+        "mode": "HYBRID"
+      },
+      {
+        "version_label": "lab-final-TEXT_ONLY",
+        "status": "DRAFT",
+        "mode": "TEXT_ONLY"
+      },
+      {
+        "version_label": "lab-final-VECTOR_ONLY",
+        "status": "DRAFT",
+        "mode": "VECTOR_ONLY"
+      }
+    ],
+    "prompt": [
+      {
+        "version_number": 1,
+        "status": "PUBLISHED",
+        "max_tokens": 800
+      },
+      {
+        "version_number": 2,
+        "status": "DRAFT",
+        "max_tokens": 1200
+      }
+    ],
+    "context": [
+      {
+        "version_label": "context-e2e-temp-20260803231940",
+        "status": "ARCHIVED"
+      },
+      {
+        "version_label": "context-e2e-temp-1785798522745",
+        "status": "ARCHIVED"
+      },
+      {
+        "version_label": "context-e2e-temp-20260803230544",
+        "status": "ARCHIVED"
+      },
+      {
+        "version_label": "ok-1785797490573",
+        "status": "ARCHIVED"
+      },
+      {
+        "version_label": "context-budget-v1",
+        "status": "DRAFT"
+      }
+    ],
+    "cache": [
+      {
+        "version_label": "cache-shadow-v1",
+        "status": "PUBLISHED"
+      }
+    ],
+    "evidence": [
+      {
+        "version_label": "evidence-v1",
+        "status": "PUBLISHED"
+      },
+      {
+        "version_label": "evidence-v2",
+        "status": "DRAFT"
+      }
+    ],
+    "quality": [
+      {
+        "version_label": "response-quality-v2",
+        "status": "PUBLISHED"
+      },
+      {
+        "version_label": "response-quality-v1",
+        "status": "ARCHIVED"
+      }
+    ]
+  },
+  "workflowHistory": {
+    "critical": [
+      {
+        "id": "bae8872eeb164a27",
+        "name": "IA - RECUPERAR CONTEXTO",
+        "active": true,
+        "activeVersionId": "9d626e9e-8b13-453e-b9e3-6f77064a586e",
+        "historyPresent": true,
+        "historyUpdatedAt": "2026-08-08T21:23:24.865Z",
+        "nodesLen": 47550,
+        "ok": true
+      },
+      {
+        "id": "YDnrXjzYUOrZVE6N",
+        "name": "QDRANT - BUSCAR",
+        "active": true,
+        "activeVersionId": "694481e5-9e9e-48e7-9f7e-9cbf74927207",
+        "historyPresent": true,
+        "historyUpdatedAt": "2026-08-08T21:23:27.340Z",
+        "nodesLen": 3570,
+        "ok": true
+      },
+      {
+        "id": "Y0MuWEEdoMFts7ay",
+        "name": "PUT Documentos",
+        "active": true,
+        "activeVersionId": "c31dbbba-0a12-4c64-b636-10b5dc9b701b",
+        "historyPresent": true,
+        "historyUpdatedAt": "2026-08-08T21:54:51.881Z",
+        "nodesLen": 27694,
+        "ok": true
+      },
+      {
+        "id": "8EXk5RkFW5cxnenL",
+        "name": "Consulta IA",
+        "active": true,
+        "activeVersionId": "ca2f27f8-586a-413b-937b-d03f00638a6a",
+        "historyPresent": true,
+        "historyUpdatedAt": "2026-08-08T21:55:10.920Z",
+        "nodesLen": 48134,
+        "ok": true
+      },
+      {
+        "id": "c221InvalidateEvent01",
+        "name": "IA - INVALIDAR CACHE POR EVENTO",
+        "active": true,
+        "activeVersionId": "8583404e-960c-4f69-a9de-f082552a292c",
+        "historyPresent": true,
+        "historyUpdatedAt": "2026-08-04T00:06:19.923Z",
+        "nodesLen": 2205,
+        "ok": true
+      }
+    ],
+    "activeMismatches": [],
+    "schedules": [
+      {
+        "id": "c221CacheCleanupSched",
+        "name": "SCHEDULE - AI CACHE CLEANUP",
+        "active": true
+      },
+      {
+        "id": "Ixvg9Dcqo8MnONq3",
+        "name": "Schedule - Backup Diário",
+        "active": true
+      },
+      {
+        "id": "HympisbYzMo0mQYP",
+        "name": "Schedule - Embeddings Fila",
+        "active": true
+      },
+      {
+        "id": "By7xP0i0JmWy1AZD",
+        "name": "Schedule - Qdrant Fila",
+        "active": true
+      }
+    ],
+    "WORKFLOW_HISTORY_SYNC": "PASS",
+    "activeMismatchesAfterSync": []
+  },
+  "summary": {
+    "inactiveAllOk": true,
+    "exactPass": 8,
+    "exactTotal": 8,
+    "exactAllPass": true,
+    "hybridV2Published": true,
+    "noDraftPublished": true,
+    "WORKFLOW_HISTORY_SYNC": "PASS",
+    "cacheDeactivateEvent": true,
+    "cacheActivateEvent": true,
+    "cacheInvalidateExecutions": 16
+  },
+  "audit": {
+    "auditOfficialStartAt": "2026-08-08T21:36:33.048Z",
+    "after_official": 555,
+    "first_after": "2026-08-08T21:36:36.581Z",
+    "last_after": "2026-08-08T21:58:30.077Z"
+  }
+}

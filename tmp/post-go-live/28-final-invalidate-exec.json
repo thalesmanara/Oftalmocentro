@@ -1,0 +1,500 @@
+{
+  "cols": [
+    "createdAt",
+    "deduplicationKey",
+    "deletedAt",
+    "finished",
+    "id",
+    "mode",
+    "retryOf",
+    "retrySuccessId",
+    "startedAt",
+    "status",
+    "stoppedAt",
+    "storedAt",
+    "tracingContext",
+    "waitTill",
+    "workflowId"
+  ],
+  "recent": [
+    {
+      "id": 39658,
+      "workflowId": "jtQvQlqRZ5X5WF9I",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:22.656Z"
+    },
+    {
+      "id": 39657,
+      "workflowId": "zE5LRjZfbXw8Ymll",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:22.592Z"
+    },
+    {
+      "id": 39656,
+      "workflowId": "c22CacheRuntime0001",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:22.558Z"
+    },
+    {
+      "id": 39655,
+      "workflowId": "c221InvalidateEvent01",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:22.470Z"
+    },
+    {
+      "id": 39654,
+      "workflowId": "jtQvQlqRZ5X5WF9I",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:22.438Z"
+    },
+    {
+      "id": 39653,
+      "workflowId": "yXW3rW8EbHXuprRJ",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:22.338Z"
+    },
+    {
+      "id": 39652,
+      "workflowId": "P5E43ZXSJiI9wFYD",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:22.300Z"
+    },
+    {
+      "id": 39651,
+      "workflowId": "N3zLpj7Dij4n5p5p",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:22.278Z"
+    },
+    {
+      "id": 39650,
+      "workflowId": "Y0MuWEEdoMFts7ay",
+      "status": "success",
+      "mode": "webhook",
+      "startedAt": "2026-08-08T22:02:22.266Z"
+    },
+    {
+      "id": 39649,
+      "workflowId": "jtQvQlqRZ5X5WF9I",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:19.454Z"
+    },
+    {
+      "id": 39648,
+      "workflowId": "zE5LRjZfbXw8Ymll",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:19.380Z"
+    },
+    {
+      "id": 39647,
+      "workflowId": "c22CacheRuntime0001",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:19.357Z"
+    },
+    {
+      "id": 39646,
+      "workflowId": "c221InvalidateEvent01",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:19.303Z"
+    },
+    {
+      "id": 39645,
+      "workflowId": "jtQvQlqRZ5X5WF9I",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:19.283Z"
+    },
+    {
+      "id": 39644,
+      "workflowId": "yXW3rW8EbHXuprRJ",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:19.198Z"
+    },
+    {
+      "id": 39643,
+      "workflowId": "P5E43ZXSJiI9wFYD",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:19.167Z"
+    },
+    {
+      "id": 39642,
+      "workflowId": "N3zLpj7Dij4n5p5p",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:19.117Z"
+    },
+    {
+      "id": 39641,
+      "workflowId": "Y0MuWEEdoMFts7ay",
+      "status": "success",
+      "mode": "webhook",
+      "startedAt": "2026-08-08T22:02:19.088Z"
+    },
+    {
+      "id": 39640,
+      "workflowId": "zE5LRjZfbXw8Ymll",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:18.452Z"
+    },
+    {
+      "id": 39639,
+      "workflowId": "yXW3rW8EbHXuprRJ",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:18.304Z"
+    },
+    {
+      "id": 39638,
+      "workflowId": "P5E43ZXSJiI9wFYD",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:18.138Z"
+    },
+    {
+      "id": 39637,
+      "workflowId": "N3zLpj7Dij4n5p5p",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:18.018Z"
+    },
+    {
+      "id": 39636,
+      "workflowId": "WCwJqtFRROwoToik",
+      "status": "success",
+      "mode": "webhook",
+      "startedAt": "2026-08-08T22:02:17.936Z"
+    },
+    {
+      "id": 39635,
+      "workflowId": "jtQvQlqRZ5X5WF9I",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:17.690Z"
+    },
+    {
+      "id": 39634,
+      "workflowId": "zE5LRjZfbXw8Ymll",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:17.662Z"
+    },
+    {
+      "id": 39633,
+      "workflowId": "N3zLpj7Dij4n5p5p",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:17.573Z"
+    },
+    {
+      "id": 39632,
+      "workflowId": "Oyt4aCpmjStLdYvO",
+      "status": "success",
+      "mode": "webhook",
+      "startedAt": "2026-08-08T22:02:17.563Z"
+    },
+    {
+      "id": 39631,
+      "workflowId": "r3iSBV1ClKOxS2UI",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:16.192Z"
+    },
+    {
+      "id": 39630,
+      "workflowId": "yXW3rW8EbHXuprRJ",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:16.160Z"
+    },
+    {
+      "id": 39629,
+      "workflowId": "P5E43ZXSJiI9wFYD",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:16.123Z"
+    },
+    {
+      "id": 39628,
+      "workflowId": "N3zLpj7Dij4n5p5p",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:16.101Z"
+    },
+    {
+      "id": 39627,
+      "workflowId": "BAHKNoJM7VdYU8UE",
+      "status": "success",
+      "mode": "webhook",
+      "startedAt": "2026-08-08T22:02:16.089Z"
+    },
+    {
+      "id": 39626,
+      "workflowId": "jtQvQlqRZ5X5WF9I",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:15.858Z"
+    },
+    {
+      "id": 39625,
+      "workflowId": "zE5LRjZfbXw8Ymll",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:15.826Z"
+    },
+    {
+      "id": 39624,
+      "workflowId": "N3zLpj7Dij4n5p5p",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:13.726Z"
+    },
+    {
+      "id": 39623,
+      "workflowId": "Oyt4aCpmjStLdYvO",
+      "status": "success",
+      "mode": "webhook",
+      "startedAt": "2026-08-08T22:02:13.705Z"
+    },
+    {
+      "id": 39622,
+      "workflowId": "jtQvQlqRZ5X5WF9I",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:01:13.703Z"
+    },
+    {
+      "id": 39621,
+      "workflowId": "zE5LRjZfbXw8Ymll",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:01:13.679Z"
+    },
+    {
+      "id": 39620,
+      "workflowId": "N3zLpj7Dij4n5p5p",
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:01:13.639Z"
+    },
+    {
+      "id": 39619,
+      "workflowId": "2cfvB59nVeJ91wii",
+      "status": "success",
+      "mode": "webhook",
+      "startedAt": "2026-08-08T22:01:13.628Z"
+    }
+  ],
+  "byWf": [
+    {
+      "workflowId": "jtQvQlqRZ5X5WF9I",
+      "n": 1489,
+      "last": "2026-08-08T22:02:22.656Z"
+    },
+    {
+      "workflowId": "c22CacheRuntime0001",
+      "n": 558,
+      "last": "2026-08-08T22:02:22.558Z"
+    },
+    {
+      "workflowId": "N3zLpj7Dij4n5p5p",
+      "n": 393,
+      "last": "2026-08-08T22:02:22.278Z"
+    },
+    {
+      "workflowId": "zE5LRjZfbXw8Ymll",
+      "n": 371,
+      "last": "2026-08-08T22:02:22.592Z"
+    },
+    {
+      "workflowId": "P5E43ZXSJiI9wFYD",
+      "n": 361,
+      "last": "2026-08-08T22:02:22.300Z"
+    },
+    {
+      "workflowId": "yXW3rW8EbHXuprRJ",
+      "n": 353,
+      "last": "2026-08-08T22:02:22.338Z"
+    },
+    {
+      "workflowId": "c25ResponsePolicy01",
+      "n": 273,
+      "last": "2026-08-08T22:01:11.585Z"
+    },
+    {
+      "workflowId": "bae8872eeb164a27",
+      "n": 271,
+      "last": "2026-08-08T22:01:07.109Z"
+    },
+    {
+      "workflowId": "c23EvidenceRuntime01",
+      "n": 271,
+      "last": "2026-08-08T22:01:08.128Z"
+    },
+    {
+      "workflowId": "8EXk5RkFW5cxnenL",
+      "n": 271,
+      "last": "2026-08-08T22:01:06.991Z"
+    },
+    {
+      "workflowId": "c24ResponseQuality01",
+      "n": 271,
+      "last": "2026-08-08T22:01:11.503Z"
+    },
+    {
+      "workflowId": "sClDEVNVS0TGG2uq",
+      "n": 271,
+      "last": "2026-08-08T22:01:07.174Z"
+    },
+    {
+      "workflowId": "OSopSf635RVwD65J",
+      "n": 271,
+      "last": "2026-08-08T22:01:08.250Z"
+    },
+    {
+      "workflowId": "e95a92295d7c4deb",
+      "n": 271,
+      "last": "2026-08-08T22:01:08.303Z"
+    },
+    {
+      "workflowId": "70fd9924711b45f1",
+      "n": 271,
+      "last": "2026-08-08T22:01:08.452Z"
+    },
+    {
+      "workflowId": "YDnrXjzYUOrZVE6N",
+      "n": 270,
+      "last": "2026-08-08T22:01:07.502Z"
+    },
+    {
+      "workflowId": "WCwJqtFRROwoToik",
+      "n": 38,
+      "last": "2026-08-08T22:02:17.936Z"
+    },
+    {
+      "workflowId": "Y0MuWEEdoMFts7ay",
+      "n": 38,
+      "last": "2026-08-08T22:02:22.266Z"
+    },
+    {
+      "workflowId": "Oyt4aCpmjStLdYvO",
+      "n": 30,
+      "last": "2026-08-08T22:02:17.563Z"
+    },
+    {
+      "workflowId": "D1bbCBEdKuNQc9F5",
+      "n": 29,
+      "last": "2026-08-08T22:00:17.995Z"
+    },
+    {
+      "workflowId": "Feli8ssd2KggST6N",
+      "n": 27,
+      "last": "2026-08-08T22:00:19.086Z"
+    },
+    {
+      "workflowId": "LJQZ2HrG6qJGN0Q2",
+      "n": 27,
+      "last": "2026-08-08T22:00:17.919Z"
+    },
+    {
+      "workflowId": "By7xP0i0JmWy1AZD",
+      "n": 24,
+      "last": "2026-08-08T22:00:38.007Z"
+    },
+    {
+      "workflowId": "ihR1aNY04ZgeW0lm",
+      "n": 24,
+      "last": "2026-08-08T22:00:38.021Z"
+    },
+    {
+      "workflowId": "HympisbYzMo0mQYP",
+      "n": 24,
+      "last": "2026-08-08T22:00:12.006Z"
+    },
+    {
+      "workflowId": "3BkmtrasXs1lORtL",
+      "n": 24,
+      "last": "2026-08-08T22:00:13.976Z"
+    },
+    {
+      "workflowId": "r3iSBV1ClKOxS2UI",
+      "n": 17,
+      "last": "2026-08-08T22:02:16.192Z"
+    },
+    {
+      "workflowId": "c221InvalidateEvent01",
+      "n": 16,
+      "last": "2026-08-08T22:02:22.470Z"
+    },
+    {
+      "workflowId": "iEZcTWAMV5YEWU4T",
+      "n": 6,
+      "last": "2026-08-08T21:10:17.661Z"
+    },
+    {
+      "workflowId": "BAHKNoJM7VdYU8UE",
+      "n": 4,
+      "last": "2026-08-08T22:02:16.089Z"
+    }
+  ],
+  "invNode": {
+    "name": "Invalidar cache",
+    "params": {
+      "mode": "once",
+      "source": "database",
+      "options": {
+        "waitForSubWorkflow": false
+      },
+      "workflowId": {
+        "__rl": true,
+        "mode": "id",
+        "value": "c221InvalidateEvent01",
+        "cachedResultName": "IA - INVALIDAR CACHE POR EVENTO"
+      },
+      "workflowInputs": {
+        "value": {
+          "userId": "={{ (() => { try { return $('Validar auth').first().json.userId || ''; } catch (_) { return ''; } })() }}",
+          "eventType": "={{ $('Aplicar isActive').first().json.isActive === false ? 'DOCUMENT_DEACTIVATED' : 'DOCUMENT_ACTIVATED' }}",
+          "modelName": "={{ \"\" }}",
+          "requestId": "={{ $('Normalizar request').first().json.requestId || '' }}",
+          "documentId": "={{ String($('Aplicar isActive').first().json.id || '') }}",
+          "reasonCode": "={{ $('Aplicar isActive').first().json.isActive === false ? 'DOCUMENT_DEACTIVATED' : 'DOCUMENT_ACTIVATED' }}",
+          "promptVersionId": "={{ \"\" }}",
+          "documentVersionId": "={{ String($('Aplicar isActive').first().json.currentVersionId || '') }}",
+          "contextConfigVersionId": "={{ \"\" }}",
+          "retrievalConfigVersionId": "={{ \"\" }}"
+        },
+        "mappingMode": "defineBelow"
+      }
+    }
+  },
+  "invWfNodes": {
+    "nodes": [
+      {
+        "name": "Trigger",
+        "type": "n8n-nodes-base.executeWorkflowTrigger"
+      },
+      {
+        "name": "Chamar CACHE RUNTIME",
+        "type": "n8n-nodes-base.executeWorkflow"
+      },
+      {
+        "name": "Normalizar saída",
+        "type": "n8n-nodes-base.code"
+      }
+    ]
+  }
+}

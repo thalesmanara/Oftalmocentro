@@ -1,0 +1,362 @@
+{
+  "avcbCacheFile": {
+    "recent": [
+      {
+        "action": "DOCUMENT_ACTIVATED",
+        "created_at": "2026-08-08T21:59:47.763Z",
+        "success": true,
+        "meta": "null"
+      },
+      {
+        "action": "DOCUMENT_DEACTIVATED",
+        "created_at": "2026-08-08T21:59:44.854Z",
+        "success": true,
+        "meta": "null"
+      },
+      {
+        "action": "DOCUMENT_ACTIVATED",
+        "created_at": "2026-08-08T21:57:33.107Z",
+        "success": true,
+        "meta": "null"
+      },
+      {
+        "action": "DOCUMENT_DEACTIVATED",
+        "created_at": "2026-08-08T21:56:31.434Z",
+        "success": true,
+        "meta": "null"
+      }
+    ],
+    "stats": {
+      "entries": 104,
+      "invalidated": 12
+    },
+    "actions": [
+      {
+        "action": "DOCUMENT_ACTIVATED",
+        "n": 2,
+        "last_at": "2026-08-08T21:57:33.107Z"
+      },
+      {
+        "action": "DOCUMENT_DEACTIVATED",
+        "n": 2,
+        "last_at": "2026-08-08T21:56:31.434Z"
+      }
+    ]
+  },
+  "qdrant": {
+    "at": "2026-08-08T22:00:33.630Z",
+    "totalPoints": 634,
+    "pointsWithIsActive": 634,
+    "pointsWithoutIsActive": 0,
+    "activePoints": 634,
+    "inactivePoints": 0,
+    "orphanPoints": 0,
+    "fullCoverage": true,
+    "fixtureAfterReactivate": {
+      "n": 20,
+      "allActive": true
+    }
+  },
+  "cacheStats": {
+    "columns": [
+      "answer",
+      "cache_config_version_id",
+      "cache_key_hash",
+      "classification",
+      "classification_hash",
+      "conflict_detected",
+      "contains_sensitive_data",
+      "context_config_hash",
+      "context_config_version_id",
+      "created_at",
+      "document_version_ids",
+      "effective_ttl_seconds",
+      "expires_at",
+      "hit_count",
+      "id",
+      "insufficient_context",
+      "invalidated_at",
+      "invalidation_reason",
+      "last_hit_at",
+      "metadata",
+      "model_name",
+      "model_parameters_hash",
+      "nearest_source_expiration",
+      "normalized_question",
+      "not_cacheable_reason",
+      "prompt_hash",
+      "prompt_version_id",
+      "question_embedding",
+      "question_embedding_dimensions",
+      "question_embedding_model",
+      "question_hash",
+      "response_hash",
+      "retrieval_config_hash",
+      "retrieval_config_version_id",
+      "scope_hash",
+      "served_hit_count",
+      "shadow_candidate_count",
+      "source_document_ids",
+      "source_fingerprint",
+      "source_fingerprint_version",
+      "sources",
+      "status",
+      "ttl_policy",
+      "validation_count"
+    ],
+    "total": 104
+  },
+  "recentAudit": [
+    {
+      "action": "EMBEDDING_SUCCESS",
+      "created_at": "2026-08-08T22:00:19.136Z",
+      "success": true,
+      "meta": "{\"total\": 8, \"valid\": 8, \"status\": \"VALID\", \"skipped\": 0}"
+    },
+    {
+      "action": "EMBEDDING_STARTED",
+      "created_at": "2026-08-08T22:00:17.952Z",
+      "success": true,
+      "meta": "{\"force\": false, \"versionId\": \"fd2a398b-e3b3-444e-8bd2-223337d7346b\", \"documentId\": \"71e5029f-4881-4fe4-9dc9-048f178b1165\"}"
+    },
+    {
+      "action": "EMBEDDING_SUCCESS",
+      "created_at": "2026-08-08T22:00:17.884Z",
+      "success": true,
+      "meta": "{\"total\": 8, \"valid\": 8, \"status\": \"VALID\", \"skipped\": 0}"
+    },
+    {
+      "action": "EMBEDDING_STARTED",
+      "created_at": "2026-08-08T22:00:16.379Z",
+      "success": true,
+      "meta": "{\"force\": false, \"versionId\": \"930f284d-7354-4877-9338-72adddcce02e\", \"documentId\": \"71e5029f-4881-4fe4-9dc9-048f178b1165\"}"
+    },
+    {
+      "action": "EMBEDDING_SUCCESS",
+      "created_at": "2026-08-08T22:00:16.233Z",
+      "success": true,
+      "meta": "{\"total\": 8, \"valid\": 8, \"status\": \"VALID\", \"skipped\": 0}"
+    },
+    {
+      "action": "EMBEDDING_STARTED",
+      "created_at": "2026-08-08T22:00:14.102Z",
+      "success": true,
+      "meta": "{\"force\": false, \"versionId\": \"849e9dad-3063-4d3e-aab3-c20358c24363\", \"documentId\": \"71e5029f-4881-4fe4-9dc9-048f178b1165\"}"
+    },
+    {
+      "action": "DOCUMENT_VERSION_CREATE",
+      "created_at": "2026-08-08T21:59:47.894Z",
+      "success": true,
+      "meta": "null"
+    },
+    {
+      "action": "DOCUMENT_ACTIVATED",
+      "created_at": "2026-08-08T21:59:47.763Z",
+      "success": true,
+      "meta": "null"
+    },
+    {
+      "action": "DOCUMENT_VERSION_CREATE",
+      "created_at": "2026-08-08T21:59:45.256Z",
+      "success": true,
+      "meta": "null"
+    },
+    {
+      "action": "DOCUMENT_DEACTIVATED",
+      "created_at": "2026-08-08T21:59:44.854Z",
+      "success": true,
+      "meta": "null"
+    },
+    {
+      "action": "AI_RESPONSE_POLICY_APPLIED",
+      "created_at": "2026-08-08T21:59:42.658Z",
+      "success": true,
+      "meta": "{\"categoryId\": \"1a1b4aa3-fd95-4751-b7b1-ec8066a7185c\", \"promptCode\": null, \"documentIds\": [\"a302ac20-dc23-4e4c-b49b-9d57808a8f77\", \"e8a7bfff-c0a0-462c-a5cd-780f78875d03\", \"abe008c7-c9b8-4d6b-bc5f-a0f197722484\", \"89b3aae6-4fe0-426f-b73c-fd0039efb601\"], \"answerLength\": 200, \"categoryName\": \"ALVARÁS - LICENÇAS - ART\", \"sourcesCount\": 4, \"subcategoryId\": \"44a763bd-f563-4142-bce8-9897701c3072\", \"questionLength\": 80, \"promptModelName\": null, \"promptVersionId\": null, \"subcategoryName\": \"Corpo de Bombei"
+    },
+    {
+      "action": "AI_CONTEXT_BUILD_SUCCESS",
+      "created_at": "2026-08-08T21:59:38.734Z",
+      "success": true,
+      "meta": "{\"mode\": \"LEGACY\", \"durationMs\": 5, \"fallbackUsed\": false, \"configVersion\": \"context-v1\", \"insufficientContext\": false}"
+    },
+    {
+      "action": "AI_CONTEXT_BUILD_STARTED",
+      "created_at": "2026-08-08T21:59:38.572Z",
+      "success": true,
+      "meta": "{\"contextConfigVersionId\": null}"
+    },
+    {
+      "action": "AI_RETRIEVAL_SUCCESS",
+      "created_at": "2026-08-08T21:59:38.313Z",
+      "success": true,
+      "meta": "{\"mode\": \"HYBRID\", \"fallbackUsed\": false, \"configVersion\": \"hybrid-v2\", \"selectedCount\": 12, \"candidateCount\": 18, \"retrievalLatencyMs\": 3692}"
+    },
+    {
+      "action": "AI_RETRIEVAL_STARTED",
+      "created_at": "2026-08-08T21:59:34.604Z",
+      "success": true,
+      "meta": "{\"modeOverrideAllowed\": false}"
+    },
+    {
+      "action": "AI_RESPONSE_POLICY_APPLIED",
+      "created_at": "2026-08-08T21:59:34.247Z",
+      "success": true,
+      "meta": "{\"categoryId\": \"1a1b4aa3-fd95-4751-b7b1-ec8066a7185c\", \"promptCode\": null, \"documentIds\": [\"bf7bca54-5db5-4135-8b04-2aa8fb63a374\", \"c0009c91-d64e-44c1-bc28-e892f4ea358b\", \"d33816da-475a-46e9-bdb4-9e68bc9c7139\", \"14e1260e-c935-4526-a703-095812c9a3da\", \"a302ac20-dc23-4e4c-b49b-9d57808a8f77\", \"ed7aa0c2-1b20-4480-84d1-f7627b45a7d8\", \"d19ac5f2-cc0d-4da4-abdb-9ebbb38fd6f3\", \"e8a7bfff-c0a0-462c-a5cd-780f78875d03\"], \"answerLength\": 525, \"categoryName\": \"ALVARÁS - LICENÇAS - ART\", \"sourcesCount\": 8, \"sub"
+    },
+    {
+      "action": "AI_CONTEXT_BUILD_SUCCESS",
+      "created_at": "2026-08-08T21:59:28.141Z",
+      "success": true,
+      "meta": "{\"mode\": \"LEGACY\", \"durationMs\": 16, \"fallbackUsed\": false, \"configVersion\": \"context-v1\", \"insufficientContext\": false}"
+    },
+    {
+      "action": "AI_CONTEXT_BUILD_STARTED",
+      "created_at": "2026-08-08T21:59:27.877Z",
+      "success": true,
+      "meta": "{\"contextConfigVersionId\": null}"
+    },
+    {
+      "action": "AI_RETRIEVAL_SUCCESS",
+      "created_at": "2026-08-08T21:59:27.540Z",
+      "success": true,
+      "meta": "{\"mode\": \"HYBRID\", \"fallbackUsed\": false, \"configVersion\": \"hybrid-v2\", \"selectedCount\": 12, \"candidateCount\": 12, \"retrievalLatencyMs\": 838}"
+    },
+    {
+      "action": "AI_RETRIEVAL_STARTED",
+      "created_at": "2026-08-08T21:59:26.707Z",
+      "success": true,
+      "meta": "{\"modeOverrideAllowed\": false}"
+    },
+    {
+      "action": "AUTH_LOGIN_SUCCESS",
+      "created_at": "2026-08-08T21:59:26.296Z",
+      "success": true,
+      "meta": "{\"emailDomain\": \"oftalmocentrouberaba.com.br\"}"
+    },
+    {
+      "action": "AI_RESPONSE_POLICY_APPLIED",
+      "created_at": "2026-08-08T21:58:30.077Z",
+      "success": true,
+      "meta": "{\"categoryId\": \"93585899-dd11-41dd-b59d-ecd966821196\", \"promptCode\": null, \"documentIds\": [\"cd401398-9891-4259-9294-bdcb3be5a78a\", \"60a04d2a-7c93-423b-8c6d-721cf2b026bd\"], \"answerLength\": 1155, \"categoryName\": \"ENGENHARIA CLÍNICA\", \"sourcesCount\": 2, \"subcategoryId\": \"eed78a5a-3492-4e04-bb8b-eea5a96f768b\", \"questionLength\": 82, \"promptModelName\": null, \"promptVersionId\": null, \"subcategoryName\": \"CONTRATOS DE MANUTENÇÃO\", \"promptVersionNumber\": null, \"responsePolicyWarning\": false, \"responsePoli"
+    },
+    {
+      "action": "AI_CONTEXT_BUILD_SUCCESS",
+      "created_at": "2026-08-08T21:58:25.203Z",
+      "success": true,
+      "meta": "{\"mode\": \"LEGACY\", \"durationMs\": 4, \"fallbackUsed\": false, \"configVersion\": \"context-v1\", \"insufficientContext\": false}"
+    },
+    {
+      "action": "AI_CONTEXT_BUILD_STARTED",
+      "created_at": "2026-08-08T21:58:25.099Z",
+      "success": true,
+      "meta": "{\"contextConfigVersionId\": null}"
+    },
+    {
+      "action": "AI_RETRIEVAL_SUCCESS",
+      "created_at": "2026-08-08T21:58:24.859Z",
+      "success": true,
+      "meta": "{\"mode\": \"HYBRID\", \"fallbackUsed\": false, \"configVersion\": \"hybrid-v2\", \"selectedCount\": 7, \"candidateCount\": 34, \"retrievalLatencyMs\": 769}"
+    },
+    {
+      "action": "AI_RETRIEVAL_STARTED",
+      "created_at": "2026-08-08T21:58:24.093Z",
+      "success": true,
+      "meta": "{\"modeOverrideAllowed\": false}"
+    },
+    {
+      "action": "AI_RESPONSE_POLICY_APPLIED",
+      "created_at": "2026-08-08T21:58:23.666Z",
+      "success": true,
+      "meta": "{\"categoryId\": \"2a024d4f-fd7a-4a84-9c20-131d6a86a8f2\", \"promptCode\": null, \"documentIds\": [\"8c60fa00-de18-49b0-9d7f-f1ca461d4d78\", \"a90d7c80-1693-4a7a-93f1-ec2206e3680c\"], \"answerLength\": 195, \"categoryName\": \"OFTALMOCENTRO INSTITUCIONAL\", \"sourcesCount\": 2, \"subcategoryId\": \"d53a1932-1460-41ed-bf04-c5f6073f8226\", \"questionLength\": 104, \"promptModelName\": null, \"promptVersionId\": null, \"subcategoryName\": \"Contrato de Locação\", \"promptVersionNumber\": null, \"responsePolicyWarning\": false, \"respons"
+    },
+    {
+      "action": "AI_CONTEXT_BUILD_SUCCESS",
+      "created_at": "2026-08-08T21:58:21.520Z",
+      "success": true,
+      "meta": "{\"mode\": \"LEGACY\", \"durationMs\": 7, \"fallbackUsed\": false, \"configVersion\": \"context-v1\", \"insufficientContext\": false}"
+    },
+    {
+      "action": "AI_CONTEXT_BUILD_STARTED",
+      "created_at": "2026-08-08T21:58:21.382Z",
+      "success": true,
+      "meta": "{\"contextConfigVersionId\": null}"
+    },
+    {
+      "action": "AI_RETRIEVAL_SUCCESS",
+      "created_at": "2026-08-08T21:58:21.172Z",
+      "success": true,
+      "meta": "{\"mode\": \"HYBRID\", \"fallbackUsed\": false, \"configVersion\": \"hybrid-v2\", \"selectedCount\": 8, \"candidateCount\": 25, \"retrievalLatencyMs\": 794}"
+    },
+    {
+      "action": "AI_RETRIEVAL_STARTED",
+      "created_at": "2026-08-08T21:58:20.371Z",
+      "success": true,
+      "meta": "{\"modeOverrideAllowed\": false}"
+    },
+    {
+      "action": "AI_RESPONSE_POLICY_APPLIED",
+      "created_at": "2026-08-08T21:58:20.029Z",
+      "success": true,
+      "meta": "{\"categoryId\": \"1a1b4aa3-fd95-4751-b7b1-ec8066a7185c\", \"promptCode\": null, \"documentIds\": [\"a302ac20-dc23-4e4c-b49b-9d57808a8f77\", \"e8a7bfff-c0a0-462c-a5cd-780f78875d03\", \"89b3aae6-4fe0-426f-b73c-fd0039efb601\", \"abe008c7-c9b8-4d6b-bc5f-a0f197722484\"], \"answerLength\": 214, \"categoryName\": \"ALVARÁS - LICENÇAS - ART\", \"sourcesCount\": 4, \"subcategoryId\": \"44a763bd-f563-4142-bce8-9897701c3072\", \"questionLength\": 73, \"promptModelName\": null, \"promptVersionId\": null, \"subcategoryName\": \"Corpo de Bombei"
+    },
+    {
+      "action": "AI_CONTEXT_BUILD_SUCCESS",
+      "created_at": "2026-08-08T21:58:17.302Z",
+      "success": true,
+      "meta": "{\"mode\": \"LEGACY\", \"durationMs\": 4, \"fallbackUsed\": false, \"configVersion\": \"context-v1\", \"insufficientContext\": false}"
+    },
+    {
+      "action": "AI_CONTEXT_BUILD_STARTED",
+      "created_at": "2026-08-08T21:58:17.197Z",
+      "success": true,
+      "meta": "{\"contextConfigVersionId\": null}"
+    },
+    {
+      "action": "AI_RETRIEVAL_SUCCESS",
+      "created_at": "2026-08-08T21:58:16.953Z",
+      "success": true,
+      "meta": "{\"mode\": \"HYBRID\", \"fallbackUsed\": false, \"configVersion\": \"hybrid-v2\", \"selectedCount\": 12, \"candidateCount\": 18, \"retrievalLatencyMs\": 1013}"
+    },
+    {
+      "action": "AI_RETRIEVAL_STARTED",
+      "created_at": "2026-08-08T21:58:15.955Z",
+      "success": true,
+      "meta": "{\"modeOverrideAllowed\": false}"
+    },
+    {
+      "action": "AI_RESPONSE_POLICY_APPLIED",
+      "created_at": "2026-08-08T21:58:15.563Z",
+      "success": true,
+      "meta": "{\"categoryId\": \"1a1b4aa3-fd95-4751-b7b1-ec8066a7185c\", \"promptCode\": null, \"documentIds\": [\"a302ac20-dc23-4e4c-b49b-9d57808a8f77\", \"e8a7bfff-c0a0-462c-a5cd-780f78875d03\", \"89b3aae6-4fe0-426f-b73c-fd0039efb601\", \"abe008c7-c9b8-4d6b-bc5f-a0f197722484\"], \"answerLength\": 1286, \"categoryName\": \"ALVARÁS - LICENÇAS - ART\", \"sourcesCount\": 4, \"subcategoryId\": \"44a763bd-f563-4142-bce8-9897701c3072\", \"questionLength\": 48, \"promptModelName\": null, \"promptVersionId\": null, \"subcategoryName\": \"Corpo de Bombe"
+    },
+    {
+      "action": "AI_CONTEXT_BUILD_SUCCESS",
+      "created_at": "2026-08-08T21:58:11.165Z",
+      "success": true,
+      "meta": "{\"mode\": \"LEGACY\", \"durationMs\": 6, \"fallbackUsed\": false, \"configVersion\": \"context-v1\", \"insufficientContext\": false}"
+    },
+    {
+      "action": "AI_CONTEXT_BUILD_STARTED",
+      "created_at": "2026-08-08T21:58:11.032Z",
+      "success": true,
+      "meta": "{\"contextConfigVersionId\": null}"
+    },
+    {
+      "action": "AI_RETRIEVAL_SUCCESS",
+      "created_at": "2026-08-08T21:58:10.731Z",
+      "success": true,
+      "meta": "{\"mode\": \"HYBRID\", \"fallbackUsed\": false, \"configVersion\": \"hybrid-v2\", \"selectedCount\": 11, \"candidateCount\": 18, \"retrievalLatencyMs\": 767}"
+    }
+  ],
+  "putWiresInvalidate": {
+    "has_invalidate": true,
+    "has_deactivated": true
+  },
+  "invalidateWorkflow": {
+    "id": "c221InvalidateEvent01",
+    "name": "IA - INVALIDAR CACHE POR EVENTO",
+    "active": true,
+    "activeVersionId": "8583404e-960c-4f69-a9de-f082552a292c"
+  },
+  "cacheMode": "SHADOW"
+}

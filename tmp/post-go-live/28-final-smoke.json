@@ -1,0 +1,128 @@
+{
+  "at": "2026-08-08T22:01:25.484Z",
+  "checks": [
+    {
+      "name": "login",
+      "ok": true,
+      "detail": "status=200"
+    },
+    {
+      "name": "login-fail",
+      "ok": true,
+      "detail": "status=401"
+    },
+    {
+      "name": "401-documents",
+      "ok": true,
+      "detail": "status=401"
+    },
+    {
+      "name": "documents",
+      "ok": true,
+      "detail": "n=56"
+    },
+    {
+      "name": "expirado-presence",
+      "ok": true,
+      "detail": "expiredDocs=14"
+    },
+    {
+      "name": "vence-em-breve-60d",
+      "ok": true,
+      "detail": "soonDocs=0"
+    },
+    {
+      "name": "ativo-inativo-field",
+      "ok": true,
+      "detail": "inactive=0"
+    },
+    {
+      "name": "technical-admin-required",
+      "ok": true,
+      "detail": "status=403 code=TECHNICAL_ADMIN_REQUIRED"
+    },
+    {
+      "name": "auditoria-endpoint",
+      "ok": true,
+      "detail": "status=200"
+    },
+    {
+      "name": "consulta-cnpj",
+      "ok": true,
+      "detail": "Os documentos disponíveis permitem uma resposta parcial:\n\nO CNPJ da clínica Oftalmocentro é 01.609.2"
+    },
+    {
+      "name": "similaridade-semantica",
+      "ok": true,
+      "detail": "sources=6"
+    },
+    {
+      "name": "resumo-aviso",
+      "ok": true,
+      "detail": "warn=true"
+    },
+    {
+      "name": "injection-handled",
+      "ok": true,
+      "detail": "status=200"
+    },
+    {
+      "name": "health",
+      "ok": true,
+      "detail": "h=200 sh=403"
+    },
+    {
+      "name": "logout",
+      "ok": true,
+      "detail": "status=200"
+    }
+  ],
+  "pass": 15,
+  "total": 15,
+  "allPass": true,
+  "secrets": [
+    {
+      "key": "cache_active_mode",
+      "value": "SHADOW"
+    },
+    {
+      "key": "cache_active_version",
+      "value": "cache-shadow-v1"
+    },
+    {
+      "key": "context_active_mode",
+      "value": "LEGACY"
+    },
+    {
+      "key": "context_active_version",
+      "value": "context-v1"
+    },
+    {
+      "key": "evidence_active_mode",
+      "value": "STRUCTURED"
+    },
+    {
+      "key": "evidence_active_version",
+      "value": "evidence-v1"
+    },
+    {
+      "key": "response_quality_active_mode",
+      "value": "VALIDATE_STRICT"
+    },
+    {
+      "key": "response_quality_active_version",
+      "value": "response-quality-v2"
+    },
+    {
+      "key": "retrieval_active_mode",
+      "value": "HYBRID"
+    },
+    {
+      "key": "retrieval_active_version",
+      "value": "hybrid-v2"
+    }
+  ],
+  "auditCountAfterOfficial": 599,
+  "productionBundle": "assets/index-V49IbOIr.js",
+  "localBundle": "assets/index-B-Y5fMgf.js"
+}

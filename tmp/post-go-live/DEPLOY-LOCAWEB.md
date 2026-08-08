@@ -1,6 +1,11 @@
-# Deploy frontend — Locaweb (Etapa 28.3)
+# Deploy frontend — Locaweb (Encerramento Final)
 
 O SPA produtivo está na **Locaweb**, não na Hostinger/VPS Coolify.
+
+## Pacote pronto
+
+- Pasta: `dist/`
+- ZIP: `tmp/post-go-live/LOCAWEB-FRONTEND-FINAL.zip`
 
 ## Build gerado
 
@@ -8,21 +13,50 @@ O SPA produtivo está na **Locaweb**, não na Hostinger/VPS Coolify.
 npm run build
 ```
 
-Artefatos em `dist/`:
+Artefatos a enviar (conteúdo completo de `dist/`):
 
-- `index.html`
-- `assets/index-B-Y5fMgf.js`
-- `assets/index-EQrxvzdZ.css`
-- `.htaccess`
+| Arquivo | Obrigatório |
+|---------|-------------|
+| `index.html` | Sim |
+| `.htaccess` | Sim (preservar rewrite/base path) |
+| `assets/index-B-Y5fMgf.js` | Sim |
+| `assets/index-EQrxvzdZ.css` | Sim |
+| `vite.svg` | Sim |
 
-## Publicação
+## Diretório de destino
+
+```
+oftalmocentrouberaba.com.br / oftalmocentrointeligente/
+```
+
+Caminho público esperado: `/oftalmocentrointeligente/`
+
+## Publicação (manual)
 
 1. Acesse o painel/File Manager ou FTP da Locaweb da clínica.
-2. Abra o diretório público da aplicação: `oftalmocentrointeligente/`
-3. Envie **todo o conteúdo** de `dist/` (substituindo os arquivos antigos).
-4. Confirme no HTML publicado a referência a `assets/index-B-Y5fMgf.js`.
-5. Abra `https://oftalmocentrouberaba.com.br/oftalmocentrointeligente/` em aba anônima e valide login + Auditoria + tags de vigência.
+2. Abra o diretório público `oftalmocentrointeligente/`.
+3. Envie **todo o conteúdo** de `dist/` (ou extraia o ZIP), substituindo arquivos antigos.
+4. Remova assets JS/CSS órfãos antigos quando seguro (ex.: `index-V49IbOIr.js`).
+5. Confirme em `index.html` a referência a `assets/index-B-Y5fMgf.js`.
+6. Hard refresh / aba anônima em  
+   `https://oftalmocentrouberaba.com.br/oftalmocentrointeligente/`
+
+## Validação pós-deploy
+
+- [ ] Domínio carrega `index-B-Y5fMgf.js`
+- [ ] Login / logout
+- [ ] Dashboard
+- [ ] Tags EXPIRADO / VENCE EM BREVE
+- [ ] Ordenação
+- [ ] Ativo / inativo
+- [ ] Administrador Técnico (gate de publish)
+- [ ] Auditoria gerencial
+- [ ] Detalhe técnico só Master/Technical Admin
+- [ ] Consulta IA
+- [ ] Aviso de resumo
+- [ ] Refresh de rota
 
 ## Observação
 
-Não há credenciais Locaweb no repositório nem no VPS Coolify (`oftalmocentro`). O deploy permanece ação operacional externa até alguém com acesso publicar o `dist/`.
+Não há credenciais Locaweb no repositório nem no VPS Coolify (`oftalmocentro`).  
+Esta etapa permanece **PENDÊNCIA OPERACIONAL EXTERNA** até a publicação manual.

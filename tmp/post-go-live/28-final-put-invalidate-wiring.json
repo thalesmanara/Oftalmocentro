@@ -1,0 +1,348 @@
+{
+  "names": [
+    {
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "disabled": false
+    },
+    {
+      "name": "Execute a SQL query",
+      "type": "n8n-nodes-base.postgres",
+      "disabled": false
+    },
+    {
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "disabled": false
+    },
+    {
+      "name": "Validar auth",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "disabled": false
+    },
+    {
+      "name": "Auth ok?",
+      "type": "n8n-nodes-base.if",
+      "disabled": false
+    },
+    {
+      "name": "Respond 401",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "disabled": false
+    },
+    {
+      "name": "Validar permissão",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "disabled": false
+    },
+    {
+      "name": "Permissão ok?",
+      "type": "n8n-nodes-base.if",
+      "disabled": false
+    },
+    {
+      "name": "Respond 403",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "disabled": false
+    },
+    {
+      "name": "Restaurar request",
+      "type": "n8n-nodes-base.code",
+      "disabled": false
+    },
+    {
+      "name": "Normalizar request",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "disabled": false
+    },
+    {
+      "name": "Preparar erro 401",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "disabled": false
+    },
+    {
+      "name": "Preparar erro 403",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "disabled": false
+    },
+    {
+      "name": "Montar data",
+      "type": "n8n-nodes-base.code",
+      "disabled": false
+    },
+    {
+      "name": "Preparar sucesso",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "disabled": false
+    },
+    {
+      "name": "Registrar auditoria sucesso",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "disabled": false
+    },
+    {
+      "name": "Registrar auditoria 401",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "disabled": false
+    },
+    {
+      "name": "Registrar auditoria 403",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "disabled": false
+    },
+    {
+      "name": "Aplicar isActive",
+      "type": "n8n-nodes-base.postgres",
+      "disabled": false
+    },
+    {
+      "name": "isActive mudou?",
+      "type": "n8n-nodes-base.if",
+      "disabled": false
+    },
+    {
+      "name": "Registrar auditoria isActive",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "disabled": false
+    },
+    {
+      "name": "Preparar flags isActive",
+      "type": "n8n-nodes-base.code",
+      "disabled": false
+    },
+    {
+      "name": "Invalidar cache",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "disabled": false
+    },
+    {
+      "name": "Qdrant set payload isActive",
+      "type": "n8n-nodes-base.httpRequest",
+      "disabled": false
+    }
+  ],
+  "invDetails": [
+    {
+      "name": "Aplicar isActive",
+      "type": "n8n-nodes-base.postgres",
+      "disabled": false,
+      "params": {
+        "operation": "executeQuery",
+        "query": "=WITH input AS (\n  SELECT\n    '{{ $json.id }}'::uuid AS document_id,\n    {{ $json.__isActiveProvided === true ? 'TRUE' : 'FALSE' }} AS is_active_provided,\n    {{ $json.__newIsActive === true ? 'TRUE' : 'FALSE' }} AS new_is_active,\n    COALESCE((SELECT is_active FROM documents WHERE id = '{{ $json.id }}'::uuid), TRUE) AS previous_is_active\n),\nupd AS (\n  UPDATE documents d\n  SET is_active = i.new_is_active,\n      updated_at = NOW()\n  FROM input i\n  WHERE d.id = i.document_id\n    AND i.is_active_provided\n    AND COALESCE(d.is_active, TRUE) IS DISTINCT FROM i.new_is_active\n  RETURNING d.id\n)\nSELECT\n  d.id,\n  d.title,\n  d.sector_id AS \"sectorId\",\n  s.name AS \"sectorName\",\n  d.category_id AS \"categoryId\",\n  c.name AS \"categoryName\",\n  c.description AS \"categoryDescription\",\n  d.subcategory_id AS \"subcategoryId\",\n  sc.name AS \"subcategoryName\",\n  sc.description AS \"subcategoryDescription\",\n  d.semantic_description AS \"semanticDescription\",\n  d.expiration_date AS \"expirationDate\",\n  d.file_name AS \"fileName\",\n  d.file_type AS \"fileType\",\n  d.file_size AS \"fileSize\",\n  d.file_path AS \"filePath\",\n  d.processing_status AS \"processingStatus\",\n  d.processed_at AS \"processedAt\",\n  d.responsible_user_id AS \"responsibleUserId\",\n  ru.name AS \"responsibleUserName\",\n  d.created_by AS \"createdBy\",\n  cb.name AS \"createdByName\",\n  d.updated_by AS \"updatedBy\",\n  ub.name AS \"updatedByName\",\n  d.created_at AS \"createdAt\",\n  d.updated_at AS \"updatedAt\",\n  d.current_version_id AS \"currentVersionId\",\n  d.current_version_number AS \"currentVersionNumber\",\n  CASE WHEN i.is_active_provided THEN i.new_is_active ELSE COALESCE(d.is_active, TRUE) END AS \"isActive\",\n  i.previous_is_active AS \"previousIsActive\",\n  (i.is_active_provided AND i.previous_is_active IS DISTINCT FROM i.new_is_active) AS \"isActiveChanged\"\nFROM documents d\nCROSS JOIN input i\nLEFT JOIN sectors s ON s.id = d.sector_id\nLEFT JOIN categories c ON c.id = d.category_id\nLEFT JOIN subcategories sc ON sc.id = d.subcategory_id\nLEFT JOIN users ru ON ru.id = d.responsible_user_id\nLEFT JOIN users cb ON cb.id = d.created_by\nLEFT JOIN users ub ON ub.id = d.updated_by\nWHERE d.id = i.document_id;",
+        "options": {}
+      }
+    },
+    {
+      "name": "isActive mudou?",
+      "type": "n8n-nodes-base.if",
+      "disabled": false,
+      "params": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "id": "ia1",
+              "leftValue": "={{ $('Aplicar isActive').first().json.isActiveChanged === true }}",
+              "operator": {
+                "operation": "true",
+                "type": "boolean"
+              },
+              "rightValue": true
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          }
+        },
+        "looseTypeValidation": true
+      }
+    },
+    {
+      "name": "Registrar auditoria isActive",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "disabled": false,
+      "params": {
+        "mode": "once",
+        "options": {
+          "waitForSubWorkflow": false
+        },
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "cachedResultName": "AUDITORIA - REGISTRAR",
+          "mode": "id",
+          "value": "jtQvQlqRZ5X5WF9I"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "action": "={{ $('Aplicar isActive').first().json.isActive === false ? 'DOCUMENT_DEACTIVATED' : 'DOCUMENT_ACTIVATED' }}",
+            "beforeData": "={{ (() => { const d = $('Aplicar isActive').first().json || {}; return { id: d.id, title: d.title, isActive: d.previousIsActive }; })() }}",
+            "afterData": "={{ (() => { const d = $('Aplicar isActive').first().json || {}; return { id: d.id, title: d.title, isActive: d.isActive, currentVersionId: d.currentVersionId, currentVersionNumber: d.currentVersionNumber }; })() }}",
+            "durationMs": 0,
+            "errorCode": "",
+            "headers": "={{ $('Normalizar request').first().json.headers }}",
+            "method": "={{ $('Normalizar request').first().json.method || '' }}",
+            "path": "={{ $('Normalizar request').first().json.path || '' }}",
+            "requestId": "={{ $('Normalizar request').first().json.requestId || '' }}",
+            "resourceId": "={{ $('Aplicar isActive').first().json.id }}",
+            "resourceType": "document",
+            "response": "={{ ({ data: { id: $('Aplicar isActive').first().json.id, isActive: $('Aplicar isActive').first().json.isActive } }) }}",
+            "responseHeaders": "={{ ({}) }}",
+            "sessionId": "={{ (() => { try { return $('Validar auth').first().json.sessionId || ''; } catch (_) { return ''; } })() }}",
+            "statusCode": 200,
+            "success": true,
+            "tracking": "={{ ({ success: true, userId: (() => { try { return $('Validar auth').first().json.userId || ''; } catch (_) { return ''; } })(), sessionId: (() => { try { return $('Validar auth').first().json.sessionId || ''; } catch (_) { return ''; } })(), method: $('Normalizar request').first().json.method || '', path: $('Normalizar request').first().json.path || '' }) }}",
+            "userId": "={{ (() => { try { return $('Validar auth').first().json.userId || ''; } catch (_) { return ''; } })() }}"
+          }
+        },
+        "parameters": {
+          "options": {
+            "waitForSubWorkflow": false
+          }
+        }
+      }
+    },
+    {
+      "name": "Preparar flags isActive",
+      "type": "n8n-nodes-base.code",
+      "disabled": false,
+      "params": {
+        "mode": "runOnceForAllItems",
+        "language": "javaScript",
+        "jsCode": "const doc = $input.first().json || {};\nconst body = ($('Normalizar request').first().json.body) || ($('Webhook').first().json.body) || {};\nconst provided = Object.prototype.hasOwnProperty.call(body, 'isActive') || Object.prototype.hasOwnProperty.call(body, 'is_active');\nconst raw = body.isActive !== undefined ? body.isActive : body.is_active;\nconst newIsActive = raw === true || raw === 1 || raw === 'true' || raw === '1';\nreturn [{ json: { ...doc, __isActiveProvided: provided, __newIsActive: newIsActive } }];"
+      }
+    },
+    {
+      "name": "Invalidar cache",
+      "type": "n8n-nodes-base.executeWorkflow",
+      "disabled": false,
+      "params": {
+        "mode": "once",
+        "source": "database",
+        "workflowId": {
+          "__rl": true,
+          "mode": "id",
+          "value": "c221InvalidateEvent01",
+          "cachedResultName": "IA - INVALIDAR CACHE POR EVENTO"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "eventType": "={{ $('Aplicar isActive').first().json.isActive === false ? 'DOCUMENT_DEACTIVATED' : 'DOCUMENT_ACTIVATED' }}",
+            "reasonCode": "={{ $('Aplicar isActive').first().json.isActive === false ? 'DOCUMENT_DEACTIVATED' : 'DOCUMENT_ACTIVATED' }}",
+            "documentId": "={{ String($('Aplicar isActive').first().json.id || '') }}",
+            "documentVersionId": "={{ String($('Aplicar isActive').first().json.currentVersionId || '') }}",
+            "promptVersionId": "={{ \"\" }}",
+            "retrievalConfigVersionId": "={{ \"\" }}",
+            "contextConfigVersionId": "={{ \"\" }}",
+            "modelName": "={{ \"\" }}",
+            "requestId": "={{ $('Normalizar request').first().json.requestId || '' }}",
+            "userId": "={{ (() => { try { return $('Validar auth').first().json.userId || ''; } catch (_) { return ''; } })() }}"
+          }
+        },
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      }
+    },
+    {
+      "name": "Qdrant set payload isActive",
+      "type": "n8n-nodes-base.httpRequest",
+      "disabled": false,
+      "params": {
+        "method": "POST",
+        "url": "http://qdrant:6333/collections/oftalmocentro_chunks/points/payload",
+        "sendBody": true,
+        "contentType": "json",
+        "specifyBody": "json",
+        "jsonBody": "={{ ({ payload: { isActive: $('Aplicar isActive').first().json.isActive === true }, filter: { must: [{ key: 'documentId', match: { value: String($('Aplicar isActive').first().json.id || '') } }] } }) }}",
+        "options": {
+          "timeout": 20000,
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true
+            }
+          }
+        }
+      }
+    }
+  ],
+  "relatedConns": {
+    "Aplicar isActive": {
+      "main": [
+        [
+          {
+            "node": "Montar data",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "isActive mudou?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "isActive mudou?": {
+      "main": [
+        [
+          {
+            "node": "Registrar auditoria isActive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute a SQL query": {
+      "main": [
+        [
+          {
+            "node": "Preparar flags isActive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Preparar flags isActive": {
+      "main": [
+        [
+          {
+            "node": "Aplicar isActive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Registrar auditoria isActive": {
+      "main": [
+        [
+          {
+            "node": "Invalidar cache",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Invalidar cache": {
+      "main": [
+        [
+          {
+            "node": "Qdrant set payload isActive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

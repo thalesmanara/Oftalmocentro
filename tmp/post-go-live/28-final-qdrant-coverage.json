@@ -1,0 +1,14 @@
+{
+  "at": "2026-08-08T22:00:33.630Z",
+  "totalPoints": 634,
+  "pointsWithIsActive": 634,
+  "pointsWithoutIsActive": 0,
+  "activePoints": 634,
+  "inactivePoints": 0,
+  "orphanPoints": 0,
+  "fullCoverage": true,
+  "fixtureAfterReactivate": {
+    "n": 20,
+    "allActive": true
+  }
+}

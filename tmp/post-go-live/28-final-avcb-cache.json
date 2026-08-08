@@ -1,0 +1,70 @@
+{
+  "at": "2026-08-08T22:00:00.696Z",
+  "avcbRetest": [
+    {
+      "query": "A sigla AVCB nos documentos oficiais da clínica significa exatamente o quê?",
+      "expected": "/Auto de Vistoria do Corpo de Bombeiros|AVCB/i",
+      "returned": "A sigla AVCB nos documentos oficiais da clínica significa \"Auto de Vistoria do Corpo de Bombeiros\". Trata-se de um certificado emitido pelo Corpo de Bombeiros Militar de Minas Gerais que certifica que a edificação possui as medidas de segurança previ",
+      "documentCorrect": true,
+      "sourceCorrect": true,
+      "exactValueCorrect": true,
+      "summarized": false,
+      "result": "PASS"
+    },
+    {
+      "query": "Qual o nome completo do documento AVCB - Auto de Vistoria do Corpo de Bombeiros?",
+      "expected": "/AVCB|Auto de Vistoria|Bombeiros/i",
+      "returned": "O nome completo do documento AVCB é \"AUTO DE VISTORIA DO CORPO DE BOMBEIROS\".\n\nFonte: AVCB - AUTO DE VISTORIA DO CORPO DE BOMBEIROS 21/11/2029; AVCB - AUTO DE VISTORIA DO CORPO DE BOMBEIROS 25/10/2024",
+      "documentCorrect": true,
+      "sourceCorrect": true,
+      "exactValueCorrect": true,
+      "summarized": false,
+      "result": "PASS"
+    }
+  ],
+  "cacheActionsSinceOfficial": [
+    {
+      "action": "DOCUMENT_ACTIVATED",
+      "n": 2,
+      "last_at": "2026-08-08T21:57:33.107Z"
+    },
+    {
+      "action": "DOCUMENT_DEACTIVATED",
+      "n": 2,
+      "last_at": "2026-08-08T21:56:31.434Z"
+    }
+  ],
+  "cacheDetails": [],
+  "recentAfterCycle": [
+    {
+      "action": "DOCUMENT_ACTIVATED",
+      "created_at": "2026-08-08T21:59:47.763Z",
+      "success": true,
+      "meta": "null"
+    },
+    {
+      "action": "DOCUMENT_DEACTIVATED",
+      "created_at": "2026-08-08T21:59:44.854Z",
+      "success": true,
+      "meta": "null"
+    },
+    {
+      "action": "DOCUMENT_ACTIVATED",
+      "created_at": "2026-08-08T21:57:33.107Z",
+      "success": true,
+      "meta": "null"
+    },
+    {
+      "action": "DOCUMENT_DEACTIVATED",
+      "created_at": "2026-08-08T21:56:31.434Z",
+      "success": true,
+      "meta": "null"
+    }
+  ],
+  "cacheStats": {
+    "entries": 104,
+    "invalidated": 12
+  },
+  "shadowMode": "SHADOW",
+  "noResponseServedFromCache": true
+}

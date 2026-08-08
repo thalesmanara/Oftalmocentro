@@ -1,0 +1,192 @@
+{
+  "at": "2026-08-08T22:03:17.608Z",
+  "events": [
+    "DOCUMENT_ACTIVATED",
+    "DOCUMENT_DEACTIVATED",
+    "DOCUMENT_EXPIRATION_CHANGED"
+  ],
+  "invalidateWorkflow": "c221InvalidateEvent01",
+  "executionsLastHour": [
+    {
+      "id": 39655,
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:22.470Z",
+      "stoppedAt": "2026-08-08T22:02:22.726Z"
+    },
+    {
+      "id": 39646,
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T22:02:19.303Z",
+      "stoppedAt": "2026-08-08T22:02:19.601Z"
+    },
+    {
+      "id": 39481,
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T21:59:47.726Z",
+      "stoppedAt": "2026-08-08T21:59:47.911Z"
+    },
+    {
+      "id": 39472,
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T21:59:44.822Z",
+      "stoppedAt": "2026-08-08T21:59:45.303Z"
+    },
+    {
+      "id": 39223,
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T21:57:33.086Z",
+      "stoppedAt": "2026-08-08T21:57:33.272Z"
+    },
+    {
+      "id": 39128,
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T21:56:31.397Z",
+      "stoppedAt": "2026-08-08T21:56:31.594Z"
+    },
+    {
+      "id": 37126,
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T21:36:44.050Z",
+      "stoppedAt": "2026-08-08T21:36:44.217Z"
+    },
+    {
+      "id": 37117,
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T21:36:43.364Z",
+      "stoppedAt": "2026-08-08T21:36:43.589Z"
+    },
+    {
+      "id": 35310,
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T21:24:06.022Z",
+      "stoppedAt": "2026-08-08T21:24:06.353Z"
+    },
+    {
+      "id": 35198,
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T21:23:41.924Z",
+      "stoppedAt": "2026-08-08T21:23:42.134Z"
+    },
+    {
+      "id": 34710,
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T21:11:35.998Z",
+      "stoppedAt": "2026-08-08T21:11:36.307Z"
+    },
+    {
+      "id": 34680,
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T21:11:23.037Z",
+      "stoppedAt": "2026-08-08T21:11:23.453Z"
+    },
+    {
+      "id": 34662,
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T21:10:55.800Z",
+      "stoppedAt": "2026-08-08T21:10:55.985Z"
+    },
+    {
+      "id": 34632,
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T21:10:44.518Z",
+      "stoppedAt": "2026-08-08T21:10:44.769Z"
+    },
+    {
+      "id": 34533,
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T21:09:20.508Z",
+      "stoppedAt": "2026-08-08T21:09:20.785Z"
+    },
+    {
+      "id": 34524,
+      "status": "success",
+      "mode": "integrated",
+      "startedAt": "2026-08-08T21:09:17.891Z",
+      "stoppedAt": "2026-08-08T21:09:18.178Z"
+    }
+  ],
+  "matchedEntries": 0,
+  "invalidatedEntries": 0,
+  "note": "Invalidate ran successfully (integrated). matchedEntries=0 for fixture without dependent cache keys — idempotent.",
+  "served_hits": 0,
+  "shadow_candidates": 120,
+  "cacheMode": "SHADOW",
+  "noResponseServed": true,
+  "WORKFLOW_HISTORY_SYNC": "PASS",
+  "activeMismatches": [],
+  "secrets": [
+    {
+      "key": "cache_active_mode",
+      "value": "SHADOW"
+    },
+    {
+      "key": "cache_active_version",
+      "value": "cache-shadow-v1"
+    },
+    {
+      "key": "context_active_mode",
+      "value": "LEGACY"
+    },
+    {
+      "key": "context_active_version",
+      "value": "context-v1"
+    },
+    {
+      "key": "evidence_active_mode",
+      "value": "STRUCTURED"
+    },
+    {
+      "key": "evidence_active_version",
+      "value": "evidence-v1"
+    },
+    {
+      "key": "response_quality_active_mode",
+      "value": "VALIDATE_STRICT"
+    },
+    {
+      "key": "response_quality_active_version",
+      "value": "response-quality-v2"
+    },
+    {
+      "key": "retrieval_active_mode",
+      "value": "HYBRID"
+    },
+    {
+      "key": "retrieval_active_version",
+      "value": "hybrid-v2"
+    }
+  ],
+  "draftsStayDraft": [
+    {
+      "version_label": "hybrid-rerank-v1",
+      "status": "DRAFT"
+    },
+    {
+      "version_label": "lab-final-TEXT_ONLY",
+      "status": "DRAFT"
+    },
+    {
+      "version_label": "hybrid-v3",
+      "status": "DRAFT"
+    },
+    {
+      "version_label": "lab-final-VECTOR_ONLY",
+      "status": "DRAFT"
+    }
+  ]
+}

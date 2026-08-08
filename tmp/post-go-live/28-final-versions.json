@@ -1,0 +1,139 @@
+{
+  "secrets": [
+    {
+      "key": "cache_active_mode",
+      "value": "SHADOW"
+    },
+    {
+      "key": "cache_active_version",
+      "value": "cache-shadow-v1"
+    },
+    {
+      "key": "context_active_mode",
+      "value": "LEGACY"
+    },
+    {
+      "key": "context_active_version",
+      "value": "context-v1"
+    },
+    {
+      "key": "evidence_active_mode",
+      "value": "STRUCTURED"
+    },
+    {
+      "key": "evidence_active_version",
+      "value": "evidence-v1"
+    },
+    {
+      "key": "response_quality_active_mode",
+      "value": "VALIDATE_STRICT"
+    },
+    {
+      "key": "response_quality_active_version",
+      "value": "response-quality-v2"
+    },
+    {
+      "key": "retrieval_active_mode",
+      "value": "HYBRID"
+    },
+    {
+      "key": "retrieval_active_version",
+      "value": "hybrid-v2"
+    },
+    {
+      "key": "retrieval_config_code",
+      "value": "AI_QUERY_RETRIEVAL"
+    }
+  ],
+  "ret": [
+    {
+      "version_label": "hybrid-v1",
+      "status": "ARCHIVED",
+      "published_at": "2026-08-03T21:22:04.555Z"
+    },
+    {
+      "version_label": "hybrid-v2",
+      "status": "PUBLISHED",
+      "published_at": "2026-08-08T21:09:43.625Z"
+    },
+    {
+      "version_label": "hybrid-v3",
+      "status": "DRAFT",
+      "published_at": null
+    }
+  ],
+  "prompt": [
+    {
+      "version_number": 1,
+      "status": "PUBLISHED",
+      "max_tokens": 800
+    },
+    {
+      "version_number": 2,
+      "status": "DRAFT",
+      "max_tokens": 1200
+    }
+  ],
+  "tables": [
+    {
+      "table_name": "ai_builder_temporary_workflow"
+    },
+    {
+      "table_name": "ai_cache_config_versions"
+    },
+    {
+      "table_name": "ai_cache_configs"
+    },
+    {
+      "table_name": "ai_cache_metrics_daily"
+    },
+    {
+      "table_name": "ai_context_config_versions"
+    },
+    {
+      "table_name": "ai_context_configs"
+    },
+    {
+      "table_name": "ai_evidence_config_versions"
+    },
+    {
+      "table_name": "ai_evidence_configs"
+    },
+    {
+      "table_name": "ai_prompt_definitions"
+    },
+    {
+      "table_name": "ai_prompt_versions"
+    },
+    {
+      "table_name": "ai_response_quality_config_versions"
+    },
+    {
+      "table_name": "ai_response_quality_configs"
+    },
+    {
+      "table_name": "ai_retrieval_config_versions"
+    },
+    {
+      "table_name": "ai_retrieval_configs"
+    },
+    {
+      "table_name": "ai_semantic_cache_dependencies"
+    },
+    {
+      "table_name": "ai_semantic_cache_entries"
+    },
+    {
+      "table_name": "ai_test_cases"
+    },
+    {
+      "table_name": "ai_test_metrics"
+    },
+    {
+      "table_name": "ai_test_results"
+    },
+    {
+      "table_name": "ai_test_runs"
+    }
+  ]
+}
