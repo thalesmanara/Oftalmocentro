@@ -48,7 +48,9 @@ Nome da clínica, identidade visual e painéis administrativos (health/backups c
 
 ## Auditoria
 
-Consulta eventos de segurança e operação. Use para investigação de acessos e ações relevantes.
+Consulta eventos de segurança e operação. A listagem mostra frases simples para o gestor (quem fez, o quê, quando, sucesso/falha). Códigos técnicos e metadados internos ficam em “Detalhes técnicos”, visíveis apenas para Master ou Administrador Técnico.
+
+Use para investigação de acessos e ações relevantes.
 
 ## Health resumido
 

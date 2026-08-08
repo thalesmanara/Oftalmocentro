@@ -1,0 +1,16 @@
+{
+  "at": "2026-08-08T21:23:15.868Z",
+  "collection": "oftalmocentro_chunks",
+  "documentsProcessed": 56,
+  "documentsUpdated": 56,
+  "updateErrors": 0,
+  "totalPoints": 634,
+  "scrolledPoints": 634,
+  "pointsWithIsActive": 634,
+  "pointsWithoutIsActive": 0,
+  "activePoints": 634,
+  "inactivePoints": 0,
+  "orphanPoints": 0,
+  "pointsWithIsActivePct": 100,
+  "fullCoverage": true
+}

@@ -1,0 +1,40 @@
+{
+  "versionId": "ecc82b36-9e85-4138-99a9-b64724b1e50d",
+  "contentHash": "8c338818ce6166945fc082a03f8ff316c71eeb77db0c229d39f66388d992296a",
+  "cfg": {
+    "mode": "HYBRID",
+    "candidateLimit": 40,
+    "finalLimit": 12,
+    "maxChunksPerDocument": 4,
+    "enableNeighbors": false,
+    "weights": {
+      "semantic": 0.65,
+      "lexical": 0.35,
+      "hybridPrior": 0
+    },
+    "boosts": {
+      "ocrGood": 0.03,
+      "isCurrent": 0.05,
+      "titleMatch": 0.08,
+      "categoryMatch": 0.1,
+      "recentVigency": 0.04,
+      "exactIdentifier": 0.2,
+      "subcategoryMatch": 0.15,
+      "tabularStructure": 0.08
+    },
+    "penalties": {
+      "staleDocument": 0.05,
+      "redundancyPerExtraChunk": 0.06,
+      "expired": 0.12
+    },
+    "normalization": {
+      "text": "batchMax",
+      "hybrid": "passthrough",
+      "vector": "clip01"
+    },
+    "notes": "Etapa 28.3 hybrid-v3: includeVectorOnly + expired penalty; SEM lexicalExpansion",
+    "merge": {
+      "includeVectorOnly": true
+    }
+  }
+}

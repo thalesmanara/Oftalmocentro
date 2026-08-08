@@ -1,0 +1,1374 @@
+{
+  "at": "2026-08-08T21:31:51.711Z",
+  "versionIds": {
+    "hybridV1": "63631806-f1ba-4ff4-8b24-265a468229fb",
+    "hybridV2": "eb5779b1-b653-4679-b7ea-89b66accb279"
+  },
+  "dictionaryLoadedFrom": "hybrid-v2.configuration.lexicalExpansion.dictionary",
+  "dictionaryKeyCount": 12,
+  "caseCount": 39,
+  "summaryChecks": [
+    {
+      "name": "explicit-resumo",
+      "expectSummarized": true,
+      "flagged": true,
+      "startsWithWarning": true,
+      "ok": true,
+      "reasons": [
+        "SUMMARY_INTENT"
+      ]
+    },
+    {
+      "name": "pontual-cnpj",
+      "expectSummarized": false,
+      "flagged": false,
+      "startsWithWarning": false,
+      "ok": true,
+      "reasons": [
+        "FACTUAL_QUESTION"
+      ]
+    }
+  ],
+  "summaryChecksOk": true,
+  "metrics": {
+    "hybridV1": {
+      "n": 39,
+      "hitRate": 0.717948717948718,
+      "mrr": 0.5416666666666666,
+      "recallAtK": 0.717948717948718,
+      "precisionRough": 0.2586080586080586,
+      "avgLatencyMs": 9071.51282051282,
+      "byCategory": {
+        "semantic": {
+          "n": 10,
+          "hitRate": 0.7,
+          "mrr": 0.4208333333333333,
+          "avgLatencyMs": 12392.3
+        },
+        "paraphrase": {
+          "n": 10,
+          "hitRate": 0.9,
+          "mrr": 0.7333333333333333,
+          "avgLatencyMs": 8166.7
+        },
+        "technical_vs_popular": {
+          "n": 5,
+          "hitRate": 0.8,
+          "mrr": 0.6,
+          "avgLatencyMs": 8349.8
+        },
+        "verb_vs_noun": {
+          "n": 5,
+          "hitRate": 0.6,
+          "mrr": 0.6,
+          "avgLatencyMs": 8072.4
+        },
+        "abbreviation": {
+          "n": 5,
+          "hitRate": 0.8,
+          "mrr": 0.5166666666666666,
+          "avgLatencyMs": 7908.2
+        },
+        "exact_identifier": {
+          "n": 1,
+          "hitRate": 0,
+          "mrr": 0,
+          "avgLatencyMs": 4410
+        },
+        "ocr_noisy": {
+          "n": 1,
+          "hitRate": 0,
+          "mrr": 0,
+          "avgLatencyMs": 10037
+        },
+        "tabular": {
+          "n": 1,
+          "hitRate": 1,
+          "mrr": 1,
+          "avgLatencyMs": 7579
+        },
+        "negative": {
+          "n": 1,
+          "hitRate": 0,
+          "mrr": 0,
+          "avgLatencyMs": 4521
+        }
+      }
+    },
+    "hybridV2": {
+      "n": 39,
+      "hitRate": 0.6666666666666666,
+      "mrr": 0.5128205128205128,
+      "recallAtK": 0.6666666666666666,
+      "precisionRough": 0.23983516483516482,
+      "avgLatencyMs": 8011.25641025641,
+      "byCategory": {
+        "semantic": {
+          "n": 10,
+          "hitRate": 0.6,
+          "mrr": 0.4083333333333333,
+          "avgLatencyMs": 7717.6
+        },
+        "paraphrase": {
+          "n": 10,
+          "hitRate": 0.9,
+          "mrr": 0.7333333333333333,
+          "avgLatencyMs": 8548.6
+        },
+        "technical_vs_popular": {
+          "n": 5,
+          "hitRate": 0.8,
+          "mrr": 0.6,
+          "avgLatencyMs": 9133.6
+        },
+        "verb_vs_noun": {
+          "n": 5,
+          "hitRate": 0.4,
+          "mrr": 0.4,
+          "avgLatencyMs": 8037.4
+        },
+        "abbreviation": {
+          "n": 5,
+          "hitRate": 0.8,
+          "mrr": 0.5166666666666666,
+          "avgLatencyMs": 7511.4
+        },
+        "exact_identifier": {
+          "n": 1,
+          "hitRate": 0,
+          "mrr": 0,
+          "avgLatencyMs": 5142
+        },
+        "ocr_noisy": {
+          "n": 1,
+          "hitRate": 0,
+          "mrr": 0,
+          "avgLatencyMs": 10269
+        },
+        "tabular": {
+          "n": 1,
+          "hitRate": 1,
+          "mrr": 1,
+          "avgLatencyMs": 6438
+        },
+        "negative": {
+          "n": 1,
+          "hitRate": 0,
+          "mrr": 0,
+          "avgLatencyMs": 4516
+        }
+      }
+    },
+    "delta": {
+      "hitRate": -0.05128205128205132,
+      "mrr": -0.028846153846153855,
+      "recallAtK": -0.05128205128205132,
+      "precisionRough": -0.01877289377289376,
+      "avgLatencyMs": -1060.2564102564102,
+      "unknownParaphraseHitRate": -0.050000000000000044
+    }
+  },
+  "decision": {
+    "recommendKeepHybridV2": false,
+    "exactOk": true,
+    "unknownParaphraseV1": 0.8,
+    "unknownParaphraseV2": 0.75,
+    "hitRateV1": 0.717948717948718,
+    "hitRateV2": 0.6666666666666666,
+    "mrrV1": 0.5416666666666666,
+    "mrrV2": 0.5128205128205128,
+    "rationale": "hybrid-v2 não supera hybrid-v1 em generalização semântica ou regrediu em exact"
+  },
+  "perCase": [
+    {
+      "id": "sem-01",
+      "category": "semantic",
+      "termA": "lavanderia hospitalar",
+      "termB": "serviço de rouparia clínica",
+      "question": "Qual contrato regula o serviço de rouparia clínica da clínica?",
+      "expectedDocumentId": "63e80ccb-2ebe-4464-9ad5-ff483a8a8bec",
+      "expectedDocumentTitle": "CONTRATO PRESTAÇÃO DE SERVIÇOS DE LAVANDERIA FAEPU 01/07/2024",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": false,
+        "rank": null,
+        "mrr": 0,
+        "recallAtK": 0,
+        "precisionRough": 0,
+        "k": 4,
+        "latencyMs": 5089,
+        "sourceCount": 4
+      },
+      "hybridV2": {
+        "hit": false,
+        "rank": null,
+        "mrr": 0,
+        "recallAtK": 0,
+        "precisionRough": 0,
+        "k": 4,
+        "latencyMs": 5370,
+        "sourceCount": 4
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "sem-02",
+      "category": "semantic",
+      "termA": "aluguel do imóvel sede",
+      "termB": "locação da sede oftalmológica",
+      "question": "Até quando vai a locação da sede oftalmológica?",
+      "expectedDocumentId": "102e4aa0-261f-4bea-b252-1554074c2359",
+      "expectedDocumentTitle": "ADITIVO CONTRATUAL LOCAÇÃO SEDE OFTALMOCENTRO 2025 A 2045 - ASSINADO",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 4,
+        "mrr": 0.25,
+        "recallAtK": 1,
+        "precisionRough": 0.16666666666666666,
+        "k": 6,
+        "latencyMs": 6604,
+        "sourceCount": 6
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 4,
+        "mrr": 0.25,
+        "recallAtK": 1,
+        "precisionRough": 0.16666666666666666,
+        "k": 6,
+        "latencyMs": 5998,
+        "sourceCount": 6
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "sem-03",
+      "category": "semantic",
+      "termA": "vigilância sanitária",
+      "termB": "licença da secretaria de saúde",
+      "question": "Documento de licença da secretaria de saúde para funcionamento clínico",
+      "expectedDocumentId": "d19ac5f2-cc0d-4da4-abdb-9ebbb38fd6f3",
+      "expectedDocumentTitle": "ALVARÁ DE LICENÇA SANITÁTIA EMITIDO EM 13/07/2023",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 8,
+        "mrr": 0.125,
+        "recallAtK": 1,
+        "precisionRough": 0.125,
+        "k": 8,
+        "latencyMs": 10942,
+        "sourceCount": 8
+      },
+      "hybridV2": {
+        "hit": false,
+        "rank": null,
+        "mrr": 0,
+        "recallAtK": 0,
+        "precisionRough": 0,
+        "k": 0,
+        "latencyMs": 8032,
+        "sourceCount": 0
+      },
+      "deltaHit": -1
+    },
+    {
+      "id": "sem-04",
+      "category": "semantic",
+      "termA": "corpo clínico",
+      "termB": "cadastro nacional de estabelecimento de saúde",
+      "question": "Onde consta o registro do corpo clínico no cadastro nacional de estabelecimento de saúde?",
+      "expectedDocumentId": "c4adf0b5-83e7-4e91-aa94-8e82bffe6a3f",
+      "expectedDocumentTitle": "CADASTRO NACIONAL DE ESTABELECIMENTO DE SAÚDE BASE LOCAL",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": false,
+        "rank": null,
+        "mrr": 0,
+        "recallAtK": 0,
+        "precisionRough": 0,
+        "k": 0,
+        "latencyMs": 6644,
+        "sourceCount": 0
+      },
+      "hybridV2": {
+        "hit": false,
+        "rank": null,
+        "mrr": 0,
+        "recallAtK": 0,
+        "precisionRough": 0,
+        "k": 0,
+        "latencyMs": 6836,
+        "sourceCount": 0
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "sem-05",
+      "category": "semantic",
+      "termA": "diretoria clínica",
+      "termB": "ato constitutivo da diretoria",
+      "question": "Quem compõe a diretoria clínica segundo o ato constitutivo?",
+      "expectedDocumentId": "af8f1ffa-8146-4645-8026-90583990984f",
+      "expectedDocumentTitle": "ATO CONSTITUTIVO DA DIRETORIA DA OFTALMOCENTRO",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": false,
+        "rank": null,
+        "mrr": 0,
+        "recallAtK": 0,
+        "precisionRough": 0,
+        "k": 2,
+        "latencyMs": 3698,
+        "sourceCount": 2
+      },
+      "hybridV2": {
+        "hit": false,
+        "rank": null,
+        "mrr": 0,
+        "recallAtK": 0,
+        "precisionRough": 0,
+        "k": 2,
+        "latencyMs": 3697,
+        "sourceCount": 2
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "sem-06",
+      "category": "semantic",
+      "termA": "gás medicinal",
+      "termB": "ficha de segurança do oxigênio",
+      "question": "Ficha de segurança do oxigênio medicinal disponível na clínica",
+      "expectedDocumentId": "bc733c80-d0e0-4d90-ba12-1598244a3404",
+      "expectedDocumentTitle": "FISPQ OXIGÊNIO MEDICINAL",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 1,
+        "k": 1,
+        "latencyMs": 8197,
+        "sourceCount": 1
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 1,
+        "k": 1,
+        "latencyMs": 7409,
+        "sourceCount": 1
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "sem-07",
+      "category": "semantic",
+      "termA": "lentes intraoculares",
+      "termB": "biometria ocular cirúrgica",
+      "question": "Manual sobre biometria ocular e cálculo de lentes para cirurgia",
+      "expectedDocumentId": "b533f80a-9b19-47c0-b4ab-210590846228",
+      "expectedDocumentTitle": "BIOMETRIA E CÁLCULO DE LENTES INTRA OCULARES DA TEORIA À PRÁTICA CIRÚRGICA",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 3,
+        "mrr": 0.3333333333333333,
+        "recallAtK": 1,
+        "precisionRough": 0.3333333333333333,
+        "k": 3,
+        "latencyMs": 7450,
+        "sourceCount": 3
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 3,
+        "mrr": 0.3333333333333333,
+        "recallAtK": 1,
+        "precisionRough": 0.3333333333333333,
+        "k": 3,
+        "latencyMs": 11631,
+        "sourceCount": 3
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "sem-08",
+      "category": "semantic",
+      "termA": "estacionamento de pacientes",
+      "termB": "locação da travessa Satyro Silva Oliveira",
+      "question": "Contrato de locação do estacionamento na travessa Satyro Silva Oliveira",
+      "expectedDocumentId": "a90d7c80-1693-4a7a-93f1-ec2206e3680c",
+      "expectedDocumentTitle": "CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 2,
+        "mrr": 0.5,
+        "recallAtK": 1,
+        "precisionRough": 0.5,
+        "k": 2,
+        "latencyMs": 53866,
+        "sourceCount": 2
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 2,
+        "mrr": 0.5,
+        "recallAtK": 1,
+        "precisionRough": 0.5,
+        "k": 2,
+        "latencyMs": 9038,
+        "sourceCount": 2
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "sem-09",
+      "category": "semantic",
+      "termA": "climatização",
+      "termB": "contrato de ar condicionado",
+      "question": "Contrato de manutenção de ar condicionado da clínica",
+      "expectedDocumentId": "c9428c52-8d23-492a-bd95-537e04856498",
+      "expectedDocumentTitle": "CONTRATO DE MANUTENÇÃO APARELHOS DE AR CONDICIONADO",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.5,
+        "k": 2,
+        "latencyMs": 12600,
+        "sourceCount": 2
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.5,
+        "k": 2,
+        "latencyMs": 9858,
+        "sourceCount": 2
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "sem-10",
+      "category": "semantic",
+      "termA": "impacto ambiental",
+      "termB": "licenciamento ambiental",
+      "question": "Certificado de licenciamento ambiental da Oftalmocentro",
+      "expectedDocumentId": "ed7aa0c2-1b20-4480-84d1-f7627b45a7d8",
+      "expectedDocumentTitle": "CERTIFICADO DE LICENCIAMENTO AMBIENTAL",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.125,
+        "k": 8,
+        "latencyMs": 8833,
+        "sourceCount": 8
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.125,
+        "k": 8,
+        "latencyMs": 9307,
+        "sourceCount": 8
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "para-01",
+      "category": "paraphrase",
+      "questionA": "Quais são as regras do plano de gerenciamento de tecnologias?",
+      "questionB": "Como a clínica controla manutenções preditivas, preventivas e corretivas do parque tecnológico?",
+      "question": "Como a clínica controla manutenções preditivas, preventivas e corretivas do parque tecnológico?",
+      "expectedDocumentId": "571f818d-2f24-4173-8dee-3036cb7c0f83",
+      "expectedDocumentTitle": "PLANO DE GERENCIAMENTO DE TECNOLOGIAS",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 2,
+        "mrr": 0.5,
+        "recallAtK": 1,
+        "precisionRough": 0.5,
+        "k": 2,
+        "latencyMs": 7188,
+        "sourceCount": 2
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 2,
+        "mrr": 0.5,
+        "recallAtK": 1,
+        "precisionRough": 0.3333333333333333,
+        "k": 3,
+        "latencyMs": 10102,
+        "sourceCount": 3
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "para-02",
+      "category": "paraphrase",
+      "questionA": "Qual o contrato social mais recente?",
+      "questionB": "Décima primeira alteração consolidada do contrato social da empresa",
+      "question": "Décima primeira alteração consolidada do contrato social da empresa",
+      "expectedDocumentId": "6bf331ee-0884-4b38-8a9e-faedf937f8a3",
+      "expectedDocumentTitle": "CONTRATO SOCIAL - 11ª ALTERAÇÃO",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.3333333333333333,
+        "k": 3,
+        "latencyMs": 7977,
+        "sourceCount": 3
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.3333333333333333,
+        "k": 3,
+        "latencyMs": 7555,
+        "sourceCount": 3
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "para-03",
+      "category": "paraphrase",
+      "questionA": "Certidão COREN da enfermeira Jordana",
+      "questionB": "Comprovante de regularidade profissional da enfermeira Jordana perante o conselho de enfermagem",
+      "question": "Comprovante de regularidade profissional da enfermeira Jordana perante o conselho de enfermagem",
+      "expectedDocumentId": "e61eeda6-3045-4a2d-bb5b-4bcbe4756207",
+      "expectedDocumentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA JORDANA",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 3,
+        "mrr": 0.3333333333333333,
+        "recallAtK": 1,
+        "precisionRough": 0.16666666666666666,
+        "k": 6,
+        "latencyMs": 9720,
+        "sourceCount": 6
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 3,
+        "mrr": 0.3333333333333333,
+        "recallAtK": 1,
+        "precisionRough": 0.14285714285714285,
+        "k": 7,
+        "latencyMs": 6600,
+        "sourceCount": 7
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "para-04",
+      "category": "paraphrase",
+      "questionA": "AVCB vigente",
+      "questionB": "Certificado do corpo de bombeiros válido até 2029 para a edificação",
+      "question": "Certificado do corpo de bombeiros válido até 2029 para a edificação",
+      "expectedDocumentId": "a302ac20-dc23-4e4c-b49b-9d57808a8f77",
+      "expectedDocumentTitle": "AVCB - AUTO DE VISTORIA DO CORPO DE BOMBEIROS 21/11/2029",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.3333333333333333,
+        "k": 3,
+        "latencyMs": 5136,
+        "sourceCount": 3
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.25,
+        "k": 4,
+        "latencyMs": 5088,
+        "sourceCount": 4
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "para-05",
+      "category": "paraphrase",
+      "questionA": "Regimento de enfermagem",
+      "questionB": "Normas gerais de funcionamento do serviço de enfermagem da instituição",
+      "question": "Normas gerais de funcionamento do serviço de enfermagem da instituição",
+      "expectedDocumentId": "9022fe88-4da1-43c6-87db-57ddc6e0270e",
+      "expectedDocumentTitle": "REGIMENTO INTERNO DO SERVIÇO DE ENFERMAGEM - ARQUIVO WORD",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": false,
+        "rank": null,
+        "mrr": 0,
+        "recallAtK": 0,
+        "precisionRough": 0,
+        "k": 7,
+        "latencyMs": 5195,
+        "sourceCount": 7
+      },
+      "hybridV2": {
+        "hit": false,
+        "rank": null,
+        "mrr": 0,
+        "recallAtK": 0,
+        "precisionRough": 0,
+        "k": 7,
+        "latencyMs": 6654,
+        "sourceCount": 7
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "para-06",
+      "category": "paraphrase",
+      "questionA": "Aditivo Guiron manutenção equipamentos",
+      "questionB": "Termo aditivo ao contrato de gestão e manutenção com a Guiron Soluções",
+      "question": "Termo aditivo ao contrato de gestão e manutenção com a Guiron Soluções",
+      "expectedDocumentId": "60a04d2a-7c93-423b-8c6d-721cf2b026bd",
+      "expectedDocumentTitle": "ADITIVO CONSTRATUAL AO CONTRATO DE MANUTENÇÃO DE EQUIPAMENTOS",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.5,
+        "k": 2,
+        "latencyMs": 9292,
+        "sourceCount": 2
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.5,
+        "k": 2,
+        "latencyMs": 9446,
+        "sourceCount": 2
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "para-07",
+      "category": "paraphrase",
+      "questionA": "CRT enfermeira Jordana Borges",
+      "questionB": "Certidão de responsabilidade técnica de enfermagem da Jordana Borges 2026",
+      "question": "Certidão de responsabilidade técnica de enfermagem da Jordana Borges 2026",
+      "expectedDocumentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1",
+      "expectedDocumentTitle": "ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 2,
+        "mrr": 0.5,
+        "recallAtK": 1,
+        "precisionRough": 0.16666666666666666,
+        "k": 6,
+        "latencyMs": 7603,
+        "sourceCount": 6
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 2,
+        "mrr": 0.5,
+        "recallAtK": 1,
+        "precisionRough": 0.16666666666666666,
+        "k": 6,
+        "latencyMs": 8767,
+        "sourceCount": 6
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "para-08",
+      "category": "paraphrase",
+      "questionA": "Tabela de preços particulares",
+      "questionB": "Valores de consultas e exames para pacientes particulares e cartões desconto",
+      "question": "Valores de consultas e exames para pacientes particulares e cartões desconto",
+      "expectedDocumentId": "791232df-765c-412d-8bc2-2b2ecfd15f4f",
+      "expectedDocumentTitle": "TABELA DE PREÇOS CONSULTAS E EXAMES PARTICULARES",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.14285714285714285,
+        "k": 7,
+        "latencyMs": 14037,
+        "sourceCount": 7
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.14285714285714285,
+        "k": 7,
+        "latencyMs": 12971,
+        "sourceCount": 7
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "para-09",
+      "category": "paraphrase",
+      "questionA": "POP nobreak centro cirúrgico",
+      "questionB": "Procedimento operacional padrão para verificação de autonomia dos nobreaks do centro cirúrgico",
+      "question": "Procedimento operacional padrão para verificação de autonomia dos nobreaks do centro cirúrgico",
+      "expectedDocumentId": "1a3520b6-a0db-4b96-8459-4ff825008337",
+      "expectedDocumentTitle": "PROCEDIMENTO OPERACIONAL PADRA - ROTINA DE VERIFICAÇÃO NOBREAK - ARQUIVO WORD",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 1,
+        "k": 1,
+        "latencyMs": 10061,
+        "sourceCount": 1
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 1,
+        "k": 1,
+        "latencyMs": 12766,
+        "sourceCount": 1
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "para-10",
+      "category": "paraphrase",
+      "questionA": "Certidão direção técnica CRM",
+      "questionB": "Documento do conselho regional de medicina sobre a diretora técnica Hélia Soares Angotti",
+      "question": "Documento do conselho regional de medicina sobre a diretora técnica Hélia Soares Angotti",
+      "expectedDocumentId": "c0009c91-d64e-44c1-bc28-e892f4ea358b",
+      "expectedDocumentTitle": "CERTIDÃO DE DIREÇÃO TECNICA CRMMG",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.1,
+        "k": 10,
+        "latencyMs": 5458,
+        "sourceCount": 10
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.1,
+        "k": 10,
+        "latencyMs": 5537,
+        "sourceCount": 10
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "tech-01",
+      "category": "technical_vs_popular",
+      "termA": "FISPQ",
+      "termB": "ficha com dados de segurança",
+      "question": "Ficha com dados de segurança do nitrogênio medicinal",
+      "expectedDocumentId": "20160a33-fa4e-48b5-9ff1-be69d80a8c78",
+      "expectedDocumentTitle": "FISPQ NITROGÊNIO MEDICINAL",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": false,
+        "rank": null,
+        "mrr": 0,
+        "recallAtK": 0,
+        "precisionRough": 0,
+        "k": 1,
+        "latencyMs": 4173,
+        "sourceCount": 1
+      },
+      "hybridV2": {
+        "hit": false,
+        "rank": null,
+        "mrr": 0,
+        "recallAtK": 0,
+        "precisionRough": 0,
+        "k": 1,
+        "latencyMs": 4027,
+        "sourceCount": 1
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "tech-02",
+      "category": "technical_vs_popular",
+      "termA": "CNES",
+      "termB": "cadastro nacional de estabelecimentos de saúde",
+      "question": "Cadastro nacional de estabelecimentos de saúde base nacional da clínica",
+      "expectedDocumentId": "d80deafd-f0f2-4fd5-a2d7-2a4929565d23",
+      "expectedDocumentTitle": "CADASTRO NACIONAL DE ESTABELECIMENTO DE SAÚDE BASE NACIONAL",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 2,
+        "mrr": 0.5,
+        "recallAtK": 1,
+        "precisionRough": 0.3333333333333333,
+        "k": 3,
+        "latencyMs": 9918,
+        "sourceCount": 3
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 2,
+        "mrr": 0.5,
+        "recallAtK": 1,
+        "precisionRough": 0.3333333333333333,
+        "k": 3,
+        "latencyMs": 13238,
+        "sourceCount": 3
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "tech-03",
+      "category": "technical_vs_popular",
+      "termA": "ART incêndio",
+      "termB": "anotação de responsabilidade técnica projeto de combate a incêndio",
+      "question": "Anotação de responsabilidade técnica para elaboração de projeto de combate a incêndio",
+      "expectedDocumentId": "abe008c7-c9b8-4d6b-bc5f-a0f197722484",
+      "expectedDocumentTitle": "ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA PARA ELABORAÇÃO DE PROJETO DE INCÊNDIO",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.5,
+        "k": 2,
+        "latencyMs": 9377,
+        "sourceCount": 2
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.5,
+        "k": 2,
+        "latencyMs": 9176,
+        "sourceCount": 2
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "tech-04",
+      "category": "technical_vs_popular",
+      "termA": "LIO",
+      "termB": "lente intra ocular",
+      "question": "Termo de ciência sobre escolha de lente intra ocular pelo paciente",
+      "expectedDocumentId": "a02d647e-6487-47ce-9b37-6ea7ee5e8c09",
+      "expectedDocumentTitle": "TERMO DE CIENCIA - LENTE INTRA OCULAR",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.3333333333333333,
+        "k": 3,
+        "latencyMs": 8347,
+        "sourceCount": 3
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.3333333333333333,
+        "k": 3,
+        "latencyMs": 9699,
+        "sourceCount": 3
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "tech-05",
+      "category": "technical_vs_popular",
+      "termA": "CRT",
+      "termB": "certidão de responsabilidade técnica enfermagem",
+      "question": "Certidão de responsabilidade técnica de enfermagem Jordana Borges",
+      "expectedDocumentId": "c4329f73-b6e5-42ce-99b9-a1d2e93f28c1",
+      "expectedDocumentTitle": "ANOTAÇÃO DE RESPONSABILIDADE TÉCNICA COREN - JORDANA BORGES 2026",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 2,
+        "mrr": 0.5,
+        "recallAtK": 1,
+        "precisionRough": 0.2,
+        "k": 5,
+        "latencyMs": 9934,
+        "sourceCount": 5
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 2,
+        "mrr": 0.5,
+        "recallAtK": 1,
+        "precisionRough": 0.2,
+        "k": 5,
+        "latencyMs": 9528,
+        "sourceCount": 5
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "verb-01",
+      "category": "verb_vs_noun",
+      "termA": "locar consultório",
+      "termB": "comodato de consultório",
+      "question": "Contrato de comodato de consultório com Dr Leandro Araujo Fernandes",
+      "expectedDocumentId": "47f9c125-b4df-439c-89de-54a34b751c1b",
+      "expectedDocumentTitle": "CONTRATO DE COMODATO DE CONSULTÓRIO - DR LEANDRO ARAUJO FERNANDES",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.3333333333333333,
+        "k": 3,
+        "latencyMs": 9482,
+        "sourceCount": 3
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.3333333333333333,
+        "k": 3,
+        "latencyMs": 10783,
+        "sourceCount": 3
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "verb-02",
+      "category": "verb_vs_noun",
+      "termA": "inspecionar sanitariamente",
+      "termB": "protocolo de alvará sanitário",
+      "question": "Protocolo de requerimento de alvará de licença sanitária",
+      "expectedDocumentId": "14e1260e-c935-4526-a703-095812c9a3da",
+      "expectedDocumentTitle": "PROTOCOLO DE REQUERIMENTO DE ALVARÁ DE LICENÇA SANITÁRIA",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.125,
+        "k": 8,
+        "latencyMs": 7701,
+        "sourceCount": 8
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.125,
+        "k": 8,
+        "latencyMs": 9876,
+        "sourceCount": 8
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "verb-03",
+      "category": "verb_vs_noun",
+      "termA": "registrar empresa",
+      "termB": "cadastro mobiliário municipal",
+      "question": "Cadastro mobiliário e inscrição junto à prefeitura de Uberaba",
+      "expectedDocumentId": "59a181fe-702d-48aa-ad6f-959a6840933c",
+      "expectedDocumentTitle": "CADASTRO MOBILIÁRIO PREFEITURA MUNICIPAL DE UBERABA",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": false,
+        "rank": null,
+        "mrr": 0,
+        "recallAtK": 0,
+        "precisionRough": 0,
+        "k": 0,
+        "latencyMs": 6331,
+        "sourceCount": 0
+      },
+      "hybridV2": {
+        "hit": false,
+        "rank": null,
+        "mrr": 0,
+        "recallAtK": 0,
+        "precisionRough": 0,
+        "k": 0,
+        "latencyMs": 7424,
+        "sourceCount": 0
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "verb-04",
+      "category": "verb_vs_noun",
+      "termA": "estender contrato lavanderia",
+      "termB": "segundo aditivo FAEPU",
+      "question": "Segundo aditivo ao contrato de prestação de serviços com a lavanderia FAEPU",
+      "expectedDocumentId": "cddc0ca8-4794-4556-8093-553a9bdab8a2",
+      "expectedDocumentTitle": "SEGUNDO ADITIVO AO  CONTRATO DE PRESTAÇÃO DE SERVIÇOS COM A LAVANDERIA FAEPU ASSINADO EM 10/06/2026",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.3333333333333333,
+        "k": 3,
+        "latencyMs": 8739,
+        "sourceCount": 3
+      },
+      "hybridV2": {
+        "hit": false,
+        "rank": null,
+        "mrr": 0,
+        "recallAtK": 0,
+        "precisionRough": 0,
+        "k": 0,
+        "latencyMs": 8182,
+        "sourceCount": 0
+      },
+      "deltaHit": -1
+    },
+    {
+      "id": "verb-05",
+      "category": "verb_vs_noun",
+      "termA": "verificar nobreak",
+      "termB": "rotina POP nobreak",
+      "question": "Rotina de verificação de nobreaks para contingência de energia no centro cirúrgico",
+      "expectedDocumentId": "1a3520b6-a0db-4b96-8459-4ff825008337",
+      "expectedDocumentTitle": "PROCEDIMENTO OPERACIONAL PADRA - ROTINA DE VERIFICAÇÃO NOBREAK - ARQUIVO WORD",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": false,
+        "rank": null,
+        "mrr": 0,
+        "recallAtK": 0,
+        "precisionRough": 0,
+        "k": 4,
+        "latencyMs": 8109,
+        "sourceCount": 4
+      },
+      "hybridV2": {
+        "hit": false,
+        "rank": null,
+        "mrr": 0,
+        "recallAtK": 0,
+        "precisionRough": 0,
+        "k": 4,
+        "latencyMs": 3922,
+        "sourceCount": 4
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "abbr-01",
+      "category": "abbreviation",
+      "termA": "CNPJ",
+      "termB": "cadastro nacional da pessoa jurídica",
+      "question": "Cadastro nacional da pessoa jurídica da Oftalmocentro",
+      "expectedDocumentId": "206e4db5-10b6-42a6-995b-4d1a2b15edc6",
+      "expectedDocumentTitle": "CARTÃO CNPJ - 20072026",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 3,
+        "mrr": 0.3333333333333333,
+        "recallAtK": 1,
+        "precisionRough": 0.3333333333333333,
+        "k": 3,
+        "latencyMs": 7536,
+        "sourceCount": 3
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 3,
+        "mrr": 0.3333333333333333,
+        "recallAtK": 1,
+        "precisionRough": 0.3333333333333333,
+        "k": 3,
+        "latencyMs": 7617,
+        "sourceCount": 3
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "abbr-02",
+      "category": "abbreviation",
+      "termA": "AVCB",
+      "termB": "auto de vistoria do corpo de bombeiros",
+      "question": "Auto de vistoria do corpo de bombeiros válido até novembro de 2029",
+      "expectedDocumentId": "a302ac20-dc23-4e4c-b49b-9d57808a8f77",
+      "expectedDocumentTitle": "AVCB - AUTO DE VISTORIA DO CORPO DE BOMBEIROS 21/11/2029",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.3333333333333333,
+        "k": 3,
+        "latencyMs": 7049,
+        "sourceCount": 3
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.3333333333333333,
+        "k": 3,
+        "latencyMs": 7355,
+        "sourceCount": 3
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "abbr-03",
+      "category": "abbreviation",
+      "termA": "COREN",
+      "termB": "conselho regional de enfermagem",
+      "question": "Certidão de regularidade da enfermeira Bianca no conselho regional de enfermagem",
+      "expectedDocumentId": "9db556e3-8140-4cb8-94d1-7b5173c199ad",
+      "expectedDocumentTitle": "CERTIDÃO DE REGULARIDADE COREN - ENFERMEIRA BIANCA",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 4,
+        "mrr": 0.25,
+        "recallAtK": 1,
+        "precisionRough": 0.14285714285714285,
+        "k": 7,
+        "latencyMs": 8153,
+        "sourceCount": 7
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 4,
+        "mrr": 0.25,
+        "recallAtK": 1,
+        "precisionRough": 0.14285714285714285,
+        "k": 7,
+        "latencyMs": 7221,
+        "sourceCount": 7
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "abbr-04",
+      "category": "abbreviation",
+      "termA": "POP",
+      "termB": "procedimento operacional padrão",
+      "question": "Procedimento operacional padrão de verificação de nobreak",
+      "expectedDocumentId": "1a3520b6-a0db-4b96-8459-4ff825008337",
+      "expectedDocumentTitle": "PROCEDIMENTO OPERACIONAL PADRA - ROTINA DE VERIFICAÇÃO NOBREAK - ARQUIVO WORD",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 1,
+        "k": 1,
+        "latencyMs": 10908,
+        "sourceCount": 1
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 1,
+        "k": 1,
+        "latencyMs": 10066,
+        "sourceCount": 1
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "abbr-05",
+      "category": "abbreviation",
+      "termA": "CRMMG",
+      "termB": "conselho regional de medicina de minas gerais",
+      "question": "Certificado de regularidade técnica do conselho regional de medicina de minas gerais 2026",
+      "expectedDocumentId": "bf7bca54-5db5-4135-8b04-2aa8fb63a374",
+      "expectedDocumentTitle": "CERTIFICADO DE REGULARIDADE TÉCNICA 2026",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": false,
+        "rank": null,
+        "mrr": 0,
+        "recallAtK": 0,
+        "precisionRough": 0,
+        "k": 7,
+        "latencyMs": 5895,
+        "sourceCount": 7
+      },
+      "hybridV2": {
+        "hit": false,
+        "rank": null,
+        "mrr": 0,
+        "recallAtK": 0,
+        "precisionRough": 0,
+        "k": 7,
+        "latencyMs": 5298,
+        "sourceCount": 7
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "exact-cnpj",
+      "category": "exact_identifier",
+      "question": "Qual o CNPJ da Oftalmocentro Uberaba Ltda?",
+      "expectedDocumentId": "206e4db5-10b6-42a6-995b-4d1a2b15edc6",
+      "expectedDocumentTitle": "CARTÃO CNPJ - 20072026",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": false,
+        "rank": null,
+        "mrr": 0,
+        "recallAtK": 0,
+        "precisionRough": 0,
+        "k": 3,
+        "latencyMs": 4410,
+        "sourceCount": 3
+      },
+      "hybridV2": {
+        "hit": false,
+        "rank": null,
+        "mrr": 0,
+        "recallAtK": 0,
+        "precisionRough": 0,
+        "k": 3,
+        "latencyMs": 5142,
+        "sourceCount": 3
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "ocr-ish",
+      "category": "ocr_noisy",
+      "question": "ALVARA SAN ITARlo clinica oftalmologica Uberaba CNPJ 01.609.274/0001-45",
+      "expectedDocumentId": "d19ac5f2-cc0d-4da4-abdb-9ebbb38fd6f3",
+      "expectedDocumentTitle": "ALVARÁ DE LICENÇA SANITÁTIA EMITIDO EM 13/07/2023",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": false,
+        "rank": null,
+        "mrr": 0,
+        "recallAtK": 0,
+        "precisionRough": 0,
+        "k": 0,
+        "latencyMs": 10037,
+        "sourceCount": 0
+      },
+      "hybridV2": {
+        "hit": false,
+        "rank": null,
+        "mrr": 0,
+        "recallAtK": 0,
+        "precisionRough": 0,
+        "k": 0,
+        "latencyMs": 10269,
+        "sourceCount": 0
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "tabular",
+      "category": "tabular",
+      "question": "Relação de funcionários do quadro de enfermagem com CPF e registro COREN",
+      "expectedDocumentId": "d33816da-475a-46e9-bdb4-9e68bc9c7139",
+      "expectedDocumentTitle": "RELAÇÃO DE FUNCIONÁRIOS QUADRO DE ENFERMAGEM - ARQUIVO EXCEL",
+      "wasInDictionary": false,
+      "hybridV1": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.125,
+        "k": 8,
+        "latencyMs": 7579,
+        "sourceCount": 8
+      },
+      "hybridV2": {
+        "hit": true,
+        "rank": 1,
+        "mrr": 1,
+        "recallAtK": 1,
+        "precisionRough": 0.125,
+        "k": 8,
+        "latencyMs": 6438,
+        "sourceCount": 8
+      },
+      "deltaHit": 0
+    },
+    {
+      "id": "negative",
+      "category": "negative",
+      "question": "Qual a política de férias e benefícios CLT dos funcionários administrativos?",
+      "expectedDocumentId": null,
+      "expectedDocumentTitle": null,
+      "expectNoHit": true,
+      "wasInDictionary": false,
+      "hybridV1": {
+        "latencyMs": 4521,
+        "sourceCount": 8
+      },
+      "hybridV2": {
+        "latencyMs": 4516,
+        "sourceCount": 8
+      },
+      "deltaHit": 0
+    }
+  ]
+}

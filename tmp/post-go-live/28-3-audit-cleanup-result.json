@@ -1,0 +1,14 @@
+{
+  "decision": {
+    "windowOk": true,
+    "hasOnlyDevSignals": true,
+    "before": 4504,
+    "willClean": true,
+    "reason": "All audit_logs fall in implantation/test window 2026-08-01..2026-08-10; no pre-August production trail."
+  },
+  "auditRowsBefore": 4504,
+  "auditRowsRemoved": 4504,
+  "auditRowsPreserved": 0,
+  "auditOfficialStartAt": "2026-08-08T21:36:33.048Z",
+  "cleaned": true
+}

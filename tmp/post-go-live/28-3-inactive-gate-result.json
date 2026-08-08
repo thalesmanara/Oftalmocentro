@@ -1,0 +1,66 @@
+{
+  "at": "2026-08-08T21:23:51.972Z",
+  "target": {
+    "id": "71e5029f-4881-4fe4-9dc9-048f178b1165",
+    "title": "CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA - ARQUIVO WORD"
+  },
+  "retrievalConfigs": [
+    {
+      "id": "eb5779b1-b653-4679-b7ea-89b66accb279",
+      "version_label": "hybrid-v2",
+      "status": "PUBLISHED"
+    }
+  ],
+  "tests": [
+    {
+      "label": "HYBRID_default_inactive",
+      "status": 200,
+      "leaked": false,
+      "ok": true,
+      "sourceCount": 2,
+      "sourceIds": [
+        "8c60fa00-de18-49b0-9d7f-f1ca461d4d78",
+        "a90d7c80-1693-4a7a-93f1-ec2206e3680c"
+      ],
+      "sourceTitles": [
+        "ADITIVO CONTRATUAL DE LOCAÇÃO - ARQUIVO WORD - EDITÁVEL",
+        "CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA"
+      ],
+      "pipelineMeta": null
+    },
+    {
+      "label": "HYBRID_retrievalConfigVersionId_override",
+      "status": 200,
+      "leaked": false,
+      "ok": true,
+      "sourceCount": 2,
+      "sourceIds": [
+        "8c60fa00-de18-49b0-9d7f-f1ca461d4d78",
+        "a90d7c80-1693-4a7a-93f1-ec2206e3680c"
+      ],
+      "sourceTitles": [
+        "ADITIVO CONTRATUAL DE LOCAÇÃO - ARQUIVO WORD - EDITÁVEL",
+        "CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA"
+      ],
+      "pipelineMeta": null
+    },
+    {
+      "label": "HYBRID_after_reactivate",
+      "status": 200,
+      "leaked": false,
+      "ok": true,
+      "sourceCount": 2,
+      "sourceIds": [
+        "8c60fa00-de18-49b0-9d7f-f1ca461d4d78",
+        "a90d7c80-1693-4a7a-93f1-ec2206e3680c"
+      ],
+      "sourceTitles": [
+        "ADITIVO CONTRATUAL DE LOCAÇÃO - ARQUIVO WORD - EDITÁVEL",
+        "CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA"
+      ],
+      "pipelineMeta": null
+    }
+  ],
+  "ok": true,
+  "inactiveTestsOk": true
+}

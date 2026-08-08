@@ -1,0 +1,36 @@
+{
+  "at": "2026-08-08T21:33:50.489Z",
+  "tests": [
+    {
+      "name": "publish-401",
+      "pass": true,
+      "detail": {
+        "status": 401
+      }
+    },
+    {
+      "name": "login-compras",
+      "pass": true,
+      "detail": {
+        "isMaster": false,
+        "isTechnicalAdmin": false
+      }
+    },
+    {
+      "name": "publish-403-common-admin",
+      "pass": true,
+      "detail": {
+        "status": 403,
+        "code": "TECHNICAL_ADMIN_REQUIRED"
+      }
+    },
+    {
+      "name": "rollback-403-common-admin",
+      "pass": true,
+      "detail": {
+        "status": 403
+      }
+    }
+  ],
+  "note": "Publish endpoint already requires requiredTechnicalAdmin=true. Common admin with only editar_configuracoes correctly receives 403. Live publish/rollback by Master not exercised to avoid churn; hybrid version decision handled separately."
+}

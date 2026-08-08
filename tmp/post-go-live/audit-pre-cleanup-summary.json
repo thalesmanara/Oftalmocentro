@@ -1,0 +1,338 @@
+{
+  "at": "2026-08-08T21:36:13.641Z",
+  "total": 4489,
+  "min_at": "2026-08-02T00:49:46.542Z",
+  "max_at": "2026-08-08T21:36:01.376Z",
+  "byAction": [
+    {
+      "action": "AI_RETRIEVAL_STARTED",
+      "n": 742
+    },
+    {
+      "action": "AI_RETRIEVAL_SUCCESS",
+      "n": 742
+    },
+    {
+      "action": "AI_CONTEXT_BUILD_STARTED",
+      "n": 725
+    },
+    {
+      "action": "AI_CONTEXT_BUILD_SUCCESS",
+      "n": 718
+    },
+    {
+      "action": "AI_RESPONSE_POLICY_APPLIED",
+      "n": 447
+    },
+    {
+      "action": "AI_QUERY",
+      "n": 241
+    },
+    {
+      "action": "AUTH_LOGIN_SUCCESS",
+      "n": 209
+    },
+    {
+      "action": "SYSTEM_HEALTH_CHECK",
+      "n": 113
+    },
+    {
+      "action": "EMBEDDING_STARTED",
+      "n": 80
+    },
+    {
+      "action": "EMBEDDING_SUCCESS",
+      "n": 80
+    },
+    {
+      "action": "AI_RESPONSE_POLICY_LIMITATION",
+      "n": 54
+    },
+    {
+      "action": "DATASET_STARTED",
+      "n": 52
+    },
+    {
+      "action": "METRICS_GENERATED",
+      "n": 49
+    },
+    {
+      "action": "DATASET_FINISHED",
+      "n": 33
+    },
+    {
+      "action": "DOCUMENT_VERSION_CREATE",
+      "n": 23
+    },
+    {
+      "action": "FILE_VALIDATION_FAILURE",
+      "n": 19
+    },
+    {
+      "action": "AI_RESPONSE_POLICY_DECLINE",
+      "n": 18
+    },
+    {
+      "action": "TEST_EXECUTED",
+      "n": 13
+    },
+    {
+      "action": "AUTH_LOGIN_FAILURE",
+      "n": 13
+    },
+    {
+      "action": "DOCUMENT_DOWNLOAD",
+      "n": 10
+    },
+    {
+      "action": "DOCUMENT_UPLOAD",
+      "n": 9
+    },
+    {
+      "action": "DOCUMENT_PROCESS",
+      "n": 9
+    },
+    {
+      "action": "DOCUMENT_OCR",
+      "n": 7
+    },
+    {
+      "action": "AI_CONTEXT_BUILD_FALLBACK",
+      "n": 7
+    },
+    {
+      "action": "AI_RETRIEVAL_CONFIG_DRAFT_CREATE",
+      "n": 5
+    },
+    {
+      "action": "OCR_STARTED",
+      "n": 4
+    },
+    {
+      "action": "OCR_MANUAL_REVIEW",
+      "n": 4
+    },
+    {
+      "action": "DOCUMENT_ACTIVATED",
+      "n": 4
+    },
+    {
+      "action": "DOCUMENT_DEACTIVATED",
+      "n": 4
+    },
+    {
+      "action": "AI_CONTEXT_CONFIG_DRAFT_CREATE",
+      "n": 4
+    },
+    {
+      "action": "AUTH_LOGOUT",
+      "n": 4
+    },
+    {
+      "action": "OCR_QUALITY_EVALUATED",
+      "n": 4
+    },
+    {
+      "action": "TABLE_PARSED",
+      "n": 3
+    },
+    {
+      "action": "OCR_REQUIRED",
+      "n": 3
+    },
+    {
+      "action": "AI_RETRIEVAL_CONFIG_ROLLBACK",
+      "n": 3
+    },
+    {
+      "action": "AUTH_CHANGE_PASSWORD",
+      "n": 3
+    },
+    {
+      "action": "TEST_FAILED",
+      "n": 3
+    },
+    {
+      "action": "TABLE_IMPORTED",
+      "n": 3
+    },
+    {
+      "action": "USER_UPDATE",
+      "n": 3
+    },
+    {
+      "action": "USER_CREATE",
+      "n": 3
+    },
+    {
+      "action": "AI_CONTEXT_CONFIG_PUBLISHED",
+      "n": 2
+    },
+    {
+      "action": "TABLE_NORMALIZED",
+      "n": 2
+    },
+    {
+      "action": "AI_CONTEXT_CONFIG_ROLLBACK",
+      "n": 2
+    },
+    {
+      "action": "AI_RETRIEVAL_CONFIG_PUBLISH_OVERRIDE",
+      "n": 2
+    },
+    {
+      "action": "TABLE_CHUNKED",
+      "n": 2
+    },
+    {
+      "action": "OCR_HIGH_QUALITY_RETRY",
+      "n": 2
+    },
+    {
+      "action": "USER_TECHNICAL_ADMIN_GRANTED",
+      "n": 1
+    },
+    {
+      "action": "DOCUMENT_CREATE",
+      "n": 1
+    },
+    {
+      "action": "DOCUMENT_VERSION_RESTORE",
+      "n": 1
+    },
+    {
+      "action": "AI_PROMPT_VALIDATION_FINISH",
+      "n": 1
+    },
+    {
+      "action": "OCR_RETRY",
+      "n": 1
+    },
+    {
+      "action": "BACKUP_SUCCESS",
+      "n": 1
+    },
+    {
+      "action": "AI_PROMPT_VALIDATION_START",
+      "n": 1
+    }
+  ],
+  "byResource": [
+    {
+      "resource_type": "ai_retrieval",
+      "n": 1484
+    },
+    {
+      "resource_type": "ai_context",
+      "n": 1450
+    },
+    {
+      "resource_type": "ai_query",
+      "n": 760
+    },
+    {
+      "resource_type": "auth",
+      "n": 222
+    },
+    {
+      "resource_type": "document_version",
+      "n": 188
+    },
+    {
+      "resource_type": "system",
+      "n": 113
+    },
+    {
+      "resource_type": "ai_test_run",
+      "n": 101
+    },
+    {
+      "resource_type": "document",
+      "n": 87
+    },
+    {
+      "resource_type": "ai_test_metrics",
+      "n": 49
+    },
+    {
+      "resource_type": "ai_retrieval_config_version",
+      "n": 18
+    },
+    {
+      "resource_type": "user",
+      "n": 10
+    },
+    {
+      "resource_type": "session",
+      "n": 4
+    },
+    {
+      "resource_type": "ai_prompt_version",
+      "n": 2
+    },
+    {
+      "resource_type": "backup",
+      "n": 1
+    }
+  ],
+  "byDay": [
+    {
+      "day": "2026-08-02T03:00:00.000Z",
+      "n": 50
+    },
+    {
+      "day": "2026-08-03T03:00:00.000Z",
+      "n": 1480
+    },
+    {
+      "day": "2026-08-04T03:00:00.000Z",
+      "n": 2072
+    },
+    {
+      "day": "2026-08-07T03:00:00.000Z",
+      "n": 17
+    },
+    {
+      "day": "2026-08-08T03:00:00.000Z",
+      "n": 870
+    }
+  ],
+  "users": {
+    "distinct_users": 3,
+    "null_user_rows": 944
+  },
+  "clinicUserCount": 5,
+  "note": "No PII/content bodies included. Emails listed only as active system accounts for cleanup decision.",
+  "clinicEmails": [
+    {
+      "email": "compras@oftalmocentrouberaba.com.br",
+      "isMaster": false,
+      "isTechnicalAdmin": false,
+      "active": true
+    },
+    {
+      "email": "enfermagem@oftalmocentrouberaba.com.br",
+      "isMaster": false,
+      "isTechnicalAdmin": false,
+      "active": true
+    },
+    {
+      "email": "faturamento@oftalmocentrouberaba.com.br",
+      "isMaster": false,
+      "isTechnicalAdmin": false,
+      "active": true
+    },
+    {
+      "email": "oftalmocentro@oftalmocentrouberaba.com.br",
+      "isMaster": true,
+      "isTechnicalAdmin": false,
+      "active": true
+    },
+    {
+      "email": "thalesmanara@gmail.com",
+      "isMaster": true,
+      "isTechnicalAdmin": true,
+      "active": true
+    }
+  ]
+}

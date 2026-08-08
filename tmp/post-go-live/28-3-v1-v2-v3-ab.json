@@ -1,0 +1,1240 @@
+{
+  "at": "2026-08-08T21:33:37.534Z",
+  "versions": [
+    {
+      "id": "63631806-f1ba-4ff4-8b24-265a468229fb",
+      "version_label": "hybrid-v1",
+      "status": "ARCHIVED"
+    },
+    {
+      "id": "eb5779b1-b653-4679-b7ea-89b66accb279",
+      "version_label": "hybrid-v2",
+      "status": "PUBLISHED"
+    },
+    {
+      "id": "ecc82b36-9e85-4138-99a9-b64724b1e50d",
+      "version_label": "hybrid-v3",
+      "status": "DRAFT"
+    }
+  ],
+  "results": [
+    {
+      "label": "hybrid-v1",
+      "versionId": "63631806-f1ba-4ff4-8b24-265a468229fb",
+      "n": 39,
+      "hitRate": 0.6923076923076923,
+      "mrr": 0.5897435897435896,
+      "avgLatency": 7919.461538461538,
+      "byCat": {
+        "semantic": {
+          "n": 10,
+          "hits": 6
+        },
+        "paraphrase": {
+          "n": 10,
+          "hits": 9
+        },
+        "technical_vs_popular": {
+          "n": 5,
+          "hits": 4
+        },
+        "verb_vs_noun": {
+          "n": 5,
+          "hits": 3
+        },
+        "abbreviation": {
+          "n": 5,
+          "hits": 4
+        },
+        "exact_identifier": {
+          "n": 1,
+          "hits": 0
+        },
+        "ocr_noisy": {
+          "n": 1,
+          "hits": 0
+        },
+        "tabular": {
+          "n": 1,
+          "hits": 1
+        },
+        "negative": {
+          "n": 1,
+          "hits": 0
+        }
+      },
+      "rows": [
+        {
+          "id": "sem-01",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 6315,
+          "sourceCount": 4,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "sem-02",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 4862,
+          "sourceCount": 6,
+          "hit": true,
+          "rank": 4
+        },
+        {
+          "id": "sem-03",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 10479,
+          "sourceCount": 0,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "sem-04",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 6407,
+          "sourceCount": 0,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "sem-05",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 3658,
+          "sourceCount": 2,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "sem-06",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 9999,
+          "sourceCount": 1,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "sem-07",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 8788,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 3
+        },
+        {
+          "id": "sem-08",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 8575,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 2
+        },
+        {
+          "id": "sem-09",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 9091,
+          "sourceCount": 2,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "sem-10",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 6646,
+          "sourceCount": 8,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "para-01",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 8342,
+          "sourceCount": 2,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "para-02",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 6677,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "para-03",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 7460,
+          "sourceCount": 6,
+          "hit": true,
+          "rank": 3
+        },
+        {
+          "id": "para-04",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 8086,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "para-05",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 5131,
+          "sourceCount": 7,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "para-06",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 6947,
+          "sourceCount": 2,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "para-07",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 8583,
+          "sourceCount": 6,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "para-08",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 11627,
+          "sourceCount": 7,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "para-09",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 13706,
+          "sourceCount": 1,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "para-10",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 7183,
+          "sourceCount": 10,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "tech-01",
+          "category": "technical_vs_popular",
+          "status": 200,
+          "latencyMs": 3279,
+          "sourceCount": 1,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "tech-02",
+          "category": "technical_vs_popular",
+          "status": 200,
+          "latencyMs": 11896,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "tech-03",
+          "category": "technical_vs_popular",
+          "status": 200,
+          "latencyMs": 8878,
+          "sourceCount": 2,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "tech-04",
+          "category": "technical_vs_popular",
+          "status": 200,
+          "latencyMs": 10894,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "tech-05",
+          "category": "technical_vs_popular",
+          "status": 200,
+          "latencyMs": 7686,
+          "sourceCount": 5,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "verb-01",
+          "category": "verb_vs_noun",
+          "status": 200,
+          "latencyMs": 9129,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "verb-02",
+          "category": "verb_vs_noun",
+          "status": 200,
+          "latencyMs": 8008,
+          "sourceCount": 8,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "verb-03",
+          "category": "verb_vs_noun",
+          "status": 200,
+          "latencyMs": 11749,
+          "sourceCount": 0,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "verb-04",
+          "category": "verb_vs_noun",
+          "status": 200,
+          "latencyMs": 9842,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "verb-05",
+          "category": "verb_vs_noun",
+          "status": 200,
+          "latencyMs": 4556,
+          "sourceCount": 4,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "abbr-01",
+          "category": "abbreviation",
+          "status": 200,
+          "latencyMs": 7584,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 3
+        },
+        {
+          "id": "abbr-02",
+          "category": "abbreviation",
+          "status": 200,
+          "latencyMs": 8709,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "abbr-03",
+          "category": "abbreviation",
+          "status": 200,
+          "latencyMs": 6549,
+          "sourceCount": 7,
+          "hit": true,
+          "rank": 4
+        },
+        {
+          "id": "abbr-04",
+          "category": "abbreviation",
+          "status": 200,
+          "latencyMs": 9337,
+          "sourceCount": 1,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "abbr-05",
+          "category": "abbreviation",
+          "status": 200,
+          "latencyMs": 5242,
+          "sourceCount": 7,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "exact-cnpj",
+          "category": "exact_identifier",
+          "status": 200,
+          "latencyMs": 4144,
+          "sourceCount": 3,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "ocr-ish",
+          "category": "ocr_noisy",
+          "status": 200,
+          "latencyMs": 8961,
+          "sourceCount": 0,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "tabular",
+          "category": "tabular",
+          "status": 200,
+          "latencyMs": 8526,
+          "sourceCount": 8,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "negative",
+          "category": "negative",
+          "status": 200,
+          "latencyMs": 5328,
+          "sourceCount": 8,
+          "hit": false,
+          "rank": null
+        }
+      ]
+    },
+    {
+      "label": "hybrid-v2",
+      "versionId": "eb5779b1-b653-4679-b7ea-89b66accb279",
+      "n": 39,
+      "hitRate": 0.7435897435897436,
+      "mrr": 0.6205128205128205,
+      "avgLatency": 8372.48717948718,
+      "byCat": {
+        "semantic": {
+          "n": 10,
+          "hits": 8
+        },
+        "paraphrase": {
+          "n": 10,
+          "hits": 9
+        },
+        "technical_vs_popular": {
+          "n": 5,
+          "hits": 4
+        },
+        "verb_vs_noun": {
+          "n": 5,
+          "hits": 3
+        },
+        "abbreviation": {
+          "n": 5,
+          "hits": 4
+        },
+        "exact_identifier": {
+          "n": 1,
+          "hits": 0
+        },
+        "ocr_noisy": {
+          "n": 1,
+          "hits": 0
+        },
+        "tabular": {
+          "n": 1,
+          "hits": 1
+        },
+        "negative": {
+          "n": 1,
+          "hits": 0
+        }
+      },
+      "rows": [
+        {
+          "id": "sem-01",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 3677,
+          "sourceCount": 4,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "sem-02",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 5016,
+          "sourceCount": 6,
+          "hit": true,
+          "rank": 4
+        },
+        {
+          "id": "sem-03",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 9494,
+          "sourceCount": 8,
+          "hit": true,
+          "rank": 5
+        },
+        {
+          "id": "sem-04",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 5492,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "sem-05",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 5013,
+          "sourceCount": 2,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "sem-06",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 7951,
+          "sourceCount": 1,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "sem-07",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 9383,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 3
+        },
+        {
+          "id": "sem-08",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 10012,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 2
+        },
+        {
+          "id": "sem-09",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 9100,
+          "sourceCount": 2,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "sem-10",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 9812,
+          "sourceCount": 8,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "para-01",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 8435,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "para-02",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 16706,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "para-03",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 10165,
+          "sourceCount": 7,
+          "hit": true,
+          "rank": 3
+        },
+        {
+          "id": "para-04",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 6887,
+          "sourceCount": 4,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "para-05",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 5052,
+          "sourceCount": 7,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "para-06",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 7814,
+          "sourceCount": 2,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "para-07",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 7300,
+          "sourceCount": 6,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "para-08",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 14457,
+          "sourceCount": 7,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "para-09",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 14373,
+          "sourceCount": 1,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "para-10",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 5356,
+          "sourceCount": 10,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "tech-01",
+          "category": "technical_vs_popular",
+          "status": 200,
+          "latencyMs": 4673,
+          "sourceCount": 1,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "tech-02",
+          "category": "technical_vs_popular",
+          "status": 200,
+          "latencyMs": 10861,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "tech-03",
+          "category": "technical_vs_popular",
+          "status": 200,
+          "latencyMs": 19569,
+          "sourceCount": 2,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "tech-04",
+          "category": "technical_vs_popular",
+          "status": 200,
+          "latencyMs": 7755,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "tech-05",
+          "category": "technical_vs_popular",
+          "status": 200,
+          "latencyMs": 7682,
+          "sourceCount": 5,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "verb-01",
+          "category": "verb_vs_noun",
+          "status": 200,
+          "latencyMs": 9041,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "verb-02",
+          "category": "verb_vs_noun",
+          "status": 200,
+          "latencyMs": 8153,
+          "sourceCount": 8,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "verb-03",
+          "category": "verb_vs_noun",
+          "status": 200,
+          "latencyMs": 7367,
+          "sourceCount": 0,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "verb-04",
+          "category": "verb_vs_noun",
+          "status": 200,
+          "latencyMs": 6590,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "verb-05",
+          "category": "verb_vs_noun",
+          "status": 200,
+          "latencyMs": 4515,
+          "sourceCount": 4,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "abbr-01",
+          "category": "abbreviation",
+          "status": 200,
+          "latencyMs": 7380,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 3
+        },
+        {
+          "id": "abbr-02",
+          "category": "abbreviation",
+          "status": 200,
+          "latencyMs": 8007,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "abbr-03",
+          "category": "abbreviation",
+          "status": 200,
+          "latencyMs": 6731,
+          "sourceCount": 7,
+          "hit": true,
+          "rank": 4
+        },
+        {
+          "id": "abbr-04",
+          "category": "abbreviation",
+          "status": 200,
+          "latencyMs": 10204,
+          "sourceCount": 1,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "abbr-05",
+          "category": "abbreviation",
+          "status": 200,
+          "latencyMs": 5093,
+          "sourceCount": 7,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "exact-cnpj",
+          "category": "exact_identifier",
+          "status": 200,
+          "latencyMs": 8856,
+          "sourceCount": 3,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "ocr-ish",
+          "category": "ocr_noisy",
+          "status": 200,
+          "latencyMs": 10199,
+          "sourceCount": 0,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "tabular",
+          "category": "tabular",
+          "status": 200,
+          "latencyMs": 7710,
+          "sourceCount": 8,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "negative",
+          "category": "negative",
+          "status": 200,
+          "latencyMs": 4646,
+          "sourceCount": 8,
+          "hit": false,
+          "rank": null
+        }
+      ]
+    },
+    {
+      "label": "hybrid-v3",
+      "versionId": "ecc82b36-9e85-4138-99a9-b64724b1e50d",
+      "n": 39,
+      "hitRate": 0.717948717948718,
+      "mrr": 0.6153846153846154,
+      "avgLatency": 8027.205128205128,
+      "byCat": {
+        "semantic": {
+          "n": 10,
+          "hits": 7
+        },
+        "paraphrase": {
+          "n": 10,
+          "hits": 9
+        },
+        "technical_vs_popular": {
+          "n": 5,
+          "hits": 4
+        },
+        "verb_vs_noun": {
+          "n": 5,
+          "hits": 3
+        },
+        "abbreviation": {
+          "n": 5,
+          "hits": 4
+        },
+        "exact_identifier": {
+          "n": 1,
+          "hits": 0
+        },
+        "ocr_noisy": {
+          "n": 1,
+          "hits": 0
+        },
+        "tabular": {
+          "n": 1,
+          "hits": 1
+        },
+        "negative": {
+          "n": 1,
+          "hits": 0
+        }
+      },
+      "rows": [
+        {
+          "id": "sem-01",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 4814,
+          "sourceCount": 4,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "sem-02",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 4902,
+          "sourceCount": 6,
+          "hit": true,
+          "rank": 4
+        },
+        {
+          "id": "sem-03",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 9338,
+          "sourceCount": 0,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "sem-04",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 4535,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "sem-05",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 4045,
+          "sourceCount": 2,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "sem-06",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 13197,
+          "sourceCount": 1,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "sem-07",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 11243,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 3
+        },
+        {
+          "id": "sem-08",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 8497,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 2
+        },
+        {
+          "id": "sem-09",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 11738,
+          "sourceCount": 2,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "sem-10",
+          "category": "semantic",
+          "status": 200,
+          "latencyMs": 7416,
+          "sourceCount": 8,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "para-01",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 11964,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "para-02",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 6883,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "para-03",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 7860,
+          "sourceCount": 7,
+          "hit": true,
+          "rank": 3
+        },
+        {
+          "id": "para-04",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 5580,
+          "sourceCount": 4,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "para-05",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 4461,
+          "sourceCount": 7,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "para-06",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 7896,
+          "sourceCount": 2,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "para-07",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 7775,
+          "sourceCount": 6,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "para-08",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 14640,
+          "sourceCount": 7,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "para-09",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 11979,
+          "sourceCount": 1,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "para-10",
+          "category": "paraphrase",
+          "status": 200,
+          "latencyMs": 6086,
+          "sourceCount": 10,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "tech-01",
+          "category": "technical_vs_popular",
+          "status": 200,
+          "latencyMs": 3420,
+          "sourceCount": 1,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "tech-02",
+          "category": "technical_vs_popular",
+          "status": 200,
+          "latencyMs": 12096,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "tech-03",
+          "category": "technical_vs_popular",
+          "status": 200,
+          "latencyMs": 8581,
+          "sourceCount": 2,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "tech-04",
+          "category": "technical_vs_popular",
+          "status": 200,
+          "latencyMs": 7618,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "tech-05",
+          "category": "technical_vs_popular",
+          "status": 200,
+          "latencyMs": 9906,
+          "sourceCount": 5,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "verb-01",
+          "category": "verb_vs_noun",
+          "status": 200,
+          "latencyMs": 10830,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "verb-02",
+          "category": "verb_vs_noun",
+          "status": 200,
+          "latencyMs": 7913,
+          "sourceCount": 8,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "verb-03",
+          "category": "verb_vs_noun",
+          "status": 200,
+          "latencyMs": 11317,
+          "sourceCount": 0,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "verb-04",
+          "category": "verb_vs_noun",
+          "status": 200,
+          "latencyMs": 6948,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "verb-05",
+          "category": "verb_vs_noun",
+          "status": 200,
+          "latencyMs": 4951,
+          "sourceCount": 4,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "abbr-01",
+          "category": "abbreviation",
+          "status": 200,
+          "latencyMs": 8235,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 3
+        },
+        {
+          "id": "abbr-02",
+          "category": "abbreviation",
+          "status": 200,
+          "latencyMs": 6444,
+          "sourceCount": 3,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "abbr-03",
+          "category": "abbreviation",
+          "status": 200,
+          "latencyMs": 6766,
+          "sourceCount": 7,
+          "hit": true,
+          "rank": 4
+        },
+        {
+          "id": "abbr-04",
+          "category": "abbreviation",
+          "status": 200,
+          "latencyMs": 8239,
+          "sourceCount": 1,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "abbr-05",
+          "category": "abbreviation",
+          "status": 200,
+          "latencyMs": 4799,
+          "sourceCount": 7,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "exact-cnpj",
+          "category": "exact_identifier",
+          "status": 200,
+          "latencyMs": 4651,
+          "sourceCount": 3,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "ocr-ish",
+          "category": "ocr_noisy",
+          "status": 200,
+          "latencyMs": 12231,
+          "sourceCount": 0,
+          "hit": false,
+          "rank": null
+        },
+        {
+          "id": "tabular",
+          "category": "tabular",
+          "status": 200,
+          "latencyMs": 8987,
+          "sourceCount": 8,
+          "hit": true,
+          "rank": 1
+        },
+        {
+          "id": "negative",
+          "category": "negative",
+          "status": 200,
+          "latencyMs": 4280,
+          "sourceCount": 8,
+          "hit": false,
+          "rank": null
+        }
+      ]
+    }
+  ],
+  "decision": {
+    "winner": "hybrid-v2",
+    "scores": {
+      "hybrid-v1": {
+        "hitRate": 0.6923076923076923,
+        "mrr": 0.5897435897435896,
+        "score": 0.6615384615384614
+      },
+      "hybrid-v2": {
+        "hitRate": 0.7435897435897436,
+        "mrr": 0.6205128205128205,
+        "score": 0.7066666666666667
+      },
+      "hybrid-v3": {
+        "hitRate": 0.717948717948718,
+        "mrr": 0.6153846153846154,
+        "score": 0.6871794871794872
+      }
+    },
+    "recommendPublish": "hybrid-v2"
+  }
+}

@@ -20,10 +20,20 @@ Resumo para manutenção. **Sem credenciais.**
 
 - hybrid-rerank-v1
 - context-budget-v1
-- hybrid-v1 (ARCHIVED após promoção de hybrid-v2)
-- AI_QUERY_MAIN v2 (completude + max_tokens 1200 — A/B sem ganho suficiente; permanece DRAFT)
+- hybrid-v1 (ARCHIVED)
+- hybrid-v3 (DRAFT — includeVectorOnly sem lexical; A/B 28.3 ficou atrás de hybrid-v2)
+- AI_QUERY_MAIN v2 (completude + max_tokens 1200 — permanece DRAFT)
 - evidence-v2 (se mantido)
 - response-quality-v1 (ARCHIVED após promoção da v2)
+
+## Pós-Go-Live (28.3)
+
+- Gate absoluto `documents.is_active` após merge (todos os modos).
+- Qdrant payload `isActive` 100% + filtro obrigatório.
+- Auditoria limpa em 2026-08-08T21:36:33Z (início oficial); UI gerencial em `auditLabels.ts` + `AuditPage`.
+- Publish/rollback retrieval exige Master/Technical Admin (`TECHNICAL_ADMIN_REQUIRED`).
+- Relatório: `tmp/post-go-live/RELATORIO-28-3-FECHAMENTO.md`.
+- Deploy frontend: **Locaweb** (não Hostinger). Bundle local `index-B-Y5fMgf.js`.
 
 ## Pós-Go-Live (28.1/28.2) — regras operacionais
 
