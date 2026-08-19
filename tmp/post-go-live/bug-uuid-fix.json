@@ -1,0 +1,29 @@
+{
+  "at": "2026-08-19T21:41:25.317Z",
+  "loginOk": true,
+  "sector": {
+    "id": "68af4933-1188-48a6-9743-bd3032cf7a9f",
+    "name": "ADMINISTRAÇÃO"
+  },
+  "category": {
+    "id": "1a1b4aa3-fd95-4751-b7b1-ec8066a7185c",
+    "name": "ALVARÁS - LICENÇAS - ART"
+  },
+  "subcategory": {
+    "id": "2049609f-2553-435e-8cf8-c46823e1ff3c",
+    "name": "Alvará Sanitário"
+  },
+  "withSub": {
+    "status": 200,
+    "ok": false,
+    "error": null,
+    "id": null
+  },
+  "withoutSub": {
+    "status": 200,
+    "ok": false,
+    "error": null,
+    "id": null
+  },
+  "deleted": []
+}

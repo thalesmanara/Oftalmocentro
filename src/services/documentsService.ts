@@ -327,16 +327,40 @@ export async function getDocumentById(id: string): Promise<Document | null> {
   return documents.find((d) => d.id === id) ?? null
 }
 
+function asUuidOrNull(value: string | null | undefined): string | null {
+  if (value == null) return null
+  const trimmed = String(value).trim()
+  if (!trimmed || trimmed === 'undefined' || trimmed === 'null') return null
+  return trimmed
+}
+
+function requireUuid(value: string | null | undefined, field: string): string {
+  const uuid = asUuidOrNull(value)
+  if (!uuid) {
+    throw new ApiError({
+      status: 400,
+      code: 'VALIDATION_ERROR',
+      message: `${field} inválido.`,
+    })
+  }
+  return uuid
+}
+
 export async function createDocument(
   data: DocumentFormData,
   userId: string,
   _userName: string
 ): Promise<Document> {
+  const sectorId = requireUuid(data.sectorId, 'Setor')
+  const categoryId = requireUuid(data.categoryId, 'Categoria')
+  const subcategoryId = asUuidOrNull(data.subcategoryId)
+  const actorId = requireUuid(userId, 'Usuário')
+
   const result = await apiPost<unknown>('/webhook/documents/create', {
     title: data.title.trim(),
-    sectorId: data.sectorId,
-    categoryId: data.categoryId,
-    subcategoryId: data.subcategoryId ?? null,
+    sectorId,
+    categoryId,
+    subcategoryId,
     semanticDescription: data.semanticDescription.trim(),
     expirationDate: data.expirationDate || null,
     isActive: data.isActive ?? true,
@@ -345,9 +369,9 @@ export async function createDocument(
     fileSize: null,
     filePath: null,
     extractedText: null,
-    responsibleUserId: userId,
-    createdBy: userId,
-    updatedBy: userId,
+    responsibleUserId: actorId,
+    createdBy: actorId,
+    updatedBy: actorId,
   })
 
   return resolveDocumentAfterCreate(result, {

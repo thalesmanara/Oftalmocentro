@@ -1,0 +1,31 @@
+{
+  "at": "2026-08-19T21:45:01.724Z",
+  "sector": {
+    "id": "f4eff248-b7c2-4ad7-b467-b231e3e4f3e0",
+    "name": "FATURAMENTO"
+  },
+  "category": {
+    "id": "1a1b4aa3-fd95-4751-b7b1-ec8066a7185c",
+    "name": "ALVARÁS - LICENÇAS - ART"
+  },
+  "subcategory": {
+    "id": "2049609f-2553-435e-8cf8-c46823e1ff3c",
+    "name": "Alvará Sanitário"
+  },
+  "status": 201,
+  "empty": false,
+  "hasId": true,
+  "createdId": "e5f0d409-e0c2-48b2-9480-3bd0cac2a385",
+  "error": null,
+  "db": {
+    "id": "e5f0d409-e0c2-48b2-9480-3bd0cac2a385",
+    "title": "MANUAL AMIL TESTE HOTFIX 1787175899709",
+    "current_version_id": "8dbfe9ff-bbd4-4f8a-bcc4-20c04581ada9",
+    "subcategory_id": "2049609f-2553-435e-8cf8-c46823e1ff3c",
+    "is_active": true
+  },
+  "connections": {
+    "sqlToMontar": "{\"main\":[[{\"node\":\"Vincular versão atual\",\"type\":\"main\",\"index\":0},{\"node\":\"Montar data\",\"type\":\"main\",\"index\":0}],[{\"node\":\"Tratar erro SQL\",\"type\":\"main\",\"index\":0}]]}",
+    "sqlToVincular": "null"
+  }
+}

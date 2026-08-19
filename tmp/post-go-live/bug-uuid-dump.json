@@ -1,0 +1,60 @@
+{
+  "created": {
+    "status": 200,
+    "json": {
+      "raw": ""
+    },
+    "text": ""
+  },
+  "cols": [
+    {
+      "column_name": "is_active"
+    }
+  ],
+  "recentExec": [
+    {
+      "id": 54329,
+      "status": "success",
+      "startedAt": "2026-08-19T21:41:43.634Z"
+    },
+    {
+      "id": 54311,
+      "status": "success",
+      "startedAt": "2026-08-19T21:41:24.434Z"
+    },
+    {
+      "id": 54307,
+      "status": "success",
+      "startedAt": "2026-08-19T21:41:23.569Z"
+    },
+    {
+      "id": 54154,
+      "status": "success",
+      "startedAt": "2026-08-19T19:06:53.339Z"
+    },
+    {
+      "id": 54148,
+      "status": "success",
+      "startedAt": "2026-08-19T19:06:27.557Z"
+    }
+  ],
+  "loginUser": {
+    "id": "06e0915e-0f90-42b1-a32c-ae5e0f7de1c6",
+    "name": "Livia Maria Vieira de Sousa",
+    "email": "compras@oftalmocentrouberaba.com.br",
+    "sectorId": "b0d15c63-9c28-4c2d-b9ad-fa95a11fecfb",
+    "sectorName": "COMPRAS",
+    "active": true,
+    "isMaster": false,
+    "isTechnicalAdmin": false,
+    "permissions": [
+      "cadastrar_documentos",
+      "editar_configuracoes",
+      "editar_documentos",
+      "excluir_documentos",
+      "usar_consulta_ia",
+      "visualizar_auditoria",
+      "visualizar_documentos"
+    ]
+  }
+}

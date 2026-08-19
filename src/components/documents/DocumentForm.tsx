@@ -162,11 +162,16 @@ export function DocumentForm({
       }
     }
 
+    const cleanId = (value: string) => {
+      const trimmed = value.trim()
+      return !trimmed || trimmed === 'undefined' || trimmed === 'null' ? '' : trimmed
+    }
+
     void onSubmit({
       title: title.trim(),
-      sectorId,
-      categoryId,
-      subcategoryId: subcategoryId || null,
+      sectorId: cleanId(sectorId),
+      categoryId: cleanId(categoryId),
+      subcategoryId: cleanId(subcategoryId) || null,
       semanticDescription: semanticDescription.trim(),
       expirationDate: expirationDate || null,
       isActive,

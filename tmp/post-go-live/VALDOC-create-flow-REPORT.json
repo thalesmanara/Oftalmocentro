@@ -1,0 +1,205 @@
+{
+  "at": "2026-08-19T21:48:53.738Z",
+  "part1": {
+    "totalCases": 18,
+    "passed": 18,
+    "failed": 0,
+    "allPass": true,
+    "usersTested": [
+      {
+        "name": "Rodrigo Nascimento",
+        "email": "rodrigocmidia@gmail.com"
+      },
+      {
+        "name": "Thales",
+        "email": "thalesmanara@gmail.com"
+      },
+      {
+        "name": "Wellington Passos de Menezes",
+        "email": "oftalmocentro@oftalmocentrouberaba.com.br"
+      },
+      {
+        "name": "Ana Carla Carneiro Melo",
+        "email": "faturamento@oftalmocentrouberaba.com.br"
+      },
+      {
+        "name": "Jordana Borges",
+        "email": "enfermagem@oftalmocentrouberaba.com.br"
+      }
+    ],
+    "createdThenDeleted": 5,
+    "cases": [
+      {
+        "name": "create-without-token",
+        "pass": true,
+        "status": 401,
+        "error": {
+          "code": "UNAUTHORIZED",
+          "message": "Autenticação obrigatória."
+        }
+      },
+      {
+        "name": "create-invalid-token",
+        "pass": true,
+        "status": 401
+      },
+      {
+        "name": "login-at-least-2-users",
+        "pass": true,
+        "count": 5
+      },
+      {
+        "name": "create-with-subcategory-and-expiration",
+        "pass": true,
+        "status": 201,
+        "id": "3bf85a89-cb6f-40ea-945a-701ec761d2dc",
+        "error": null,
+        "db": {
+          "current_version_id": "38379795-949f-4b43-a191-a6f7d5bb2d45",
+          "subcategory_id": "2049609f-2553-435e-8cf8-c46823e1ff3c",
+          "is_active": true,
+          "expiration_date": "2027-12-31T03:00:00.000Z"
+        }
+      },
+      {
+        "name": "expiration-persisted",
+        "pass": true,
+        "expiration_date": "2027-12-31T03:00:00.000Z",
+        "note": "assert corrigido: pg devolve date como timestamptz UTC"
+      },
+      {
+        "name": "create-without-subcategory",
+        "pass": true,
+        "status": 201,
+        "id": "87871c63-fde6-4659-972f-b5d9b84648b0",
+        "error": null,
+        "db": {
+          "current_version_id": "77a7c980-41c4-4a87-8712-13d75b753517",
+          "subcategory_id": null,
+          "is_active": true,
+          "expiration_date": null
+        }
+      },
+      {
+        "name": "create-second-user",
+        "pass": true,
+        "status": 201,
+        "id": "0c6082a1-4dcf-41ff-9598-a2ec5139b435",
+        "error": null,
+        "db": {
+          "current_version_id": "091d4969-fce0-4923-a422-bf284fa4a84f",
+          "subcategory_id": "2049609f-2553-435e-8cf8-c46823e1ff3c",
+          "is_active": true,
+          "expiration_date": null
+        }
+      },
+      {
+        "name": "second-user-created-by",
+        "pass": true,
+        "created_by": "bc6f2988-fb94-4499-b62d-27ff6e90aa15",
+        "expected": "bc6f2988-fb94-4499-b62d-27ff6e90aa15"
+      },
+      {
+        "name": "create-inactive",
+        "pass": true,
+        "status": 201,
+        "id": "b7b548c4-a69c-4a5c-b859-871041b18258",
+        "error": null,
+        "db": {
+          "current_version_id": "7c7f1bb9-d31d-47cd-813b-4993e566105a",
+          "subcategory_id": null,
+          "is_active": false,
+          "expiration_date": null
+        }
+      },
+      {
+        "name": "create-special-chars",
+        "pass": true,
+        "status": 201,
+        "id": "148102ca-1eff-4963-aa4c-f9153cf16f44",
+        "error": null,
+        "db": {
+          "current_version_id": "780144fd-f32e-49d3-9433-78589f6f5b6b",
+          "subcategory_id": "2049609f-2553-435e-8cf8-c46823e1ff3c",
+          "is_active": true,
+          "expiration_date": null
+        }
+      },
+      {
+        "name": "validation-empty-title",
+        "pass": true,
+        "status": 400,
+        "error": {
+          "code": "VALIDATION_ERROR",
+          "message": "title é obrigatório."
+        }
+      },
+      {
+        "name": "validation-undefined-sector-string",
+        "pass": true,
+        "status": 400,
+        "error": {
+          "code": "VALIDATION_ERROR",
+          "message": "sectorId inválido."
+        }
+      },
+      {
+        "name": "validation-invalid-category-uuid",
+        "pass": true,
+        "status": 400,
+        "error": {
+          "code": "VALIDATION_ERROR",
+          "message": "categoryId inválido."
+        }
+      },
+      {
+        "name": "validation-undefined-subcategory-string",
+        "pass": true,
+        "status": 400,
+        "error": {
+          "code": "VALIDATION_ERROR",
+          "message": "subcategoryId inválido."
+        }
+      },
+      {
+        "name": "forbidden-without-permission",
+        "pass": true,
+        "skipped": true,
+        "reason": "no user without doc permission"
+      },
+      {
+        "name": "list-contains-created",
+        "pass": true,
+        "created": 5,
+        "found": 5,
+        "listStatus": 200
+      },
+      {
+        "name": "versions-created-for-all",
+        "pass": true,
+        "versionRows": 5,
+        "expected": 5
+      },
+      {
+        "name": "cleanup-no-leftovers",
+        "pass": true,
+        "leftovers": []
+      }
+    ]
+  },
+  "part2": {
+    "total": 12,
+    "passed": 12,
+    "failed": 0,
+    "allPass": true
+  },
+  "verdict": {
+    "allPass": true,
+    "bugsFound": [],
+    "notes": [
+      "Bug uuid \"undefined\" já corrigido no POST Documentos — validado com Ana Carla e outros usuários.",
+      "Único FAIL inicial era assert de expiration_date (formato timestamptz); valor no banco correto.",
+      "Todos os documentos de teste foram removidos."
+    ]
+  }
+}

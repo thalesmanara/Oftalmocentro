@@ -1,0 +1,87 @@
+{
+  "at": "2026-08-19T21:48:26.485Z",
+  "runId": "VALDOC2-1787176105947-a47c",
+  "cases": [
+    {
+      "name": "Ana Carla Carneiro Melo",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "ana-create-document",
+      "pass": true,
+      "status": 201,
+      "id": "1070183f-1ab2-4593-8924-d9ad187e3b7f",
+      "category": "ALVARÁS - LICENÇAS - ART",
+      "subcategory": "Alvará Sanitário"
+    },
+    {
+      "name": "ana-expiration-date",
+      "pass": true,
+      "expiration_date": "2027-06-15"
+    },
+    {
+      "name": "ana-version-linked",
+      "pass": true,
+      "current_version_id": "3f2472ca-86ed-42ec-802d-8b9c038057fd"
+    },
+    {
+      "name": "ana-created-by-self",
+      "pass": true,
+      "created_by": "3c69da00-f5c0-41d0-bdf2-cf15c65be288"
+    },
+    {
+      "name": "ana-upload-file",
+      "pass": true,
+      "status": 200,
+      "fileName": "/home/node/files/documents/1070183f-1ab2-4593-8924-d9ad187e3b7f-v1-1e767e4e-4485-4a23-9385-748c6b892ee4.txt"
+    },
+    {
+      "name": "ana-process-document",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "ana-get-after-create",
+      "pass": true,
+      "status": 200,
+      "title": "VALDOC2-1787176105947-a47c MANUAL DE FATURAMENTO E ATENDIMENTO AMIL",
+      "processingStatus": "processing"
+    },
+    {
+      "name": "compras-login",
+      "pass": true,
+      "status": 200
+    },
+    {
+      "name": "compras-create",
+      "pass": true,
+      "status": 201,
+      "id": "a7142e26-1a74-419e-8f19-5e20ec64a199"
+    },
+    {
+      "name": "duplicate-title-allowed",
+      "pass": true,
+      "a": "cb660f6e-900e-4d6b-b21c-02ccd0abe02f",
+      "b": "77da5472-a945-4081-ae9d-113e91b4cf6d"
+    },
+    {
+      "name": "cleanup",
+      "pass": true,
+      "deleted": 4,
+      "leftovers": []
+    }
+  ],
+  "createdIds": [
+    "1070183f-1ab2-4593-8924-d9ad187e3b7f",
+    "a7142e26-1a74-419e-8f19-5e20ec64a199",
+    "cb660f6e-900e-4d6b-b21c-02ccd0abe02f",
+    "77da5472-a945-4081-ae9d-113e91b4cf6d"
+  ],
+  "summary": {
+    "total": 12,
+    "passed": 12,
+    "failed": 0,
+    "allPass": true
+  }
+}

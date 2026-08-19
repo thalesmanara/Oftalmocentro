@@ -1,0 +1,37 @@
+{
+  "docs": [
+    {
+      "id": "1057414c-6e4d-4c1b-bf34-7daf03cf90f8",
+      "title": "HOTFIX UUID DUMP 1787175704200",
+      "created_at": "2026-08-20T00:41:43.728Z",
+      "sector_id": "68af4933-1188-48a6-9743-bd3032cf7a9f",
+      "category_id": "1a1b4aa3-fd95-4751-b7b1-ec8066a7185c",
+      "subcategory_id": null,
+      "is_active": true
+    },
+    {
+      "id": "905374ce-03e2-4887-954e-6deba8dfa5c5",
+      "title": "HOTFIX UUID NOSUB 2026-08-19T21:41:24.731Z",
+      "created_at": "2026-08-20T00:41:24.577Z",
+      "sector_id": "68af4933-1188-48a6-9743-bd3032cf7a9f",
+      "category_id": "1a1b4aa3-fd95-4751-b7b1-ec8066a7185c",
+      "subcategory_id": null,
+      "is_active": true
+    },
+    {
+      "id": "0fa108a0-7941-43c3-a25d-686748df5909",
+      "title": "HOTFIX UUID 2026-08-19T21:41:24.132Z",
+      "created_at": "2026-08-20T00:41:23.860Z",
+      "sector_id": "68af4933-1188-48a6-9743-bd3032cf7a9f",
+      "category_id": "1a1b4aa3-fd95-4751-b7b1-ec8066a7185c",
+      "subcategory_id": "2049609f-2553-435e-8cf8-c46823e1ff3c",
+      "is_active": true
+    }
+  ],
+  "execData": [
+    {
+      "executionId": 54329,
+      "data_head": "[{\"version\":1,\"startData\":\"1\",\"resultData\":\"2\",\"executionData\":\"3\",\"resumeToken\":\"4\"},{},{\"runData\":\"5\",\"lastNodeExecuted\":\"6\"},{\"contextData\":\"7\",\"nodeExecutionStack\":\"8\",\"metadata\":\"9\",\"waitingExecution\":\"10\",\"waitingExecutionSource\":\"11\",\"runtimeData\":\"12\"},\"daae4d66fa84569234fd365a18c3ac78d3d06896e616b8fad20c4d141e90760c\",{\"Webhook\":\"13\",\"Normalizar request\":\"14\",\"Validar auth\":\"15\",\"Auth ok?\":\"16\",\"Validar permissão\":\"17\",\"Permissão ok?\":\"18\",\"Restaurar request\":\"19\",\"Validar payload\":\"20\",\"Payload ok?\":\"21\",\"Execute a SQL query\":\"22\"},\"Execute a SQL query\",{},[],{},{},{},{\"version\":1,\"establishedAt\":1787175703628,\"source\":\"23\",\"triggerNode\":\"24\",\"redaction\":\"25\"},[\"26\"],[\"27\"],[\"28\"],[\"29\"],[\"30\"],[\"31\"],[\"32\"],[\"33\"],[\"34\"],[\"35\"],\"webhook\",{\"name\":\"36\",\"type\":\"37\"},{\"version\":2,\"production\":false,\"manual\":false,\"source\":\"38\"},{\"startTime\":1787175703640,\"executionIndex\":0,\"source\":\"39\",\"hints\":\"40\",\"executionTime\":0,\"executionStatus\":\"41\",\"data\":\"42\"},{\"startTime\":1787175703640,\"executionIndex\":1,\"source\":\"43\",\"hints\":\"44\",\"executionTime\":21,\"metadata\":\"45\",\"executionStatus\":\"41\",\"data\":\"46\"},{\"startTime\":1787175703661,\"executionIndex\":2,\"source\":\"47\",\"hints\":\"48\",\"executionTime\":32,\"metadata\":\"49\",\"executionStatus\":\"41\",\"data\":\"50\"},{\"startTime\":1787175703693,\"executionIndex\":3,\"source\":\"51\",\"hints\":\"52\",\"executionTime\":0,\"executionStatus\":\"41\",\"data\":\"53\"},{\"startTime\":1787175703693,\"executionIndex\":4,\"source\":\"54\",\"hints\":\"55\",\"executionTime\":22,\"metadata\":\"56\",\"executionStatus\":\"41\",\"data\":\"57\"},{\"startTime\":1787175703715,\"executionIndex\":5,\"source\":\"58\",\"hints\":\"59\",\"executionTime\":1,\"executionStatus\":\"41\",\"data\":\"60\"},{\"startTime\":1787175703716,\"executionIndex\":6,\"source\":\"61\",\"hints\":\"62\",\"executionTime\":4,\"executionStatus\":\"41\",\"data\":\"63\"},{\"startTime\":1787175703720,\"executionIndex\":7,\"source\":\"64\",\"hints\":\"65\",\"executionTime\":5,\"executionStatus\":\"41\",\"data\":\"66\"},{\"startTime\":1787175703725,\"executionIndex\":8,\"source\":\"67\",\"hints\":\"68\",\"executionTime\":0,\"executionStatus\":\"41\",\"data\":\"69\"},{\"startTime\":1787175703726,\"executionIndex\":9,\"source\":\"70\",\"hints\":\"71\",\"executionTime\":18,\"executionStatus\":\"41\",\"data\":\"72\"},\"Webhook\",\"n8n-nodes-base.webhook\",\"workflow\",[],[],\"success\",{\"main\":\"73\"},[\"74\"],[],{\"subExecution\":\"75\",\"subExecutionsCount\":1},{\"main\":\"76\"},[\"77\"],[],{\"subExecution\":\"78\",\"subExecutionsCount\":1},{\"main\":\"79\"},[\"80\"],[],{\"main\":\"81\"},[\"82\"],[],{\"subExecution\":\"83\",\"subExecutionsCount\":1},{\"main\":\"84\"},[\"85\"],[],{\"main\":\"86\"},[\"87\"],[],{\"main\":\"88\"},[\"89\"],[],{\"main\":\"90\"},[\"91\"],[],{\"main\":\"92\"},[\"93\"],[],{\"main\":\"94\"},[\"95\"],{\"previousNode\":\"36\",\"previousNodeOutput\":0,\"previousNodeRun\":0},{\"executionId\":\"96\",\"workflowId\":\"97\"},[\"98\"],{\"previousNode\":\"99\",\"previousNodeOutput\":0,\"previousNodeRun\":0},{\"executionId\":\"100\",\"workflowId\":\"101\"},[\"102\"],{\"previousNode\":\"103\",\"previousNodeOutput\":0,\"previousNodeRun\":0},[\"104\",\"105\"],{\"previousNode\":\"106\",\"previousNodeOutput\":0,\"previousNodeRun\":0},{\"executionId\":\"107\",\"workflowId\":\"108\"},[\"109\"],{\"previousNode\":\"110\",\"previousNodeOutput\":0,\"previousNodeRun\":0},[\"111\",\"112\"],{\"previousNode\":\"113\",\"previousNodeOutput\":0,\"previousNodeRun\":0},[\"114\"],{\"previousNode\":\"115\",\"previousNodeOutput\":0,\"previousNodeRun\":0},[\"116\"],{\"previousNode\":\"117\",\"previousNodeOutput\":0,\"previousNodeRun\":0},[\"118\",\"119\"],{\"previousNode\":\"120\",\"previousNodeOutput\":0,\"previousNodeRun\":0},[\"121\",\"122\"],[\"123\"],\"54330\",\"N3zLpj7Dij4n5p5p\",[\"124\"],\"Normalizar request\",\"54331\",\"P5E43ZXSJiI9wFYD\",[\"125\"],\"Validar auth\",[\"126\"],[],\"Auth ok?\",\"54332\",\"yXW3rW8EbHXuprRJ\",[\"127\"],\"Validar permissão\",[\"128\"],[],\"Permissão ok?\",[\"129\"],\"Restaurar request\",[\"130\"],\"Validar payload\",[\"131\"],[],\"Payload ok?\",[],[],{\"json\":\"132\",\"pairedItem\":\"133\"},{\"json\":\"134\",\"pairedItem\":\"135\"},{\"json\":\"136\",\"pairedItem\":\"137\"},{\"json\":\"136\",\"pairedItem\":\"138\"},{\"json\":\"139\",\"pairedItem\":\"140\"},{\"json\":\"139\",\"pairedItem\":\"141\"},{\"json\":\"142\",\"pairedItem\":\"143\"},{\"json\":\"144\",\"pairedItem\":\"145\"},{\"json\":\"144\",\""
+    }
+  ]
+}
