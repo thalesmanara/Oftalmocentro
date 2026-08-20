@@ -1,0 +1,327 @@
+{
+  "at": "2026-08-20T14:00:45.721Z",
+  "users": [
+    {
+      "id": "06e0915e-0f90-42b1-a32c-ae5e0f7de1c6",
+      "name": "Livia Maria Vieira de Sousa",
+      "email": "compras@oftalmocentrouberaba.com.br",
+      "active": true,
+      "hash_prefix": "$2a$06$",
+      "hash_len": 60,
+      "updated_at": "2026-08-20T00:41:19.748Z"
+    },
+    {
+      "id": "dec20a03-0127-476d-8c28-91bf5a389994",
+      "name": "Jordana Borges",
+      "email": "enfermagem@oftalmocentrouberaba.com.br",
+      "active": true,
+      "hash_prefix": "$2a$06$",
+      "hash_len": 60,
+      "updated_at": "2026-08-20T00:47:18.103Z"
+    },
+    {
+      "id": "3c69da00-f5c0-41d0-bdf2-cf15c65be288",
+      "name": "Ana Carla Carneiro Melo",
+      "email": "faturamento@oftalmocentrouberaba.com.br",
+      "active": true,
+      "hash_prefix": "$2a$06$",
+      "hash_len": 60,
+      "updated_at": "2026-08-20T00:47:17.961Z"
+    },
+    {
+      "id": "92a5c0e2-fb00-4cff-8b22-a0f371ed9bb9",
+      "name": "Wellington Passos de Menezes",
+      "email": "oftalmocentro@oftalmocentrouberaba.com.br",
+      "active": true,
+      "hash_prefix": "$2a$06$",
+      "hash_len": 60,
+      "updated_at": "2026-08-20T00:47:17.819Z"
+    },
+    {
+      "id": "07a77b3e-cc29-466e-a26a-3fdbc2ce4005",
+      "name": "Rodrigo Nascimento",
+      "email": "rodrigocmidia@gmail.com",
+      "active": true,
+      "hash_prefix": "$2a$06$",
+      "hash_len": 60,
+      "updated_at": "2026-08-20T00:47:17.536Z"
+    },
+    {
+      "id": "bc6f2988-fb94-4499-b62d-27ff6e90aa15",
+      "name": "Thales",
+      "email": "thalesmanara@gmail.com",
+      "active": true,
+      "hash_prefix": "$2a$06$",
+      "hash_len": 60,
+      "updated_at": "2026-08-20T00:47:17.678Z"
+    }
+  ],
+  "trials": [
+    {
+      "email": "rodrigocmidia@gmail.com",
+      "passwordLabel": "TEMP_VALDOC",
+      "status": 200,
+      "code": null,
+      "ok": true
+    },
+    {
+      "email": "rodrigocmidia@gmail.com",
+      "passwordLabel": "12345678",
+      "status": 401,
+      "code": "INVALID_CREDENTIALS",
+      "ok": false
+    },
+    {
+      "email": "thalesmanara@gmail.com",
+      "passwordLabel": "TEMP_VALDOC",
+      "status": 200,
+      "code": null,
+      "ok": true
+    },
+    {
+      "email": "thalesmanara@gmail.com",
+      "passwordLabel": "12345678",
+      "status": 401,
+      "code": "INVALID_CREDENTIALS",
+      "ok": false
+    },
+    {
+      "email": "oftalmocentro@oftalmocentrouberaba.com.br",
+      "passwordLabel": "TEMP_VALDOC",
+      "status": 200,
+      "code": null,
+      "ok": true
+    },
+    {
+      "email": "oftalmocentro@oftalmocentrouberaba.com.br",
+      "passwordLabel": "12345678",
+      "status": 401,
+      "code": "INVALID_CREDENTIALS",
+      "ok": false
+    },
+    {
+      "email": "faturamento@oftalmocentrouberaba.com.br",
+      "passwordLabel": "TEMP_VALDOC",
+      "status": 200,
+      "code": null,
+      "ok": true
+    },
+    {
+      "email": "faturamento@oftalmocentrouberaba.com.br",
+      "passwordLabel": "12345678",
+      "status": 401,
+      "code": "INVALID_CREDENTIALS",
+      "ok": false
+    },
+    {
+      "email": "enfermagem@oftalmocentrouberaba.com.br",
+      "passwordLabel": "TEMP_VALDOC",
+      "status": 200,
+      "code": null,
+      "ok": true
+    },
+    {
+      "email": "enfermagem@oftalmocentrouberaba.com.br",
+      "passwordLabel": "12345678",
+      "status": 401,
+      "code": "INVALID_CREDENTIALS",
+      "ok": false
+    },
+    {
+      "email": "compras@oftalmocentrouberaba.com.br",
+      "passwordLabel": "TEMP_VALDOC",
+      "status": 200,
+      "code": null,
+      "ok": true
+    },
+    {
+      "email": "compras@oftalmocentrouberaba.com.br",
+      "passwordLabel": "12345678",
+      "status": 401,
+      "code": "INVALID_CREDENTIALS",
+      "ok": false
+    }
+  ],
+  "fails": [
+    {
+      "action": "AUTH_LOGIN_FAILURE",
+      "created_at": "2026-08-20T14:00:42.351Z",
+      "success": false,
+      "meta": "{\"emailDomain\": \"oftalmocentrouberaba.com.br\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_SUCCESS",
+      "created_at": "2026-08-20T14:00:42.044Z",
+      "success": true,
+      "meta": "{\"emailDomain\": \"oftalmocentrouberaba.com.br\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_FAILURE",
+      "created_at": "2026-08-20T14:00:41.772Z",
+      "success": false,
+      "meta": "{\"emailDomain\": \"oftalmocentrouberaba.com.br\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_SUCCESS",
+      "created_at": "2026-08-20T14:00:41.510Z",
+      "success": true,
+      "meta": "{\"emailDomain\": \"oftalmocentrouberaba.com.br\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_FAILURE",
+      "created_at": "2026-08-20T14:00:41.223Z",
+      "success": false,
+      "meta": "{\"emailDomain\": \"oftalmocentrouberaba.com.br\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_SUCCESS",
+      "created_at": "2026-08-20T14:00:40.918Z",
+      "success": true,
+      "meta": "{\"emailDomain\": \"oftalmocentrouberaba.com.br\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_FAILURE",
+      "created_at": "2026-08-20T14:00:40.339Z",
+      "success": false,
+      "meta": "{\"emailDomain\": \"oftalmocentrouberaba.com.br\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_SUCCESS",
+      "created_at": "2026-08-20T14:00:39.972Z",
+      "success": true,
+      "meta": "{\"emailDomain\": \"oftalmocentrouberaba.com.br\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_FAILURE",
+      "created_at": "2026-08-20T14:00:39.660Z",
+      "success": false,
+      "meta": "{\"emailDomain\": \"gmail.com\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_SUCCESS",
+      "created_at": "2026-08-20T14:00:39.368Z",
+      "success": true,
+      "meta": "{\"emailDomain\": \"gmail.com\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_FAILURE",
+      "created_at": "2026-08-20T14:00:38.762Z",
+      "success": false,
+      "meta": "{\"emailDomain\": \"gmail.com\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_SUCCESS",
+      "created_at": "2026-08-20T14:00:38.411Z",
+      "success": true,
+      "meta": "{\"emailDomain\": \"gmail.com\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_FAILURE",
+      "created_at": "2026-08-20T14:00:34.480Z",
+      "success": false,
+      "meta": "{\"emailDomain\": \"oftalmocentrouberaba.com.br\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_FAILURE",
+      "created_at": "2026-08-20T14:00:32.585Z",
+      "success": false,
+      "meta": "{\"emailDomain\": \"oftalmocentrouberaba.com.br\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_FAILURE",
+      "created_at": "2026-08-20T14:00:13.954Z",
+      "success": false,
+      "meta": "{\"emailDomain\": \"oftalmocentrouberaba.com.br\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_SUCCESS",
+      "created_at": "2026-08-20T14:00:13.649Z",
+      "success": true,
+      "meta": "{\"emailDomain\": \"oftalmocentrouberaba.com.br\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_FAILURE",
+      "created_at": "2026-08-20T14:00:13.288Z",
+      "success": false,
+      "meta": "{\"emailDomain\": \"oftalmocentrouberaba.com.br\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_SUCCESS",
+      "created_at": "2026-08-20T14:00:12.993Z",
+      "success": true,
+      "meta": "{\"emailDomain\": \"oftalmocentrouberaba.com.br\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_FAILURE",
+      "created_at": "2026-08-20T14:00:12.509Z",
+      "success": false,
+      "meta": "{\"emailDomain\": \"oftalmocentrouberaba.com.br\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_SUCCESS",
+      "created_at": "2026-08-20T14:00:11.922Z",
+      "success": true,
+      "meta": "{\"emailDomain\": \"oftalmocentrouberaba.com.br\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_FAILURE",
+      "created_at": "2026-08-20T14:00:11.637Z",
+      "success": false,
+      "meta": "{\"emailDomain\": \"oftalmocentrouberaba.com.br\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_SUCCESS",
+      "created_at": "2026-08-20T14:00:11.345Z",
+      "success": true,
+      "meta": "{\"emailDomain\": \"oftalmocentrouberaba.com.br\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_FAILURE",
+      "created_at": "2026-08-20T14:00:11.043Z",
+      "success": false,
+      "meta": "{\"emailDomain\": \"gmail.com\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_SUCCESS",
+      "created_at": "2026-08-20T14:00:10.726Z",
+      "success": true,
+      "meta": "{\"emailDomain\": \"gmail.com\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_FAILURE",
+      "created_at": "2026-08-20T14:00:10.041Z",
+      "success": false,
+      "meta": "{\"emailDomain\": \"gmail.com\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_SUCCESS",
+      "created_at": "2026-08-20T14:00:09.715Z",
+      "success": true,
+      "meta": "{\"emailDomain\": \"gmail.com\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_FAILURE",
+      "created_at": "2026-08-20T13:56:56.182Z",
+      "success": false,
+      "meta": "{\"emailDomain\": \"oftalmocentrouberaba.com.br\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_FAILURE",
+      "created_at": "2026-08-20T13:56:41.173Z",
+      "success": false,
+      "meta": "{\"emailDomain\": \"oftalmocentrouberaba.com.br\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_FAILURE",
+      "created_at": "2026-08-20T13:56:32.121Z",
+      "success": false,
+      "meta": "{\"emailDomain\": \"oftalmocentrouberaba.com.br\"}"
+    },
+    {
+      "action": "AUTH_LOGIN_FAILURE",
+      "created_at": "2026-08-20T13:56:01.693Z",
+      "success": false,
+      "meta": "{\"emailDomain\": \"oftalmocentrouberaba.com.br\"}"
+    }
+  ]
+}
