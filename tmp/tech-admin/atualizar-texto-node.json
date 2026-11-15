@@ -1,0 +1,21 @@
+{
+  "parameters": {
+    "operation": "executeQuery",
+    "query": "{{ (() => {\n  const j = $json;\n  const clean = (s) => String(s ?? '')\n    .replace(/\\u0000/g, '')\n    .replace(/[\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F]/g, ' ');\n  const text = clean(j.extractedText);\n  const b64 = Buffer.from(text, 'utf8').toString('base64');\n  const esc = (s) => clean(s).replace(/'/g, \"''\");\n  const has = (v) => v !== undefined && v !== null;\n  const setExtra = [];\n  if (has(j.ocrQualityScore)) setExtra.push(`ocr_quality_score = ${Number(j.ocrQualityScore)}`);\n  if (has(j.ocrQualityGrade)) setExtra.push(`ocr_quality_grade = '${esc(j.ocrQualityGrade)}'`);\n  if (has(j.ocrWordCount)) setExtra.push(`ocr_word_count = ${Number(j.ocrWordCount)}`);\n  if (has(j.ocrUniqueWordCount)) setExtra.push(`ocr_unique_word_count = ${Number(j.ocrUniqueWordCount)}`);\n  if (has(j.ocrCharacterCount)) setExtra.push(`ocr_character_count = ${Number(j.ocrCharacterCount)}`);\n  if (has(j.ocrCharactersPerPage)) setExtra.push(`ocr_characters_per_page = ${Number(j.ocrCharactersPerPage)}`);\n  if (has(j.ocrMode)) setExtra.push(`ocr_mode = '${esc(j.ocrMode)}'`);\n  const extraSql = setExtra.length ? ',\\n  ' + setExtra.join(',\\n  ') : '';\n  const vId = j.versionId || $('Buscar documento no PostgreSQL').first().json.versionId;\n  return `UPDATE document_versions\\nSET\\n  extracted_text = convert_from(decode('${b64}', 'base64'), 'UTF8'),\\n  processing_status = 'processed',\\n  status = 'READY',\\n  extraction_method = '${esc(j.extractionMethod || 'tika')}',\\n  ocr_status = '${esc(j.ocrStatus || 'NOT_REQUIRED')}'${extraSql}\\nWHERE id = '${esc(vId)}'::uuid\\nRETURNING\\n  id AS \"versionId\",\\n  document_id AS id,\\n  title_snapshot AS title,\\n  processing_status AS \"processingStatus\",\\n  LENGTH(extracted_text) AS \"textLength\";`;\n})() }}",
+    "options": {}
+  },
+  "id": "7d802a06-917e-45fd-8b3b-22201564ba61",
+  "name": "Atualizar texto extraído",
+  "type": "n8n-nodes-base.postgres",
+  "position": [
+    1248,
+    0
+  ],
+  "typeVersion": 2.6,
+  "credentials": {
+    "postgres": {
+      "id": "XJtGZ5rpCR7BpN0X",
+      "name": "Postgres account"
+    }
+  }
+}

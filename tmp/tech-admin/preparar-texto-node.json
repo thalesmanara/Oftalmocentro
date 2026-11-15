@@ -1,0 +1,53 @@
+{
+  "parameters": {
+    "assignments": {
+      "assignments": [
+        {
+          "id": "1",
+          "name": "documentId",
+          "type": "string",
+          "value": "={{ $('Buscar documento no PostgreSQL').first().json.id }}"
+        },
+        {
+          "id": "2",
+          "name": "versionId",
+          "type": "string",
+          "value": "={{ $('Buscar documento no PostgreSQL').first().json.versionId }}"
+        },
+        {
+          "id": "3",
+          "name": "extractedText",
+          "type": "string",
+          "value": "={{ $json.extractedText || '' }}"
+        },
+        {
+          "id": "4",
+          "name": "textLength",
+          "type": "string",
+          "value": "={{ ($json.extractedText || '').length }}"
+        },
+        {
+          "id": "5",
+          "name": "extractionMethod",
+          "type": "string",
+          "value": "={{ $json.extractionMethod || 'tika' }}"
+        },
+        {
+          "id": "6",
+          "name": "ocrStatus",
+          "type": "string",
+          "value": "={{ $json.ocrStatus || 'NOT_REQUIRED' }}"
+        }
+      ]
+    },
+    "options": {}
+  },
+  "id": "da1ce41b-fa75-4cc7-af5e-5684a4a97742",
+  "name": "Preparar texto extraído",
+  "type": "n8n-nodes-base.set",
+  "position": [
+    1040,
+    0
+  ],
+  "typeVersion": 3.4
+}

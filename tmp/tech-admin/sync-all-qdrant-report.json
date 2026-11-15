@@ -1,0 +1,13 @@
+{
+  "at": "2026-11-15T01:26:25.090Z",
+  "upsertSynced": 1420,
+  "upsertFailed": 0,
+  "summary": {
+    "docs": 144,
+    "processed": 144,
+    "processing": 0,
+    "chunks": 1749,
+    "valid": 1749,
+    "synced": 1749
+  }
+}

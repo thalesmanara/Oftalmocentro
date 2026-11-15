@@ -1,0 +1,40 @@
+{{ (() => {
+  const j = $json;
+  const clean = (s) => String(s ?? '')
+    .replace(/\u0000/g, '')
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F]/g, ' ');
+  const text = clean(j.extractedText);
+  let b64;
+  if (typeof Buffer !== 'undefined') {
+    b64 = Buffer.from(text, 'utf8').toString('base64');
+  } else {
+    const utf8 = unescape(encodeURIComponent(text));
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+    let out = '';
+    for (let i = 0; i < utf8.length; i += 3) {
+      const c1 = utf8.charCodeAt(i);
+      const c2 = i + 1 < utf8.length ? utf8.charCodeAt(i + 1) : Number.NaN;
+      const c3 = i + 2 < utf8.length ? utf8.charCodeAt(i + 2) : Number.NaN;
+      const e1 = c1 >> 2;
+      const e2 = ((c1 & 3) << 4) | (Number.isNaN(c2) ? 0 : c2 >> 4);
+      const e3 = Number.isNaN(c2) ? 64 : (((c2 & 15) << 2) | (Number.isNaN(c3) ? 0 : c3 >> 6));
+      const e4 = Number.isNaN(c3) ? 64 : (c3 & 63);
+      out += chars.charAt(e1) + chars.charAt(e2) + (e3 === 64 ? '=' : chars.charAt(e3)) + (e4 === 64 ? '=' : chars.charAt(e4));
+    }
+    b64 = out;
+  }
+  const esc = (s) => clean(s).replace(/'/g, "''");
+  const has = (v) => v !== undefined && v !== null;
+  const setExtra = [];
+  if (has(j.ocrQualityScore)) setExtra.push(`ocr_quality_score = ${Number(j.ocrQualityScore)}`);
+  if (has(j.ocrQualityGrade)) setExtra.push(`ocr_quality_grade = '${esc(j.ocrQualityGrade)}'`);
+  if (has(j.ocrWordCount)) setExtra.push(`ocr_word_count = ${Number(j.ocrWordCount)}`);
+  if (has(j.ocrUniqueWordCount)) setExtra.push(`ocr_unique_word_count = ${Number(j.ocrUniqueWordCount)}`);
+  if (has(j.ocrCharacterCount)) setExtra.push(`ocr_character_count = ${Number(j.ocrCharacterCount)}`);
+  if (has(j.ocrCharactersPerPage)) setExtra.push(`ocr_characters_per_page = ${Number(j.ocrCharactersPerPage)}`);
+  if (has(j.ocrMode)) setExtra.push(`ocr_mode = '${esc(j.ocrMode)}'`);
+  const extraSql = setExtra.length ? ',\n  ' + setExtra.join(',\n  ') : '';
+  const vId = j.versionId || $('Buscar documento no PostgreSQL').first().json.versionId;
+  if (!vId) throw new Error('versionId ausente para Atualizar texto extraído');
+  return `UPDATE document_versions\nSET\n  extracted_text = convert_from(decode('${b64}', 'base64'), 'UTF8'),\n  processing_status = 'processed',\n  status = 'READY',\n  extraction_method = '${esc(j.extractionMethod || 'tika')}',\n  ocr_status = '${esc(j.ocrStatus || 'NOT_REQUIRED')}'${extraSql}\nWHERE id = '${esc(vId)}'::uuid\nRETURNING\n  id AS "versionId",\n  document_id AS id,\n  title_snapshot AS title,\n  processing_status AS "processingStatus",\n  LENGTH(extracted_text) AS "textLength";`;
+})() }}

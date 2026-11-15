@@ -1,0 +1,187 @@
+[
+  {
+    "name": "Preparar texto extraído",
+    "type": "n8n-nodes-base.set",
+    "id": "da1ce41b-fa75-4cc7-af5e-5684a4a97742",
+    "query": null,
+    "jsCode": null,
+    "keys": [
+      "assignments",
+      "options"
+    ]
+  },
+  {
+    "name": "Atualizar texto extraído",
+    "type": "n8n-nodes-base.postgres",
+    "id": "7d802a06-917e-45fd-8b3b-22201564ba61",
+    "query": "{{ (() => {\n  const j = $json;\n  const clean = (s) => String(s ?? '')\n    .replace(/\\u0000/g, '')\n    .replace(/[\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F]/g, ' ');\n  const text = clean(j.extractedText);\n  const b64 = Buffer.from(text, 'utf8').toString('base64');\n  const esc = (s) => clean(s).replace(/'/g, \"''\");\n  const has = (v) => v !== undefined && v !== null;\n  const setExtra = [];\n  if (has(j.ocrQualityScore)) setExtra.push(`ocr_quality_score = ${Number(j.ocrQualityScore)}`);\n  if (has(j.ocrQualityGrade)) setExtra.push(`ocr_quality_grade = '${esc(j.ocrQualityGrade)}'`);\n  if (has(j.ocrWordCount)) setExtra.push(`ocr_word_count = ${Number(j.ocrWordCount)}`);\n  if (has(j.ocrUniqueWordCount)) setExtra.push(`ocr_unique_word_count = ${Number(j.ocrUniqueWordCount)}`);\n  if (has(j.ocrCharacterCount)) setExtra.push(`ocr_character_count = ${Number(j.ocrCharacterCount)}`);\n  if (has(j.ocrCharactersPerPage)) setExtra.push(`ocr_characters_per_page = ${Number(j.ocrCharactersPerPage)}`);\n  if (has(j.ocrMode)) setExtra.push(`ocr_mode = '${esc(j.ocrMode)}'`);\n  const extraSql = setExtra.length ? ',\\n  ' + setExtra.join(',\\n  ') : '';\n  const vId = j.versionId || $('Buscar documento no PostgreSQL').first().json.versionId;\n  return `UPDATE document_versions\\nSET\\n  extracted_text = convert_from(decode('${b64}', 'base64'), 'UTF8'),\\n  processing_status = 'processed',\\n  status = 'READY',\\n  extraction_method = '${esc(j.extractionMethod || 'tika')}',\\n  ocr_status = '${esc(j.ocrStatus || 'NOT_REQUIRED')}'${extraSql}\\nWHERE id = '${esc(vId)}'::uuid\\nRETURNING\\n  id AS \"versionId\",\\n  document_id AS id,\\n  title_snapshot AS title,\\n  processing_status AS \"processingStatus\",\\n  LENGTH(extracted_text) AS \"textLength\";`;\n})() }}",
+    "jsCode": null,
+    "keys": [
+      "operation",
+      "query",
+      "options"
+    ]
+  },
+  {
+    "name": "Deletar chunks antigos",
+    "type": "n8n-nodes-base.postgres",
+    "id": "a2aea565-d618-4850-855b-5fd6d9a932d8",
+    "query": "DELETE FROM document_chunks\nWHERE document_version_id = '{{ $json.versionId }}'::uuid\nRETURNING document_version_id;",
+    "jsCode": null,
+    "keys": [
+      "operation",
+      "query",
+      "options"
+    ]
+  },
+  {
+    "name": "Code in JavaScript",
+    "type": "n8n-nodes-base.code",
+    "id": "3c25a793-b559-4cd3-8695-b821321f728f",
+    "query": null,
+    "jsCode": "const prep = $('Preparar texto extraído').first().json;\nconst documentId = prep.documentId;\nconst versionId = prep.versionId || $('Buscar documento no PostgreSQL').first().json.versionId;\nconst text = prep.extractedText || '';\n\nfunction normalizeDocumentText(raw) {\n  let t = String(raw ?? '');\n  t = t.normalize('NFC');\n  t = t.replace(/[\\u0000-\\u0008\\u000B\\u000C\\u000E-\\u001F\\u007F-\\u009F\\u200B-\\u2",
+    "keys": [
+      "jsCode"
+    ]
+  },
+  {
+    "name": "Salvar chunks",
+    "type": "n8n-nodes-base.postgres",
+    "id": "0151e8a2-9606-4918-96ec-eaf0b767e29a",
+    "query": "{{ (() => {\n  const j = $json;\n  if (j.skip === true || j.skip === 'true') {\n    return `SELECT NULL::uuid AS id, NULL::uuid AS \"documentId\", NULL::uuid AS \"versionId\", NULL::int AS \"chunkOrder\" WHERE false`;\n  }\n  const clean = (s) => String(s ?? '')\n    .replace(/\\u0000/g, '')\n    .replace(/[\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F]/g, ' ');\n  const text = clean(j.content);\n  const b64 = Buffer.from(text, 'utf8').toString('base64');\n  const esc = (s) => clean(s).replace(/'/g, \"''\");\n  return `INSERT INTO document_chunks (\\n  document_id,\\n  document_version_id,\\n  chunk_order,\\n  chunk_text,\\n  content_hash,\\n  embedding_status\\n)\\nVALUES (\\n  '${esc(j.documentId)}'::uuid,\\n  '${esc(j.versionId)}'::uuid,\\n  ${Number(j.chunkIndex) || 0},\\n  convert_from(decode('${b64}', 'base64'), 'UTF8'),\\n  encode(digest(convert_from(decode('${b64}', 'base64'), 'UTF8'), 'sha256'), 'hex'),\\n  'PENDING'\\n)\\nRETURNING\\n  id,\\n  document_id AS \"documentId\",\\n  document_version_id AS \"versionId\",\\n  chunk_order AS \"chunkOrder\";`;\n})() }}",
+    "jsCode": null,
+    "keys": [
+      "operation",
+      "query",
+      "options"
+    ]
+  },
+  {
+    "name": "Avaliar Tika",
+    "type": "n8n-nodes-base.code",
+    "id": "f1a2b3c4-d5e6-4789-a012-3456789abce3",
+    "query": null,
+    "jsCode": "const buscar = $('Buscar documento no PostgreSQL').first().json || {};\nconst tika = $input.first().json || {};\nconst statusCode = Number(tika.statusCode ?? tika.status ?? 0);\nlet data = tika.data ?? tika.body ?? tika;\nif (data && typeof data === 'object' && data.data != null && typeof data.data === 'string') data = data.data;\nconst text = typeof data === 'string' ? data : (data == null ? '' : Stri",
+    "keys": [
+      "jsCode"
+    ]
+  },
+  {
+    "name": "Chamar OCR - ORQUESTRAR",
+    "type": "n8n-nodes-base.executeWorkflow",
+    "id": "ocr-chamar-orquestrar",
+    "query": null,
+    "jsCode": null,
+    "keys": [
+      "workflowId",
+      "workflowInputs",
+      "options"
+    ]
+  },
+  {
+    "name": "OCR ok?",
+    "type": "n8n-nodes-base.if",
+    "id": "ocr-ok-if",
+    "query": null,
+    "jsCode": null,
+    "keys": [
+      "conditions",
+      "looseTypeValidation",
+      "options"
+    ]
+  },
+  {
+    "name": "Marcar falha OCR",
+    "type": "n8n-nodes-base.postgres",
+    "id": "ocr-marcar-falha",
+    "query": "UPDATE document_versions SET processing_status='failed', status='FAILED' WHERE id='{{ $json.versionId }}'::uuid;\nUPDATE documents SET processing_status='error', updated_at=NOW() WHERE id='{{ $json.documentId }}'::uuid;\nSELECT '{{ $json.code }}' AS code, '{{ (($json.message)||'').replace(/'/g, \"''\") }}' AS message, {{ $json.code === 'OCR_MANUAL_REVIEW' ? 422 : 500 }} AS \"statusCode\";",
+    "jsCode": null,
+    "keys": [
+      "operation",
+      "query",
+      "options"
+    ]
+  },
+  {
+    "name": "Tratar erro OCR",
+    "type": "n8n-nodes-base.code",
+    "id": "ocr-tratar-erro",
+    "query": null,
+    "jsCode": "const row = $input.first().json || {};\nreturn [{ json: { code: row.code || 'OCR_FAILED', message: row.message || 'Falha ao processar OCR do documento.', statusCode: Number(row.statusCode) || 500 } }];",
+    "keys": [
+      "jsCode"
+    ]
+  },
+  {
+    "name": "Chamar EMBEDDING - ORQUESTRAR",
+    "type": "n8n-nodes-base.executeWorkflow",
+    "id": "c8617f86-9ce8-420e-937e-00701e24e98e",
+    "query": null,
+    "jsCode": null,
+    "keys": [
+      "workflowId",
+      "workflowInputs",
+      "options"
+    ]
+  },
+  {
+    "name": "Embedding ok?",
+    "type": "n8n-nodes-base.if",
+    "id": "6043058c-86da-4b6b-9fe7-f2da477934f3",
+    "query": null,
+    "jsCode": null,
+    "keys": [
+      "conditions",
+      "looseTypeValidation",
+      "options"
+    ]
+  },
+  {
+    "name": "Marcar falha embedding",
+    "type": "n8n-nodes-base.postgres",
+    "id": "8a491a37-834f-4f77-8701-d06638f50861",
+    "query": "UPDATE document_versions SET status = 'FAILED', processing_status = 'failed', embedding_status = 'FAILED'\nWHERE id = '{{ $('Buscar documento no PostgreSQL').first().json.versionId }}'::uuid;\nUPDATE documents SET processing_status = 'error', updated_at = NOW()\nWHERE id = '{{ $('Buscar documento no PostgreSQL').first().json.id }}'::uuid;\nSELECT false AS ok, 'EMBEDDING_FAILED' AS errorCode;",
+    "jsCode": null,
+    "keys": [
+      "operation",
+      "query",
+      "options"
+    ]
+  },
+  {
+    "name": "Chamar QDRANT - ORQUESTRAR",
+    "type": "n8n-nodes-base.executeWorkflow",
+    "id": "556521e3-da62-4a8b-a0ce-46c643f806da",
+    "query": null,
+    "jsCode": null,
+    "keys": [
+      "workflowId",
+      "workflowInputs",
+      "options"
+    ]
+  },
+  {
+    "name": "Qdrant ok?",
+    "type": "n8n-nodes-base.if",
+    "id": "774b03e3-3354-451e-8fda-86380bedb5ce",
+    "query": null,
+    "jsCode": null,
+    "keys": [
+      "conditions",
+      "looseTypeValidation",
+      "options"
+    ]
+  },
+  {
+    "name": "Marcar falha qdrant",
+    "type": "n8n-nodes-base.postgres",
+    "id": "e85c1360-c521-4a9b-b2db-4fe0f1635836",
+    "query": "UPDATE document_versions SET status='FAILED', processing_status='failed', qdrant_sync_status='FAILED'\nWHERE id = '{{ $('Buscar documento no PostgreSQL').first().json.versionId }}'::uuid;\nUPDATE documents SET processing_status='error', updated_at=NOW()\nWHERE id = '{{ $('Buscar documento no PostgreSQL').first().json.id }}'::uuid;\nSELECT false AS ok, 'QDRANT_SYNC_FAILED' AS errorCode;",
+    "jsCode": null,
+    "keys": [
+      "operation",
+      "query",
+      "options"
+    ]
+  }
+]
