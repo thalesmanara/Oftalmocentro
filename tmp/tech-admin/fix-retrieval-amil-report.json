@@ -1,0 +1,29 @@
+{
+  "at": "2026-11-15T15:09:02.128Z",
+  "putChanged": 1,
+  "lexicalChanged": 1,
+  "healed": [
+    {
+      "id": "a1ff0723-d827-4dd5-8de0-68f4cda8beed",
+      "title": "CONTRATO LOCAÇÃO ESTACIONAMENTO PACIENTES - SATYRO SILVA OLIVEIRA - ARQUIVO WORD"
+    },
+    {
+      "id": "b6da4248-566d-45ef-b720-f6046a66a3cf",
+      "title": "PLANO DE GERENCIAMENTO DE TECNOLOGIAS - REVISÃO 03"
+    },
+    {
+      "id": "d1e772be-1e5f-47cb-b9fa-9dac176f4ab4",
+      "title": "MANUAL DE FATURAMENTO E ATENDIMENTO AMIL"
+    }
+  ],
+  "upsertSynced": 4,
+  "upsertFailed": 0,
+  "staleOut": "{\"updated\":306}",
+  "amil": {
+    "title": "MANUAL DE FATURAMENTO E ATENDIMENTO AMIL",
+    "validation_status": "VALID",
+    "is_current": true,
+    "qdrant_sync_status": "SYNCED",
+    "synced": 4
+  }
+}
