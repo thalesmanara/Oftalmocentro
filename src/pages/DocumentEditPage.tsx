@@ -66,12 +66,12 @@ export function DocumentEditPage() {
         setUploading(true)
 
         try {
-          await uploadDocumentFile(id, data.file)
+          await uploadDocumentFile(id, data.file, { replace: true })
         } catch (err) {
           setDoc(updated)
           setFeedback({
             type: 'error',
-            message: getErrorMessage(err, 'Falha ao enviar arquivo.'),
+            message: getErrorMessage(err, 'Falha ao enviar o novo arquivo.'),
           })
           return
         } finally {
@@ -87,7 +87,7 @@ export function DocumentEditPage() {
 
           setFeedback({
             type: 'success',
-            message: 'Documento enviado e processado com sucesso.',
+            message: 'Arquivo atualizado e processado com sucesso.',
           })
 
           window.setTimeout(() => {
@@ -99,7 +99,7 @@ export function DocumentEditPage() {
             type: 'error',
             message: getErrorMessage(
               err,
-              'Arquivo enviado, mas ocorreu erro no processamento.'
+              'Arquivo enviado, mas ocorreu erro no processamento. Tente salvar novamente.'
             ),
           })
         } finally {

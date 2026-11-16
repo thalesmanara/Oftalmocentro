@@ -243,9 +243,11 @@ export function DocumentForm({
           </label>
         </div>
       )}
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3 rounded-lg border border-slate-200 bg-slate-50 p-3">
         <div className="flex flex-wrap items-center gap-3">
-          <label className="text-sm font-medium text-slate-700">Upload de arquivo</label>
+          <label className="text-sm font-medium text-slate-700">
+            {showActiveField ? 'Arquivo do documento' : 'Upload de arquivo'}
+          </label>
           <input
             ref={fileInputRef}
             type="file"
@@ -262,8 +264,23 @@ export function DocumentForm({
             style={{ backgroundColor: settings.primaryColor }}
             className="text-white hover:opacity-90"
           >
-            Escolher arquivo
+            {showActiveField && initialFile?.fileName ? 'Substituir arquivo' : 'Escolher arquivo'}
           </Button>
+          {file && (
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              disabled={submitting}
+              onClick={() => {
+                setFile(null)
+                setFileError(null)
+                if (fileInputRef.current) fileInputRef.current.value = ''
+              }}
+            >
+              Remover seleção
+            </Button>
+          )}
         </div>
         {initialFile?.fileName && !file && (
           <p className="text-sm text-slate-600">
@@ -273,17 +290,20 @@ export function DocumentForm({
           </p>
         )}
         {file && (
-          <p className="text-sm text-slate-600">
-            Novo arquivo: {file.name}
+          <p className="text-sm font-medium text-emerald-700">
+            Novo arquivo selecionado: {file.name}
             {file.type ? ` · ${file.type}` : ''}
             {` · ${formatFileSize(file.size)}`}
+            {showActiveField ? ' — será enviado ao salvar' : ''}
           </p>
         )}
         {fileError && <p className="text-sm text-red-600">{fileError}</p>}
-        <p className="text-xs text-slate-400">
-          Formatos permitidos: PDF, DOC, DOCX, XLS, XLSX, CSV, TSV e TXT. Tamanho máximo:{' '}
-          {formatFileSize(MAX_UPLOAD_SIZE_BYTES)}. O arquivo é enviado após salvar os dados do
-          documento.
+        <p className="text-xs text-slate-500">
+          {showActiveField
+            ? 'Para atualizar o conteúdo, escolha um novo arquivo e clique em salvar. O arquivo atual permanece até a substituição ser processada.'
+            : 'O arquivo é enviado após salvar os dados do documento.'}{' '}
+          Formatos: PDF, DOC, DOCX, XLS, XLSX, CSV, TSV e TXT. Máximo:{' '}
+          {formatFileSize(MAX_UPLOAD_SIZE_BYTES)}.
         </p>
       </div>
       <div className="flex gap-2 pt-4">

@@ -428,11 +428,15 @@ function parseUploadResult(data: unknown): DocumentFileUploadResult | null {
 
 export async function uploadDocumentFile(
   documentId: string,
-  file: File
+  file: File,
+  options?: { replace?: boolean }
 ): Promise<DocumentFileUploadResult> {
   const formData = new FormData()
   formData.append('documentId', documentId)
   formData.append('file', file)
+  if (options?.replace) {
+    formData.append('replace', 'true')
+  }
 
   const result = await apiUpload<unknown>('/webhook/documents/upload', formData, {
     timeoutMs: 120_000,
@@ -479,20 +483,32 @@ export async function processDocument(documentId: string): Promise<DocumentProce
 
   if (result && typeof result === 'object') {
     const record = result as Record<string, unknown>
+    const nested =
+      record.data && typeof record.data === 'object'
+        ? (record.data as Record<string, unknown>)
+        : record
+    const successFlag = nested.success
+    if (successFlag === false) {
+      throw new ApiError({
+        status: 500,
+        code: String(nested.code ?? 'PROCESS_FAILED'),
+        message: String(nested.message ?? 'Falha ao processar documento.'),
+      })
+    }
 
     return {
       success: true,
-      message: String(record.message ?? 'Documento processado com sucesso'),
-      documentId: String(record.documentId ?? record.id ?? documentId),
-      chunks: typeof record.chunks === 'number' ? record.chunks : undefined,
+      message: String(nested.message ?? record.message ?? 'Documento processado com sucesso'),
+      documentId: String(nested.documentId ?? nested.id ?? record.documentId ?? record.id ?? documentId),
+      chunks: typeof nested.chunks === 'number' ? nested.chunks : undefined,
     }
   }
 
-  return {
-    success: true,
-    message: 'Documento processado com sucesso',
-    documentId,
-  }
+  throw new ApiError({
+    status: 500,
+    code: 'PROCESS_FAILED',
+    message: 'Resposta vazia ao processar documento.',
+  })
 }
 
 export async function deleteDocument(id: string): Promise<void> {
