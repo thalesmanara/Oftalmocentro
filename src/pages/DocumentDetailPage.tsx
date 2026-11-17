@@ -41,7 +41,7 @@ import { Button } from '@/components/ui/Button'
 import { PermissionGuard } from '@/components/ui/PermissionGuard'
 import { ModalConfirm } from '@/components/ui/Modal'
 import { DocumentVersionsPanel } from '@/components/documents/DocumentVersionsPanel'
-import { SpreadsheetPreviewPanel } from '@/components/documents/SpreadsheetPreviewPanel'
+import { DocumentReaderPanel } from '@/components/documents/DocumentReaderPanel'
 
 export function DocumentDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -561,18 +561,15 @@ export function DocumentDetailPage() {
           </div>
         </Card>
 
-        {(doc.hasTablePreview ||
-          doc.extractionMethod === 'tabular' ||
-          isSpreadsheetExtension(doc.fileExtension)) && (
-          <SpreadsheetPreviewPanel
-            documentId={doc.id}
-            versionId={doc.currentVersionId}
-            sheetCount={doc.sheetCount}
-            tableRowCount={doc.tableRowCount}
-            tableColumnCount={doc.tableColumnCount}
-            enabled
-          />
-        )}
+      </div>
+
+      <div className="mt-6">
+        <DocumentReaderPanel
+          documentId={doc.id}
+          fileName={doc.originalFileName ?? doc.fileName}
+          fileExtension={doc.fileExtension}
+          mimeType={doc.detectedMimeType ?? doc.fileType ?? doc.browserMimeType}
+        />
       </div>
 
       <div className="mt-6">

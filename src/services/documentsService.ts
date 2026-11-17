@@ -712,13 +712,24 @@ export async function runDocumentOcr(
   }
 }
 
+export async function fetchDocumentFileBlob(
+  documentId: string
+): Promise<{ blob: Blob; fileName: string | null; contentType: string | null }> {
+  const { blob, fileName, contentType } = await apiDownload(
+    `/webhook/documents/download?documentId=${encodeURIComponent(documentId)}`
+  )
+  return {
+    blob,
+    fileName: fileName ?? null,
+    contentType: contentType ?? null,
+  }
+}
+
 export async function downloadDocumentFile(
   documentId: string,
   fallbackFileName?: string | null
 ): Promise<void> {
-  const { blob, fileName } = await apiDownload(
-    `/webhook/documents/download?documentId=${encodeURIComponent(documentId)}`
-  )
+  const { blob, fileName } = await fetchDocumentFileBlob(documentId)
 
   const objectUrl = URL.createObjectURL(blob)
   const link = document.createElement('a')

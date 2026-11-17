@@ -10,15 +10,17 @@
   },
   "dependencies": {
     "lucide-react": "^0.511.0",
+    "mammoth": "^1.13.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^7.6.2"
+    "react-router-dom": "^7.6.2",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.8",
+    "@types/node": "^22.15.29",
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.6",
-    "@types/node": "^22.15.29",
     "@vitejs/plugin-react": "^4.5.2",
     "tailwindcss": "^4.1.8",
     "typescript": "~5.8.3",
